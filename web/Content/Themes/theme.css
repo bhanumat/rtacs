@@ -1,0 +1,176 @@
+﻿/* CSS Document 
+----------------------------------*/
+/*=========Start jqGrid===========*/
+#jqGridContainer {
+    padding: 0px 12px 0px 12px;
+}
+
+.ui-jqgrid .ui-jqgrid-btable { cursor : pointer; }
+
+/*==========End jqGrid============*/
+/*dropdown-submenu*/
+.dropdown-submenu{position:relative;}
+.dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+.dropdown-submenu:hover>.dropdown-menu{display:block;}
+.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+
+.divHeader {
+    height: 50px;
+}
+
+.divControlMenu{
+    height: 30px;
+    padding: 5px 0px 0px 0px;
+}
+.titleDanger {
+    color: #D9534F;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleSuccess {
+    color: #5CB85C;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleInfo {
+    color: #5BC0DE;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleWarning {
+    color: #F0AD4E;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleConfirm {
+    color: #377EAC;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleDialog {
+    color: #377EAC;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.class-with-800 { 
+    width: 800px !important; 
+    margin: 0 auto;
+}
+
+.required {
+    color: #D9534F;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.error {
+    height: 30px;
+    padding: 5px 0px 0px 0px;
+    color: #D9534F;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.buttonDisplay {
+    height: 110px;
+    width: 100%;
+}
+
+.ListMenu {
+    background-color: #428bca;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+/* cellspacing */
+
+th, td, tr {
+    padding: 5px;
+}
+/* cellpadding */
+
+
+#trValignTop {
+    text-align: center;
+    vertical-align: text-top;
+}
+
+#trAlignRight {
+    text-align: right;
+    vertical-align: text-top;
+}
+
+#trAlignLeft {
+    text-align: left;
+    vertical-align: text-top;
+}
+
+#trValignBaseline {
+    text-align: inherit;
+    vertical-align: text-top;
+}
+
+#header {
+    width: 100%;
+    height: 86px;
+    overflow: hidden;
+    margin: 0px auto 0px auto;
+    padding-top: 0px;
+    top: 0px;
+}
+
+#header .topr {
+    width: 100%;
+    overflow: hidden;
+    margin: 0px auto 0px auto;
+}
+
+#header .topr .logoleft {
+    float: left;
+    padding: 6px 0px 6px 20px;
+    font-family: arial;
+    font-size: 16px;
+    color: #0079C2;
+}
+
+#header .topr .logoright {
+    float: right;
+    padding: 6px 10px 6px 0px;
+}
+
+#footer {
+    clear: both;
+    width: 100%;
+    padding: 4px 0px 4px 0px;
+    vertical-align: top;
+    margin: 0;
+    border-top: 1px solid #CCCCCC;
+}
+
+#footer .bar {
+    width: 1250px;
+    margin: 0px auto;
+}
+
+#footer .bar .left {
+    float: left;
+    padding: 4px 0 4px 4px;
+    vertical-align: top;
+    font-size: 8pt;
+}
+
+#footer .bar .right {
+    text-align: right;
+    padding: 4px 4px 4px 0;
+    float: right;
+    vertical-align: top;
+    font-size: 8pt;
+}

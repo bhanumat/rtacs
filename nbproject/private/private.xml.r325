@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/src/java/com/itos/model/json/JsonMember.java</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/src/java/com/itos/controller/registration/APP010Controller.java</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/src/java/com/itos/util/Hibernate/CommandQuery.java</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/web/Scripts/plugins/jqgrid/Registration/jqgrid.APP010_2_New_Select.js</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/web/Scripts/plugins/action/action.MainPage.js</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/web/Scripts/plugins/action/Registration/action.APP010_2_New.js</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/web/Scripts/plugins/action/Registration/action.APP010.js</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/web/WEB-INF/jsp/Views/Plugins/Registration/APP010_2_New.jsp</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/web/WEB-INF/jsp/Views/Plugins/Registration/APP010.jsp</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/web/Scripts/plugins/jqgrid/Registration/jqgrid.APP010_2_New.js</file>
+            <file>file:/D:/workspace/java/chapanakit-rta/trunk/Charpanakit-RTA/src/java/com/itos/dao/impl/MemberDAO.java</file>
+        </group>
+    </open-files>
+</project-private>

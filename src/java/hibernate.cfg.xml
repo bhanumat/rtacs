@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <!-- JDBC connection pool (use the built-in) -->
+    <property name="connection.pool_size">8</property>
+    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=rtacs</property>
+    <property name="hibernate.connection.username">user_rtacs</property>
+    <property name="hibernate.connection.password">user_rtacs</property>
+    <mapping class="com.itos.model.MilitaryDepartment"/>
+    <mapping class="com.itos.model.BankAccountType"/>
+    <mapping class="com.itos.model.LogsInOut"/>
+    <mapping class="com.itos.model.LogsPassword"/>
+    <mapping class="com.itos.model.Rank"/>
+    <mapping class="com.itos.model.LogsTransaction"/>
+    <mapping class="com.itos.model.OperationMember"/>
+    <mapping class="com.itos.model.LogsSendMail"/>
+    <mapping class="com.itos.model.Province"/>
+    <mapping class="com.itos.model.ControlMember"/>
+    <mapping class="com.itos.model.Operation"/>
+    <mapping class="com.itos.model.MemberBeneficiary"/>
+    <mapping class="com.itos.model.ControlPayment"/>
+    <mapping class="com.itos.model.LogsEvent"/>
+    <mapping class="com.itos.model.BankBranch"/>
+    <mapping class="com.itos.model.Title"/>
+    <mapping class="com.itos.model.Bank"/>
+    <mapping class="com.itos.model.ControlReceipt"/>
+    <mapping class="com.itos.model.Member"/>
+  </session-factory>
+</hibernate-configuration>

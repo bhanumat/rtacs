@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+    <!-- Configures the @Controller programming model -->
+    <util:properties id="propertyConfigurer" location="classpath:application.properties"/>
+    <context:property-placeholder location="classpath:application.properties" order="1" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:datasource.properties" order="2" ignore-unresolvable="true"/>
+    
+    <bean id="applicationPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:application.properties</value>
+                <value>classpath:datasource.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+    </bean>
+    <!--<util:properties id="datasourcePropertyConfigurer" location="classpath:datasource.properties"/>-->
+    
+    <mvc:annotation-driven />
+    <mvc:resources mapping="/Content/**" location="/Content/" />
+    <mvc:resources mapping="/Scripts/**" location="/Scripts/" />
+    <context:annotation-config />    
+    <context:component-scan base-package="com.itos" />
+    <tx:annotation-driven/>    
+    
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager">
+            <bean class="org.springframework.web.accept.ContentNegotiationManager">
+                <constructor-arg>
+                    <bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
+                        <constructor-arg>
+                            <map>
+                                <entry key="json">
+                                    <util:constant static-field="org.springframework.http.MediaType.APPLICATION_JSON_VALUE" />
+                                </entry>
+                                <entry key="xml">
+                                    <util:constant static-field="org.springframework.http.MediaType.APPLICATION_XML_VALUE" />
+                                </entry>
+                            </map>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+
+        <property name="defaultViews">
+            <list>
+                <!-- JSON View -->
+                <bean
+                    class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+    <!--CaseInsensitivePathMatcher-->
+    <!--      
+    <bean id="matcher" class="com.itos.UrlCaseSensitiveAnnotation.CaseInsensitivePathMatcher"/>
+ 
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="pathMatcher" ref="matcher"/>
+    </bean>
+    -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <!--CaseInsensitivePathMatcher-->
+        <!--<property name="pathMatcher" ref="matcher"/>-->
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer"/>
+        </property>
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+       
+    <bean id="viewPrefix" class="java.lang.String">
+        <constructor-arg type="String" value="/WEB-INF/jsp/Views/"/>
+    </bean>
+    
+    <bean id="viewSuffix" class="java.lang.String">
+        <constructor-arg type="String" value=".jsp"/>
+    </bean>
+    
+    <!-- view without tiles -->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"                    
+          p:prefix-ref="viewPrefix"
+          p:suffix-ref="viewSuffix"
+          p:order="1">
+        <property name="exposedContextBeanNames">
+            <list>
+                <value>applicationPropertyConfigurer</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- view with tiles -->
+    <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" p:order="0"/>
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles.xml</value>
+            </list>
+        </property>          
+    </bean>
+        
+    <bean id="dataSourceRTACSDB"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.RTACSDB.driverClassName}"
+          p:url="${jdbc.RTACSDB.url}" p:username="${jdbc.RTACSDB.username}"
+          p:password="${jdbc.RTACSDB.password}" />
+
+    <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceRTACSDB" />
+        <property name="configLocation">
+            <value>classpath:hibernate.cfg.xml</value>
+        </property>        
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${jdbc.RTACSDB.dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="connection.pool_size">${jdbc.connection.pool_size}</prop>
+            </props>
+        </property>
+    </bean> 
+    
+    <!-- Enable the configuration of transactional behavior based on annotations -->
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
+    <bean id="hibernateTransactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <import resource="jasper-views.xml" />
+</beans>
+

@@ -1,0 +1,71 @@
+﻿/* CSS Document 
+----------------------------------*/
+/*=========Start jqGrid===========*/
+/*
+#jqGridContainer {
+    padding: 0px 12px 0px 12px;
+}
+*/
+.ui-jqgrid .ui-jqgrid-btable { cursor : pointer; }
+
+/*==========End jqGrid============*/
+/*dropdown-submenu*/
+.dropdown-submenu{position:relative;}
+.dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+.dropdown-submenu:hover>.dropdown-menu{display:block;}
+.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+
+.titleDanger {
+    color: #D9534F;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleSuccess {
+    color: #5CB85C;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleInfo {
+    color: #5BC0DE;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleWarning {
+    color: #F0AD4E;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleConfirm {
+    color: #377EAC;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titleDialog {
+    color: #377EAC;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.class-with-800 { 
+    width: 800px !important; 
+    margin: 0 auto;
+}
+
+.required {
+    color: #D9534F;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.error {
+    height: 30px;
+    padding: 5px 0px 0px 0px;
+    color: #D9534F;
+    font-size: 14px;
+    font-weight: bold;
+}

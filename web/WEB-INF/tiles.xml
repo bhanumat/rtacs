@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC  
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+<tiles-definitions>  
+    <definition name="/Pages/Home" template="/WEB-INF/jsp/Views/Pages/home.jsp">  
+        <put-attribute name="meta" value="/WEB-INF/jsp/Layouts/meta.jsp" />  
+        <put-attribute name="header" value="/WEB-INF/jsp/Layouts/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/Views/Pages/menu.jsp" />
+        <put-attribute name="main" value="/WEB-INF/jsp/Views/Pages/mainPage.jsp" />  
+        <put-attribute name="footer" value="/WEB-INF/jsp/Layouts/footer.jsp" />
+        <put-attribute name="scriptHeader" value="/WEB-INF/jsp/Layouts/scriptHeader.jsp" />  
+        <put-attribute name="scriptFooter" value="/WEB-INF/jsp/Layouts/scriptFooter.jsp" />  
+    </definition>
+    <definition name="Login" template="/WEB-INF/jsp/Views/login.jsp">  
+        <put-attribute name="meta" value="/WEB-INF/jsp/Layouts/loginMeta.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/Layouts/footerLogin.jsp" />  
+    </definition>
+    <definition name="/Plugins/Registration/REGEXP:\[([^\]]*)\](.*)" template="/WEB-INF/jsp/Views/Plugins/Registration/{1}.jsp">        
+    </definition>
+    <definition name="/Plugins/Payment/REGEXP:\[([^\]]*)\](.*)" template="/WEB-INF/jsp/Views/Plugins/Payment/{1}.jsp">        
+    </definition>
+    <definition name="/Plugins/MasterData/REGEXP:\[([^\]]*)\](.*)" template="/WEB-INF/jsp/Views/Plugins/MasterData/{1}.jsp">        
+    </definition>
+    
+    <definition name="/Pages/REGEXP:\[([^\]]*)\](.*)" template="/WEB-INF/jsp/Views/Pages/{1}.jsp">  
+    </definition>
+    <!--<definition name="REGEXP:\[([^\]]*)\](.*)" template="/WEB-INF/jsp/layouts/{1}.jsp">          
+        <put-attribute name="navigation" value="/WEB-INF/jsp/layouts/includes/navigation.jsp" />          
+        <put-attribute name="menu" value="/WEB-INF/jsp/layouts/includes/menu.jsp" />        
+        <put-attribute name="head" value="/WEB-INF/jsp/views/{2}_head.jsp" />   
+        <put-attribute name="body" value="/WEB-INF/jsp/views/{2}.jsp" />    
+        <put-attribute name="offscreen" value="/WEB-INF/jsp/views/{2}_offscreen.jsp" />       
+    </definition>-->      
+</tiles-definitions>  
