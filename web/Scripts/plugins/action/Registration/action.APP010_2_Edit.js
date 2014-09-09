@@ -8,121 +8,122 @@ $(function() {
     //$("#txtApplyDate").datepicker("setDate", new Date()); //Set ค่าวันปัจจุบัน
     $('#txtApplyDateEdit').datepicker({language: 'th', format: 'dd/mm/yyyy'});
     $('#txtBirthDateEdit').datepicker({language: 'th', format: 'dd/mm/yyyy'});
-    $("#slMemberGroupCodeEdit").select2({
-        allowClear: true
-    });
-    $("#slMemberTypeCodeEdit").select2({
-        allowClear: true
-    });
-    $("#slRankIdEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slTitleIdEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slGenderEdit").select2({
-        allowClear: true
-    });
-    $("#slMilitaryIdEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slPaymentTypeEdit").select2({
-        allowClear: true
-    });
-    $("#slReferrerRelationshipCodeEdit").select2({
-        allowClear: true
-    });
-    $("#slMarryStatusCodeEdit").select2({
-        allowClear: true
-    });
-    $("#slPermanentProvinceCodeEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slProvinceCodeEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slRankIdEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slPaymentTypeCodeEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-    $("#slBankCodeEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-    $("#slBankBranchIdEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slAccTypeIdEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-    $("#slRankIdMemberBeneficiaryEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slTitleIdMemberBeneficiaryEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slMemberRelationshipCodeMemberBeneficiaryEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-    $("#slPermanentProvinceCodeMemberBeneficiaryEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slProvinceCodeMemberBeneficiaryEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slRankIdMemberBeneficiaryEditForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slTitleIdMemberBeneficiaryEditForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slMemberRelationshipCodeMemberBeneficiaryEditForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-    $("#slPermanentProvinceCodeMemberBeneficiaryEditForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-    $("#slProvinceCodeMemberBeneficiaryEditForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
+//    $("#slMemberGroupCodeEdit").select2({
+//        allowClear: true
+//    });
+//    $("#slMemberTypeCodeEdit").select2({
+//        allowClear: true
+//    });
+//    $("#slRankIdEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slTitleIdEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slGenderEdit").select2({
+//        allowClear: true
+//    });
+//    $("#slMilitaryIdEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slPaymentTypeEdit").select2({
+//        allowClear: true
+//    });
+//    $("#slReferrerRelationshipCodeEdit").select2({
+//        allowClear: true
+//    });
+//    $("#slMarryStatusCodeEdit").select2({
+//        allowClear: true
+//    });
+//    $("#slPermanentProvinceCodeEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slProvinceCodeEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slRankIdEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slPaymentTypeCodeEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//    $("#slBankCodeEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//    $("#slBankBranchIdEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slAccTypeIdEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//    $("#slRankIdMemberBeneficiaryEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slTitleIdMemberBeneficiaryEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slMemberRelationshipCodeMemberBeneficiaryEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//    $("#slPermanentProvinceCodeMemberBeneficiaryEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slProvinceCodeMemberBeneficiaryEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slRankIdMemberBeneficiaryEditForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slTitleIdMemberBeneficiaryEditForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slMemberRelationshipCodeMemberBeneficiaryEditForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//    $("#slPermanentProvinceCodeMemberBeneficiaryEditForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//    $("#slProvinceCodeMemberBeneficiaryEditForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+
     $("#dialogFormReferrerEdit").removeClass('hide').dialog({
-        width: '800px',
+        width: '970px',
         resizable: false,
         modal: true,
         title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon glyphicon glyphicon-file'></i> เรียกค้นข้อมูลสมาชิก </h4></div>",
@@ -146,9 +147,11 @@ $(function() {
             }
         ]
     });
+
     $("#btnReferrerEdit").click(function(event) {
         $("#dialogFormReferrerEdit").dialog("open");
     });
+
     $("#dialogFormMemberBeneficiaryEdit").removeClass('hide').dialog({
         width: '800px',
         resizable: false,
@@ -180,6 +183,7 @@ $(function() {
     $("#btnAddMemberBeneficiaryEdit").click(function(event) {
         $("#dialogFormMemberBeneficiaryEdit").dialog("open");
     });
+
     onDialogDeleteMemberBeneficiaryEdit = function(id) {
         $("#Dialog-Confirm").html("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?");
         $("#Dialog-Confirm").removeClass('hide').dialog({
@@ -208,9 +212,10 @@ $(function() {
             ]
         });
     };
+
     onActionSelectReferrerEdit = function() {
         var dialogForm = '#dialogFormReferrerEdit';
-        var myGrid = $('#gridData_MAS010_2_Edit_Select_jqGrid_List');
+        var myGrid = $('#gridData_APP010_2_Edit_Select_jqGrid_List');
         var $selRadio = $('input[name=rd_' + myGrid[0].id + ']:radio:checked'), $tr;
         if ($selRadio.length > 0) {
             $tr = $selRadio.closest('tr');
@@ -231,6 +236,7 @@ $(function() {
             $("#Dialog-Warning").dialog("open");
         }
     };
+
     onActionSaveMemberBeneficiaryNewForEdit = function() {
         var formId = '#frmMemberBeneficiaryEdit';
         var dialogForm = '#dialogFormMemberBeneficiaryEdit';
@@ -301,7 +307,7 @@ $(function() {
                         valueData = 'D';
                     }
                 }
-                console.info("value:" + valueData);
+                //console.info("value:" + valueData);
                 objData[inputToChangeMemberBeneficiaryEditForEdit[iArray]] = valueData;
                 iArray++;
             });
@@ -397,7 +403,8 @@ $(function() {
             idCheck = i + 1;
             if (idCheck != id) {
                 listAPP010EditTempAdd.push(item);
-                listAPP010Delete.push(id);
+            } else {
+                listAPP010Delete.push(item['beneficiaryId']);
             }
         }
         listAPP010 = listAPP010EditTempAdd;
@@ -476,9 +483,11 @@ $(function() {
             });
         }
     };
+
     $("#btnSaveEdit").click(function(event) {
         onActionSaveEdit();
     });
+
     onActionLoadRank = function() {
         var objData = {};
         $.ajax({
@@ -498,10 +507,12 @@ $(function() {
             }
         });
     };
+
     onActionClearEditRank = function() {
         $('#slRankIdEdit').empty();
         //$('#slRankIdEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditRank = function() {
         onActionClearEditRank();
         for (var item in listRank) {
@@ -509,6 +520,7 @@ $(function() {
             $('#slRankIdEdit').append('<option value="' + itemData.rankId + '">' + itemData.rankName + ' ' + itemData.rankFullname + '</option>');
         }
     };
+
     onActionLoadTitle = function() {
         var objData = {};
         $.ajax({
@@ -528,10 +540,12 @@ $(function() {
             }
         });
     };
+
     onActionClearEditTitle = function() {
         $('#slTitleIdEdit').empty();
         //$('#slTitleIdEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditTitle = function() {
         onActionClearEditTitle();
         for (var item in listTitle) {
@@ -539,6 +553,7 @@ $(function() {
             $('#slTitleIdEdit').append('<option value="' + itemData.titleId + '">' + itemData.title + '</option>');
         }
     };
+
     onActionLoadMilitaryDepartment = function() {
         var objData = {};
         $.ajax({
@@ -558,17 +573,23 @@ $(function() {
             }
         });
     };
+
     onActionClearEditMilitaryDepartment = function() {
         $('#slMilitaryIdEdit').empty();
+        $('#militaryIdEdit').empty();
         //$('#slMilitaryIdEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditMilitaryDepartment = function() {
         onActionClearEditMilitaryDepartment();
+        $('#militaryIdEdit').append('<option value="">ทั้งหมด</option>');
         for (var item in listMilitaryDepartment) {
             var itemData = listMilitaryDepartment[item];
             $('#slMilitaryIdEdit').append('<option value="' + itemData.militaryId + '">' + itemData.name + '</option>');
+            $('#militaryIdEdit').append('<option value="' + itemData.militaryId + '">' + itemData.name + '</option>');
         }
     };
+
     onActionLoadProvince = function() {
         var objData = {};
         $.ajax({
@@ -588,10 +609,12 @@ $(function() {
             }
         });
     };
+
     onActionClearEditProvince = function() {
         $('#slProvinceCodeEdit').empty();
         //$('#slProvinceCodeEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditProvince = function() {
         onActionClearEditProvince();
         for (var item in listProvince) {
@@ -599,10 +622,12 @@ $(function() {
             $('#slProvinceCodeEdit').append('<option value="' + itemData.provinceCode + '">' + itemData.provinceName + '</option>');
         }
     };
+
     onActionClearEditPermanentProvince = function() {
         $('#slPermanentProvinceCodeEdit').empty();
         //$('#slPermanentProvinceCodeEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditPermanentProvince = function() {
         onActionClearEditPermanentProvince();
         for (var item in listProvince) {
@@ -610,10 +635,12 @@ $(function() {
             $('#slPermanentProvinceCodeEdit').append('<option value="' + itemData.provinceCode + '">' + itemData.provinceName + '</option>');
         }
     };
+
     onActionClearEditBank = function() {
         $('#slBankCodeEdit').empty();
         $('#slBankCodeEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadBank = function() {
         var objData = {};
         $.ajax({
@@ -633,6 +660,7 @@ $(function() {
             }
         });
     };
+
     onActionLoadEditBank = function() {
         onActionClearEditBank();
         for (var item in listBank) {
@@ -646,10 +674,12 @@ $(function() {
         $('#slBankBranchIdEdit').empty();
         //$('#slBankBranchIdEdit').append('<option value="">เลือก</option>');
     };
+
     onActionClearEditBankAccountType = function() {
         $('#slAccTypeIdEdit').empty();
         $('#slAccTypeIdEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadBankBranch = function() {
         var objData = {};
         $.ajax({
@@ -669,9 +699,10 @@ $(function() {
             }
         });
     };
+
     onActionLoadEditBankBranch = function(value) {
         onActionClearEditBankBranch();
-        if ('' !== value) {
+        if ('' != value) {
             for (var item in listBankBranch) {
                 var itemData = listBankBranch[item];
                 if (itemData.bankCode === value) {
@@ -680,6 +711,7 @@ $(function() {
             }
         }
     };
+
     onActionLoadBankAccountType = function() {
         var objData = {};
         $.ajax({
@@ -699,9 +731,10 @@ $(function() {
             }
         });
     };
+
     onActionLoadEditBankAccountType = function(value) {
         onActionClearEditBankAccountType();
-        if ('' !== value) {
+        if ('' != value) {
             for (var item in listBankAccountType) {
                 var itemData = listBankAccountType[item];
                 if (itemData.bankCode === value) {
@@ -710,6 +743,32 @@ $(function() {
             }
         }
     };
+
+    onActionLoadReferrer = function(id) {
+        var objData = {};
+        objData[objIdKeyEdit] = id;
+        var req = {};
+        req.data2Json = $.toJSON(objData);
+        $.ajax({
+            type: 'POST',
+            url: urlLoadReferrer,
+            cache: false,
+            //timeout: 1000,
+            async: false,
+            data: req,
+            dataType: 'json',
+            success: function(json) {
+                //console.info(json);
+                $('#txtReferrerFullnameEdit').val(json.name + ' ' + json.surname);
+                $('#txtReferrerCodeEdit').val(json.memberCode);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+            },
+            beforeSend: function(jqXHR) {
+            }
+        });
+    };
+
     onActionLoad = function(id) {
         var iArray = 0;
         var objData = {};
@@ -732,6 +791,16 @@ $(function() {
                         } else {
                             $(inputToMergeEdit[iArray].replace(/:checked/g, '')).prop('checked', false);
                         }
+                    } else if (inputToMergeEdit[iArray].toLowerCase().indexOf('date') >= 0) {
+                        if (objectResponse[getData] == null || objectResponse[getData] == '') {
+                            $(inputToMergeEdit[iArray]).val('');
+                        } else {
+                            $(inputToMergeEdit[iArray]).val($.formatDateTime('dd/mm/yy', new Date(objectResponse[getData])));//$.fn.fmatter('date', objectResponse[getData], {newformat: 'dd/mm/yyyy'}));
+                        }
+                    } else if (inputToMergeEdit[iArray].toLowerCase().indexOf('bankcode') >= 0) {
+                        $(inputToMergeEdit[iArray]).val(objectResponse[getData]);
+                        onActionLoadEditBankBranch(objectResponse[getData]);
+                        onActionLoadEditBankAccountType(objectResponse[getData]);
                     } else {
                         $(inputToMergeEdit[iArray]).val(objectResponse[getData]);
                     }
@@ -747,6 +816,7 @@ $(function() {
     onActionLoadMemberBeneficiary = function(id) {
         var objData = {};
         listAPP010 = [];
+        listAPP010Delete = [];
         objData[objIdKeyEdit] = id;
         var req = {};
         req.data2Json = $.toJSON(objData);
@@ -812,6 +882,7 @@ $(function() {
         $('#slRankIdMemberBeneficiaryEdit').empty();
         //$('#slRankIdMemberBeneficiaryEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditRankMemberBeneficiary = function() {
         onActionClearEditRankMemberBeneficiary();
         for (var item in listRank) {
@@ -819,10 +890,12 @@ $(function() {
             $('#slRankIdMemberBeneficiaryEdit').append('<option value="' + itemData.rankId + '">' + itemData.rankName + ' ' + itemData.rankFullname + '</option>');
         }
     };
+
     onActionClearEditTitleMemberBeneficiary = function() {
         $('#slTitleIdMemberBeneficiaryEdit').empty();
         //$('#slTitleIdMemberBeneficiaryEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditTitleMemberBeneficiary = function() {
         onActionClearEditTitleMemberBeneficiary();
         for (var item in listTitle) {
@@ -830,10 +903,12 @@ $(function() {
             $('#slTitleIdMemberBeneficiaryEdit').append('<option value="' + itemData.titleId + '">' + itemData.title + '</option>');
         }
     };
+
     onActionClearEditPermanentProvinceMemberBeneficiary = function() {
         $('#slPermanentProvinceCodeMemberBeneficiaryEdit').empty();
         //$('#slPermanentProvinceCodeMemberBeneficiaryEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditPermanentProvinceMemberBeneficiary = function() {
         onActionClearEditPermanentProvinceMemberBeneficiary();
         for (var item in listProvince) {
@@ -841,10 +916,12 @@ $(function() {
             $('#slPermanentProvinceCodeMemberBeneficiaryEdit').append('<option value="' + itemData.provinceCode + '">' + itemData.provinceName + '</option>');
         }
     };
+
     onActionClearEditProvinceMemberBeneficiary = function() {
         $('#slProvinceCodeMemberBeneficiaryEdit').empty();
         //$('#slProvinceCodeMemberBeneficiaryEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditProvinceMemberBeneficiary = function() {
         onActionClearEditProvinceMemberBeneficiary();
         for (var item in listProvince) {
@@ -852,10 +929,12 @@ $(function() {
             $('#slProvinceCodeMemberBeneficiaryEdit').append('<option value="' + itemData.provinceCode + '">' + itemData.provinceName + '</option>');
         }
     };
+
     onActionClearEditForEditRankMemberBeneficiary = function() {
         $('#slRankIdMemberBeneficiaryEditForEdit').empty();
         //$('#slRankIdMemberBeneficiaryEditForEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditForEditRankMemberBeneficiary = function() {
         onActionClearEditForEditRankMemberBeneficiary();
         for (var item in listRank) {
@@ -863,10 +942,12 @@ $(function() {
             $('#slRankIdMemberBeneficiaryEditForEdit').append('<option value="' + itemData.rankId + '">' + itemData.rankName + ' ' + itemData.rankFullname + '</option>');
         }
     };
+
     onActionClearEditForEditTitleMemberBeneficiary = function() {
         $('#slTitleIdMemberBeneficiaryEditForEdit').empty();
         //$('#slTitleIdMemberBeneficiaryEditForEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditForEditTitleMemberBeneficiary = function() {
         onActionClearEditForEditTitleMemberBeneficiary();
         for (var item in listTitle) {
@@ -874,10 +955,12 @@ $(function() {
             $('#slTitleIdMemberBeneficiaryEditForEdit').append('<option value="' + itemData.titleId + '">' + itemData.title + '</option>');
         }
     };
+
     onActionClearEditForEditPermanentProvinceMemberBeneficiary = function() {
         $('#slPermanentProvinceCodeMemberBeneficiaryEditForEdit').empty();
         //$('#slPermanentProvinceCodeMemberBeneficiaryEditForEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditForEditPermanentProvinceMemberBeneficiary = function() {
         onActionClearEditForEditPermanentProvinceMemberBeneficiary();
         for (var item in listProvince) {
@@ -885,10 +968,12 @@ $(function() {
             $('#slPermanentProvinceCodeMemberBeneficiaryEditForEdit').append('<option value="' + itemData.provinceCode + '">' + itemData.provinceName + '</option>');
         }
     };
+
     onActionClearEditForEditProvinceMemberBeneficiary = function() {
         $('#slProvinceCodeMemberBeneficiaryEditForEdit').empty();
         //$('#slProvinceCodeMemberBeneficiaryEditForEdit').append('<option value="">เลือก</option>');
     };
+
     onActionLoadEditForEditProvinceMemberBeneficiary = function() {
         onActionClearEditForEditProvinceMemberBeneficiary();
         for (var item in listProvince) {
@@ -897,7 +982,72 @@ $(function() {
         }
     };
 //======================================= End MemberBeneficiary ======================================
-
+    onAddActionSearch = function(){
+       //alert("onAddActionSearch");
+        var search = {};
+        var requestSearch = new Array();
+        var statussearch = false;
+        var condition = '';
+        if ($('#memberCodeForEdit').val().length !== 0) {
+            var search2 = {'groupOp': condition, 'field': 'member_code', 'op': 'eq', 'data': $('#memberCodeForEdit').val(), 'dataType': 'varchar'};
+            requestSearch.push(search2);
+            condition = 'and';
+            statussearch = true;
+        }
+        if ($('#citizenIdForEdit').val().length !== 0) {
+            var search3 = {'groupOp': condition, 'field': 'citizen_id', 'op': 'eq', 'data': $('#citizenIdForEdit').val(), 'dataType': 'varchar'};
+            requestSearch.push(search3);
+            condition = 'and';
+            statussearch = true;
+        }
+        if ($('#memberNameForEdit').val().length !== 0) {
+            var search4 = {'groupOp': condition, 'field': 'name', 'op': 'eq', 'data': $('#memberNameForEdit').val(), 'dataType': 'varchar'};
+            requestSearch.push(search4);
+            condition = 'and';
+            statussearch = true;
+        }
+        if ($('#memberSurnameForEdit').val().length !== 0) {
+            var search5 = {'groupOp': condition, 'field': 'surname', 'op': 'eq', 'data': $('#memberSurnameForEdit').val(), 'dataType': 'varchar'};
+            requestSearch.push(search5);
+            condition = 'and';
+            statussearch = true;
+        }
+        if ($('#militaryIdEdit').val().length !== 0) {
+            var search6 = {'groupOp': condition, 'field': 'military_id', 'op': 'eq', 'data': $('#militaryIdEdit').val(), 'dataType': 'integer'};
+            requestSearch.push(search6);
+            condition = 'and';
+            statussearch = true;
+        }
+//        if ($('#subMemberTypeCode').val().length !== 0) {
+//            var search7 = {'groupOp': '', 'field': 'member_type_code', 'op': 'eq', 'data': $('#subMemberTypeCode').val(), 'dataType': 'integer'};
+//            requestSearch.push(search7);
+//        }
+        
+        search.conditions = requestSearch;
+       
+        $(gridNameEdit).jqGrid('setGridParam', {
+            search: statussearch,
+            postData: {
+                searchCommand: $.toJSON(search)
+            }
+        });
+        $(gridNameEdit).trigger("reloadGrid", [{page: 1}]);
+    };
+    
+    $("#btnEditSearch").click(function(e) {
+        e.preventDefault();
+        onAddActionSearch();
+    });
+    
+    $("#btnEditReset").click(function(e) {
+        e.preventDefault();
+        $("#memberCodeForEdit").val("");
+        $("#citizenIdForEdit").val("");
+        $("#memberNameForEdit").val("");
+        $("#memberSurnameForEdit").val("");
+        $("#militaryIdEdit").val("");
+    });
+    
     onInit = function() {
         onActionLoadRank();
         onActionLoadTitle();
@@ -922,6 +1072,7 @@ $(function() {
         onActionLoadEditForEditProvinceMemberBeneficiary();
         onActionLoad($('#hidMemberIdEdit').val());
         onActionLoadMemberBeneficiary($('#hidMemberIdEdit').val());
+        onActionLoadReferrer($('#hidReferrerIdEdit').val());
     };
     $("#slBankCodeEdit").change(function() {
 //console.info($(this).val());

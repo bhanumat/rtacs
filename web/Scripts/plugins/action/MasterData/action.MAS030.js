@@ -1,5 +1,135 @@
 $(function() {
 
+    $('#frmNew').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            txtRankNameNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 99,
+                        max: 99,
+                        message: 'The title must be less than 5 characters long'
+                    }
+                }
+            },
+            slRankClassCodeNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    }
+                }
+            },
+            txtRankFullnameNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtRankOrderNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        // Use Ajax to submit form data
+        onActionSaveNew();
+    });
+
+    $('#frmEdit').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            txtRankNameEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            slRankClassCodeEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    }
+                }
+            },
+            txtRankFullnameEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtRankOrderEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        // Use Ajax to submit form data
+        onActionSaveEdit();
+    });
+
     $("#btnAdd").click(function(event) {
         onDialogNew(event);
     });
@@ -16,7 +146,7 @@ $(function() {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
                 click: function() {
-                    onActionSaveNew();
+                    $('#frmNew').submit();
                 }
             }
             ,
@@ -45,7 +175,7 @@ $(function() {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
                 click: function() {
-                    onActionSaveEdit();
+                    $('#frmEdit').submit();
                 }
             }
             ,
@@ -298,7 +428,7 @@ $(function() {
         requestSearch.push(search1);
         var search2 = {'groupOp': 'and', 'field': 'rankFullname', 'op': 'cn', 'data': $('#txtRankFullname').val(), 'dataType': 'varchar'};
         requestSearch.push(search2);
-        if ('%' !== $('#slRankClassCode').val()) {
+        if ('%' != $('#slRankClassCode').val()) {
             var search3 = {'groupOp': 'and', 'field': 'rankClassCode', 'op': 'cn', 'data': $('#slRankClassCode').val(), 'dataType': 'integer'};
             requestSearch.push(search3);
         }

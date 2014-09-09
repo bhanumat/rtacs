@@ -5,17 +5,24 @@
  */
 package com.itos.controller.registration;
 
+import com.itos.model.Member;
+import com.itos.model.Operation;
 import com.itos.model.OperationMember;
+import com.itos.model.json.JsonOperation;
 import com.itos.model.json.JsonOperationMember;
+import com.itos.model.json.JsonRegisterNo;
 import com.itos.service.model.IOperationMemberService;
+import com.itos.util.DateUtil;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jsonObject.MessageResponse;
 import java.io.IOException;
-import com.itos.util.DateUtil;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -47,7 +54,7 @@ public class APP043Controller {
     private String stringDateFormat;
 
     @RequestMapping("/Plugins/Registration/APP043.htm")
-    public String APP041(Model model, Principal principal) {
+    public String APP043(Model model, Principal principal) {
         return "/Plugins/Registration/APP043";
     }
 
@@ -57,50 +64,37 @@ public class APP043Controller {
     public @ResponseBody
     JqGridResponse<OperationMember> getListAPP043(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         req.setSearch(Boolean.parseBoolean(search));
-//        StringBuilder command = new StringBuilder();
-//        String field = "operationTypeCode";
-//        String value = "25";
-//        command.append("{\"conditions\":[{\"groupOp\":\"");
-//        if (null == req.getSearchCommand() || req.getSearchCommand().isEmpty()) {
-//            command.append("");
-//        } else {
-//            command.append("AND");
-//        }
-//        command.append("\",\"field\":\"");
-//        command.append(field);
-//        command.append("\",\"op\":\"eq\",\"data\":");
-//        command.append(value);
-//        command.append(",\"dataType\":\"integer\"}]}");
-//        if (null != req.getSearchCommand() || !req.getSearchCommand().isEmpty()) {
-//            String replaceAll;
-//            replaceAll = command.toString().replaceAll("{\"conditions\":[", "");
-//            //req.getSearchCommand().substring(0, req.getSearchCommand().length());
-//        }
-//        req.setSearchCommand(command.toString());
-        return iOperationMemberService.getListOperationMember(req);
+        int memberStatusCode = 25;//Set Status 0 = ALL
+        return iOperationMemberService.getListOperationMember(req, memberStatusCode);
     }
-    
+
     @RequestMapping(value = "/Plugins/Registration/setSaveApproveAPP043.json", method = {RequestMethod.POST, RequestMethod.GET},
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     MessageResponse setSaveApproveAPP043(@RequestParam(value = "data2Json") String data2Json, Model model, Principal principal) {
-        MessageResponse messageResponse = new MessageResponse();
-        logger.info(data2Json);
+        Member member;
+        List<OperationMember> listOperationMember = new ArrayList<>();
+        List<Member> listMember = new ArrayList<>();
+        Operation operation = new Operation();
         try {
-            OperationMember operationmember = new OperationMember();
-            OperationMember opermemberDeserializer = JsonOperationMember.JSONDeserializer(data2Json, stringDateFormat);
-            
-            operationmember.setOperationTypeCode(opermemberDeserializer.getOperationTypeCode());
-            operationmember.setDocDate(opermemberDeserializer.getDocDate());
-            operationmember.setApplyDate(DateUtil.getCurrentDate());
-            operationmember.setItemSelect(opermemberDeserializer.getItemSelect());
-            operationmember.setItemSelect2(opermemberDeserializer.getItemSelect2());
-            messageResponse = iOperationMemberService.setSaveApproveOperationMember(operationmember);
+            listOperationMember = JsonOperationMember.JSONDeserializerArray(data2Json, stringDateFormat);
+            Operation operationDeserializer = JsonOperation.JSONDeserializer(data2Json, stringDateFormat);
+            operation.setOperationTypeCode(operationDeserializer.getOperationTypeCode());
+            operation.setDocCode(operationDeserializer.getDocCode());
+            operation.setDocDate(operationDeserializer.getDocDate());
+            operation.setCreateDate(DateUtil.getCurrentDate());
+
+            for (OperationMember operationMember : listOperationMember) {
+                member = new Member();
+                member.setMemberStatusCode(operationDeserializer.getOperationTypeCode());
+                member.setMemberId(operationMember.getMemberId());
+                member.setUpdateDate(DateUtil.getCurrentDate());
+                listMember.add(member);
+            }
+            return iOperationMemberService.setSaveApproveOperationMemberList(listMember, operation);
         } catch (Exception ex) {
-            logger.error(ex);
             return new MessageResponse(false, ex.getMessage());
         }
-        return messageResponse;
     }
 }

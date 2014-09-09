@@ -1,5 +1,97 @@
 $(function() {
 
+    $('#frmNew').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            txtTitleDescNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtTitleNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        // Use Ajax to submit form data
+        onActionSaveNew();
+    });
+
+    $('#frmEdit').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            txtTitleDescEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtTitleEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        // Use Ajax to submit form data
+        onActionSaveEdit();
+    });
+
     $("#btnAdd").click(function(event) {
         onDialogNew(event);
     });
@@ -16,7 +108,7 @@ $(function() {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
                 click: function() {
-                    onActionSaveNew();
+                    $('#frmNew').submit();
                 }
             }
             ,
@@ -45,7 +137,7 @@ $(function() {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
                 click: function() {
-                    onActionSaveEdit();
+                    $('#frmEdit').submit();
                 }
             }
             ,

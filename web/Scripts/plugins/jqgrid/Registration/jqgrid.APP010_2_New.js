@@ -8,7 +8,7 @@ var gridPager = '#gridPager_APP010_2_New_jqGrid_List';
 var gridSortName = 'beneficiaryId';
 var gridSortOrder = 'asc';
 var gridCaption = 'รายการผู้สมัครเป็นสมาชิก';
-var gridColNames = ['ลำดับที่', 'เลขประจำตัวประชาชน', 'ยส', 'คำนำหน้า', 'ชื่อ', 'สกุล', 'ความเกี่ยวพันกับสมาชิก', ''];
+var gridColNames = ['ลำดับที่', 'เลขประจำตัวประชาชน', 'ยศ', 'คำนำหน้า', 'ชื่อ', 'สกุล', 'ความเกี่ยวพันกับสมาชิก', ''];
 var gridColModel = [
     {name: 'id', index: 'id', sortable: false, hidden: true, align: 'left', width: 100},
     {name: 'citizenId', index: 'citizenId', align: 'left', sortable: true, width: 200},

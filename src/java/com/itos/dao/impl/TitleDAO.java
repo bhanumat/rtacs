@@ -157,7 +157,7 @@ public class TitleDAO implements ITitleDAO {
 
     private Title getLoadDetailByObject(Title title) {
         Title titleResponse = new Title();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Title> list;
         WhereField whereField = null;
         try {
@@ -211,7 +211,7 @@ public class TitleDAO implements ITitleDAO {
 
     private Title getLoadDetailById(Title groups) {
         Title titleResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Title> list;
         WhereField whereField = null;
         try {

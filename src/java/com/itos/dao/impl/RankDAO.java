@@ -162,7 +162,7 @@ public class RankDAO implements IRankDAO {
 
     private Rank getLoadDetailByObject(Rank rankObject) {
         Rank rankResponse = new Rank();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Rank> list;
         WhereField whereField = null;
         try {
@@ -218,7 +218,7 @@ public class RankDAO implements IRankDAO {
 
     private Rank getLoadDetailById(Rank rank) {
         Rank rankResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Rank> list;
         WhereField whereField = null;
         try {

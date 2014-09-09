@@ -27,7 +27,7 @@
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-
+        <input type="hidden" name="operationId" id="operationId" />
         <div id="ListView" class="row">
             <div class="col-xs-12">
                 <div class="row">
@@ -53,7 +53,7 @@
                             <br>
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> เลขที่อ้างอิงขออนุมัติ  </label>
                             <div class="col-sm-6">
-                                <input type="text" id="form-field-2" class="col-xs-8 col-sm-3"/>    
+                                <input type="text" id="docCode" class="col-xs-8 col-sm-3"/>    
                             </div>                                
 
                         </div>

@@ -108,6 +108,7 @@ public class Member implements java.io.Serializable {
     private String rankOrTitleName;
     private List<MemberBeneficiary> listMemberBeneficiary;
     private List<String> deleteBeneficiaryId;
+    private Integer operationIdBy20;
 
     public Member() {
     }
@@ -1025,6 +1026,21 @@ public class Member implements java.io.Serializable {
      */
     public void setDeleteBeneficiaryId(List<String> deleteBeneficiaryId) {
         this.deleteBeneficiaryId = deleteBeneficiaryId;
+    }
+
+    /**
+     * @return the operationIdBy20
+     */
+    @Formula("(SELECT TOP(1) O.operation_id FROM Operation O INNER JOIN OperationMember OM ON O.operation_id = OM.operation_id WHERE OM.member_id=member_id and O.operation_type_code = 20 ORDER BY O.operation_id, OM.operation_member_id DESC)")
+    public Integer getOperationIdBy20() {
+        return operationIdBy20;
+    }
+
+    /**
+     * @param operationIdBy20 the operationId to set
+     */
+    public void setOperationIdBy20(Integer operationIdBy20) {
+        this.operationIdBy20 = operationIdBy20;
     }
 
 }

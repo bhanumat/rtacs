@@ -113,7 +113,7 @@
                         <div class="form-group">
                             <label for="lbslBankCodeNew" class="col-sm-4 control-label">รหัสธนาคาร *</label>
                             <div class="col-sm-6">
-                                <select class="validate[required]" name="slBankCodeNew" id="slBankCodeNew">
+                                <select name="slBankCodeNew" id="slBankCodeNew">
                                 </select>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                         <div class="form-group">
                             <label for="lbProvinceCodeNew" class="col-sm-4 control-label">จังหวัด *</label>
                             <div class="col-sm-6">
-                                <select class="validate[required]" name="slProvinceCodeNew" id="slProvinceCodeNew">
+                                <select name="slProvinceCodeNew" id="slProvinceCodeNew">
                                 </select>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                             <label for="lbslBankCodeEdit" class="col-sm-4 control-label">รหัสธนาคาร *</label>
                             <div class="col-sm-6">
                                 <input type="hidden" id="hidBranchIdEdit" name="hidBranchIdEdit">
-                                <select class="validate[required]" name="slBankCodeEdit" id="slBankCodeEdit">
+                                <select name="slBankCodeEdit" id="slBankCodeEdit">
                                 </select>
                             </div>
                         </div>
@@ -242,7 +242,7 @@
                         <div class="form-group">
                             <label for="lbProvinceCodeEdit" class="col-sm-4 control-label">จังหวัด *</label>
                             <div class="col-sm-6">
-                                <select class="validate[required]" name="slProvinceCodeEdit" id="slProvinceCodeEdit">
+                                <select name="slProvinceCodeEdit" id="slProvinceCodeEdit">
                                 </select>
                             </div>
                         </div>

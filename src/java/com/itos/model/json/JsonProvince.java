@@ -19,11 +19,21 @@ import net.sf.json.JSONObject;
 public class JsonProvince {
     public static Province JSONDeserializer(String json, String stringDateFormat) throws IOException {
         Province province = new Province();
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            province = mapper.readValue(json, Province.class);
-        } catch (IOException ex) {
-            throw ex;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject = JSONObject.fromObject(json);
+            if (jsonObject.containsKey("provinceCode")) {
+                province.setProvinceCode(MiscUtil.getNull(jsonObject.getString("provinceCode")));
+            }
+            if (jsonObject.containsKey("provinceName")) {
+                province.setProvinceName(MiscUtil.getNull(jsonObject.getString("provinceName")));
+            }
+            if (jsonObject.containsKey("status")) {
+                province.setStatus(MiscUtil.getChar(jsonObject.getString("status")));
+            }
+            
+        } catch (Exception ex) {
+            //return null;
         }
         return province;
     }

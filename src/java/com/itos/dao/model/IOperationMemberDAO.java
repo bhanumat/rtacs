@@ -5,6 +5,8 @@
  */
 package com.itos.dao.model;
 
+import com.itos.model.Member;
+import com.itos.model.Operation;
 import com.itos.model.OperationMember;
 import com.itos.model.ext.PaymentDetail;
 import com.itos.model.ext.PaymentMember;
@@ -39,5 +41,10 @@ public interface IOperationMemberDAO {
     public List<OperationMember> getListInJSONOperationMember(char status);
     
     public PaymentDetail searchPaymentDetail(String operationMemberId);
+
+    public MessageResponse setSaveNewOperationMemberForRegisterNo(List<Member> listMember, Operation operation);
     
+    public JqGridResponse<OperationMember> getList(JqGridRequest req, int memberStatusCode);
+    
+    public MessageResponse setSaveApproveOperationMemberList(List<Member> listMember, Operation operation);
 }

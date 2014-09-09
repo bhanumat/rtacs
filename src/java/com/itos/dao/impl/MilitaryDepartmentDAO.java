@@ -183,7 +183,7 @@ public class MilitaryDepartmentDAO implements IMilitaryDepartmentDAO {
 
     private MilitaryDepartment getLoadDetailByObject(MilitaryDepartment militaryDepartmentObject) {
         MilitaryDepartment militaryDepartmentResponse = new MilitaryDepartment();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<MilitaryDepartment> list;
         WhereField whereField = null;
         try {
@@ -247,7 +247,7 @@ public class MilitaryDepartmentDAO implements IMilitaryDepartmentDAO {
 
     private MilitaryDepartment getLoadDetailById(MilitaryDepartment militaryDepartment) {
         MilitaryDepartment militaryDepartmentResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<MilitaryDepartment> list;
         WhereField whereField = null;
         try {

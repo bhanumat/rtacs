@@ -44,7 +44,7 @@ public class MAS010Controller {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    IMilitaryDepartmentService IMilitaryDepartmentService;
+    IMilitaryDepartmentService iMilitaryDepartmentService;
 
     @Value("${application.DateFormat}")
     private String stringDateFormat;
@@ -60,7 +60,7 @@ public class MAS010Controller {
     public @ResponseBody
     JqGridResponse<MilitaryDepartment> getListMAS010(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         req.setSearch(Boolean.parseBoolean(search));
-        return IMilitaryDepartmentService.getListMilitaryDepartment(req);
+        return iMilitaryDepartmentService.getListMilitaryDepartment(req);
     }
 
     @RequestMapping(value = "/Plugins/MasterData/setDeleteMAS010.json", method = RequestMethod.POST,
@@ -72,7 +72,7 @@ public class MAS010Controller {
         MessageResponse messageResponse = new MessageResponse();
         logger.info(req.getItemSelect());
         try {
-            messageResponse = IMilitaryDepartmentService.setDeleteMilitaryDepartment(req);
+            messageResponse = iMilitaryDepartmentService.setDeleteMilitaryDepartment(req);
         } catch (Exception ex) {
             messageResponse.setMessage(ex.getMessage());
         }
@@ -96,7 +96,7 @@ public class MAS010Controller {
             BankAccountType bankAccountType = new BankAccountType();
             bankAccountType.setAccTypeId(militaryDepartment.getBankAccTypeId());
             militaryDepartment.setBankAccountType(bankAccountType);
-            return IMilitaryDepartmentService.setSaveNewMilitaryDepartment(militaryDepartment);
+            return iMilitaryDepartmentService.setSaveNewMilitaryDepartment(militaryDepartment);
         } catch (IOException ex) {
             return new MessageResponse(false, ex.getMessage());
         }
@@ -119,7 +119,7 @@ public class MAS010Controller {
             BankAccountType bankAccountType = new BankAccountType();
             bankAccountType.setAccTypeId(militaryDepartment.getBankAccTypeId());
             militaryDepartment.setBankAccountType(bankAccountType);
-            return IMilitaryDepartmentService.setSaveEditMilitaryDepartment(militaryDepartment);
+            return iMilitaryDepartmentService.setSaveEditMilitaryDepartment(militaryDepartment);
         } catch (IOException ex) {
             return new MessageResponse(false, ex.getMessage());
         }
@@ -133,7 +133,7 @@ public class MAS010Controller {
         MilitaryDepartment militaryDepartment = new MilitaryDepartment();
         try {
             militaryDepartment = JsonMilitaryDepartment.JSONDeserializerKey(data2Json, stringDateFormat);
-            return IMilitaryDepartmentService.getLoadMilitaryDepartment(militaryDepartment);
+            return iMilitaryDepartmentService.getLoadMilitaryDepartment(militaryDepartment);
         } catch (IOException ex) {
             return null;
         }

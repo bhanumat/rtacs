@@ -6,7 +6,7 @@
 var gridUrl = urlList;
 var gridName = '#gridData_APP010Grid_List';
 var gridPager = '#gridPager_APP010Grid_List';
-var gridSortName = 'citizenId';
+var gridSortName = 'applyDate';
 var gridSortOrder = 'asc';
 var gridCaption = 'รายการผู้สมัครเป็นสมาชิก';
 var gridColNames = ['ลำดับ', 'เลขประจำตัวประชาชน', 'ยส - คำนำหน้า', 'ชื่อ', 'สกุล', 'ประเภทสมาชิก', 'หน่วยต้นสังกัด', 'วันที่สมัคร', 'ประเภทการสมัคร', 'สถานะใช้งาน', ''];

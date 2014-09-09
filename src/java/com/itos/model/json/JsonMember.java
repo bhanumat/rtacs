@@ -175,12 +175,15 @@ public class JsonMember {
             }
             if (jsonObject.containsKey("deleteBeneficiaryId")) {
                 JSONArray jsonArray = jsonObject.getJSONArray("deleteBeneficiaryId");
-                List<String> deleteBeneficiaryId = new ArrayList();
-                deleteBeneficiaryId = jsonArray;
+                List<String> deleteBeneficiaryId = new ArrayList<>();
+                for (Object id : jsonArray) {
+                    deleteBeneficiaryId.add(String.valueOf(id));
+                }
+                member.setDeleteBeneficiaryId(deleteBeneficiaryId);
             }
             if (jsonObject.containsKey("listMemberBeneficiary")) {
                 JSONArray jsonArray = jsonObject.getJSONArray("listMemberBeneficiary");
-                List<MemberBeneficiary> listMemberBeneficiary = new ArrayList();
+                List<MemberBeneficiary> listMemberBeneficiary = new ArrayList<>();
                 for (Object objMemberBeneficiary : jsonArray) {
                     JSONObject jsonObjectMemberBeneficiary = (JSONObject) objMemberBeneficiary;
                     memberBeneficiary = new MemberBeneficiary();

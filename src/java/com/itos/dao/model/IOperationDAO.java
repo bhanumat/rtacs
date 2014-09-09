@@ -5,6 +5,7 @@
  */
 package com.itos.dao.model;
 
+import com.itos.model.Member;
 import com.itos.model.Operation;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
@@ -19,19 +20,25 @@ import java.util.List;
 public interface IOperationDAO {
 
     public JqGridResponse<Operation> getList(JqGridRequest req);
-    
+
     public MessageResponse setDeleteOperation(MessageRequest req);
-    
+
     public MessageResponse setSaveNewOperation(Operation operation);
 
     public Operation saveNewOperation(Operation operation);
-    
+
     public MessageResponse setSaveEditOperation(Operation operation);
-    
+
     public Operation getLoadOperation(Operation operation);
 
     public List<Operation> getListInJSONOperation(char status);
-    
+
     public MessageResponse setSaveNewOperationList(Operation operationPost);
-    
+
+    public JqGridResponse<Operation> getListAPP041(JqGridRequest req);
+
+    public JqGridResponse<Operation> getListAPP031(JqGridRequest req);
+
+    public JqGridResponse<Operation> getList(JqGridRequest req, int operationTypeCode);
+
 }

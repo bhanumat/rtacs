@@ -62,8 +62,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-1"></div>
-                            <label for="lbReferNumber" class="col-md-2 control-label no-padding-right">เลขที่อ้างอิงขออนุมัติขึ้นทะเบียน</label>
+                            <label for="lbReferNumber" class="col-md-3 control-label no-padding-right">เลขที่อ้างอิงขออนุมัติขึ้นทะเบียน</label>
                             <div class="col-md-3">
                                 <input id="txtReferNumber" name="txtReferNumber" type="text"  class="form-control">
                             </div>

@@ -155,7 +155,7 @@ public class ProvinceDAO implements IProvinceDAO {
 
     private Province getLoadDetailByObject(Province province) {
         Province provinceResponse = new Province();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Province> list;
         WhereField whereField = null;
         try {
@@ -208,7 +208,7 @@ public class ProvinceDAO implements IProvinceDAO {
 
     private Province getLoadDetailById(Province groups) {
         Province provinceResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Province> list;
         WhereField whereField = null;
         try {

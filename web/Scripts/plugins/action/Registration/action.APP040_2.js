@@ -1,22 +1,49 @@
 $(function() {
+    $('#txtApplyDateFromSearch').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $('#txtApplyDateEndSearch').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+
+    $("#btnBack").click(function(event) {
+        event.preventDefault();
+        $("#Dialog-Confirm").html("คุณต้องการยกเลิกข้อมูลนี้ใช่หรือไม่?");
+        $("#Dialog-Confirm").dialog({
+            buttons: [
+                {
+                    html: "<i class='ace-icon fa fa-undo bigger-110'></i>&nbsp; Cancel all items",
+                    "class": "btn btn-danger btn-xs",
+                    click: function() {
+                        var typeAction = 'GET';
+                        var urlAction = urlActionListAPP040;
+                        var objDataAction = {};
+                        var dataTypeAction = 'html';
+                        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancel",
+                    "class": "btn btn-xs",
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        });
+        $("#Dialog-Confirm").dialog("open");
+    });
 
     $("#btnRegisterNo").click(function(event) {
-        var arrInput = document.getElementsByTagName("input");
-        var RegisterNo = document.getElementById("txtRegisterMemberCode").value;
-        for (var i = 0; i < arrInput.length; i++) {
-            if (arrInput[i].type === "text") {
-                if (arrInput[i].id.indexOf("txtMemberCode_") !== -1) {
-                    arrInput[i].value = RegisterNo;
-                    RegisterNo = parseInt(RegisterNo) + 1;
-                }
-            }
+        event.preventDefault();
+        var registerMemberCode = $('#txtRegisterMemberCode').val();
+        var data = $("#gridData_APP040_2_Grid_List").jqGrid('getRowData');
+        for (var i = 0; i < data.length; i++) {
+            $('#txtMemberCode_' + data[i].memberId).val(registerMemberCode);
+            registerMemberCode++;
         }
     });
 
     onActionSaveNew = function(thisDialog, objData) {
         var data = {};
         data.DataSource = $.toJSON(objData);
-        console.info(data);
         $.ajax({
             type: 'POST',
             url: urlSaveNew,
@@ -37,24 +64,17 @@ $(function() {
         $(thisDialog).dialog("close");
     };
 
-    $("#btnSave").click(function(event) {
+    $("#btnRegisterSave").click(function(event) {
         event.preventDefault();
-        var ids = [];
-        var arrInput = document.getElementsByTagName("input");
-        var numOfTextbox = 0;
-        var numOfTextboxwithValue = 0;
-        for (var i = 0; i < arrInput.length; i++) {
-            if (arrInput[i].id.indexOf("txtMemberCode_") !== -1) {
-                if (arrInput[i].type === "text") {
-                    numOfTextbox++
-                }
-                if (arrInput[i].value.length > 0) {
-                    numOfTextboxwithValue++;
-                }
-            }
+        listAPP040_2 = new Array();
+        var data = $("#gridData_APP040_2_Grid_List").jqGrid('getRowData');
+        for (var i = 0; i < data.length; i++) {
+            var dataRegisterNo = {};
+            dataRegisterNo.memberId = data[i].memberId;
+            dataRegisterNo.memberCode = $('#txtMemberCode_' + data[i].memberId).val();
+            listAPP040_2.push(dataRegisterNo);
         }
-
-        if (numOfTextbox === numOfTextboxwithValue) {
+        if (data.length != 0) {
             $("#Dialog-Confirm").html("คุณต้องการบันทึกข้อมูลนี้ใช่หรือไม่?");
             $("#Dialog-Confirm").dialog({
                 buttons: [
@@ -62,17 +82,8 @@ $(function() {
                         html: "<i class='ace-icon fa fa-floppy-o bigger-110'></i>&nbsp; บันทึก",
                         "class": "btn btn-danger btn-xs",
                         click: function() {
-                            for (var item in listAPP040) {
-                                var itemData = listAPP040[item];
-                                ids.push(itemData.memberId);
-                            }
-
                             var objData = {};
-                            objData.ItemSelect = ids.toString();
-
-                            //objData.DocDate = $('#txtDocDate').val();
-                            //objData.DocCode = $('#txtDocCode').val();
-                            objData.memberCode = $('#txtMemberCode_' + ids.toString()).val();
+                            objData.RegisterNo = listAPP040_2;
                             onActionSaveNew(this, objData);
                         }
                     },
@@ -87,27 +98,68 @@ $(function() {
             });
             $("#Dialog-Confirm").dialog("open");
         } else {
-            $("#Dialog-Warning").html("กรุณาทำการเลือกสมาชิกใหม่");
+            $("#Dialog-Warning").html("ไม่พบข้อมูล");
             $("#Dialog-Warning").dialog("open");
         }
     });
 
-
     onActionSearch = function() {
         var search = {};
+        var statussearch = 0; //0 is not in condition, 1 is in condition
         var requestSearch = new Array();
-        if ($('#txtMildeptId').val().length !== 0) {
-            var search1 = {'groupOp': '', 'field': 'mildeptId', 'op': 'cn', 'data': $('#txtMildeptId').val(), 'dataType': 'integer'};
-            requestSearch.push(search1);
-            var search2 = {'groupOp': 'and', 'field': 'name', 'op': 'cn', 'data': $('#txtName').val(), 'dataType': 'varchar'};
-            requestSearch.push(search2);
-        } else {
-            var search1 = {'groupOp': '', 'field': 'name', 'op': 'cn', 'data': $('#txtName').val(), 'dataType': 'varchar'};
-            requestSearch.push(search1);
-        }
-        var search3 = {'groupOp': 'and', 'field': 'status', 'op': 'cn', 'data': $('#slStatus').val(), 'dataType': 'char'};
+        var search1 = {'groupOp': '', 'field': 'citizenId', 'op': 'cn', 'data': $('#txtCitizenIdSearch').val(), 'dataType': 'varchar'};
+        requestSearch.push(search1);
+
+        var search2 = {'groupOp': 'and', 'field': 'name', 'op': 'cn', 'data': $('#txtNameSearch').val(), 'dataType': 'varchar'};
+        requestSearch.push(search2);
+
+        var search3 = {'groupOp': 'and', 'field': 'surname', 'op': 'cn', 'data': $('#txtSurnameSearch').val(), 'dataType': 'varchar'};
         requestSearch.push(search3);
+
+        if ($('#txtApplyDateFromSearch').val().length !== 0 && $('#txtApplyDateEndSearch').val().length !== 0) {
+            var search4 = {'groupOp': 'and', 'field': 'applyDate', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val() + "," + $('#date_end').val(), 'dataType': 'date'};
+            requestSearch.push(search1);
+            statussearch = 1;
+        } else {
+            if ($('#txtApplyDateFromSearch').val().length !== 0) {
+                var search1 = {'groupOp': 'and', 'field': 'applyDate', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val(), 'dataType': 'date'};
+                requestSearch.push(search1);
+                statussearch = 1;
+            } else {
+                if ($('#txtApplyDateEndSearch').val().length !== 0) {
+                    $("#Dialog-Confirm").html("กรุณากรอกข้อมูลค้นหาวันที่สมัคร");
+                    $("#Dialog-Confirm").removeClass('hide').dialog({
+                        width: '300px',
+                        resizable: false,
+                        modal: true,
+                        title: "<div class='widget-header'><h4 class='smaller'> แจ้งเตือน</h4></div>",
+                        title_html: true,
+                        autoOpen: true,
+                        buttons: [
+                            {
+                                html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
+                                "class": "btn btn-xs",
+                                click: function() {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        ]
+                    });
+                }
+            }
+        }
+
+        if ('%' !== $('#slMilitaryDepartmentSearch').val()) {
+            var search6 = {'groupOp': 'and', 'field': 'militaryId', 'op': 'cn', 'data': $('#slMilitaryDepartmentSearch').val(), 'dataType': 'integer'};
+            requestSearch.push(search6);
+        }
+
+        if ('%' !== $('#slApplyTypeSearch').val()) {
+            var search7 = {'groupOp': 'and', 'field': 'memberGroupCode', 'op': 'cn', 'data': $('#slApplyTypeSearch').val(), 'dataType': 'integer'};
+            requestSearch.push(search7);
+        }
         search.conditions = requestSearch;
+        console.info(search);
         $(gridName).jqGrid('setGridParam', {
             search: true,
             postData: {
@@ -120,18 +172,31 @@ $(function() {
         $(gridName).trigger("reloadGrid", [{page: 1}]);
     };
 
-    onActionLoadMemberOperation = function() {
+    onActionClearSearchMilitaryDepartment = function() {
+        $('#slMilitaryDepartmentSearch').empty();
+        $('#slMilitaryDepartmentSearch').append('<option value="%">ทั้งหมด</option>');
+    };
+
+    onActionLoadSearchMilitaryDepartment = function() {
+        onActionClearSearchMilitaryDepartment();
+        for (var item in listMilitaryDepartment) {
+            var itemData = listMilitaryDepartment[item];
+            $('#slMilitaryDepartmentSearch').append('<option value="' + itemData.militaryId + '">' + itemData.name + '</option>');
+        }
+    };
+
+    onActionLoadMilitaryDepartment = function() {
         var objData = {};
         $.ajax({
             type: 'POST',
-            url: urlList,
+            url: urlListJsonMilitaryDepartment,
             cache: false,
             //timeout: 1000,
             async: false,
             data: objData,
             dataType: 'json',
             success: function(json) {
-                listAPP040 = json;
+                listMilitaryDepartment = json;
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
             },
@@ -140,12 +205,11 @@ $(function() {
         });
     };
 
-
 ////////////////////////////////////////////////////////////
 
     onInit = function() {
-        onActionLoadMemberOperation();
-
+        onActionLoadMilitaryDepartment();
+        onActionLoadSearchMilitaryDepartment();
     };
 
 

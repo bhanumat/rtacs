@@ -1,5 +1,303 @@
 $(function() {
 
+    $('#frmNew').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            slBankCodeNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    }
+                }
+            },
+            txtBranchCodeNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtBranchNameNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtBranchShortNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtAddressNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtSubdistrictNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtDistrictNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            slProvinceCodeNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    }
+                }
+            },
+            txtZipcodeNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtTelNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtFaxNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        // Use Ajax to submit form data
+        onActionSaveNew();
+    });
+
+    $('#frmEdit').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            slBankCodeEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 99,
+                        max: 99,
+                        message: 'The title must be less than 5 characters long'
+                    }
+                }
+            },
+            txtBranchCodeEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtBranchNameEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtBranchShortEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtAddressEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtSubdistrictEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtDistrictEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            slProvinceCodeEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtZipcodeEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtTelEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            },
+            txtFaxEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        // Use Ajax to submit form data
+        onActionSaveEdit();
+    });
+
     $("#btnAdd").click(function(event) {
         onDialogNew(event);
     });
@@ -16,7 +314,7 @@ $(function() {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
                 click: function() {
-                    onActionSaveNew();
+                    $('#frmNew').submit();
                 }
             }
             ,
@@ -45,7 +343,7 @@ $(function() {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
                 click: function() {
-                    onActionSaveEdit();
+                    $('#frmEdit').submit();
                 }
             }
             ,
@@ -182,10 +480,10 @@ $(function() {
                 objData[inputToChangeNew[iArray]] = valueData;
                 iArray++;
             });
-            
+
             var req = {};
             req.data2Json = $.toJSON(objData);
-            
+
             $.ajax({
                 type: 'POST',
                 url: urlNew,
@@ -232,10 +530,10 @@ $(function() {
                 objData[inputToChangeEdit[iArray]] = valueData;
                 iArray++;
             });
-            
+
             var req = {};
             req.data2Json = $.toJSON(objData);
-            
+
             $.ajax({
                 type: 'POST',
                 url: urlEdit,

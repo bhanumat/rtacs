@@ -101,15 +101,15 @@ $(function() {
         //alert("memberTypeCode >>" + $('#memberTypeCode').val() + "<<");
         var search = {};
         var requestSearch = new Array();
-        if ($('#date_begin').val().length !== 0 && $('#date_end').val().length !== 0) {
+        if ($('#date_begin').val().length != 0 && $('#date_end').val().length != 0) {
             var search1 = {'groupOp': '', 'field': 'docDate', 'op': 'bw', 'data': $('#date_begin').val() +","+ $('#date_end').val(), 'dataType': 'date' };
             requestSearch.push(search1);
         }else{
-            if ($('#date_begin').val().length !== 0) {
+            if ($('#date_begin').val().length != 0) {
                 var search1 = {'groupOp': '', 'field': 'docDate', 'op': 'bw', 'data': $('#date_begin').val(), 'dataType': 'date' };
                 requestSearch.push(search1);
             }else{
-                if ($('#date_end').val().length !== 0) {
+                if ($('#date_end').val().length != 0) {
                         $("#Dialog-Confirm").html("กรุณากรอกข้อมูลค้นหาวันที่ชำระเงิน");
                         $("#Dialog-Confirm").removeClass('hide').dialog({
                             width: '300px',
@@ -132,31 +132,31 @@ $(function() {
             }
         }
         
-        if ($('#citizenId').val().length !== 0) {
+        if ($('#citizenId').val().length != 0) {
             var search3 = {'groupOp': '', 'field': 'citizenId', 'op': 'eq', 'data': $('#citizenId').val(), 'dataType': 'varchar'};
             requestSearch.push(search3);
         }
-        if ($('#name').val().length !== 0) {
+        if ($('#name').val().length != 0) {
             var search4 = {'groupOp': '', 'field': 'name', 'op': 'eq', 'data': $('#name').val(), 'dataType': 'varchar'};
             requestSearch.push(search4);
         }
-        if ($('#surname').val().length !== 0) {
+        if ($('#surname').val().length != 0) {
             var search5 = {'groupOp': '', 'field': 'surname', 'op': 'eq', 'data': $('#surname').val(), 'dataType': 'varchar'};
             requestSearch.push(search5);
         }
-        if ($('#memberTypeCode').val().length !== 0) {
+        if ($('#memberTypeCode').val().length != 0) {
             var search6 = {'groupOp': '', 'field': 'memberTypeCode', 'op': 'eq', 'data': $('#memberTypeCode').val(), 'dataType': 'integer'};
             requestSearch.push(search6);
         }
-        if ($('#memberGroupCode').val().length !== 0) {
+        if ($('#memberGroupCode').val().length != 0) {
             var search7 = {'groupOp': '', 'field': 'memberGroupCode', 'op': 'eq', 'data': $('#memberGroupCode').val(), 'dataType': 'integer'};
             requestSearch.push(search7);
         }
-        if ($('#printedStatus').val().length !== 0) {
+        if ($('#printedStatus').val().length != 0) {
             var search8 = {'groupOp': '', 'field': 'printedStatus', 'op': 'eq', 'data': $('#printedStatus').val(), 'dataType': 'char'};
             requestSearch.push(search8);
         }
-        if ($('#military').val().length !== 0) {
+        if ($('#military').val().length != 0) {
             var search8 = {'groupOp': '', 'field': 'militaryId', 'op': 'eq', 'data': $('#military').val(), 'dataType': 'integer'};
             requestSearch.push(search8);
         }
@@ -278,29 +278,29 @@ $(function() {
         $(thisDialog).dialog("close");
     };
     
-    $("#military").select2({
-        //placeholder: '-เลือก-',
-        allowClear: true
-        //minimumInputLength: 1
-    });
-    
-    $("#memberTypeCode").select2({
-        //placeholder: '-เลือก-',
-        allowClear: true
-        //minimumInputLength: 1
-    });
-    
-    $("#memberGroupCode").select2({
-        //placeholder: '-เลือก-',
-        allowClear: true
-        //minimumInputLength: 1
-    });
-    
-    $("#printedStatus").select2({
-        //placeholder: '-เลือก-',
-        allowClear: true
-        //minimumInputLength: 1
-    });
+//    $("#military").select2({
+//        //placeholder: '-เลือก-',
+//        allowClear: true
+//        //minimumInputLength: 1
+//    });
+//    
+//    $("#memberTypeCode").select2({
+//        //placeholder: '-เลือก-',
+//        allowClear: true
+//        //minimumInputLength: 1
+//    });
+//    
+//    $("#memberGroupCode").select2({
+//        //placeholder: '-เลือก-',
+//        allowClear: true
+//        //minimumInputLength: 1
+//    });
+//    
+//    $("#printedStatus").select2({
+//        //placeholder: '-เลือก-',
+//        allowClear: true
+//        //minimumInputLength: 1
+//    });
     
     onActionLoadMilitaryDepartment = function() {
         var objData = {};

@@ -1,19 +1,19 @@
 $(function() {
-    $("#slBankCodeSearch").select2({
-        allowClear: true
-    });
-
-    $("#slStatusSearch").select2({
-        allowClear: true
-    });
-
-    $("#slBankCodeNew").select2({
-        allowClear: true
-    });
-
-    $("#slBankCodeEdit").select2({
-        allowClear: true
-    });
+//    $("#slBankCodeSearch").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slStatusSearch").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slBankCodeNew").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slBankCodeEdit").select2({
+//        allowClear: true
+//    });
 
     $.each($(".select2-container"), function(i, n) {
         $(n).next().show().fadeTo(0, 0).height("0px").css("left", "auto"); // make the original select visible for validation engine and hidden for us
@@ -22,6 +22,88 @@ $(function() {
             $(this).removeClass("validate[required]"); //remove the class name from select2 container(div), so that validation engine dose not validate it
             $(this).dequeue();
         });
+    });
+
+    $('#frmNew').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            slBankCodeNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    }
+                }
+            },
+            txtAccTypeNameNew: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        // Use Ajax to submit form data
+        onActionSaveNew();
+    });
+
+    $('#frmEdit').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            slBankCodeEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    }
+                }
+            },
+            txtAccTypeNameEdit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 256,
+                        message: 'The title must be less than 256 characters long'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        // Use Ajax to submit form data
+        onActionSaveEdit();
     });
 
     $("#btnAdd").click(function(event) {
@@ -39,7 +121,7 @@ $(function() {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
                 click: function() {
-                    onActionSaveNew();
+                    $('#frmNew').submit();
                 }
             }
             ,
@@ -67,7 +149,7 @@ $(function() {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
                 click: function() {
-                    onActionSaveEdit();
+                    $('#frmEdit').submit();
                 }
             }
             ,

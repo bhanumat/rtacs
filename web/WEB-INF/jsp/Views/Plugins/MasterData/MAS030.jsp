@@ -117,7 +117,7 @@
                             <label for="lbslRankClassCodeNew" class="col-lg-4 control-label">ลำดับขั้น</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <select id="slRankClassCodeNew" name="slRankClassCodeNew" class="validate[required]">
+                                <select id="slRankClassCodeNew" name="slRankClassCodeNew">
                                     <option value="">เลือก</option>
                                     <option value="10">ต่ำกว่าสัญญาบัตร</option>
                                     <option value="20">สัญญาบัตร</option>
@@ -166,7 +166,7 @@
                             <label for="lbRankClassCodEdit" class="col-lg-4 control-label">ลำดับขั้น</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <select id="slRankClassCodeEdit" name="slRankClassCodeEdit" class="validate[required]">
+                                <select id="slRankClassCodeEdit" name="slRankClassCodeEdit">
                                     <option value="">เลือก</option>
                                     <option value="10">ต่ำกว่าสัญญาบัตร</option>
                                     <option value="20">สัญญาบัตร</option>

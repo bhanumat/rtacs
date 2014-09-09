@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var gridUrl = urlList;
+
+var gridUrl = urlLoad;
 var gridName = '#gridData_APP031_2jqGrid_List';
 var gridPager = '#gridPager_APP031_2jqGrid_List';
-var gridSortName = 'operationId'; //***
+var gridSortName = 'memberId'; //***
 var gridSortOrder = 'asc';
 var gridCaption = 'รายการขอความเห็นชอบสมาชิกใหม่ ';
-var gridColNames = ['ลำดับ', 'เลขประจำตัวประชาชน', 'ยส - คำนำหน้า', 'ชื่อ', 'สกุล', 'ประเภทสมาชิก', 'หน่วยต้นสังกัด', 'วันที่สมัคร', 'ประเภทการสมัคร', 'สถานะใช้งาน', ''];
+var gridColNames = ['ลำดับ', 'เลขทะเบียนสมาชิก', 'เลขประจำตัวประชาชน', 'ยศ - คำนำหน้า', 'ชื่อ', 'สกุล', 'ประเภทสมาชิก', 'หน่วยต้นสังกัด', 'วันที่สมัคร', 'ประเภทการสมัคร', ''];
 var gridColModel = [
     {name: 'memberId', index: 'memberId', hidden: true, align: 'left'},
+    {name: 'memberCode', index: 'memberCode', align: 'left', sortable: true, width: 150},
     {name: 'citizenId', index: 'citizenId', align: 'left', sortable: true, width: 150},
     {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: true, width: 105},
     {name: 'name', index: 'name', align: 'left', sortable: true, width: 105},
@@ -30,13 +32,13 @@ var gridColModel = [
                     action);
         }},
     {name: 'memberTypeCode', index: 'memberTypeCode', align: 'left', sortable: true, width: 140},
-    {name: 'memberStatusCode', index: 'memberStatusCode', align: 'center', sortable: true, width: 170},
     {name: 'action', index: 'action', width: 80, align: 'center', search: false, sortable: false}];
 var gridJsonReader = {
     records: "records", //total number of records for the query
     repeatitems: false,
     id: "memberId"           //the unique id of the row
 };
+
 var updatePagerIcons = function(table) {
     var replacement =
             {
@@ -74,86 +76,177 @@ var enableTooltips = function(table) {
     $(table).find('.ui-pg-div').tooltip({container: 'body'});
 };
 $(document).ready(function() {
-    $(gridName).jqGrid({
-        datastr: myStringList,
-        datatype: 'jsonstring',
-        mtype: 'POST',
-        //datatype: "local",
-        //================================ Field Data ========================================
-        caption: gridCaption,
-        colNames: gridColNames,
-        colModel: gridColModel,
-        jsonReader: gridJsonReader,
-        //================================ End Field Data ====================================
-        autowidth: true,
-        shrinkToFit: false,
-        pager: gridPager,
-        height: 350,
-        width: 'auto',
-        rowNum: 10,
-        sortname: gridSortName,
-        sortorder: gridSortOrder,
-        viewrecords: true,
-        multiselect: true,
-        rownumbers: true,
-        gridview: true,
-        hidegrid: false,
-        onCellSelect: function(rowid, iCol, cellcontent, e) {
-            var cm = $(gridName).jqGrid("getGridParam", "colModel");
-            if ("cb" !== cm[iCol].name && "action" !== cm[iCol].name) {
-
-            }
-        },
-        onSelectRow: function(id, event) {
-
-        },
-        ondblClickRow: function(id, rowid, colid, e) {
-        },
-        loadComplete: function() {
-            var ids = $(gridName).jqGrid('getDataIDs');
-            for (var i = 0; i < ids.length; i++) {
-                var id = ids[i];
-                var operationTypeCode = '';
-                var buttonView = '<button type="button" class="btn btn-xs btn-search" alt=View" onclick="onDialogView(\'' + id + '\');"><i class="ace-icon fa fa-search bigger-120"></i> </button>';
-
-                if ('10' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ยื่นใบสมัคร';
-                } else if ('11' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ชำระเงินค่าสมัคร';
-                } else if ('12' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'บันทึกข้อมูลเพิ่มเติม';
-                } else if ('13' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'อนุมัติเห็นชอบ';
-                } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'กำหนดเลขทะเบียนสมาชิก';
-                } else if ('25' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ดำเนินการขออนุมัติขึ้นทะเบียน';
-                } else if ('105' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'อนุมัติขึ้นทะเบียนเป็นสมาชิก';
-                } else if ('232' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ไม่อนุมััติขอความเห็นชอบ';
-                } else if ('234' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ไม่อนุมัติขึ้นทะเบียน';
+    if($('#operationId').val()===null || $('#operationId').val() ===""){
+        $(gridName).jqGrid({
+            datastr: myStringList,
+            datatype: 'jsonstring',
+            mtype: 'POST',
+            //datatype: 'local',
+            //================================ Field Data ========================================
+            caption: gridCaption,
+            colNames: gridColNames,
+            colModel: gridColModel,
+            jsonReader: gridJsonReader,
+            //================================ End Field Data ====================================
+            autowidth: true,
+            shrinkToFit: false,
+            pager: gridPager,
+            height: 350,
+            width: 'auto',
+            rowNum: 10,
+            sortname: gridSortName,
+            sortorder: gridSortOrder,
+            viewrecords: true,
+            multiselect: false,
+            rownumbers: true,
+            gridview: true,
+            hidegrid: false,
+            onCellSelect: function(rowid, iCol, cellcontent, e) {
+                var cm = $(gridName).jqGrid("getGridParam", "colModel");
+                if ("cb" !== cm[iCol].name && "action" !== cm[iCol].name) {
+                    //$(gridName).jqGrid('delRowData',rowid);
                 }
-                else {
-                    operationTypeCode = '';
-                }
+            },
+            onSelectRow: function(id, event) {
 
-                $(gridName).setRowData(ids[i], {action: buttonView, operationTypeCode: operationTypeCode});
+            },
+            ondblClickRow: function(id, rowid, colid, e) {
+                //alert("id : " + id + " rowid : " + rowid + " colid : " + colid);
+                
+                //$(gridName).jqGrid('delRowData',rowid);
+            },
+            loadComplete: function() {
+                var ids = $(gridName).jqGrid('getDataIDs');
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    var memberTypeCode = '';
+                    var memberGroupCode = '';
+                    var buttonView = '<button type="button" class="btn btn-xs btn-search" alt=View" onclick="onDialogView(\'' + id + '\');"><i class="ace-icon fa fa-search bigger-120"></i> </button>';
+                    var buttonDelete = '<button type="button" class="btn btn-xs btn-danger" alt="Delete" onclick="onDeleteRow(\'' + i + '\');"><i class="ace-icon fa fa-trash-o bigger-120"></i> </button>';
+
+                    if ('10' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                        memberGroupCode = 'ข้าราชการ';
+                    } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                        memberGroupCode = 'ลูกจ้าง';
+                    } else if ('30' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                        memberGroupCode = 'ครอบครัว';
+                    } else if ('40' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                        memberGroupCode = 'พลทหารกองประจำการ';
+                    }else {
+                        memberGroupCode = '';
+                    }
+
+                    if ('10' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                        memberTypeCode = 'สมัครด้วยตัวเอง';
+                    } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                        memberTypeCode = 'สมัครผ่านหน่วยต้นสังกัด';
+                    } else if ('30' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                        memberTypeCode = 'สมัครผ่านชุดรับสมัคร';
+                    } else if ('40' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                        memberTypeCode = 'สมัครผ่านกรณีพิเศษ';
+                    }else {
+                        memberTypeCode = '';
+                    }
+                    if($('#operationId').val()===null || $('#operationId').val() ===""){
+                        $(gridName).setRowData(ids[i], {action: buttonView + '&nbsp;' + buttonDelete, memberTypeCode: memberTypeCode, memberGroupCode:memberGroupCode});
+                    }else{
+                        $(gridName).setRowData(ids[i], {action: buttonView, memberTypeCode: memberTypeCode, memberGroupCode:memberGroupCode});
+                    }
+                }
+                enableTooltips(this);
+                //styleCheckbox(this);
+                updatePagerIcons(this);
             }
-            enableTooltips(this);
-            //styleCheckbox(this);
-            updatePagerIcons(this);
+        });
+    }else{
+        $(gridName).jqGrid({
+            url: urlLoad,
+            datatype: 'json',
+            mtype: 'POST',
+            //datatype: 'local',
+            //================================ Field Data ========================================
+            caption: gridCaption,
+            colNames: gridColNames,
+            colModel: gridColModel,
+            jsonReader: gridJsonReader,
+            //================================ End Field Data ====================================
+            autowidth: true,
+            shrinkToFit: false,
+            pager: gridPager,
+            height: 350,
+            width: 'auto',
+            rowNum: 10,
+            sortname: gridSortName,
+            sortorder: gridSortOrder,
+            viewrecords: true,
+            multiselect: false,
+            rownumbers: true,
+            gridview: true,
+            hidegrid: false,
+            onCellSelect: function(rowid, iCol, cellcontent, e) {
+                var cm = $(gridName).jqGrid("getGridParam", "colModel");
+                if ("cb" !== cm[iCol].name && "action" !== cm[iCol].name) {
+
+                }
+            },
+            onSelectRow: function(id, event) {
+
+            },
+            ondblClickRow: function(id, rowid, colid, e) {
+            },
+            loadComplete: function() {
+                var ids = $(gridName).jqGrid('getDataIDs');
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    var memberTypeCode = '';
+                    var memberGroupCode = '';
+                    var buttonView = '<button type="button" class="btn btn-xs btn-search" alt=View" onclick="onDialogView(\'' + id + '\');"><i class="ace-icon fa fa-search bigger-120"></i> </button>';
+                    
+                    if ('10' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                        memberGroupCode = 'ข้าราชการ';
+                    } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                        memberGroupCode = 'ลูกจ้าง';
+                    } else if ('30' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                        memberGroupCode = 'ครอบครัว';
+                    } else if ('40' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                        memberGroupCode = 'พลทหารกองประจำการ';
+                    }else {
+                        memberGroupCode = '';
+                    }
+
+                    if ('10' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                        memberTypeCode = 'สมัครด้วยตัวเอง';
+                    } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                        memberTypeCode = 'สมัครผ่านหน่วยต้นสังกัด';
+                    } else if ('30' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                        memberTypeCode = 'สมัครผ่านชุดรับสมัคร';
+                    } else if ('40' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                        memberTypeCode = 'สมัครผ่านกรณีพิเศษ';
+                    }else {
+                        memberTypeCode = '';
+                    }
+                    //$(gridName).setRowData(ids[i], {action: buttonView + '&nbsp;' + buttonDelete, memberTypeCode: memberTypeCode, memberGroupCode:memberGroupCode});
+                    $(gridName).setRowData(ids[i], {action: buttonView, memberTypeCode: memberTypeCode, memberGroupCode:memberGroupCode});
+                }
+                enableTooltips(this);
+                //styleCheckbox(this);
+                updatePagerIcons(this);
+            }
+        });
+
+        if($('#operationId').val()!==null && $('#operationId').val() !==""){
+            onActionSearch();
         }
-    });
-    $(gridName).jqGrid('navGrid', gridPager, {edit: false, add: false, del: false, search: false, refresh: false},
-    {}, // edit options  
-            {}, // add options  
-            {}, //del options  
-            {
-                closeOnEscape: true,
-                multipleSearch: true,
-                closeAfterSearch: true
-            }
-    );
+
+        $(gridName).jqGrid('navGrid', gridPager, {edit: false, add: false, del: false, search: false, refresh: false},
+        {}, // edit options  
+                {}, // add options  
+                {}, //del options  
+                {
+                    closeOnEscape: true,
+                    multipleSearch: true,
+                    closeAfterSearch: true
+                }
+        );
+    }
 });

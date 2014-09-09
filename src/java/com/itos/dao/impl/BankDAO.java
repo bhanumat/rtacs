@@ -155,7 +155,7 @@ public class BankDAO implements IBankDAO {
 
     private Bank getLoadDetailByObject(Bank bank) {
         Bank bankResponse = new Bank();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Bank> list;
         WhereField whereField = null;
         try {
@@ -208,7 +208,7 @@ public class BankDAO implements IBankDAO {
 
     private Bank getLoadDetailById(Bank groups) {
         Bank bankResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Bank> list;
         WhereField whereField = null;
         try {

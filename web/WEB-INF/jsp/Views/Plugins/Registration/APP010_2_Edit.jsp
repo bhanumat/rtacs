@@ -18,8 +18,9 @@
     var urlListJsonBankBranch = rootPath + '/Plugins/MasterData/getListInJSONBankBranch.json';
     var urlListJsonBankAccountType = rootPath + '/Plugins/MasterData/getListInJSONBankAccountType.json';
     var urlListJsonProvince = rootPath + '/Plugins/MasterData/getListInJSONProvince.json';
-    var urlListMAS010_2 = rootPath + '/Plugins/Registration/getListAPP010.json';
-
+    var urlListAPP010_2_Edit_Select = rootPath + '/Plugins/Registration/getListAPP010_FOR_REFERRER.json';
+    var urlLoadReferrer = rootPath + '/Plugins/Registration/getLoadAPP010.json';
+    
     var objectDefault = {};
     var inputToMergeEdit = ['#hidMemberIdEdit', '#slMemberGroupCodeEdit', '#txtApplyDateEdit', '#txtCitizenIdEdit', '#slMilitaryIdEdit', '#slRankIdEdit', '#slTitleIdEdit', '#txtNameEdit', '#txtSurnameEdit', '#slGenderEdit', '#txtBirthDateEdit', '#slMemberTypeCodeEdit', '#slPaymentTypeEdit', '#hidReferrerIdEdit', '#slReferrerRelationshipCodeEdit', '#slMarryStatusCodeEdit', '#txtWifehusbandFullnameEdit', '#txtRemarkEdit', '#slPaymentTypeCodeEdit', '#txtPaymentRemarkEdit', '#txtBankAccNameEdit', '#slBankCodeEdit', '#slBankBranchIdEdit', '#txtBankAccNoEdit', '#slAccTypeIdEdit', '#txtPermanentAddressEdit', '#txtPermanentMooEdit', '#txtPermanentRoadEdit', '#txtPermanentSoiEdit', '#txtPermanentSubdistrictEdit', '#txtPermanentDistrictEdit', '#slPermanentProvinceCodeEdit', '#txtPermanentZipcodeEdit', '#txtPermanentTelEdit', '#txtPermanentFaxEdit', '#txtPermanentMobileEdit', '#txtAddressEdit', '#txtMooEdit', '#txtRoadEdit', '#txtSoiEdit', '#txtSubdistrictEdit', '#txtDistrictEdit', '#slProvinceCodeEdit', '#txtZipcodeEdit', '#txtTelEdit', '#txtFaxEdit', '#txtMobileEdit', 'input:radio[name=rdAddressPrimaryEdit]:checked'];
     var inputToChangeEdit = ['memberId', 'memberGroupCode', 'applyDate', 'citizenId', 'militaryId', 'rankId', 'titleId', 'name', 'surname', 'gender', 'birthDate', 'memberTypeCode', 'paymentType', 'referrerId', 'referrerRelationshipCode', 'marryStatusCode', 'wifehusbandFullname', 'remark', 'paymentTypeCode', 'paymentRemark', 'bankAccName', 'bankCode', 'bankBranchId', 'bankAccNo', 'accTypeId', 'permanentAddress', 'permanentMoo', 'permanentRoad', 'permanentSoi', 'permanentSubdistrict', 'permanentDistrict', 'permanentProvinceCode', 'permanentZipcode', 'permanentTel', 'permanentFax', 'permanentMobile', 'address', 'moo', 'road', 'soi', 'subdistrict', 'district', 'provinceCode', 'zipcode', 'tel', 'fax', 'mobile', 'addressPrimary'];
@@ -688,52 +689,47 @@
 
         <div id="dialogFormReferrerEdit" class="hide">
             <div class="bs-component">
-                <div class="row">
-                    <div class="col-md-2">
-                        <label for="lbMemberRegistrationReferrerEdit" class="control-label no-padding-right">เลขทะเบียนสมาชิก</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input id="txtBankAccNoEdit" name="txtBankAccNoEdit" type="text" class="form-control" maxlength="10" >
-                    </div>
-                    <div class="col-md-2">
-                        <label for="lbIdentificationNumberReferrerEdit" class="control-label no-padding-right">เลขประจำตัวประชาชน</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input id="txtBankAccNoEdit" name="txtBankAccNoEdit" type="text" class="form-control" maxlength="10" >
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label for="lbNameReferrerEdit" class="control-label no-padding-right">ชื่อ</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input id="txtBankAccNoEdit" name="txtBankAccNoEdit" type="text" class="form-control" maxlength="10" >
-                    </div>
-                    <div class="col-md-2">
-                        <label for="lbCurrencyReferrerEdit" class="control-label no-padding-right">สกุล</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input id="txtBankAccNoEdit" name="txtBankAccNoEdit" type="text" class="form-control" maxlength="10" >
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label for="lbGovernmentAgencyReferrerEdit" class="control-label no-padding-right">หน่วยต้นสังกัด</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input id="txtBankAccNoEdit" name="txtBankAccNoEdit" type="text" class="form-control" maxlength="10" >
-                    </div>
-                    <div class="col-md-2">
-                        <label for="lbStatusReferrerEdit" class="control-label no-padding-right">สถานะ</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input id="txtBankAccNoEdit" name="txtBankAccNoEdit" type="text" class="form-control" maxlength="10" >
-                    </div>
+                <div class="row" >
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group" style="margin-bottom:5px">
+                          <label for="form-field-1" class="col-sm-2 control-label no-padding-right"> เลขทะเบียนสมาชิก </label>
+                          <div class="col-sm-9">
+                              <input type="text" id="memberCodeForEdit" name="memberCodeForEdit" >
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เลขประจำตัวประชาชน
+                            <input type="text" id="citizenIdForEdit" name="citizenIdForEdit" >
+                          </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:5px">
+                          <label for="form-field-1" class="col-sm-2 control-label no-padding-right"> ชื่อ </label>
+                          <div class="col-sm-9">
+                            <input type="text" id="memberNameForEdit" name="memberNameForEdit" >
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สกุล
+                            <input type="text" id="memberSurnameForEdit" name="memberSurnameForEdit" >
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="form-field-1" class="col-sm-2 control-label no-padding-right"> หน่วยต้นสังกัด </label>
+                          <div class="col-sm-6">
+                            <select id="militaryIdEdit" name="militaryIdEdit" class="col-xs-10 col-sm-4" id="form-field-3"></select>
+<!--                            <label for="form-field-2" class="col-sm-3 control-label no-padding-right">สถานะ &nbsp;&nbsp;</label>
+                            <select class="col-xs-10 col-sm-4" id="statusEdit" name="statusEdit">
+                              <option>ทั้งหมด</option>
+                              <option>สมาชิกปกติ</option>
+                              <option>สมาชิกถอนสภาพชั่วคราว</option>
+                              <option>สมาชิกถอนสภาพถาวร</option>
+                            </select>-->
+                          </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9">
+                          <button type="button" id="btnEditSearch" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple"><span class="ace-icon fa fa-search"></span>ค้นหา</button>
+                          <button type="button" id="btnEditReset"  class="fm-button ui-state-default ui-corner-all fm-button-icon-left ui-search btn btn-sm btn-info"><span class="ace-icon fa fa-retweet"></span>ล้าง</button>
+                        </div>
+                    </form>
                 </div>
                 <div id="jqGridContainer" class="row">
                     <div>
-                        <table id="gridData_MAS010_2_Edit_Select_jqGrid_List"></table>
-                        <div id="gridPager_MAS010_2_Edit_Select_jqGrid_List"></div>
+                        <table id="gridData_APP010_2_Edit_Select_jqGrid_List"></table>
+                        <div id="gridPager_APP010_2_Edit_Select_jqGrid_List"></div>
                     </div>
                 </div>
             </div>

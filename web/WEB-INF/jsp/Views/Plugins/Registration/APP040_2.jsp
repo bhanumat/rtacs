@@ -1,5 +1,5 @@
 <%-- 
-    Document   : MAS040
+    Document   : APP040_2
     Created on : Aug 2, 2014, 11:27:14 PM
     Author     : ITOS
 --%>
@@ -7,35 +7,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <script type="text/javascript">
-    var urlList = rootPath + '/Plugins/Registration/getListAPP010.json';
-    var urlSaveNew = rootPath + '/Plugins/Registration/setSaveNewAPP040MemberOperation.json';
-    //var urlDelete = rootPath + '/Plugins/Registration/setDeleteMAS010.json';
-    // var urlNew = rootPath + '/Plugins/Registration/setSaveNewMAS010.json';
-    //var urlEdit = rootPath + '/Plugins/Registration/setSaveEditMAS010.json';
-    //var urlLoad = rootPath + '/Plugins/Registration/getLoadMAS010.json';
-    //var urlListJsonBank = rootPath + '/Plugins/MasterData/getListInJSONBank.json';
-    //var urlListJsonBankBranch = rootPath + '/Plugins/MasterData/getListInJSONBankBranch.json';
-    //var urlListJsonBankAccountType = rootPath + '/Plugins/MasterData/getListInJSONBankAccountType.json';
-    //var urlListJsonProvince = rootPath + '/Plugins/MasterData/getListInJSONProvince.json';
-
-    //var objectDefault = {};
-////////////////////////////////////////New////////////////////////////////////////////////////////////
-    // var inputToMergeNew = ['#txtMildeptIdNew', '#txtNameNew', '#txtFullnameNew', '#txtAddress1New', '#txtAddress2New', '#txtSubdistrictNew', '#txtDistrictNew', '#slProvinceCodeNew', '#txtZipCodeNew', '#txtTelephoneNew', '#txtFaxNew', '#slBankCodeNew', '#slBankBranchNew', '#txtBankAccountNameNew', '#txtBankAccountNoNew', '#slBankAccountTypeNew', 'input[id=chkStatusNew]:checked'];
-
-    //var inputToChangeNew = ['mildeptId', 'name', 'fullname', 'address1', 'address2', 'subdistrict', 'district', 'provinceCode', 'zipcode', 'tel', 'fax', 'bankCode', 'branchId', 'bankAccName', 'bankAccNo', 'bankAccTypeId', 'status'];
-////////////////////////////////////////Edit////////////////////////////////////////////////////////////
-    // var inputToMergeEdit = ['#hidMilitaryIdEdit', '#txtMildeptIdEdit', '#txtNameEdit', '#txtFullnameEdit', '#txtAddress1Edit', '#txtAddress2Edit', '#txtSubdistrictEdit', '#txtDistrictEdit', '#slProvinceCodeEdit', '#txtZipCodeEdit', '#txtTelephoneEdit', '#txtFaxEdit', '#slBankCodeEdit', '#slBankBranchEdit', '#txtBankAccountNameEdit', '#txtBankAccountNoEdit', '#slBankAccountTypeEdit', 'input[id=chkStatusEdit]:checked'];
-
-    //var inputToChangeEdit = ['militaryId', 'mildeptId', 'name', 'fullname', 'address1', 'address2', 'subdistrict', 'district', 'provinceCode', 'zipcode', 'tel', 'fax', 'bankCode', 'branchId', 'bankAccName', 'bankAccNo', 'bankAccTypeId', 'status'];
-
-    // var objIdKeyEdit = 'militaryId';
-
-    // var listBank = {};
-    //var listBankBranch = {};
-    //var listBankAccountType = {};
-    //var listProvince = {};
-    var listAPP040 = {};
-
+    var urlList = rootPath + '/Plugins/Registration/getListAPP010_FOR_APP040_2.json';
+    var urlSaveNew = rootPath + '/Plugins/Registration/setSaveNewAPP040_2.json';
+    var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
+    var urlActionListAPP040 = rootPath + '/Plugins/Registration/APP040.htm';
+    var responseId = '#main-page-content-loading';
+    var listAPP040_2 = {};
+    var listMilitaryDepartment = {};
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Registration/action.APP040_2.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Registration/jqgrid.APP040_2.js"></script>
@@ -59,80 +37,86 @@
                 <div class="row">
                     <form id="frmCriterionSearch" class="form-horizontal">                          
                         <div class="form-group">
-                            <div class="col-lg-1">
+                            <div class="col-md-1"></div>
+                            <!--div class="col-md-2"-->
+                            <label for="lbApplyDateFromSearch" class="col-md-2 control-label no-padding-right">วันที่ขอถอนชื่อ ตั้งแต่
+                            </label>
+                            <div class="col-md-2">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" id="txtApplyDateFromSearch" name="txtApplyDateFromSearch" class="form-control"/>
+                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div> 
+                            <label for="lbApplyDateEndSearch" class="col-md-1 control-label no-padding-right"> ถึง </label>
 
-                            </div>
-                            <label for="lbMildeptId" class="col-lg-3 control-label">วันที่ขอถอนชื่อ ตั้งแต่ : </label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="txtMildeptId" name="txtMildeptId" placeholder="Search">
-                            </div>
-                            <label for="lbName" class="col-lg-2 control-label"> ถึง : </label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Search">
+                            <div class="col-md-2">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" id="txtApplyDateEndSearch" name="txtApplyDateEndSearch" class="form-control"/>
+                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="lbName" class="col-lg-4 control-label"> เลขที่บัตรประชาชน   : </label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Search">
+                            <div class="col-md-1"></div>
+                            <label for="lbCitizenIdSearch" class="col-md-2 control-label no-padding-right">เลขประจำตัวประชาชน</label>
+                            <div class="col-md-3">
+                                <input id="txtCitizenIdSearch" name="txtCitizenIdSearch" type="text"  class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-1">
-
+                            <div class="col-md-1"></div>
+                            <label for="lbNameSearch" class="col-md-2 control-label no-padding-right">ชื่อ</label>
+                            <div class="col-md-3">
+                                <input id="txtNameSearch" name="txtNameSearch" type="text"  class="form-control">
                             </div>
-                            <label for="lbMildeptId" class="col-lg-3 control-label">ชื่อ : </label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="txtMildeptId" name="txtMildeptId" placeholder="Search">
-                            </div>
-                            <label for="lbName" class="col-lg-2 control-label"> นามสกุล : </label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Search">
+                            <label for="lbSurnameSearch" class="col-md-2 control-label no-padding-right">สกุล</label>
+                            <div class="col-md-3">
+                                <input id="txtSurnameSearch" name="txtSurnameSearch" type="text"  class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-1">
-
+                            <div class="col-md-1"></div>
+                            <label for="lbMilitaryDepartmentSearch" class="col-md-2 control-label no-padding-right">หน่วยต้นสังกัด</label>
+                            <div class="col-md-3">
+                                <select id="slMilitaryDepartmentSearch" name="slMilitaryDepartmentSearch" class="form-control select2">
+                                    <option value="%">ทั้งหมด</option>
+                                </select>
                             </div>
-                            <label for="lbMildeptId" class="col-lg-3 control-label">หน่วยต้นสังกัด : </label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="txtMildeptId" name="txtMildeptId" placeholder="Search">
-                            </div>
-                            <label for="lbName" class="col-lg-2 control-label"> ประเภทการสมัคร : </label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Search">
+                            <label for="lbApplyTypeSearch" class="col-md-2 control-label no-padding-right">ประเภทการสมัคร</label>
+                            <div class="col-md-3">
+                                <select id="slApplyTypeSearch" name="slApplyTypeSearch" class="form-control select2">
+                                    <option value="%">ทั้งหมด</option>
+                                    <option value="10">สมัครด้วยตนเอง</option>
+                                    <option value="20">สมัครผ่านหน่วยต้นสังกัด</option>
+                                    <option value="30">สมัครผ่านชุดรับสมัคร</option>
+                                    <option value="40">สมัครผ่านกรณีพิเศษ</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-12 col-lg-offset-4">
-                                <button type="button" id="btnSearch" name="btnSearch" class="btn btn-sm btn-purple"><i class="ace-icon fa fa-search"></i>&nbsp;ค้นหา</button>
-                                <button type="reset" class="btn btn-sm btn-primary"><i class="ace-icon fa fa-retweet"></i>&nbsp;ล้าง</button>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">
+                                <button type="button" id="btnSearch" name="btnSearch" class="btn btn-search"><i class="ace-icon fa fa-check-square-o bigger-110"></i>ค้นหา</button>
+                                <button type="reset" class="btn btn-primary"><i class="ace-icon fa fa-retweet"></i>&nbsp;ล้าง</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <br/>
                 <div class="row">
-                    <label for="lbMildeptId" align="right">เลือกสมาชิกใหม่&nbsp;&nbsp;</label>
-                    <input type="text" id="txtRegisterMemberCode" name="txtRegisterMemberCode" placeholder="Search">
-                    <button type="button" id="btnRegisterNo" name="btnSearch" class="btn btn-sm btn-purple"><i class="ace-icon fa fa-search"></i>กำหนดเลขทะเบียน</button>
-                    <button type="reset" class="btn btn-sm btn-primary"><i class="ace-icon fa fa-retweet"></i>ยกเลิก</button>
-                    <button type="button" id="btnSave" name="btnSave" class="btn btn-sm btn-purple"><i class="ace-icon fa fa-search"></i>บันทึก</button>
-                    <!--<div class="col-lg-12 col-lg-offset-0" align="left">
-                        <label for="lbMildeptId" class="col-lg-2 control-label" align="right">เลขทะเบียนเริ่มต้น : </label>
-                        <input type="text" class="col-lg-2" id="txtRegisterMemberCode" name="txtRegisterMemberCode" placeholder="Search">
-                        <div align="left" class="col-lg-1"></div>
-                        <button type="button" id="btnRegisterNo" name="btnSearch" class="btn btn-sm btn-purple col-lg-2"><i class="ace-icon fa fa-search"></i>กำหนดเลขทะเบียน</button>
-                        <div align="left" class="col-lg-1"></div>
-                        <button type="reset" class="btn btn-sm btn-primary col-lg-1"><i class="ace-icon fa fa-retweet"></i>ยกเลิก</button>
-                        <div align="left" class="col-lg-1"></div>
-                        <button type="button" id="btnSave" name="btnSave" class="btn btn-sm btn-purple col-lg-1"><i class="ace-icon fa fa-search"></i>บันทึก</button>
-                    </div>-->
+                    <label for="lbMildeptId" align="right">เลขทะเบียนเริ่มต้น&nbsp;&nbsp;</label>
+                    <input type="text" id="txtRegisterMemberCode" name="txtRegisterMemberCode">
+                    <button type="button" id="btnRegisterNo" name="btnSearch" class="btn btn-sm btn-success"><i class="ace-icon fa glyphicon-plus"></i>กำหนดเลขทะเบียน</button>
+                    <button type="button" id="btnBack" name="btnBack" class="btn btn-sm"><i class="ace-icon fa fa-undo"></i>ยกเลิก</button>
+                    <button type="button" id="btnRegisterSave" name="btnRegisterSave" class="btn btn-sm btn-purple"><i class="ace-icon fa fa-floppy-o"></i>บันทึก</button>
                 </div>
                 <div id="jqGridContainer" class="row">
                     <div>
-                        <table id="gridData_MemberGrid_List"></table>
-                        <div id="gridPager_MemberGrid_List"></div>
+                        <table id="gridData_APP040_2_Grid_List"></table>
+                        <div id="gridPager_APP040_2_Grid_List"></div>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,8 @@
 package com.itos.service.impl;
 
 import com.itos.dao.model.IOperationMemberDAO;
+import com.itos.model.Member;
+import com.itos.model.Operation;
 import com.itos.model.OperationMember;
 import com.itos.model.ext.PaymentDetail;
 import com.itos.model.ext.PaymentMember;
@@ -32,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OperationMemberService implements IOperationMemberService {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    
+
     public OperationMemberService() {
 
     }
@@ -44,15 +46,15 @@ public class OperationMemberService implements IOperationMemberService {
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
     public JqGridResponse<OperationMember> getListOperationMember(JqGridRequest req) {
         logger.info("OperationMemberService : getListOperationMember");
-         JqGridResponse<OperationMember> response = iOperationMemberDAO.getList(req);
+        JqGridResponse<OperationMember> response = iOperationMemberDAO.getList(req);
         return response;
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
     public JqGridResponse<PaymentMember> getListPaymentMember(JqGridRequest req) {
         logger.info("OperationMemberService : getListPaymentMember");
-         JqGridResponse<PaymentMember> response = iOperationMemberDAO.getPaymentMemberList(req);
+        JqGridResponse<PaymentMember> response = iOperationMemberDAO.getPaymentMemberList(req);
         return response;
     }
 
@@ -71,29 +73,27 @@ public class OperationMemberService implements IOperationMemberService {
         MessageResponse response = new MessageResponse();
 
         //operationMember.setCreateDate(DateUtil.getCurrentDate());
-        
         response = iOperationMemberDAO.setSaveApproveOperationMember(operationMember);
         return response;
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse savePaymentNewOperationMember(OperationMember operationMember) {
         MessageResponse response = new MessageResponse();
 
         //operationMember.setCreateDate(DateUtil.getCurrentDate());
-        
         response = iOperationMemberDAO.setSaveNewOperationMember(operationMember);
         return response;
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse setSaveApproveOperationMember(OperationMember operationMember) {
         MessageResponse response = new MessageResponse();
         logger.info("OperationMemberService : setSaveApproveOperationMember");
 //        operationMember.setCreateDate(DateUtil.getCurrentDate());
-        
+
         response = iOperationMemberDAO.setSaveApproveOperationMember(operationMember);
         return response;
     }
@@ -106,7 +106,7 @@ public class OperationMemberService implements IOperationMemberService {
         response = iOperationMemberDAO.cancelBill(req);
         return response;
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
     public OperationMember getLoadOperationMember(OperationMember operationMember) {
@@ -122,12 +122,37 @@ public class OperationMemberService implements IOperationMemberService {
         response = iOperationMemberDAO.getListInJSONOperationMember(status);
         return response;
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
     public PaymentDetail searchPaymentDetail(String operationMemberId) {
         PaymentDetail response = new PaymentDetail();
         response = iOperationMemberDAO.searchPaymentDetail(operationMemberId);
+        return response;
+    }
+
+    @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public MessageResponse setSaveNewOperationMemberForRegisterNo(List<Member> listMember, Operation operation) {
+        MessageResponse response = new MessageResponse();
+        response = iOperationMemberDAO.setSaveNewOperationMemberForRegisterNo(listMember, operation);
+        return response;
+    }
+
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<OperationMember> getListOperationMember(JqGridRequest req, int memberStatusCode) {
+        logger.info("OperationMemberService : getListOperationMember");
+        JqGridResponse<OperationMember> response = iOperationMemberDAO.getList(req, memberStatusCode);
+        return response;
+    }
+
+    @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public MessageResponse setSaveApproveOperationMemberList(List<Member> listMember, Operation operation) {
+        logger.info("OperationMemberService : setDeleteOperationMember");
+        MessageResponse response = new MessageResponse();
+        response = iOperationMemberDAO.setSaveApproveOperationMemberList(listMember, operation);
         return response;
     }
 

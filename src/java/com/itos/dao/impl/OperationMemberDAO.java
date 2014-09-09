@@ -46,7 +46,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("iOperationMemberDAO")
 public class OperationMemberDAO implements IOperationMemberDAO {
-
+    
     protected final Log logger = LogFactory.getLog(getClass());
     private static final Locale ENG_LOCALE = new Locale("en", "EN");
     private static final SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", ENG_LOCALE);
@@ -122,7 +122,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         }
         return jqGrid;
     }
-
+    
     @Override
     public MessageResponse setDeleteOperationMember(MessageRequest req) {
         int iCountSuccessful = 0;
@@ -150,7 +150,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         }
         return response;
     }
-
+    
     @Override
     public MessageResponse setSaveNewOperationMember(OperationMember operationMember) {
         MessageResponse response = new MessageResponse();
@@ -175,14 +175,14 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         Date applyDate = operationMember.getApplyDate();
         List<Integer> item = operationMember.getItemSelect();
         List<Integer> item2 = operationMember.getItemSelect2();
-                
-        for(int i = 0; i < item.size(); i++){            
+        
+        for (int i = 0; i < item.size(); i++) {
             //logger.info("operation_member_id : " + item.get(i));
             chekSuccess = CommandQuery.ApproveOperation(sessionFactory, item.get(i), OperTypeCode, docDate, applyDate);
             logger.info("Approve status : " + chekSuccess);
         }
         
-        for(int i = 0; i < item2.size(); i++){            
+        for (int i = 0; i < item2.size(); i++) {
             //logger.info("operation_member_id : " + item.get(i));
             chekSuccess = CommandQuery.ApproveMember(sessionFactory, item2.get(i), OperTypeCode, applyDate);
             logger.info("Approve status : " + chekSuccess);
@@ -196,7 +196,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         }
         return response;
     }
-
+    
     @Override
     public MessageResponse setSaveEditOperationMember(OperationMember operationMember) {
         MessageResponse response = new MessageResponse();
@@ -215,16 +215,16 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         }
         return response;
     }
-
+    
     @Override
     public OperationMember getLoadOperationMember(OperationMember operationMember) {
         OperationMember operationMemberResponse = getLoadDetailByObject(operationMember);
         return operationMemberResponse;
     }
-
+    
     private OperationMember getLoadDetailByObject(OperationMember operationMember) {
         OperationMember operationMemberResponse = new OperationMember();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<OperationMember> list;
         WhereField whereField = null;
         try {
@@ -269,10 +269,10 @@ public class OperationMemberDAO implements IOperationMemberDAO {
             throw new RuntimeException(ex);
         }
     }
-
+    
     private OperationMember getLoadDetailById(OperationMember operationMember) {
         OperationMember operationMemberResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<OperationMember> list;
         WhereField whereField = null;
         try {
@@ -285,7 +285,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
             whereField.setSearchOper(CommandConstant.QueryEqual);
             whereField.setSearchValue(operationMember.getOperationMemberId());
             listWhereField.add(whereField);
-
+            
             Query query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField, 0, 1);
             /*
              * Check array data if true set create object to array new.
@@ -311,7 +311,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
             throw new RuntimeException(ex.getMessage());
         }
     }
-
+    
     @Override
     public List<OperationMember> getListInJSONOperationMember(char status) {
         List<OperationMember> listResponse = new ArrayList<>();
@@ -335,7 +335,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         whereField.setSearchValue(status);
         whereField.setSearchDataType(CommandConstant.DataTypeChar);
         listWhereField.add(whereField);
-
+        
         Query query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField);
         /*
          * Check array data if true set create object to array new.
@@ -356,7 +356,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
             /*
              * End developer create object to array new.
              */
-
+            
         }
         return listResponse;
     }
@@ -400,15 +400,15 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         hql.append(" ");
         hql.append(CommandConstant.QueryWhere);
         hql.append(" operation_id in (");
-        if(listSearch.size()>0){
+        if (listSearch.size() > 0) {
             String tempOperationId = "";
-            for(Operation operation:listSearch){
+            for (Operation operation : listSearch) {
                 tempOperationId = tempOperationId + operation.getOperationId() + ",";
             }
-            tempOperationId = tempOperationId.substring(0,tempOperationId.length()-1);
+            tempOperationId = tempOperationId.substring(0, tempOperationId.length() - 1);
             hql.append(tempOperationId);
             hql.append(" ) ");
-        }else{
+        } else {
             jqGrid.setPage(0);
             jqGrid.setRecords(0);
             jqGrid.setTotalPages(0);
@@ -416,7 +416,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
             return jqGrid;
         }
         
-        if(req.isSearch()){
+        if (req.isSearch()) {
             Search search = new Search();
             search = Search.JSONDeserializer(req.getSearchCommand());
             List<WhereField> memberWhereFieldList = new ArrayList<>();
@@ -424,30 +424,32 @@ public class OperationMemberDAO implements IOperationMemberDAO {
             boolean memberFlag = false;
             boolean operationFlag = false;
             for (Condition condition : search.getConditions()) {
-                if(condition.getField().equalsIgnoreCase("citizenId") ||
-                   condition.getField().equalsIgnoreCase("name") ||
-                   condition.getField().equalsIgnoreCase("surname") ||
-                   condition.getField().equalsIgnoreCase("memberGroupCode") ||
-                   condition.getField().equalsIgnoreCase("memberTypeCode") ||
-                   condition.getField().equalsIgnoreCase("militaryId")){
+                if (condition.getField().equalsIgnoreCase("citizenId")
+                        || condition.getField().equalsIgnoreCase("name")
+                        || condition.getField().equalsIgnoreCase("surname")
+                        || condition.getField().equalsIgnoreCase("memberGroupCode")
+                        || condition.getField().equalsIgnoreCase("memberTypeCode")
+                        || condition.getField().equalsIgnoreCase("militaryId")) {
                     WhereField whereField = new WhereField();
                     whereField.setSearchField(condition.getField());
                     whereField.setSearchValue(condition.getData());
                     whereField.setSearchOper(condition.getOp());
-                    if(memberFlag)
+                    if (memberFlag) {
                         whereField.setSearchLogic("and");
+                    }
                     whereField.setSearchDataType(condition.getDataType());
                     memberWhereFieldList.add(whereField);
                     memberFlag = true;
                 }//search member
-                if(condition.getField().equalsIgnoreCase("printedStatus") ||
-                   condition.getField().equalsIgnoreCase("docDate")){
+                if (condition.getField().equalsIgnoreCase("printedStatus")
+                        || condition.getField().equalsIgnoreCase("docDate")) {
                     WhereField searchWhereField = new WhereField();
                     searchWhereField.setSearchField("operation_type_code");
                     searchWhereField.setSearchValue("11");
                     searchWhereField.setSearchOper(CommandConstant.QueryEqual);
-                    if(operationFlag)
+                    if (operationFlag) {
                         searchWhereField.setSearchLogic("and");
+                    }
                     searchWhereField.setSearchDataType(CommandConstant.DataTypeInteger);
                     operationWhereFieldList.add(searchWhereField);
                     operationFlag = true;
@@ -455,14 +457,14 @@ public class OperationMemberDAO implements IOperationMemberDAO {
                     WhereField whereField = new WhereField();
                     whereField.setSearchField(condition.getField());
                     logger.info("1 setSearchValue : >>" + condition.getData() + "<<");
-                    if(CommandConstant.DataTypeDate.equalsIgnoreCase(condition.getDataType())){
+                    if (CommandConstant.DataTypeDate.equalsIgnoreCase(condition.getDataType())) {
                         String[] tempDate = condition.getData().split(",");
-                        String beginDate  = "";
-                        String endDate    = "";
-                        if(tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())){
+                        String beginDate = "";
+                        String endDate = "";
+                        if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
                             beginDate = formatDate(tempDate[0]);
                             endDate = formatDate("");
-                        }else{
+                        } else {
                             beginDate = formatDate(tempDate[0]);
                             endDate = formatDate(tempDate[1]);
                         }
@@ -472,8 +474,9 @@ public class OperationMemberDAO implements IOperationMemberDAO {
                     
                     whereField.setSearchValue(condition.getData());
                     whereField.setSearchOper(condition.getOp());
-                    if(operationFlag)
+                    if (operationFlag) {
                         whereField.setSearchLogic("and");
+                    }
                     
                     whereField.setSearchDataType(condition.getDataType());
                     operationWhereFieldList.add(whereField);
@@ -481,21 +484,21 @@ public class OperationMemberDAO implements IOperationMemberDAO {
                 }//search operation
             }
             
-            if(memberFlag){
+            if (memberFlag) {
                 Query queryMember = CommandQuery.CreateQuery(sessionFactory, memberTable, memberWhereFieldList);
                 listMember = queryMember.list();
                 logger.info("listMember size : >>" + listMember.size() + "<<");
-                if(listMember.size()>0){
+                if (listMember.size() > 0) {
                     hql.append(" and ");
                     hql.append(" member_id in (");
                     String tempMemberId = "";
-                    for(Member member:listMember){
+                    for (Member member : listMember) {
                         tempMemberId = tempMemberId + member.getMemberId() + ",";
                     }
-                    tempMemberId = tempMemberId.substring(0,tempMemberId.length()-1);
+                    tempMemberId = tempMemberId.substring(0, tempMemberId.length() - 1);
                     hql.append(tempMemberId);
                     hql.append(" ) ");
-                }else{
+                } else {
                     jqGrid.setPage(0);
                     jqGrid.setRecords(0);
                     jqGrid.setTotalPages(0);
@@ -503,21 +506,21 @@ public class OperationMemberDAO implements IOperationMemberDAO {
                     return jqGrid;
                 }
             }
-            if(operationFlag){
+            if (operationFlag) {
                 Query queryOperation = CommandQuery.CreateQuery(sessionFactory, operationTable, operationWhereFieldList);
                 listOperation = queryOperation.list();
                 logger.info("listOperation size : >>" + listOperation.size() + "<<");
-                if(listOperation.size()>0){
+                if (listOperation.size() > 0) {
                     hql.append(" and ");
                     hql.append(" operation_id in (");
                     String tempOperationId2 = "";
-                    for(Operation operation:listOperation){
+                    for (Operation operation : listOperation) {
                         tempOperationId2 = tempOperationId2 + operation.getOperationId() + ",";
                     }
-                    tempOperationId2 = tempOperationId2.substring(0,tempOperationId2.length()-1);
+                    tempOperationId2 = tempOperationId2.substring(0, tempOperationId2.length() - 1);
                     hql.append(tempOperationId2);
                     hql.append(" ) ");
-                }else{
+                } else {
                     jqGrid.setPage(0);
                     jqGrid.setRecords(0);
                     jqGrid.setTotalPages(0);
@@ -527,7 +530,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
             }
             
         }
-       
+        
         hqlSearch.append(hql);
         Paging paging = CommandQuery.queryCountRows(sessionFactory, req, hqlSearch);
         Query query = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
@@ -542,7 +545,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
                 paymentMemberObject = new PaymentMember();
                 paymentMemberObject.setOperationMemberId(operationMemberObjectList.getOperationMemberId());
                 String title = "";
-                
+
                 //------------------
                 Member member = operationMemberObjectList.getMember();
                 paymentMemberObject.setCitizenID(member.getCitizenId());
@@ -550,12 +553,13 @@ public class OperationMemberDAO implements IOperationMemberDAO {
                 paymentMemberObject.setSurname(member.getSurname());
                 Title titleId = member.getTitle();
                 Rank rank = member.getRank();
-                if(rank != null && rank.getRankName() != null){
+                if (rank != null && rank.getRankName() != null) {
                     title = title + rank.getRankName();
                 }
-                if(titleId != null && titleId.getTitleDesc() != null){
-                    if(!title.isEmpty())
+                if (titleId != null && titleId.getTitleDesc() != null) {
+                    if (!title.isEmpty()) {
                         title = title + " ";
+                    }
                     title = title + titleId.getTitleDesc();
                 }
                 paymentMemberObject.setTitle(title);
@@ -564,13 +568,14 @@ public class OperationMemberDAO implements IOperationMemberDAO {
                 paymentMemberObject.setDocCode(operation.getDocCode());
                 paymentMemberObject.setAmount(operation.getAmount());
                 paymentMemberObject.setTypeCode(operation.getOperationTypeCode());
-                paymentMemberObject.setPrintedStatus((operation.getPrintedStatus()!=null)?"" + operation.getPrintedStatus():"");
+                paymentMemberObject.setPrintedStatus((operation.getPrintedStatus() != null) ? "" + operation.getPrintedStatus() : "");
                 MilitaryDepartment militaryDepartment = member.getMilitaryDepartment();
-                paymentMemberObject.setMilitaryName((militaryDepartment!=null)?militaryDepartment.getName():"");
+                paymentMemberObject.setMilitaryName((militaryDepartment != null) ? militaryDepartment.getName() : "");
                 //------------------
-                
-                if(dataFlag)
+
+                if (dataFlag) {
                     listResponse.add(paymentMemberObject);
+                }
             }
             /*
              * End developer create object to array new.
@@ -586,7 +591,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         }
         return jqGrid;
     }
-
+    
     @Override
     public MessageResponse cancelBill(MessageRequest req) {
         logger.info("OperationMemberDAO : cancelBill");
@@ -628,25 +633,25 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         return response;
     }
     
-    private String formatDate(String date){
+    private String formatDate(String date) {
         
-        if(date.isEmpty()){
+        if (date.isEmpty()) {
             Date currentDate = DateUtil.getCurrentDate();
             String result = format.format(currentDate);
             return result;
         }
         try {
-            Date tempDate =  sf.parse(date);
+            Date tempDate = sf.parse(date);
             String result = format.format(tempDate);
             return result;
         } catch (ParseException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
         return "";
     }
     
-    private String reverseFormatDate(Date date){
-        if(date==null){
+    private String reverseFormatDate(Date date) {
+        if (date == null) {
             return null;
         }
         String result = sf.format(date);
@@ -656,7 +661,7 @@ public class OperationMemberDAO implements IOperationMemberDAO {
     @Override
     public PaymentDetail searchPaymentDetail(String operationMemberId) {
         PaymentDetail paymentDetailResponse = new PaymentDetail();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<OperationMember> list;
         WhereField whereField = null;
         try {
@@ -669,16 +674,16 @@ public class OperationMemberDAO implements IOperationMemberDAO {
             whereField.setSearchOper(CommandConstant.QueryEqual);
             whereField.setSearchValue(Integer.parseInt(operationMemberId));
             listWhereField.add(whereField);
-
+            
             Query query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField, 0, 1);
             
             if (!query.list().isEmpty()) {
                 list = query.list();
-
+                
                 for (OperationMember operationMemberObjectList : list) {
                     paymentDetailResponse.setCitizenID(operationMemberObjectList.getCitizenId());
                     paymentDetailResponse.setStatus(operationMemberObjectList.getMember().getMemberStatusCode());
-                    paymentDetailResponse.setName(operationMemberObjectList.getName()+ " " + operationMemberObjectList.getSurname());
+                    paymentDetailResponse.setName(operationMemberObjectList.getName() + " " + operationMemberObjectList.getSurname());
                     paymentDetailResponse.setMilitaryName(operationMemberObjectList.getMilitaryName());
                     paymentDetailResponse.setMemberId(operationMemberObjectList.getMember().getMemberId());
                     paymentDetailResponse.setDocCode(operationMemberObjectList.getDocCode());
@@ -692,5 +697,167 @@ public class OperationMemberDAO implements IOperationMemberDAO {
         } catch (HibernateException ex) {
             throw new RuntimeException(ex);
         }
+    }
+    
+    public MessageResponse setSaveNewOperationMemberForRegisterNo(List<Member> listMember, Operation operation) {
+        MessageResponse response = new MessageResponse();
+        OperationMember operationMember;
+        boolean chekSuccess = false;
+        int iCountSuccessful = 0;
+        if (CommandQuery.Insert(sessionFactory, operation)) {
+            for (Member member : listMember) {
+                Member memberOriginal = (Member) CommandQuery.LoadDetail(sessionFactory, Member.class, member.getMemberId());
+                memberOriginal.setMemberCode(member.getMemberCode());
+                memberOriginal.setMemberStatusCode(member.getMemberStatusCode());
+                memberOriginal.setUpdateBy(member.getUpdateBy());
+                memberOriginal.setUpdateDate(member.getUpdateDate());
+                if (CommandQuery.Update(sessionFactory, memberOriginal)) {
+                    operationMember = new OperationMember();
+                    operationMember.setOperation(operation);
+                    operationMember.setMember(memberOriginal);
+                    if (CommandQuery.Insert(sessionFactory, operationMember)) {
+                        iCountSuccessful++;
+                    }
+                }
+            }
+            
+            if (iCountSuccessful == listMember.size()) {
+                chekSuccess = true;
+            } else {
+                chekSuccess = false;
+            }
+        } else {
+            chekSuccess = false;
+        }
+        
+        response.setCheckSuccess(chekSuccess);
+        
+        if (chekSuccess) {
+            response.setId(String.valueOf(operation.getOperationId()));
+            response.setMessage(ConstantsMessage.SaveSuccessful);
+        } else {
+            throw new RuntimeException(ConstantsMessage.SaveUnsuccessful);
+        }
+        return response;
+    }
+    
+    @Override
+    public JqGridResponse<OperationMember> getList(JqGridRequest req, int memberStatusCode) {
+        List<OperationMember> listResponse = new ArrayList<>();
+        JqGridResponse<OperationMember> jqGrid = new JqGridResponse<>();
+        OperationMember operationMemberObject;
+        List<OperationMember> list;
+        /*
+         * Command HQL query Data.
+         */
+//        StringBuilder hql = new StringBuilder();
+//        hql.append("From Bank");
+
+        List<WhereField> listWhereField = new ArrayList<>();
+        WhereField whereField = null;
+
+        if (0 != memberStatusCode) {
+            whereField = new WhereField();
+            whereField.setSearchField("memberStatusCode");
+            whereField.setSearchLogic("");
+            whereField.setSearchOper(CommandConstant.QueryEqual);
+            whereField.setSearchValue(memberStatusCode);
+            whereField.setSearchDataType(CommandConstant.DataTypeInteger);
+            listWhereField.add(whereField);
+        }
+
+        Paging paging = CommandQuery.CountRows(sessionFactory, listWhereField, CommandConstant.QueryAND, req, objectTable);
+        Query query = CommandQuery.CreateQuery(sessionFactory, listWhereField, CommandConstant.QueryAND, req, objectTable, paging);
+        /*
+         * Check array data if true set create object to array new.
+         */
+        if (!query.list().isEmpty()) {
+            list = query.list();
+            /*
+             Predicate condition = new Predicate() {
+             boolean evaluate(Object sample) {
+             return ((Sample) sample).value3.equals("three");
+             }
+             };*/
+
+            /*
+             * Start developer create object to array new.
+             */
+            for (OperationMember operationMemberObjectList : list) {
+                operationMemberObject = new OperationMember();
+                //operationMemberObject.setMember(operationMemberObjectList.getMember());
+                //operationMemberObject.setOperation(operationMemberObjectList.getOperation());
+                //operationMemberObject.setMember(null);
+                operationMemberObject.setOperationId(operationMemberObjectList.getOperationId());
+                operationMemberObject.setOperationTypeCode(operationMemberObjectList.getOperationTypeCode());
+                operationMemberObject.setOperationMemberId(operationMemberObjectList.getOperationMemberId());
+                operationMemberObject.setMemberCode(operationMemberObjectList.getMemberCode());
+                operationMemberObject.setMilitaryId(operationMemberObjectList.getMilitaryId());
+                operationMemberObject.setCitizenId(operationMemberObjectList.getCitizenId());
+                operationMemberObject.setRankId(operationMemberObjectList.getRankId());
+                operationMemberObject.setRankName(operationMemberObjectList.getRankName());
+                operationMemberObject.setName(operationMemberObjectList.getName());
+                operationMemberObject.setSurname(operationMemberObjectList.getSurname());
+                operationMemberObject.setDocDate(operationMemberObjectList.getDocDate());
+                operationMemberObject.setApplyDate(operationMemberObjectList.getApplyDate());
+                operationMemberObject.setMemberTypeCode(operationMemberObjectList.getMemberTypeCode());
+                operationMemberObject.setDocCode(operationMemberObjectList.getDocCode());
+                listResponse.add(operationMemberObjectList);
+            }
+            /*
+             * End developer create object to array new.
+             */
+
+            /*
+             * Set Paging to jqgrid.
+             */
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        }
+        return jqGrid;
+    }
+    
+    @Override
+    public MessageResponse setSaveApproveOperationMemberList(List<Member> listMember, Operation operation){
+        MessageResponse response = new MessageResponse();
+        boolean chekSuccess = false;
+        int iCountSuccessful = 0;
+        OperationMember operationMember;
+        
+        if (CommandQuery.Insert(sessionFactory, operation)) {
+            for (Member member : listMember) {
+                Member memberOriginal = (Member) CommandQuery.LoadDetail(sessionFactory, Member.class, member.getMemberId());
+                memberOriginal.setMemberStatusCode(member.getMemberStatusCode());
+                memberOriginal.setUpdateBy(member.getUpdateBy());
+                memberOriginal.setUpdateDate(member.getUpdateDate());
+                if (CommandQuery.Update(sessionFactory, memberOriginal)) {
+                    operationMember = new OperationMember();
+                    operationMember.setOperation(operation);
+                    operationMember.setMember(memberOriginal);
+                    if (CommandQuery.Insert(sessionFactory, operationMember)) {
+                        iCountSuccessful++;
+                    }
+                }
+            }
+            
+            if (iCountSuccessful == listMember.size()) {
+                chekSuccess = true;
+            } else {
+                chekSuccess = false;
+            }
+        } else {
+            chekSuccess = false;
+        }
+        
+        response.setCheckSuccess(chekSuccess);
+        if (chekSuccess) {
+            response.setId(String.valueOf(operation.getOperationId()));
+            response.setMessage(ConstantsMessage.SaveSuccessful);
+        } else {
+            throw new RuntimeException(ConstantsMessage.SaveUnsuccessful);
+        }
+        return response;
     }
 }

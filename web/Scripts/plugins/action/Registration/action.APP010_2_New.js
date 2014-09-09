@@ -9,147 +9,147 @@ $(function() {
     $('#txtApplyDateNew').datepicker({language: 'th', format: 'dd/mm/yyyy'});
     $('#txtBirthDateNew').datepicker({language: 'th', format: 'dd/mm/yyyy'});
 
-    $("#slMemberGroupCodeNew").select2({
-        allowClear: true
-    });
-
-    $("#slMemberTypeCodeNew").select2({
-        allowClear: true
-    });
-
-    $("#slRankIdNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slTitleIdNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slGenderNew").select2({
-        allowClear: true
-    });
-
-    $("#slMilitaryIdNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slPaymentTypeNew").select2({
-        allowClear: true
-    });
-
-    $("#slReferrerRelationshipCodeNew").select2({
-        allowClear: true
-    });
-
-    $("#slMarryStatusCodeNew").select2({
-        allowClear: true
-    });
-
-    $("#slPermanentProvinceCodeNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slProvinceCodeNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slRankIdNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slPaymentTypeCodeNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-
-    $("#slBankCodeNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-
-    $("#slBankBranchIdNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slAccTypeIdNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-
-    $("#slRankIdMemberBeneficiaryNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slTitleIdMemberBeneficiaryNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slMemberRelationshipCodeMemberBeneficiaryNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-
-    $("#slPermanentProvinceCodeMemberBeneficiaryNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slProvinceCodeMemberBeneficiaryNew").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slRankIdMemberBeneficiaryNewForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slTitleIdMemberBeneficiaryNewForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slMemberRelationshipCodeMemberBeneficiaryNewForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true
-    });
-
-    $("#slPermanentProvinceCodeMemberBeneficiaryNewForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
-
-    $("#slProvinceCodeMemberBeneficiaryNewForEdit").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
+//    $("#slMemberGroupCodeNew").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slMemberTypeCodeNew").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slRankIdNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slTitleIdNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slGenderNew").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slMilitaryIdNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slPaymentTypeNew").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slReferrerRelationshipCodeNew").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slMarryStatusCodeNew").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slPermanentProvinceCodeNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slProvinceCodeNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slRankIdNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slPaymentTypeCodeNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//
+//    $("#slBankCodeNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//
+//    $("#slBankBranchIdNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slAccTypeIdNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//
+//    $("#slRankIdMemberBeneficiaryNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slTitleIdMemberBeneficiaryNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slMemberRelationshipCodeMemberBeneficiaryNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//
+//    $("#slPermanentProvinceCodeMemberBeneficiaryNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slProvinceCodeMemberBeneficiaryNew").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slRankIdMemberBeneficiaryNewForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slTitleIdMemberBeneficiaryNewForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slMemberRelationshipCodeMemberBeneficiaryNewForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true
+//    });
+//
+//    $("#slPermanentProvinceCodeMemberBeneficiaryNewForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
+//
+//    $("#slProvinceCodeMemberBeneficiaryNewForEdit").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
 
     $("#dialogFormReferrerNew").removeClass('hide').dialog({
-        width: '800px',
+        width: '970px',
         resizable: false,
         modal: true,
         title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon glyphicon glyphicon-file'></i> เรียกค้นข้อมูลสมาชิก </h4></div>",
@@ -242,7 +242,7 @@ $(function() {
 
     onActionSelectReferrerNew = function() {
         var dialogForm = '#dialogFormReferrerNew';
-        var myGrid = $('#gridData_MAS010_2_New_Select_jqGrid_List');
+        var myGrid = $('#gridData_APP010_2_New_Select_jqGrid_List');
         var $selRadio = $('input[name=rd_' + myGrid[0].id + ']:radio:checked'), $tr;
         if ($selRadio.length > 0) {
             $tr = $selRadio.closest('tr');
@@ -505,6 +505,11 @@ $(function() {
                         listAPP010 = [];
                         onRefreshGridMemberBeneficiaryNew();
                         $(formName)[0].reset();
+                        var typeAction = 'GET';
+                        var urlAction = urlActionListAPP010;
+                        var objDataAction = {};
+                        var dataTypeAction = 'html';
+                        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -606,14 +611,17 @@ $(function() {
 
     onActionClearNewMilitaryDepartment = function() {
         $('#slMilitaryIdNew').empty();
+        $('#militaryIdNew').empty();
         //$('#slMilitaryIdNew').append('<option value="">เลือก</option>');
     };
 
     onActionLoadNewMilitaryDepartment = function() {
         onActionClearNewMilitaryDepartment();
+        $('#militaryIdNew').append('<option value="">ทั้งหมด</option>');
         for (var item in listMilitaryDepartment) {
             var itemData = listMilitaryDepartment[item];
             $('#slMilitaryIdNew').append('<option value="' + itemData.militaryId + '">' + itemData.name + '</option>');
+            $('#militaryIdNew').append('<option value="' + itemData.militaryId + '">' + itemData.name + '</option>');
         }
     };
 
@@ -730,7 +738,7 @@ $(function() {
 
     onActionLoadNewBankBranch = function(value) {
         onActionClearNewBankBranch();
-        if ('' !== value) {
+        if ('' != value) {
             for (var item in listBankBranch) {
                 var itemData = listBankBranch[item];
                 if (itemData.bankCode === value) {
@@ -762,7 +770,7 @@ $(function() {
 
     onActionLoadNewBankAccountType = function(value) {
         onActionClearNewBankAccountType();
-        if ('' !== value) {
+        if ('' != value) {
             for (var item in listBankAccountType) {
                 var itemData = listBankAccountType[item];
                 if (itemData.bankCode === value) {
@@ -905,6 +913,72 @@ $(function() {
 
 //======================================= End MemberBeneficiary ======================================
 
+    onAddActionSearch = function(){
+       //alert("onAddActionSearch");
+        var search = {};
+        var requestSearch = new Array();
+        var statussearch = false;
+        var condition = '';
+        if ($('#memberCodeForNew').val().length !== 0) {
+            var search2 = {'groupOp': condition, 'field': 'member_code', 'op': 'eq', 'data': $('#memberCodeForNew').val(), 'dataType': 'varchar'};
+            requestSearch.push(search2);
+            condition = 'and';
+            statussearch = true;
+        }
+        if ($('#citizenIdForNew').val().length !== 0) {
+            var search3 = {'groupOp': condition, 'field': 'citizen_id', 'op': 'eq', 'data': $('#citizenIdForNew').val(), 'dataType': 'varchar'};
+            requestSearch.push(search3);
+            condition = 'and';
+            statussearch = true;
+        }
+        if ($('#memberNameForNew').val().length !== 0) {
+            var search4 = {'groupOp': condition, 'field': 'name', 'op': 'eq', 'data': $('#memberNameForNew').val(), 'dataType': 'varchar'};
+            requestSearch.push(search4);
+            condition = 'and';
+            statussearch = true;
+        }
+        if ($('#memberSurnameForNew').val().length !== 0) {
+            var search5 = {'groupOp': condition, 'field': 'surname', 'op': 'eq', 'data': $('#memberSurnameForNew').val(), 'dataType': 'varchar'};
+            requestSearch.push(search5);
+            condition = 'and';
+            statussearch = true;
+        }
+        if ($('#militaryIdNew').val().length !== 0) {
+            var search6 = {'groupOp': condition, 'field': 'military_id', 'op': 'eq', 'data': $('#militaryIdNew').val(), 'dataType': 'integer'};
+            requestSearch.push(search6);
+            condition = 'and';
+            statussearch = true;
+        }
+//        if ($('#subMemberTypeCode').val().length !== 0) {
+//            var search7 = {'groupOp': '', 'field': 'member_type_code', 'op': 'eq', 'data': $('#subMemberTypeCode').val(), 'dataType': 'integer'};
+//            requestSearch.push(search7);
+//        }
+        
+        search.conditions = requestSearch;
+       
+        $(gridNameNew).jqGrid('setGridParam', {
+            search: statussearch,
+            postData: {
+                searchCommand: $.toJSON(search)
+            }
+        });
+        $(gridNameNew).trigger("reloadGrid", [{page: 1}]);
+    };
+    
+    $("#btnNewSearch").click(function(e) {
+        e.preventDefault();
+        onAddActionSearch();
+    });
+    
+    $("#btnNewReset").click(function(e) {
+        e.preventDefault();
+        $("#memberCodeForNew").val("");
+        $("#citizenIdForNew").val("");
+        $("#memberNameForNew").val("");
+        $("#memberSurnameForNew").val("");
+        $("#militaryIdNew").val("");
+    });
+    
     onInit = function() {
         onActionLoadRank();
         onActionLoadTitle();

@@ -6,6 +6,7 @@
 package com.itos.service.impl;
 
 import com.itos.dao.model.IOperationDAO;
+import com.itos.model.Member;
 import com.itos.model.Operation;
 import com.itos.service.model.IOperationService;
 import com.itos.util.DateUtil;
@@ -45,6 +46,22 @@ public class OperationService implements IOperationService {
     }
 
     @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<Operation> getListOperationAPP041(JqGridRequest req) {
+        JqGridResponse<Operation> response = new JqGridResponse<>();
+        response = iOperationDAO.getListAPP041(req);
+        return response;
+    }
+
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<Operation> getListOperationAPP031(JqGridRequest req) {
+        JqGridResponse<Operation> response = new JqGridResponse<>();
+        response = iOperationDAO.getListAPP031(req);
+        return response;
+    }
+
+    @Override
     @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse setDeleteOperation(MessageRequest req) {
         MessageResponse response = new MessageResponse();
@@ -58,12 +75,12 @@ public class OperationService implements IOperationService {
         Operation response = new Operation();
 
         operation.setCreateDate(DateUtil.getCurrentDate());
-        
+
         response = iOperationDAO.saveNewOperation(operation);
         return response;
     }
-    
-        @Override
+
+    @Override
     @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse setSaveNewOperation(Operation operation) {
         MessageResponse response = new MessageResponse();
@@ -95,12 +112,20 @@ public class OperationService implements IOperationService {
         response = iOperationDAO.getListInJSONOperation(status);
         return response;
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse setSaveNewOperationList(Operation operation) {
         MessageResponse response = new MessageResponse();
         response = iOperationDAO.setSaveNewOperationList(operation);
+        return response;
+    }
+
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<Operation> getListOperation(JqGridRequest req, int operationTypeCode) {
+        JqGridResponse<Operation> response = new JqGridResponse<>();
+        response = iOperationDAO.getList(req, operationTypeCode);
         return response;
     }
 

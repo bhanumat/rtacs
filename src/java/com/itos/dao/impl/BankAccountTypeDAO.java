@@ -174,7 +174,7 @@ public class BankAccountTypeDAO implements IBankAccountTypeDAO {
 
     private BankAccountType getLoadDetailByObject(BankAccountType bankAccountType) {
         BankAccountType bankAccountTypeResponse = new BankAccountType();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<BankAccountType> list;
         WhereField whereField = null;
         try {
@@ -228,7 +228,7 @@ public class BankAccountTypeDAO implements IBankAccountTypeDAO {
 
     private BankAccountType getLoadDetailById(BankAccountType bankAccountType) {
         BankAccountType bankAccountTypeResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<BankAccountType> list;
         WhereField whereField = null;
         try {

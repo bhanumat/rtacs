@@ -116,14 +116,13 @@ $(document).ready(function() {
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
                 var buttonStatus = '';
-                var buttonEdit = '<button type="button" class="btn btn-xs btn-info" alt="Edit" onclick="onDialogEdit(\'' + id + '\');"><i class="ace-icon fa fa-pencil bigger-120"></i> </button>';
-                var buttonDelete = '<button type="button" class="btn btn-xs btn-danger" alt="Delete" onclick="onDialogDelete(\'' + id + '\');"><i class="ace-icon fa fa-trash-o bigger-120"></i> </button>';
+                var buttonView = '<button type="button" class="btn btn-xs btn-info" alt="View" onclick="onDialogView(\'' + id + '\');"><i class="ace-icon fa fa-search-plus bigger-120"></i> </button>';                
                 if ('E' === $(gridName).jqGrid('getCell', ids[i], 'status')) {
                     buttonStatus = '<button type="button" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-check bigger-120"></i> ใช้งาน </button>';
                 } else {
                     buttonStatus = '<button type="button" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-ban bigger-120"></i> ไม่ใช้งาน </button>';
                 }
-                $(gridName).setRowData(ids[i], {action: buttonEdit + '&nbsp;' + buttonDelete, status: buttonStatus});
+                $(gridName).setRowData(ids[i], {action: buttonView, status: buttonStatus});
             }
             enableTooltips(this);
             //styleCheckbox(this);

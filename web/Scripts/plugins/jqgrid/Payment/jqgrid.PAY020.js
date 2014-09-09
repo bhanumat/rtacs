@@ -127,7 +127,6 @@ $(document).ready(function() {
                 var id = ids[i];
                 var operationMemberId = $(gridName).jqGrid('getCell', ids[i], 'operationMemberId');
                 var buttonStatus = '';
-                var tempCheckBox = '';
                 var buttonEdit = '<button type="button" class="btn btn-xs btn-info" alt="Edit" onclick="onDialogEdit(\'' + operationMemberId + '\');"><i class="ace-icon fa fa-pencil bigger-120"></i> </button>';
                 var buttonDelete = '<button type="button" class="btn btn-xs btn-danger" alt="Delete" onclick="onDialogDelete(\'' + id + '\');"><i class="ace-icon fa fa-trash-o bigger-120"></i> </button>';
                 if ('Y' === $(gridName).jqGrid('getCell', ids[i], 'printedStatus')) {

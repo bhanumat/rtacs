@@ -41,7 +41,7 @@ public class MAS030Controller {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    IRankService IRankService;
+    IRankService iRankService;
 
     @Value("${application.DateFormat}")
     private String stringDateFormat;
@@ -57,7 +57,7 @@ public class MAS030Controller {
     public @ResponseBody
     JqGridResponse<Rank> getListMAS030(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         req.setSearch(Boolean.parseBoolean(search));
-        return IRankService.getListRank(req);
+        return iRankService.getListRank(req);
     }
 
     @RequestMapping(value = "/Plugins/MasterData/setDeleteMAS030.json", method = RequestMethod.POST,
@@ -69,7 +69,7 @@ public class MAS030Controller {
         MessageResponse messageResponse = new MessageResponse();
         logger.info(req.getItemSelect());
         try {
-            messageResponse = IRankService.setDeleteRank(req);
+            messageResponse = iRankService.setDeleteRank(req);
         } catch (Exception ex) {
             messageResponse.setMessage(ex.getMessage());
         }
@@ -84,7 +84,7 @@ public class MAS030Controller {
         Rank rank = new Rank();
         try {
             rank = JsonRank.JSONDeserializer(data2Json, stringDateFormat);
-            return IRankService.setSaveNewRank(rank);
+            return iRankService.setSaveNewRank(rank);
         } catch (IOException ex) {
             return new MessageResponse(false, ex.getMessage());
         }
@@ -98,7 +98,7 @@ public class MAS030Controller {
         Rank rank = new Rank();
         try {
             rank = JsonRank.JSONDeserializer(data2Json, stringDateFormat);
-            return IRankService.setSaveEditRank(rank);
+            return iRankService.setSaveEditRank(rank);
         } catch (IOException ex) {
             return new MessageResponse(false, ex.getMessage());
         }
@@ -112,7 +112,7 @@ public class MAS030Controller {
         Rank rank = new Rank();
         try {
             rank = JsonRank.JSONDeserializerKey(data2Json, stringDateFormat);
-            return IRankService.getLoadRank(rank);
+            return iRankService.getLoadRank(rank);
         } catch (IOException ex) {
             return null;
         }

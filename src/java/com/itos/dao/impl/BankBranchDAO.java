@@ -210,7 +210,7 @@ public class BankBranchDAO implements IBankBranchDAO {
 
     private BankBranch getLoadDetailByObject(BankBranch bankBranch) {
         BankBranch bankBranchResponse = new BankBranch();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<BankBranch> list;
         WhereField whereField = null;
         try {
@@ -273,7 +273,7 @@ public class BankBranchDAO implements IBankBranchDAO {
 
     private BankBranch getLoadDetailById(BankBranch bankBranch) {
         BankBranch bankBranchResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<BankBranch> list;
         WhereField whereField = null;
         try {

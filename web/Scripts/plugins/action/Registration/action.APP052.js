@@ -93,11 +93,11 @@ $(function() {
         requestSearch.push(search3);
         var search4 = {'groupOp': 'and', 'field': 'surname', 'op': 'cn', 'data': $('#txtLastName').val(), 'dataType': 'varchar'};
         requestSearch.push(search4);
-        if ('%' !== $('#slMilitaryIdSearch').val()) {
+        if ('%' != $('#slMilitaryIdSearch').val()) {
             var search5 = {'groupOp': 'and', 'field': 'militaryId', 'op': 'cn', 'data': $('#slMilitaryIdSearch').val(), 'dataType': 'integer'};
             requestSearch.push(search5);
         }
-        if ('%' !== $('#slTypeApplySearch').val()) {
+        if ('%' != $('#slTypeApplySearch').val()) {
             var search6 = {'groupOp': 'and', 'field': 'memberTypeCode', 'op': 'cn', 'data': $('#slTypeApplySearch').val(), 'dataType': 'integer'};
             requestSearch.push(search6);
         }
@@ -120,15 +120,15 @@ $(function() {
     };
 
 
-    $("#slTypeApplySearch").select2({
-        allowClear: true
-    });
-
-    $("#slMilitaryIdSearch").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
+//    $("#slTypeApplySearch").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slMilitaryIdSearch").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
 
     onDialogNew = function(e) {
         e.preventDefault();

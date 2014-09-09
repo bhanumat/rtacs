@@ -107,4 +107,7 @@ window.jQuery || document.write("<script type='text/javascript' src='${pageConte
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/jquery.external/select2.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/jquery.external/i18n/select2_locale_th.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/jquery.external/jquery.fmatter.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/jquery.external/jquery.age.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/jquery.external/jquery.formatDateTime.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/jquery.external/jquery.number.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/bootstrapValidator.min.js"></script>

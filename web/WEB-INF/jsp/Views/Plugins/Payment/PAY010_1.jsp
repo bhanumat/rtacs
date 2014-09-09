@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY010_1.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY010_1.js"></script>
 <div class="page-header">
     <h1>
         รับชำระเงินค่าบำรุงศพ 
@@ -116,17 +119,17 @@
                                 <span style="padding-left:10px;" class="lbl"> ธนาณัติ</span>
                             </label></span> </div>
                     <div class="profile-info-name" style="width:170px;">หมายเลขธนาณัติ </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text"></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input name="postalNo" id="postalNo" type="text"></span> </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> วันที่ชำระ</div>
-                    <div class="profile-info-value"> <span id="username" class="editable"> <input type="text" id="date_register" /></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"> <input type="text" id="paymentDate" /></span> </div>
                     <div class="profile-info-name" style="width:170px;">หน่วยต้นสังกัด </div>
                     <div class="profile-info-value"> <span id="username" class="editable">กกส.กห.</span> </div>
                 </div>		
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> เลขที่ใบเสร็จ</div>
-                    <div class="profile-info-value"> <span id="username" class="editable"> <input type="text" id="date_register" value="ฬ0011375" readonly /></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"> <input type="text" id="billingNo" value="ฬ0011375" readonly /></span> </div>
                     <div class="profile-info-name" style="width:170px;"> สถานะการชำระเงิน</div>
                     <div class="profile-info-value"> <span id="username" class="editable"><span class="label label-xlg label-success arrowed arrowed-right">พิมพ์ใบเสร็จ</span></span> </div>
 

@@ -27,19 +27,19 @@ $(function() {
             {
                 html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; บันทึก",
                 "class": "btn btn-primary btn-xs",
-                click: function() {      
-                    var operId = "";
-                    var memId = "";
+                click: function() {
+                    var setData = {};
+                    var listData = new Array();
                     selId = $(gridName).jqGrid('getGridParam','selarrrow');
                     for(var i = 0; i < selId.length; i++){
+                        setData = {};
                         var data = $(gridName).jqGrid('getRowData',selId[i]);
-                        operId += data.operationId;
-                        operId += ",";
-                        memId += data.memberId;
-                        memId += ",";
+                        setData.operationId = data.operationId;
+                        setData.memberId = data.memberId;
+                        listData.push(setData);
                     }                    
                     //alert("Status ->"+operId);
-                    onActionSaveNew(operId, memId);
+                    onActionSaveNew(listData);
                 }
             }
             ,
@@ -102,11 +102,11 @@ $(function() {
         requestSearch.push(search4);
         var search5 = {'groupOp': 'and', 'field': 'surname', 'op': 'cn', 'data': $('#txtLastName').val(), 'dataType': 'varchar'};
         requestSearch.push(search5);
-        if ('%' !== $('#slMilitaryIdSearch').val()) {
+        if ('%' != $('#slMilitaryIdSearch').val()) {
             var search6 = {'groupOp': 'and', 'field': 'militaryId', 'op': 'cn', 'data': $('#slMilitaryIdSearch').val(), 'dataType': 'integer'};
             requestSearch.push(search6);
         }
-        if ('%' !== $('#slTypeApplySearch').val()) {
+        if ('%' != $('#slTypeApplySearch').val()) {
             var search7 = {'groupOp': 'and', 'field': 'memberTypeCode', 'op': 'cn', 'data': $('#slTypeApplySearch').val(), 'dataType': 'integer'};
             requestSearch.push(search7);
         }
@@ -128,7 +128,7 @@ $(function() {
         $(gridName).trigger("reloadGrid", [{page: 1}]);
     };
     
-    onActionSaveNew = function(operId, memId) {
+    onActionSaveNew = function(listData) {
         var formId = '#frmNew';
         var formName = $(formId);
         var iArray = 0;
@@ -159,8 +159,7 @@ $(function() {
 //            for (num = 0; num < ids.length; num++){
 //                objData["operationMemberId" + num] = ids[num].toString();
 //            }
-            objData["operationId"] = operId;
-            objData["memberId"] = memId;
+            objData["listOperationMember"] = listData;
             //console.info(objData);
             var req = {};
             req.data2Json = $.toJSON(objData);
@@ -190,15 +189,15 @@ $(function() {
     $('#txtEndDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
     $('#txDocDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
 
-    $("#slTypeApplySearch").select2({
-        allowClear: true
-    });
-
-    $("#slMilitaryIdSearch").select2({
-        placeholder: '-เลือก-',
-        allowClear: true,
-        minimumInputLength: 1
-    });
+//    $("#slTypeApplySearch").select2({
+//        allowClear: true
+//    });
+//
+//    $("#slMilitaryIdSearch").select2({
+//        placeholder: '-เลือก-',
+//        allowClear: true,
+//        minimumInputLength: 1
+//    });
 
     onDialogNew = function(e) {
         e.preventDefault();

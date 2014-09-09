@@ -4,12 +4,12 @@
 
 //================================== Parameter jqGrid ========================================
 var gridUrl = urlList;
-var gridName = '#gridData_MemberGrid_List';
-var gridPager = '#gridData_MemberGrid_List';
+var gridName = '#gridData_APP040_2_Grid_List';
+var gridPager = '#gridPager_APP040_2_Grid_List';
 var gridSortName = 'memberId';
 var gridSortOrder = 'asc';
 var gridCaption = 'บันทึกกำหนดเลขทะเบียนสมาชิก';
-var gridColNames = ['ลำดับ', 'เลขทะเบียนสมาชิก', 'รหัสหน่วย', 'หน่วยต้นสังกัด', 'เลขประจำตัวประชาชน', 'ยศ-คำนำหน้า', 'ชื่อ', 'สกุล', 'ผู้นำเข้า', 'เลขอ้างอิง', ''];
+var gridColNames = ['ลำดับ', 'เลขทะเบียนสมาชิก', 'รหัสหน่วย', 'หน่วยต้นสังกัด', 'เลขประจำตัวประชาชน', 'ยศ-คำนำหน้า', 'ชื่อ', 'สกุล', 'ผู้นำเข้า', 'เลขอ้างอิง'];
 var gridColModel = [
     {name: 'memberId', index: 'memberId', hidden: true, align: 'left'},
     {name: 'memberCode', index: 'memberCode', align: 'left', sortable: true, width: 150,
@@ -25,8 +25,7 @@ var gridColModel = [
     {name: 'name', index: 'name', align: 'left', sortable: true, width: 100},
     {name: 'surname', index: 'surname', align: 'left', sortable: true, width: 150},
     {name: 'createBy', index: 'createBy', align: 'center', sortable: false, width: 100},
-    {name: 'referrerId', index: 'referrerId', align: 'center', sortable: false, width: 100},
-    {name: 'action', index: 'action', width: 150, align: 'center', search: false, sortable: false}];
+    {name: 'referrerId', index: 'referrerId', align: 'center', sortable: false, width: 100}];
 var gridJsonReader = {
     records: "records", //total number of records for the query
     repeatitems: false,
@@ -78,7 +77,7 @@ var enableTooltips = function(table) {
 
 $(document).ready(function() {
     $(gridName).jqGrid({
-        url: urlList,
+        url: gridUrl,
         datatype: 'json',
         mtype: 'POST',
         //datatype: "local",
@@ -116,15 +115,12 @@ $(document).ready(function() {
             var ids = $(gridName).jqGrid('getDataIDs');
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
-                var buttonStatus = '';
-                var buttonEdit = '<button type="button" class="btn btn-xs btn-info" alt="Edit" onclick="onDialogEdit(\'' + id + '\');"><i class="ace-icon fa fa-pencil bigger-120"></i> </button>';
-                var buttonDelete = '<button type="button" class="btn btn-xs btn-danger" alt="Delete" onclick="onDialogDelete(\'' + id + '\');"><i class="ace-icon fa fa-trash-o bigger-120"></i> </button>';
                 if ('E' === $(gridName).jqGrid('getCell', ids[i], 'status')) {
                     buttonStatus = '<button type="button" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-check bigger-120"></i> ใช้งาน </button>';
                 } else {
                     buttonStatus = '<button type="button" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-ban bigger-120"></i> ไม่ใช้งาน </button>';
                 }
-                $(gridName).setRowData(ids[i], {action: buttonEdit + '&nbsp;' + buttonDelete, status: buttonStatus});
+                $(gridName).setRowData(ids[i], {status: buttonStatus});
             }
             enableTooltips(this);
             //styleCheckbox(this);

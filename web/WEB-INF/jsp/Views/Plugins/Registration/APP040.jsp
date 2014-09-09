@@ -9,19 +9,8 @@
 <script type="text/javascript">
     var urlListJsonOperation = rootPath + '/Plugins/Registration/getListAPP040.json';
     var urlActionOpenNew = rootPath + '/Plugins/Registration/APP040_2.htm';
-    //var urlDelete = rootPath + '/Plugins/Registration/setDeleteAPP040.json';
-    //var urlNew = rootPath + '/Plugins/Registration/setSaveNewAPP040.json';
-    //var urlEdit = rootPath + '/Plugins/Registration/setSaveEditAPP040.json';
-    //var urlLoad = rootPath + '/Plugins/Registration/getLoadAPP040.json';
+    var urlActionOpenView = rootPath + '/Plugins/Registration/APP040_3.htm';
 
-    //var objectDefault = {};
-    //var inputToMergeNew = ['#txtBankCodeNew', '#txtBankNameNew', 'input[id=chkStatusNew]:checked'];
-    //var inputToChangeNew = ['bankCode', 'bankName', 'status'];
-
-    //var inputToMergeEdit = ['#txtBankCodeEdit', '#txtBankNameEdit', 'input[id=chkStatusEdit]:checked'];
-    //var inputToChangeEdit = ['bankCode', 'bankName', 'status'];
-
-    //var objIdKeyEdit = 'bankCode';
     var responseId = '#main-page-content-loading';
     var listOperation = {};
 
@@ -53,13 +42,13 @@
                                 <div class="row">
                                     <div class="col-xs-4">
                                         <div class="input-group input-group-sm">
-                                            <input type="text" id="date_begin" class="form-control"/>
+                                            <input type="text" id="txtApplyDateFromSearch" class="form-control"/>
                                             <span class="input-group-addon"> <i class="ace-icon fa fa-calendar"></i> </span> </div>
                                     </div>
                                     <div class="col-xs-5">
                                         <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> ถึง&nbsp;&nbsp;</label>
                                         <div class="input-group input-group-sm">
-                                            <input type="text" id="date_end" class="form-control" />
+                                            <input type="text" id="txtApplyDateEndSearch" class="form-control" />
                                             <span class="input-group-addon"> <i class="ace-icon fa fa-calendar"></i> </span> </div>
                                     </div>
                                 </div>
@@ -77,7 +66,7 @@
                 <br/>
                 <div class="row">
                     <div>
-                        <button id="btnAdd" type="button" class="btn btn-sm btn-success" style="font-size: 14px;"><i class="glyphicon glyphicon-plus"></i>&nbsp;กำหนดเลขทะเบียนสมาชิก</button>
+                        <button id="btnAdd" type="button" class="btn btn-sm btn-success"><i class="ace-icon fa glyphicon-plus"></i>&nbsp;กำหนดเลขทะเบียนสมาชิก</button>
                     </div>
                 </div>
                 <div style="padding:1px"></div>

@@ -3,21 +3,23 @@
  */
 
 //================================== Parameter jqGrid ========================================
-var gridUrl = urlListAPP041_2_Add;
-var gridName = '#gridData_APP041_2_Add_jqGrid_List';
-var gridPager = '#gridPager_APP041_2_Add_jqGrid_List';
-var gridSortName = 'citizenId';
-var gridSortOrder = 'asc';
-var gridCaption = 'รายการผู้สมัครเป็นสมาชิก';
-var gridColNames = ['ลำดับ', 'เลขประจำตัวประชาชน', 'ยส - คำนำหน้า', 'ชื่อ', 'สกุล', 'ประเภทสมาชิก', 'หน่วยต้นสังกัด', 'วันที่สมัคร', 'ประเภทการสมัคร', 'สถานะใช้งาน', ''];
-var gridColModel = [
+var gridUrlAdd = urlListAPP041_2_Add;
+var gridNameAdd = '#gridData_APP041_2_Add_jqGrid_List';
+var gridPagerAdd = '#gridPager_APP041_2_Add_jqGrid_List';
+var gridSortNameAdd = 'citizenId';
+var gridSortOrderAdd = 'asc';
+var gridCaptionAdd = 'รายการผู้สมัครเป็นสมาชิก';
+var gridColNamesAdd = ['ลำดับ','', 'เลขประจำตัวประชาชน', 'ยศ - คำนำหน้า', 'ชื่อ', 'สกุล', '', 'ประเภทสมาชิก', 'หน่วยต้นสังกัด', 'วันที่สมัคร', '', 'ประเภทการสมัคร'];
+var gridColModelAdd = [
     {name: 'memberId', index: 'memberId', hidden: true, align: 'left'},
-    {name: 'citizenId', index: 'citizenId', align: 'left', sortable: true, width: 150},
-    {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: true, width: 50},
+    {name: 'memberCode', index: 'memberCode', hidden: true, align: 'left'},
+    {name: 'citizenId', index: 'citizenId', align: 'left', sortable: true, width: 170},
+    {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: true, width: 100},
     {name: 'name', index: 'name', align: 'left', sortable: true, width: 100},
     {name: 'surname', index: 'surname', align: 'left', sortable: true, width: 100},
-    {name: 'memberTypeCode', index: 'memberTypeCode', align: 'left', sortable: true, width: 100},
-    {name: 'militaryName', index: 'militaryName', align: 'left', sortable: true, width: 100},
+    {name: 'memberGroupCode', index: 'memberGroupCode', align: 'left', hidden: true},
+    {name: 'memberGroupCodeText', index: 'memberGroupCodeText', align: 'left', sortable: true, width: 100},
+    {name: 'militaryName', index: 'militaryName', align: 'left', sortable: true, width: 140},
     {name: 'applyDate', index: 'applyDate', align: 'left', sortable: true, width: 100,
         formatoptions: {newformat: 'd/m/Y'},
         formatter: function(cellval, opts, rowObject, action) {
@@ -29,10 +31,9 @@ var gridColModel = [
                     rowObject,
                     action);
         }},
-    {name: 'memberCode', index: 'memberCode', align: 'left', sortable: true, width: 100},
-    {name: 'status', index: 'status', align: 'center', sortable: false, width: 200},
-    {name: 'action', index: 'action', width: 200, align: 'center', search: false, sortable: false}];
-var gridJsonReader = {
+    {name: 'memberTypeCode', index: 'memberTypeCode', align: 'left', hidden: true},
+    {name: 'memberTypeCodeText', index: 'memberTypeCodeText', align: 'left', sortable: true, width: 120}];
+var gridJsonReaderAdd = {
     records: "records", //total number of records for the query
     repeatitems: false,
     id: "memberId"           //the unique id of the row
@@ -81,32 +82,34 @@ var enableTooltips = function(table) {
 //================================== End Parameter jqGrid ====================================
 
 $(document).ready(function() {
-    $(gridName).jqGrid({
-        datastr: myStringList,
-        datatype: 'jsonstring',
+    $(gridNameAdd).jqGrid({
+        //datastr: myStringList,
+        //datatype: 'jsonstring',
         mtype: 'POST',
+        url: urlAddLoad,
+        datatype: 'json',
         //datatype: "local",
         //================================ Field Data ========================================
-        caption: gridCaption,
-        colNames: gridColNames,
-        colModel: gridColModel,
-        jsonReader: gridJsonReader,
+        caption: gridCaptionAdd,
+        colNames: gridColNamesAdd,
+        colModel: gridColModelAdd,
+        jsonReader: gridJsonReaderAdd,
         //================================ End Field Data ====================================
         autowidth: true,
         shrinkToFit: false,
-        pager: gridPager,
-        height: 350,
+        pager: gridPagerAdd,
+        height: 200,
         width: 'auto',
         rowNum: 10,
-        sortname: gridSortName,
-        sortorder: gridSortOrder,
+        sortname: gridSortNameAdd,
+        sortorder: gridSortOrderAdd,
         viewrecords: true,
         multiselect: true,
         rownumbers: true,
         gridview: true,
         hidegrid: false,
         onCellSelect: function(rowid, iCol, cellcontent, e) {
-            var cm = $(gridName).jqGrid("getGridParam", "colModel");
+            var cm = $(gridNameAdd).jqGrid("getGridParam", "colModel");
             if ("cb" !== cm[iCol].name && "action" !== cm[iCol].name) {
 
             }
@@ -122,59 +125,43 @@ $(document).ready(function() {
             return true; // allow row selection
         },
         loadComplete: function() {
-            var ids = $(gridName).jqGrid('getDataIDs');
+            var ids = $(gridNameAdd).jqGrid('getDataIDs');
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
-                var buttonStatus = '';
                 var memberGroupCode = '';
                 var memberTypeCode = '';
-                if ('10' === $(gridName).jqGrid('getCell', ids[i], 'memberStatusCode')) {
-                    buttonStatus = '<span class="label label-yellow "> ยื่นใบสมัคร </span>';
-                } else if ('11' === $(gridName).jqGrid('getCell', ids[i], 'memberStatusCode')) {
-                    buttonStatus = '<span class="label label-success ">ชำระเงินค่าสมัคร</span>';
-                } else if ('13' === $(gridName).jqGrid('getCell', ids[i], 'memberStatusCode')) {
-                    buttonStatus = '<span class="label label-yellow "> อนุมัติเห็นชอบ </span>';
-                } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'memberStatusCode')) {
-                    buttonStatus = '<span class="label label-yellow ">  กำหนดเลขทะเบียนสมาชิก </span>';
-                } else if ('25' === $(gridName).jqGrid('getCell', ids[i], 'memberStatusCode')) {
-                    buttonStatus = '<span class="label label-pink  ">  ดำเนินการขออนุมัติขึ้นทะเบียน </span>';
-                } else if ('105' === $(gridName).jqGrid('getCell', ids[i], 'memberStatusCode')) {
-                    buttonStatus = '<span class="label label-success ">  อนุมัติขึ้นทะเบียนเป็นสมาชิก </span>';
-                } else {
-                    buttonStatus = '';
-                }
-                if ('10' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                if ('10' === $(gridNameAdd).jqGrid('getCell', ids[i], 'memberGroupCode')) {
                     memberGroupCode = 'ข้าราชการ';
-                } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                } else if ('20' === $(gridNameAdd).jqGrid('getCell', ids[i], 'memberGroupCode')) {
                     memberGroupCode = 'ลูกจ้าง';
-                } else if ('30' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                } else if ('30' === $(gridNameAdd).jqGrid('getCell', ids[i], 'memberGroupCode')) {
                     memberGroupCode = 'ครอบครัว';
-                } else if ('40' === $(gridName).jqGrid('getCell', ids[i], 'memberGroupCode')) {
+                } else if ('40' === $(gridNameAdd).jqGrid('getCell', ids[i], 'memberGroupCode')) {
                     memberGroupCode = 'พลทหารกองประจำการ';
                 } else {
                     memberGroupCode = 'ไม่ได้ระบุ';
                 }
 
-                if ('10' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                if ('10' === $(gridNameAdd).jqGrid('getCell', ids[i], 'memberTypeCode')) {
                     memberTypeCode = 'สมัครด้วยตัวเอง';
-                } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                } else if ('20' === $(gridNameAdd).jqGrid('getCell', ids[i], 'memberTypeCode')) {
                     memberTypeCode = 'สมัครผ่านหน่วยต้นสังกัด';
                 } else if ('30' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
                     memberTypeCode = 'สมัครผ่านชุดรับสมัคร';
-                } else if ('40' === $(gridName).jqGrid('getCell', ids[i], 'memberTypeCode')) {
+                } else if ('40' === $(gridNameAdd).jqGrid('getCell', ids[i], 'memberTypeCode')) {
                     memberTypeCode = 'สมัครผ่านกรณีพิเศษ';
                 } else {
                     memberTypeCode = 'สมัครผ่านกรณีอื่นๆ';
                 }
 
-                $(gridName).setRowData(ids[i], {memberStatusCode: buttonStatus, memberGroupCode: memberGroupCode, memberTypeCode: memberTypeCode});
+                $(gridNameAdd).setRowData(ids[i], {memberGroupCodeText: memberGroupCode, memberTypeCodeText: memberTypeCode});
             }
             enableTooltips(this);
             //styleCheckbox(this);
             updatePagerIcons(this);
         }
     });
-    $(gridName).jqGrid('navGrid', gridPager, {edit: false, add: false, del: false, search: false, refresh: false},
+    $(gridNameAdd).jqGrid('navGrid', gridPagerAdd, {edit: false, add: false, del: false, search: false, refresh: false},
     {}, // edit options  
             {}, // add options  
             {}, //del options  

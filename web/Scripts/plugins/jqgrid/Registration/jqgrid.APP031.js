@@ -10,7 +10,7 @@ var gridPager = '#gridPager_APP031jqGrid_List';
 var gridSortName = 'operationId'; //***
 var gridSortOrder = 'asc';
 var gridCaption = 'รายการขอความเห็นชอบสมาชิกใหม่';
-var gridColNames = ['ลำดับที่', 'วันที่ขออนุมัติเห็นชอบ', 'เลขที่อ้างอิง', 'จำนวนสมาชิก', 'สถานะ','วันที่อนุมัติเห็นชอบ', ''];
+var gridColNames = ['ลำดับที่', 'วันที่ขออนุมัติเห็นชอบ', 'เลขที่อ้างอิง', 'จำนวนสมาชิก', ''];
 var gridColModel = [
     {name: 'operationId', index: 'operationId', hidden: true, align: 'center', sortable: true},
     {name: 'docDate', index: 'docDate', align: 'left', sortable: true, width: 200,
@@ -25,19 +25,7 @@ var gridColModel = [
                     action);
         }},
     {name: 'docCode', index: 'docCode', align: 'left', sortable: true, width: 200},
-    {name: 'amount', index: 'amount', align: 'left', sortable: true, width: 200},
-    {name: 'operationTypeCode', index: 'operationTypeCode', align: 'left', sortable: true, width: 200},
-    {name: 'docDate', index: 'docDate', align: 'left', sortable: true, width: 200,
-        formatoptions: {newformat: 'd/m/Y'},
-        formatter: function(cellval, opts, rowObject, action) {
-            return $.fn.fmatter.call(
-                    this,
-                    "date",
-                    new Date(cellval),
-                    $.extend({}, $.jgrid.formatter.date, opts),
-                    rowObject,
-                    action);
-        }},
+    {name: 'memberNo', index: 'memberNo', align: 'left', sortable: true, width: 200},
     {name: 'action', index: 'action', width: 150, align: 'center', search: false, sortable: false}];
 var gridJsonReader = {
     records: "records", //total number of records for the query
@@ -101,7 +89,7 @@ $(document).ready(function() {
         sortname: gridSortName,
         sortorder: gridSortOrder,
         viewrecords: true,
-        multiselect: true,
+        multiselect: false,
         rownumbers: true,
         gridview: true,
         hidegrid: false,
@@ -119,34 +107,10 @@ $(document).ready(function() {
         loadComplete: function() {
             var ids = $(gridName).jqGrid('getDataIDs');
             for (var i = 0; i < ids.length; i++) {
-                var id = ids[i];
-                var operationTypeCode = '';
-                var buttonView = '<button type="button" class="btn btn-xs btn-search" alt=View" onclick="onDialogView(\'' + id + '\');"><i class="ace-icon fa fa-search bigger-120"></i> </button>';
+                var operationId = ids[i];
+                var buttonView = '<button type="button" class="btn btn-xs btn-search" alt=View" onclick="onDialogView(\'' + operationId + '\');"><i class="ace-icon fa fa-search bigger-120"></i> </button>';
 
-                if ('10' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ยื่นใบสมัคร';
-                } else if ('11' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ชำระเงินค่าสมัคร';
-                } else if ('12' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'บันทึกข้อมูลเพิ่มเติม';
-                } else if ('13' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'อนุมัติเห็นชอบ';
-                } else if ('20' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'กำหนดเลขทะเบียนสมาชิก';
-                } else if ('25' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ดำเนินการขออนุมัติขึ้นทะเบียน';
-                } else if ('105' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'อนุมัติขึ้นทะเบียนเป็นสมาชิก';
-                } else if ('232' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ไม่อนุมััติขอความเห็นชอบ';
-                } else if ('234' === $(gridName).jqGrid('getCell', ids[i], 'operationTypeCode')) {
-                    operationTypeCode = 'ไม่อนุมัติขึ้นทะเบียน';
-                }
-                else {
-                    operationTypeCode = '';
-                }
-
-                $(gridName).setRowData(ids[i], {action: buttonView, operationTypeCode: operationTypeCode});
+                $(gridName).setRowData(ids[i], {action: buttonView});
             }
             enableTooltips(this);
             //styleCheckbox(this);

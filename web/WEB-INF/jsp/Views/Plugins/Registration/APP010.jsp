@@ -12,6 +12,7 @@
     var urlListJsonBank = rootPath + '/Plugins/MasterData/getListInJSONBank.json';
     var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
     var urlList = rootPath + '/Plugins/Registration/getListAPP010.json';
+    var urlDelete = rootPath + '/Plugins/Registration/setDeleteAPP010.json';
     var responseId = '#main-page-content-loading';
     var listMilitaryDepartment = {};
 </script>
@@ -61,7 +62,7 @@
                             <div class="col-md-1"></div>
                             <label for="lbCitizenIdSearch" class="col-md-2 control-label no-padding-right">เลขประจำตัวประชาชน</label>
                             <div class="col-md-3">
-                                <input id="txtReferNumber" name="txtCitizenIdSearch" type="text"  class="form-control">
+                                <input id="txtCitizenIdSearch" name="txtCitizenIdSearch" type="text"  class="form-control">
                             </div>
                         </div>
                         <div class="form-group">

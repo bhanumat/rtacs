@@ -37,4 +37,20 @@ public interface IMemberDAO {
     public PaymentDetail searchMember(String citisenId);
 
     public Member updatedStatus(String citizenId);
+
+    public JqGridResponse<Member> getListAPP041_2(JqGridRequest req);
+
+    public JqGridResponse<Member> getAddListAPP041_2(JqGridRequest req);
+
+    public JqGridResponse<Member> getListAPP031_2(JqGridRequest req);
+
+    public JqGridResponse<Member> getAddListAPP031_2(JqGridRequest req);
+
+    public JqGridResponse<Member> getList(JqGridRequest req, int memberStatusCode);
+
+    public JqGridResponse<Member> getList(JqGridRequest req, int memberStatusCode, int operationId);
+
+    public Member updatedStatusAPP041(Integer memberId);
+
+    public Member updatedStatusAPP031(Integer memberId);
 }

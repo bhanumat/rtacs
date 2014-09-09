@@ -9,10 +9,10 @@ $(function() {
             dataType: 'json',
             async: true,
             success: function(msg) {
-                if (msg.checkSuccess === true && msg.obj!==null) {
+                if (msg.checkSuccess === true && msg.obj!=null) {
                     var object = msg.obj;
                     //alert("status : >>" + object.status + "<<");
-                    if(object.status === 10){
+                    if(object.status === 10 || object.status === 11){
                         $("#citizenID").text(object.citizenID);
                         $("#username").text(object.name);
                         $("#militaryName").text(object.militaryName);
@@ -60,7 +60,7 @@ $(function() {
             dataType: 'json',
             async: true,
             success: function(msg) {
-                if (msg.checkSuccess === true && msg.obj!==null) {
+                if (msg.checkSuccess === true && msg.obj!=null) {
                     var object = msg.obj;
                     $("#citizenID").text(object.citizenID);
                     $("#username").text(object.name);
@@ -88,7 +88,7 @@ $(function() {
             dataType: 'json',
             async: true,
             success: function(msg) {
-                if (msg.checkSuccess === true && msg.obj!==null) {
+                if (msg.checkSuccess === true && msg.obj!=null) {
                     var object = msg.obj;
                     $("#citizenFindId").val(object.citizenID);
                     $("#citizenID").text(object.citizenID);
@@ -227,7 +227,7 @@ $(function() {
                         //$(formName)[0].reset();
                         var objData = {};
                         objData.ItemSelect = $('#citizenFindId').val();
-                        //onActionSearch(objData);
+                        onActionSearch(objData);
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -265,22 +265,28 @@ $(function() {
             $("#btnCancel").addClass('hide');
             $("#btnPrint").addClass('hide');
             $("#btnBillCancel").addClass('hide');
-        }else if($("#hiddenStatus").text() !== '10'){
+        }else if($("#hiddenStatus").text() === '11'){
             $("#btnSubmit").addClass('hide');
             $("#btnCancel").addClass('hide');
             
-            $("#btnPrint").addClass('hide');
-            $("#btnBillCancel").addClass('hide');
+//            $("#btnPrint").addClass('hide');
+//            $("#btnBillCancel").addClass('hide');
             
-//            $("#btnPrint").removeClass('hide');
-//            $("#btnBillCancel").removeClass('hide');
-//            $("#btnPrint").addClass('btn btn-success');
-//            $("#btnBillCancel").addClass('btn btn-danger');
-        }else{
+            $("#btnPrint").removeClass('hide');
+            $("#btnBillCancel").removeClass('hide');
+            $("#btnPrint").addClass('btn btn-success');
+            $("#btnBillCancel").addClass('btn btn-danger');
+        }else if($("#hiddenStatus").text() === '10'){
             $("#btnSubmit").removeClass('hide');
             $("#btnCancel").removeClass('hide');
             $("#btnSubmit").addClass('btn btn-info');
             $("#btnCancel").addClass('btn btn-rotate');
+            
+            $("#btnPrint").addClass('hide');
+            $("#btnBillCancel").addClass('hide');
+        }else{
+            $("#btnSubmit").addClass('hide');
+            $("#btnCancel").addClass('hide');
             
             $("#btnPrint").addClass('hide');
             $("#btnBillCancel").addClass('hide');
@@ -321,7 +327,7 @@ $(function() {
         $("#status").text('');
         $("#docCode").val('');
         checkStatus();
-        if($('#citizenFindId').val().length !== 0){
+        if($('#citizenFindId').val().length != 0){
             var objData = {};
             objData.ItemSelect = $('#citizenFindId').val();
             onActionSearch(objData);
@@ -334,14 +340,14 @@ $(function() {
     
     $("#btnSubmit").click(function(event) {
         event.preventDefault();
-        if($('#citizenFindId').val().length !== 0){
+        if($('#citizenFindId').val().length != 0){
             onDialogSave();
         }
     });
     
     $("#btnBillCancel").click(function(event) {
         event.preventDefault();
-        if($('#memberId').val().length !== 0){
+        if($('#memberId').val().length != 0){
             var memberId = {};
             memberId = $('#memberId').val();
             //alert(memberId);

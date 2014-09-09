@@ -53,6 +53,7 @@ public class OperationMember implements java.io.Serializable {
     private Integer titleId;
     private String titleName;
     private Date applyDate;
+    private Integer memberStatusCode;
     
     private List<Integer> itemSelect;
     private List<Integer> itemSelect2;
@@ -425,6 +426,21 @@ public class OperationMember implements java.io.Serializable {
      */
     public void setItemSelect2(List<Integer> itemSelect2) {
         this.itemSelect2 = itemSelect2;
+    }
+
+    /**
+     * @return the memberStatusCode
+     */
+    @Formula("(SELECT M.member_status_code FROM Member M WHERE M.member_id=member_id)")
+    public Integer getMemberStatusCode() {
+        return memberStatusCode;
+    }
+
+    /**
+     * @param memberStatusCode the memberStatusCode to set
+     */
+    public void setMemberStatusCode(Integer memberStatusCode) {
+        this.memberStatusCode = memberStatusCode;
     }
 
 }

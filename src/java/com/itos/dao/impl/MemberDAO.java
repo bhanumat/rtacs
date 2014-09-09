@@ -5,26 +5,33 @@
  */
 package com.itos.dao.impl;
 
+import com.itos.dao.model.IMemberBeneficiaryDAO;
 import com.itos.dao.model.IMemberDAO;
 import com.itos.model.Member;
 import com.itos.model.MemberBeneficiary;
 import com.itos.model.MilitaryDepartment;
-import com.itos.model.Operation;
 import com.itos.model.OperationMember;
 import com.itos.model.Rank;
 import com.itos.model.Title;
 import com.itos.model.ext.PaymentDetail;
 import com.itos.util.ConstantsMessage;
+import com.itos.util.DateUtil;
 import com.itos.util.Hibernate.CommandConstant;
 import com.itos.util.Hibernate.CommandQuery;
 import com.itos.util.Hibernate.WhereField;
+import com.itos.util.jqGrid.Condition;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jqGrid.Paging;
+import com.itos.util.jqGrid.Search;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -41,11 +48,18 @@ import org.springframework.stereotype.Repository;
 public class MemberDAO implements IMemberDAO {
 
     protected final Log logger = LogFactory.getLog(getClass());
+    private static final Locale ENG_LOCALE = new Locale("en", "EN");
+    private static final SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", ENG_LOCALE);
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", ENG_LOCALE);
 
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    IMemberBeneficiaryDAO iMemberBeneficiaryDAO;
+
     private final String objectTable = "Member";
+    private final String operationMemberTable = "OperationMember";
 
     @Override
     public JqGridResponse<Member> getList(JqGridRequest req) {
@@ -150,13 +164,447 @@ public class MemberDAO implements IMemberDAO {
     }
 
     @Override
+    public JqGridResponse<Member> getListAPP041_2(JqGridRequest req) {
+        logger.info("getListAPP041_2");
+        List<Member> listResponse = new ArrayList<>();
+        JqGridResponse<Member> jqGrid = new JqGridResponse<>();
+        Member memberObject;
+        List<OperationMember> list;
+
+        logger.info("req : " + req.isSearch());
+        logger.info("req : >>" + req.getSearchCommand() + "<<");
+
+        Paging paging = CommandQuery.CountRows(sessionFactory, req, operationMemberTable);
+        Query query = CommandQuery.CreateQuery(sessionFactory, req, operationMemberTable, paging);
+
+        if (!query.list().isEmpty()) {
+            list = query.list();
+            logger.info("list size : " + list.size());
+            for (OperationMember objectList : list) {
+                memberObject = new Member();
+                memberObject.setAccTypeId(objectList.getMember().getAccTypeId());
+                memberObject.setAccTypeName(objectList.getMember().getAccTypeName());
+                memberObject.setAddress(objectList.getMember().getAddress());
+                memberObject.setAddressPrimary(objectList.getMember().getAddressPrimary());
+                memberObject.setApplyDate(objectList.getMember().getApplyDate());
+                memberObject.setBankAccName(objectList.getMember().getBankAccName());
+                memberObject.setBankAccNo(objectList.getMember().getBankAccNo());
+                memberObject.setBankBranchId(objectList.getMember().getBankBranchId());
+                memberObject.setBankCode(objectList.getMember().getBankCode());
+                memberObject.setBirthDate(objectList.getMember().getBirthDate());
+                memberObject.setCitizenId(objectList.getMember().getCitizenId());
+                memberObject.setCreateBy(objectList.getMember().getCreateBy());
+                memberObject.setCreateDate(objectList.getMember().getCreateDate());
+                memberObject.setDistrict(objectList.getMember().getDistrict());
+                memberObject.setFax(objectList.getMember().getFax());
+                memberObject.setGender(objectList.getMember().getGender());
+                memberObject.setMarryStatusCode(objectList.getMember().getMarryStatusCode());
+                memberObject.setMemberCode(objectList.getMember().getMemberCode());
+                memberObject.setMemberGroupCode(objectList.getMember().getMemberGroupCode());
+                memberObject.setMemberId(objectList.getMember().getMemberId());
+                memberObject.setMemberStatusCode(objectList.getMember().getMemberStatusCode());
+                memberObject.setMemberTypeCode(objectList.getMember().getMemberTypeCode());
+                memberObject.setMilitaryId(objectList.getMember().getMilitaryId());
+                memberObject.setMilitaryName(objectList.getMember().getMilitaryName());
+                memberObject.setMobile(objectList.getMember().getMobile());
+                memberObject.setMoo(objectList.getMember().getMoo());
+                memberObject.setName(objectList.getMember().getName());
+                memberObject.setPaymentRemark(objectList.getMember().getPaymentRemark());
+                memberObject.setPaymentType(objectList.getMember().getPaymentType());
+                memberObject.setPaymentTypeCode(objectList.getMember().getPaymentTypeCode());
+                memberObject.setPermanentAddress(objectList.getMember().getPermanentAddress());
+                memberObject.setPermanentDistrict(objectList.getMember().getPermanentDistrict());
+                memberObject.setPermanentFax(objectList.getMember().getPermanentFax());
+                memberObject.setPermanentMobile(objectList.getMember().getPermanentMobile());
+                memberObject.setPermanentProvinceCode(objectList.getMember().getPermanentProvinceCode());
+                memberObject.setPermanentProvinceName(objectList.getMember().getPermanentProvinceName());
+                memberObject.setPermanentRoad(objectList.getMember().getPermanentRoad());
+                memberObject.setPermanentSoi(objectList.getMember().getPermanentSoi());
+                memberObject.setPermanentSubdistrict(objectList.getMember().getPermanentSubdistrict());
+                memberObject.setPermanentTel(objectList.getMember().getPermanentTel());
+                memberObject.setPermanentZipcode(objectList.getMember().getPermanentZipcode());
+                memberObject.setProvinceCode(objectList.getMember().getProvinceCode());
+                memberObject.setProvinceName(objectList.getMember().getProvinceName());
+                memberObject.setTitleId(objectList.getMember().getTitleId());
+                memberObject.setRankId(objectList.getMember().getRankId());
+                memberObject.setRankOrTitleName(null != objectList.getMember().getRankId() ? objectList.getMember().getRankName() : objectList.getMember().getTitleName());
+                memberObject.setReferrerId(objectList.getMember().getReferrerId());
+                memberObject.setReferrerRelationshipCode(objectList.getMember().getReferrerRelationshipCode());
+                memberObject.setRemark(objectList.getMember().getRemark());
+                memberObject.setRoad(objectList.getMember().getRoad());
+                memberObject.setSoi(objectList.getMember().getSoi());
+                memberObject.setSubdistrict(objectList.getMember().getSubdistrict());
+                memberObject.setSurname(objectList.getMember().getSurname());
+                memberObject.setTel(objectList.getMember().getTel());
+                memberObject.setUpdateBy(objectList.getMember().getUpdateBy());
+                memberObject.setUpdateDate(objectList.getMember().getUpdateDate());
+                memberObject.setWifehusbandFullname(objectList.getMember().getWifehusbandFullname());
+                memberObject.setZipcode(objectList.getMember().getZipcode());
+                memberObject.setPermanentMoo(objectList.getMember().getPermanentMoo());
+
+                listResponse.add(memberObject);
+            }
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        }
+        return jqGrid;
+    }
+
+    @Override
+    public JqGridResponse<Member> getAddListAPP041_2(JqGridRequest req) {
+        logger.info("getAddListAPP041_2");
+        List<Member> listResponse = new ArrayList<>();
+        JqGridResponse<Member> jqGrid = new JqGridResponse<>();
+        Member memberObject;
+        List<Member> list;
+        StringBuilder hqlSearch = new StringBuilder();
+        StringBuilder hql = new StringBuilder();
+
+        hqlSearch.append(CommandConstant.CountRows);
+        hqlSearch.append(" ");
+
+        hql.append(CommandConstant.QueryFrom);
+        hql.append(" ");
+        hql.append(objectTable);
+        hql.append(" ");
+        hql.append(CommandConstant.QueryWhere);
+        hql.append(" member_status_code = 20 ");
+
+        if (req.isSearch()) {
+            Search search = Search.JSONDeserializer(req.getSearchCommand());
+            for (Condition condition : search.getConditions()) {
+                if (CommandConstant.DataTypeDate.equalsIgnoreCase(condition.getDataType())) {
+                    String[] tempDate = condition.getData().split(",");
+                    String beginDate = "";
+                    String endDate = "";
+                    if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                        beginDate = formatDate(tempDate[0]);
+                        endDate = formatDate("");
+                    } else {
+                        beginDate = formatDate(tempDate[0]);
+                        endDate = formatDate(tempDate[1]);
+                    }
+                    hql.append(" and ").append(condition.getField());
+                    hql.append(" between ");
+                    hql.append(" \'").append(beginDate).append("\' ");
+                    hql.append(" and \'").append(endDate).append("\' ");
+                }
+                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                    hql.append(" and ").append(condition.getField());
+                    hql.append(" = \'").append(condition.getData()).append("\' ");
+                }
+                if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                    hql.append(" and ").append(condition.getField());
+                    hql.append(" = ").append(condition.getData()).append(" ");
+                }
+            }
+        }
+
+        hqlSearch.append(hql);
+        Paging paging = CommandQuery.queryCountRows(sessionFactory, req, hqlSearch);
+        Query query = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
+
+        if (!query.list().isEmpty()) {
+            list = query.list();
+            for (Member objectList : list) {
+                memberObject = new Member();
+                memberObject.setAccTypeId(objectList.getAccTypeId());
+                memberObject.setAccTypeName(objectList.getAccTypeName());
+                memberObject.setAddress(objectList.getAddress());
+                memberObject.setAddressPrimary(objectList.getAddressPrimary());
+                memberObject.setApplyDate(objectList.getApplyDate());
+                memberObject.setBankAccName(objectList.getBankAccName());
+                memberObject.setBankAccNo(objectList.getBankAccNo());
+                memberObject.setBankBranchId(objectList.getBankBranchId());
+                memberObject.setBankCode(objectList.getBankCode());
+                memberObject.setBirthDate(objectList.getBirthDate());
+                memberObject.setCitizenId(objectList.getCitizenId());
+                memberObject.setCreateBy(objectList.getCreateBy());
+                memberObject.setCreateDate(objectList.getCreateDate());
+                memberObject.setDistrict(objectList.getDistrict());
+                memberObject.setFax(objectList.getFax());
+                memberObject.setGender(objectList.getGender());
+                memberObject.setMarryStatusCode(objectList.getMarryStatusCode());
+                memberObject.setMemberCode(objectList.getMemberCode());
+                memberObject.setMemberGroupCode(objectList.getMemberGroupCode());
+                memberObject.setMemberId(objectList.getMemberId());
+                memberObject.setMemberStatusCode(objectList.getMemberStatusCode());
+                memberObject.setMemberTypeCode(objectList.getMemberTypeCode());
+                memberObject.setMilitaryId(objectList.getMilitaryId());
+                memberObject.setMilitaryName(objectList.getMilitaryName());
+                memberObject.setMobile(objectList.getMobile());
+                memberObject.setMoo(objectList.getMoo());
+                memberObject.setName(objectList.getName());
+                memberObject.setPaymentRemark(objectList.getPaymentRemark());
+                memberObject.setPaymentType(objectList.getPaymentType());
+                memberObject.setPaymentTypeCode(objectList.getPaymentTypeCode());
+                memberObject.setPermanentAddress(objectList.getPermanentAddress());
+                memberObject.setPermanentDistrict(objectList.getPermanentDistrict());
+                memberObject.setPermanentFax(objectList.getPermanentFax());
+                memberObject.setPermanentMobile(objectList.getPermanentMobile());
+                memberObject.setPermanentProvinceCode(objectList.getPermanentProvinceCode());
+                memberObject.setPermanentProvinceName(objectList.getPermanentProvinceName());
+                memberObject.setPermanentRoad(objectList.getPermanentRoad());
+                memberObject.setPermanentSoi(objectList.getPermanentSoi());
+                memberObject.setPermanentSubdistrict(objectList.getPermanentSubdistrict());
+                memberObject.setPermanentTel(objectList.getPermanentTel());
+                memberObject.setPermanentZipcode(objectList.getPermanentZipcode());
+                memberObject.setProvinceCode(objectList.getProvinceCode());
+                memberObject.setProvinceName(objectList.getProvinceName());
+                memberObject.setTitleId(objectList.getTitleId());
+                memberObject.setRankId(objectList.getRankId());
+                memberObject.setRankOrTitleName(null != objectList.getRankId() ? objectList.getRankName() : objectList.getTitleName());
+                memberObject.setReferrerId(objectList.getReferrerId());
+                memberObject.setReferrerRelationshipCode(objectList.getReferrerRelationshipCode());
+                memberObject.setRemark(objectList.getRemark());
+                memberObject.setRoad(objectList.getRoad());
+                memberObject.setSoi(objectList.getSoi());
+                memberObject.setSubdistrict(objectList.getSubdistrict());
+                memberObject.setSurname(objectList.getSurname());
+                memberObject.setTel(objectList.getTel());
+                memberObject.setUpdateBy(objectList.getUpdateBy());
+                memberObject.setUpdateDate(objectList.getUpdateDate());
+                memberObject.setWifehusbandFullname(objectList.getWifehusbandFullname());
+                memberObject.setZipcode(objectList.getZipcode());
+                memberObject.setPermanentMoo(objectList.getPermanentMoo());
+
+                listResponse.add(memberObject);
+            }
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        }
+        return jqGrid;
+    }
+
+    @Override
+    public JqGridResponse<Member> getListAPP031_2(JqGridRequest req) {
+        logger.info("getListAPP031_2");
+        List<Member> listResponse = new ArrayList<>();
+        JqGridResponse<Member> jqGrid = new JqGridResponse<>();
+        Member memberObject;
+        List<OperationMember> list;
+
+        logger.info("req : " + req.isSearch());
+        logger.info("req : >>" + req.getSearchCommand() + "<<");
+
+        Paging paging = CommandQuery.CountRows(sessionFactory, req, operationMemberTable);
+        Query query = CommandQuery.CreateQuery(sessionFactory, req, operationMemberTable, paging);
+
+        if (!query.list().isEmpty()) {
+            list = query.list();
+            logger.info("list size : " + list.size());
+            for (OperationMember objectList : list) {
+                memberObject = new Member();
+                memberObject.setAccTypeId(objectList.getMember().getAccTypeId());
+                memberObject.setAccTypeName(objectList.getMember().getAccTypeName());
+                memberObject.setAddress(objectList.getMember().getAddress());
+                memberObject.setAddressPrimary(objectList.getMember().getAddressPrimary());
+                memberObject.setApplyDate(objectList.getMember().getApplyDate());
+                memberObject.setBankAccName(objectList.getMember().getBankAccName());
+                memberObject.setBankAccNo(objectList.getMember().getBankAccNo());
+                memberObject.setBankBranchId(objectList.getMember().getBankBranchId());
+                memberObject.setBankCode(objectList.getMember().getBankCode());
+                memberObject.setBirthDate(objectList.getMember().getBirthDate());
+                memberObject.setCitizenId(objectList.getMember().getCitizenId());
+                memberObject.setCreateBy(objectList.getMember().getCreateBy());
+                memberObject.setCreateDate(objectList.getMember().getCreateDate());
+                memberObject.setDistrict(objectList.getMember().getDistrict());
+                memberObject.setFax(objectList.getMember().getFax());
+                memberObject.setGender(objectList.getMember().getGender());
+                memberObject.setMarryStatusCode(objectList.getMember().getMarryStatusCode());
+                memberObject.setMemberCode(objectList.getMember().getMemberCode());
+                memberObject.setMemberGroupCode(objectList.getMember().getMemberGroupCode());
+                memberObject.setMemberId(objectList.getMember().getMemberId());
+                memberObject.setMemberStatusCode(objectList.getMember().getMemberStatusCode());
+                memberObject.setMemberTypeCode(objectList.getMember().getMemberTypeCode());
+                memberObject.setMilitaryId(objectList.getMember().getMilitaryId());
+                memberObject.setMilitaryName(objectList.getMember().getMilitaryName());
+                memberObject.setMobile(objectList.getMember().getMobile());
+                memberObject.setMoo(objectList.getMember().getMoo());
+                memberObject.setName(objectList.getMember().getName());
+                memberObject.setPaymentRemark(objectList.getMember().getPaymentRemark());
+                memberObject.setPaymentType(objectList.getMember().getPaymentType());
+                memberObject.setPaymentTypeCode(objectList.getMember().getPaymentTypeCode());
+                memberObject.setPermanentAddress(objectList.getMember().getPermanentAddress());
+                memberObject.setPermanentDistrict(objectList.getMember().getPermanentDistrict());
+                memberObject.setPermanentFax(objectList.getMember().getPermanentFax());
+                memberObject.setPermanentMobile(objectList.getMember().getPermanentMobile());
+                memberObject.setPermanentProvinceCode(objectList.getMember().getPermanentProvinceCode());
+                memberObject.setPermanentProvinceName(objectList.getMember().getPermanentProvinceName());
+                memberObject.setPermanentRoad(objectList.getMember().getPermanentRoad());
+                memberObject.setPermanentSoi(objectList.getMember().getPermanentSoi());
+                memberObject.setPermanentSubdistrict(objectList.getMember().getPermanentSubdistrict());
+                memberObject.setPermanentTel(objectList.getMember().getPermanentTel());
+                memberObject.setPermanentZipcode(objectList.getMember().getPermanentZipcode());
+                memberObject.setProvinceCode(objectList.getMember().getProvinceCode());
+                memberObject.setProvinceName(objectList.getMember().getProvinceName());
+                memberObject.setTitleId(objectList.getMember().getTitleId());
+                memberObject.setRankId(objectList.getMember().getRankId());
+                memberObject.setRankOrTitleName(null != objectList.getMember().getRankId() ? objectList.getMember().getRankName() : objectList.getMember().getTitleName());
+                memberObject.setReferrerId(objectList.getMember().getReferrerId());
+                memberObject.setReferrerRelationshipCode(objectList.getMember().getReferrerRelationshipCode());
+                memberObject.setRemark(objectList.getMember().getRemark());
+                memberObject.setRoad(objectList.getMember().getRoad());
+                memberObject.setSoi(objectList.getMember().getSoi());
+                memberObject.setSubdistrict(objectList.getMember().getSubdistrict());
+                memberObject.setSurname(objectList.getMember().getSurname());
+                memberObject.setTel(objectList.getMember().getTel());
+                memberObject.setUpdateBy(objectList.getMember().getUpdateBy());
+                memberObject.setUpdateDate(objectList.getMember().getUpdateDate());
+                memberObject.setWifehusbandFullname(objectList.getMember().getWifehusbandFullname());
+                memberObject.setZipcode(objectList.getMember().getZipcode());
+                memberObject.setPermanentMoo(objectList.getMember().getPermanentMoo());
+
+                listResponse.add(memberObject);
+            }
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        }
+        return jqGrid;
+    }
+
+    @Override
+    public JqGridResponse<Member> getAddListAPP031_2(JqGridRequest req) {
+        logger.info("getAddListAPP031_2");
+        List<Member> listResponse = new ArrayList<>();
+        JqGridResponse<Member> jqGrid = new JqGridResponse<>();
+        Member memberObject;
+        List<Member> list;
+        StringBuilder hqlSearch = new StringBuilder();
+        StringBuilder hql = new StringBuilder();
+
+        hqlSearch.append(CommandConstant.CountRows);
+        hqlSearch.append(" ");
+
+        hql.append(CommandConstant.QueryFrom);
+        hql.append(" ");
+        hql.append(objectTable);
+        hql.append(" ");
+        hql.append(CommandConstant.QueryWhere);
+        hql.append(" member_status_code = 11 ");
+
+        if (req.isSearch()) {
+            Search search = Search.JSONDeserializer(req.getSearchCommand());
+            for (Condition condition : search.getConditions()) {
+                if (CommandConstant.DataTypeDate.equalsIgnoreCase(condition.getDataType())) {
+                    String[] tempDate = condition.getData().split(",");
+                    String beginDate = "";
+                    String endDate = "";
+                    if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                        beginDate = formatDate(tempDate[0]);
+                        endDate = formatDate("");
+                    } else {
+                        beginDate = formatDate(tempDate[0]);
+                        endDate = formatDate(tempDate[1]);
+                    }
+                    hql.append(" and ").append(condition.getField());
+                    hql.append(" between ");
+                    hql.append(" \'").append(beginDate).append("\' ");
+                    hql.append(" and \'").append(endDate).append("\' ");
+                }
+                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                    hql.append(" and ").append(condition.getField());
+                    hql.append(" = \'").append(condition.getData()).append("\' ");
+                }
+                if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                    hql.append(" and ").append(condition.getField());
+                    hql.append(" = ").append(condition.getData()).append(" ");
+                }
+            }
+        }
+
+        hqlSearch.append(hql);
+        Paging paging = CommandQuery.queryCountRows(sessionFactory, req, hqlSearch);
+        Query query = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
+
+        if (!query.list().isEmpty()) {
+            list = query.list();
+            for (Member objectList : list) {
+                memberObject = new Member();
+                memberObject.setAccTypeId(objectList.getAccTypeId());
+                memberObject.setAccTypeName(objectList.getAccTypeName());
+                memberObject.setAddress(objectList.getAddress());
+                memberObject.setAddressPrimary(objectList.getAddressPrimary());
+                memberObject.setApplyDate(objectList.getApplyDate());
+                memberObject.setBankAccName(objectList.getBankAccName());
+                memberObject.setBankAccNo(objectList.getBankAccNo());
+                memberObject.setBankBranchId(objectList.getBankBranchId());
+                memberObject.setBankCode(objectList.getBankCode());
+                memberObject.setBirthDate(objectList.getBirthDate());
+                memberObject.setCitizenId(objectList.getCitizenId());
+                memberObject.setCreateBy(objectList.getCreateBy());
+                memberObject.setCreateDate(objectList.getCreateDate());
+                memberObject.setDistrict(objectList.getDistrict());
+                memberObject.setFax(objectList.getFax());
+                memberObject.setGender(objectList.getGender());
+                memberObject.setMarryStatusCode(objectList.getMarryStatusCode());
+                memberObject.setMemberCode(objectList.getMemberCode());
+                memberObject.setMemberGroupCode(objectList.getMemberGroupCode());
+                memberObject.setMemberId(objectList.getMemberId());
+                memberObject.setMemberStatusCode(objectList.getMemberStatusCode());
+                memberObject.setMemberTypeCode(objectList.getMemberTypeCode());
+                memberObject.setMilitaryId(objectList.getMilitaryId());
+                memberObject.setMilitaryName(objectList.getMilitaryName());
+                memberObject.setMobile(objectList.getMobile());
+                memberObject.setMoo(objectList.getMoo());
+                memberObject.setName(objectList.getName());
+                memberObject.setPaymentRemark(objectList.getPaymentRemark());
+                memberObject.setPaymentType(objectList.getPaymentType());
+                memberObject.setPaymentTypeCode(objectList.getPaymentTypeCode());
+                memberObject.setPermanentAddress(objectList.getPermanentAddress());
+                memberObject.setPermanentDistrict(objectList.getPermanentDistrict());
+                memberObject.setPermanentFax(objectList.getPermanentFax());
+                memberObject.setPermanentMobile(objectList.getPermanentMobile());
+                memberObject.setPermanentProvinceCode(objectList.getPermanentProvinceCode());
+                memberObject.setPermanentProvinceName(objectList.getPermanentProvinceName());
+                memberObject.setPermanentRoad(objectList.getPermanentRoad());
+                memberObject.setPermanentSoi(objectList.getPermanentSoi());
+                memberObject.setPermanentSubdistrict(objectList.getPermanentSubdistrict());
+                memberObject.setPermanentTel(objectList.getPermanentTel());
+                memberObject.setPermanentZipcode(objectList.getPermanentZipcode());
+                memberObject.setProvinceCode(objectList.getProvinceCode());
+                memberObject.setProvinceName(objectList.getProvinceName());
+                memberObject.setTitleId(objectList.getTitleId());
+                memberObject.setRankId(objectList.getRankId());
+                memberObject.setRankOrTitleName(null != objectList.getRankId() ? objectList.getRankName() : objectList.getTitleName());
+                memberObject.setReferrerId(objectList.getReferrerId());
+                memberObject.setReferrerRelationshipCode(objectList.getReferrerRelationshipCode());
+                memberObject.setRemark(objectList.getRemark());
+                memberObject.setRoad(objectList.getRoad());
+                memberObject.setSoi(objectList.getSoi());
+                memberObject.setSubdistrict(objectList.getSubdistrict());
+                memberObject.setSurname(objectList.getSurname());
+                memberObject.setTel(objectList.getTel());
+                memberObject.setUpdateBy(objectList.getUpdateBy());
+                memberObject.setUpdateDate(objectList.getUpdateDate());
+                memberObject.setWifehusbandFullname(objectList.getWifehusbandFullname());
+                memberObject.setZipcode(objectList.getZipcode());
+                memberObject.setPermanentMoo(objectList.getPermanentMoo());
+
+                listResponse.add(memberObject);
+            }
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        }
+        return jqGrid;
+    }
+
+    @Override
     public JqGridResponse<Member> getListForRegister(JqGridRequest req) {
         List<Member> listResponse = new ArrayList<>();
         JqGridResponse<Member> jqGrid = new JqGridResponse<>();
         Member memberObject;
         List<Member> list;
         WhereField whereField = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         try {
             /*
              * Command HQL query Data.
@@ -268,14 +716,30 @@ public class MemberDAO implements IMemberDAO {
     @Override
     public MessageResponse setDeleteMember(MessageRequest req) {
         int iCountSuccessful = 0;
+        int iCountSubSuccessful = 0;
         MessageResponse response = new MessageResponse();
+        MemberBeneficiary memberBeneficiaryOriginal;
+        List<MemberBeneficiary> listMemberBeneficiary = new ArrayList<>();
         Member memberOriginal = null;
         boolean chekSuccess = false;
         for (String id : req.getItemSelect()) {
             memberOriginal = new Member();
             memberOriginal = (Member) CommandQuery.LoadDetail(sessionFactory, Member.class, Integer.parseInt(id));
-            if (CommandQuery.Delete(sessionFactory, memberOriginal)) {
-                iCountSuccessful++;
+
+            listMemberBeneficiary = iMemberBeneficiaryDAO.getListByMember(memberOriginal);
+
+            for (MemberBeneficiary memberBeneficiary : listMemberBeneficiary) {
+                memberBeneficiaryOriginal = (MemberBeneficiary) CommandQuery.LoadDetail(sessionFactory, MemberBeneficiary.class, memberBeneficiary.getBeneficiaryId());
+                if (CommandQuery.Delete(sessionFactory, memberBeneficiaryOriginal)) {
+                    iCountSubSuccessful++;
+                }
+            }
+            if (iCountSubSuccessful == listMemberBeneficiary.size()) {
+                if (CommandQuery.Delete(sessionFactory, memberOriginal)) {
+                    iCountSuccessful++;
+                }
+            } else {
+                throw new RuntimeException(ConstantsMessage.DeleteUnsuccessful);
             }
         }
         if (iCountSuccessful == req.getItemSelect().size()) {
@@ -310,6 +774,8 @@ public class MemberDAO implements IMemberDAO {
                 }
                 if (iCountSuccessful == member.getListMemberBeneficiary().size()) {
                     chekSuccess = true;
+                } else {
+                    chekSuccess = false;
                 }
             }
         }
@@ -327,6 +793,7 @@ public class MemberDAO implements IMemberDAO {
     @Override
     public MessageResponse setSaveEditMember(Member member) {
         MessageResponse response = new MessageResponse();
+        MemberBeneficiary memberBeneficiaryOriginal;
         boolean chekSuccess = false;
         int iCountSuccessful = 0;
         Member memberOriginal = (Member) CommandQuery.LoadDetail(sessionFactory, Member.class, member.getMemberId());
@@ -350,7 +817,8 @@ public class MemberDAO implements IMemberDAO {
         memberOriginal.setMemberCode(member.getMemberCode());
         memberOriginal.setMemberGroupCode(member.getMemberGroupCode());
         memberOriginal.setMemberId(member.getMemberId());
-        memberOriginal.setMemberStatusCode(member.getMarryStatusCode());
+        memberOriginal.setMilitaryId(member.getMilitaryId());
+        //memberOriginal.setMemberStatusCode(member.getMemberStatusCode());
         memberOriginal.setMemberTypeCode(member.getMemberTypeCode());
         memberOriginal.setMilitaryDepartment(member.getMilitaryDepartment());
         memberOriginal.setMobile(member.getMobile());
@@ -404,17 +872,19 @@ public class MemberDAO implements IMemberDAO {
                 }
 
                 if (null != member.getDeleteBeneficiaryId() && !member.getDeleteBeneficiaryId().isEmpty() && member.getDeleteBeneficiaryId().size() != 0) {
-                    MemberBeneficiary memberBeneficiary;
                     for (String beneficiaryId : member.getDeleteBeneficiaryId()) {
-                        memberBeneficiary = new MemberBeneficiary();
-                        memberBeneficiary.setBeneficiaryId(Integer.parseInt(beneficiaryId));
-                        CommandQuery.Delete(sessionFactory, memberBeneficiary);
-                        iCountSuccessful--;
+                        memberBeneficiaryOriginal = new MemberBeneficiary();
+                        memberBeneficiaryOriginal = (MemberBeneficiary) CommandQuery.LoadDetail(sessionFactory, MemberBeneficiary.class, Integer.parseInt(beneficiaryId));
+                        if (CommandQuery.Delete(sessionFactory, memberBeneficiaryOriginal)) {
+                            iCountSuccessful++;
+                        }
                     }
                 }
 
-                if (iCountSuccessful == member.getListMemberBeneficiary().size()) {
+                if (iCountSuccessful == (member.getListMemberBeneficiary().size() + member.getDeleteBeneficiaryId().size())) {
                     chekSuccess = true;
+                } else {
+                    chekSuccess = false;
                 }
             }
         }
@@ -431,40 +901,20 @@ public class MemberDAO implements IMemberDAO {
 
     @Override
     public MessageResponse setSaveUpdateMemberOperation(Member memberData) {
+        logger.info("call setSaveUpdateMemberOperation");
         int iCountSuccessful = 0;
         MessageResponse response = new MessageResponse();
-        Member member = new Member();;
-        OperationMember operationMember = null;
-        Operation operation = new Operation();
         boolean chekSuccess = false;
-        member.setMemberCode(memberData.getMemberCode());
-//        if (CommandQuery.Insert(sessionFactory, operation)) {
-//            for (Integer id : operationPost.getItemSelect()) {
-//
-//                operationMember = new OperationMember();
-//                operationMember.setOperation(operation);
-//                member = new Member();
-//                member.setMemberId(id);
-//                operationMember.setMember(member);
-//                if (CommandQuery.Insert(sessionFactory, operationMember)) {
-//                    iCountSuccessful++;
-//                }
-//                /*
-//                 operationOriginal = new Operation();
-//                 operationOriginal = (Operation) CommandQuery.LoadDetail(sessionFactory, Operation.class, Integer.parseInt(id));
-//                 if (CommandQuery.Delete(sessionFactory, operationOriginal)) {
-//                 iCountSuccessful++;
-//                 }*/
-//            }
-//        }
-//        if (iCountSuccessful == (operationPost.getItemSelect().size())) {
-//            response.setCheckSuccess(true);
-//        } else {
-//            response.setCheckSuccess(false);
-//        }
-        chekSuccess = response.getCheckSuccess();
+        memberData.setMemberStatusCode(25);
+        if (CommandQuery.Update(sessionFactory, memberData)) {
+            iCountSuccessful++;
+        }
+        if (iCountSuccessful > 1) {
+            chekSuccess = true;
+        }
         if (chekSuccess) {
             response.setId("");
+            response.setCheckSuccess(chekSuccess);
             response.setMessage(ConstantsMessage.SaveSuccessful);
         } else {
             throw new RuntimeException(ConstantsMessage.SaveUnsuccessful);
@@ -474,6 +924,7 @@ public class MemberDAO implements IMemberDAO {
 
     @Override
     public Member getLoadMember(Member member) {
+        logger.info("MemberDAO : getLoadMember");
         Member memberObject = getLoadDetailByObject(member);
         Member memberResponse = new Member();
         memberResponse.setAccTypeId(memberObject.getAccTypeId());
@@ -539,8 +990,9 @@ public class MemberDAO implements IMemberDAO {
     }
 
     private Member getLoadDetailByObject(Member member) {
+        logger.info("MemberDAO : getLoadDetailByObject");
         Member memberResponse = new Member();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Member> list;
         WhereField whereField = null;
         try {
@@ -646,7 +1098,7 @@ public class MemberDAO implements IMemberDAO {
 
     private Member getLoadDetailById(Member member) {
         Member memberResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<Member> list;
         WhereField whereField = null;
         try {
@@ -807,7 +1259,7 @@ public class MemberDAO implements IMemberDAO {
 
         Query query;
         whereField = new WhereField();
-        whereField.setSearchField("citizen_id");
+        whereField.setSearchField("citizenId");
         whereField.setSearchLogic("");
         whereField.setSearchOper(CommandConstant.QueryEqual);
         whereField.setSearchValue(citizenId);
@@ -827,5 +1279,337 @@ public class MemberDAO implements IMemberDAO {
             return memberOriginal;
         }
         return null;
+    }
+
+    @Override
+    public Member updatedStatusAPP041(Integer memberId) {
+        logger.info("MemberDAO : updatedStatusAPP041");
+        int iCountSuccessful = 0;
+        List<Member> list;
+        Member memberOriginal = null;
+
+        logger.info("memberId : >>" + memberId + "<<");
+
+        List<WhereField> listWhereField = new ArrayList<>();
+        WhereField whereField = null;
+
+        Query query;
+        whereField = new WhereField();
+        whereField.setSearchField("memberId");
+        whereField.setSearchLogic("");
+        whereField.setSearchOper(CommandConstant.QueryEqual);
+        whereField.setSearchValue(memberId);
+        whereField.setSearchDataType(CommandConstant.DataTypeInteger);
+        listWhereField.add(whereField);
+        query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField);
+
+        if (!query.list().isEmpty()) {
+            list = query.list();
+            logger.info("list size : " + list.size());
+            memberOriginal = list.get(0);
+            logger.info("1 memberOriginal status : " + memberOriginal.getMemberStatusCode());
+            memberOriginal.setMemberStatusCode(25);
+            logger.info("2 memberOriginal status : " + memberOriginal.getMemberStatusCode());
+            if (CommandQuery.Update(sessionFactory, memberOriginal)) {
+                iCountSuccessful++;
+                logger.info("update success");
+            }
+        }
+        if (iCountSuccessful > 0) {
+            return memberOriginal;
+        }
+        return null;
+    }
+
+    @Override
+    public Member updatedStatusAPP031(Integer memberId) {
+        logger.info("MemberDAO : updatedStatusAPP031");
+        int iCountSuccessful = 0;
+        List<Member> list;
+        Member memberOriginal = null;
+
+        logger.info("memberId : >>" + memberId + "<<");
+
+        List<WhereField> listWhereField = new ArrayList<>();
+        WhereField whereField = null;
+
+        Query query;
+        whereField = new WhereField();
+        whereField.setSearchField("memberId");
+        whereField.setSearchLogic("");
+        whereField.setSearchOper(CommandConstant.QueryEqual);
+        whereField.setSearchValue(memberId);
+        whereField.setSearchDataType(CommandConstant.DataTypeInteger);
+        listWhereField.add(whereField);
+        query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField);
+
+        if (!query.list().isEmpty()) {
+            list = query.list();
+            logger.info("list size : " + list.size());
+            memberOriginal = list.get(0);
+            logger.info("1 memberOriginal status : " + memberOriginal.getMemberStatusCode());
+            memberOriginal.setMemberStatusCode(13);
+            logger.info("2 memberOriginal status : " + memberOriginal.getMemberStatusCode());
+            if (CommandQuery.Update(sessionFactory, memberOriginal)) {
+                iCountSuccessful++;
+                logger.info("update success");
+            }
+        }
+        if (iCountSuccessful > 0) {
+            return memberOriginal;
+        }
+        return null;
+    }
+
+    @Override
+    public JqGridResponse<Member> getList(JqGridRequest req, int memberStatusCode) {
+        List<Member> listResponse = new ArrayList<>();
+        JqGridResponse<Member> jqGrid = new JqGridResponse<>();
+        Member memberObject;
+        List<Member> list;
+        /*
+         * Command HQL query Data.
+         */
+//        StringBuilder hql = new StringBuilder();
+//        hql.append("From Bank");
+        List<WhereField> listWhereField = new ArrayList<>();
+        WhereField whereField = null;
+
+        if (0 != memberStatusCode) {
+            whereField = new WhereField();
+            whereField.setSearchField("memberStatusCode");
+            whereField.setSearchLogic("");
+            whereField.setSearchOper(CommandConstant.QueryEqual);
+            whereField.setSearchValue(memberStatusCode);
+            whereField.setSearchDataType(CommandConstant.DataTypeInteger);
+            listWhereField.add(whereField);
+        }
+
+        Paging paging = CommandQuery.CountRows(sessionFactory, listWhereField, CommandConstant.QueryAND, req, objectTable);
+        Query query = CommandQuery.CreateQuery(sessionFactory, listWhereField, CommandConstant.QueryAND, req, objectTable, paging);
+        /*
+         * Check array data if true set create object to array new.
+         */
+        if (!query.list().isEmpty()) {
+            list = query.list();
+
+            /*
+             * Start developer create object to array new.
+             */
+            for (Member memberObjectList : list) {
+                memberObject = new Member();
+                memberObject.setAccTypeId(memberObjectList.getAccTypeId());
+                memberObject.setAccTypeName(memberObjectList.getAccTypeName());
+                memberObject.setAddress(memberObjectList.getAddress());
+                memberObject.setAddressPrimary(memberObjectList.getAddressPrimary());
+                memberObject.setApplyDate(memberObjectList.getApplyDate());
+                memberObject.setBankAccName(memberObjectList.getBankAccName());
+                memberObject.setBankAccNo(memberObjectList.getBankAccNo());
+                memberObject.setBankBranchId(memberObjectList.getBankBranchId());
+                memberObject.setBankCode(memberObjectList.getBankCode());
+                memberObject.setBirthDate(memberObjectList.getBirthDate());
+                memberObject.setCitizenId(memberObjectList.getCitizenId());
+                memberObject.setCreateBy(memberObjectList.getCreateBy());
+                memberObject.setCreateDate(memberObjectList.getCreateDate());
+                memberObject.setDistrict(memberObjectList.getDistrict());
+                memberObject.setFax(memberObjectList.getFax());
+                memberObject.setGender(memberObjectList.getGender());
+                memberObject.setMarryStatusCode(memberObjectList.getMarryStatusCode());
+                memberObject.setMemberCode(memberObjectList.getMemberCode());
+                memberObject.setMemberGroupCode(memberObjectList.getMemberGroupCode());
+                memberObject.setMemberId(memberObjectList.getMemberId());
+                memberObject.setMemberStatusCode(memberObjectList.getMemberStatusCode());
+                memberObject.setMemberTypeCode(memberObjectList.getMemberTypeCode());
+                memberObject.setMilitaryId(memberObjectList.getMilitaryId());
+                memberObject.setMilitaryName(memberObjectList.getMilitaryName());
+                memberObject.setMobile(memberObjectList.getMobile());
+                memberObject.setMoo(memberObjectList.getMoo());
+                memberObject.setName(memberObjectList.getName());
+                memberObject.setPaymentRemark(memberObjectList.getPaymentRemark());
+                memberObject.setPaymentType(memberObjectList.getPaymentType());
+                memberObject.setPaymentTypeCode(memberObjectList.getPaymentTypeCode());
+                memberObject.setPermanentAddress(memberObjectList.getPermanentAddress());
+                memberObject.setPermanentDistrict(memberObjectList.getPermanentDistrict());
+                memberObject.setPermanentFax(memberObjectList.getPermanentFax());
+                memberObject.setPermanentMobile(memberObjectList.getPermanentMobile());
+                memberObject.setPermanentProvinceCode(memberObjectList.getPermanentProvinceCode());
+                memberObject.setPermanentProvinceName(memberObjectList.getPermanentProvinceName());
+                memberObject.setPermanentRoad(memberObjectList.getPermanentRoad());
+                memberObject.setPermanentSoi(memberObjectList.getPermanentSoi());
+                memberObject.setPermanentSubdistrict(memberObjectList.getPermanentSubdistrict());
+                memberObject.setPermanentTel(memberObjectList.getPermanentTel());
+                memberObject.setPermanentZipcode(memberObjectList.getPermanentZipcode());
+                memberObject.setProvinceCode(memberObjectList.getProvinceCode());
+                memberObject.setProvinceName(memberObjectList.getProvinceName());
+                memberObject.setTitleId(memberObjectList.getTitleId());
+                memberObject.setRankId(memberObjectList.getRankId());
+                memberObject.setRankOrTitleName(null != memberObjectList.getRankId() ? memberObjectList.getRankName() : memberObjectList.getTitleName());
+                memberObject.setReferrerId(memberObjectList.getReferrerId());
+                memberObject.setReferrerRelationshipCode(memberObjectList.getReferrerRelationshipCode());
+                memberObject.setRemark(memberObjectList.getRemark());
+                memberObject.setRoad(memberObjectList.getRoad());
+                memberObject.setSoi(memberObjectList.getSoi());
+                memberObject.setSubdistrict(memberObjectList.getSubdistrict());
+                memberObject.setSurname(memberObjectList.getSurname());
+                memberObject.setTel(memberObjectList.getTel());
+                memberObject.setUpdateBy(memberObjectList.getUpdateBy());
+                memberObject.setUpdateDate(memberObjectList.getUpdateDate());
+                memberObject.setWifehusbandFullname(memberObjectList.getWifehusbandFullname());
+                memberObject.setZipcode(memberObjectList.getZipcode());
+                memberObject.setPermanentMoo(memberObjectList.getPermanentMoo());
+
+                listResponse.add(memberObject);
+            }
+            /*
+             * End developer create object to array new.
+             */
+
+            /*
+             * Set Paging to jqgrid.
+             */
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        }
+        return jqGrid;
+    }
+
+    @Override
+    public JqGridResponse<Member> getList(JqGridRequest req, int memberStatusCode, int operationId) {
+        List<Member> listResponse = new ArrayList<>();
+        JqGridResponse<Member> jqGrid = new JqGridResponse<>();
+        Member memberObject;
+        List<Member> list;
+        /*
+         * Command HQL query Data.
+         */
+//        StringBuilder hql = new StringBuilder();
+//        hql.append("From Bank");
+        List<WhereField> listWhereField = new ArrayList<>();
+        WhereField whereField = null;
+        if (0 != memberStatusCode) {
+            whereField = new WhereField();
+            whereField.setSearchField("memberStatusCode");
+            whereField.setSearchLogic("");
+            whereField.setSearchOper(CommandConstant.QueryEqual);
+            whereField.setSearchValue(memberStatusCode);
+            whereField.setSearchDataType(CommandConstant.DataTypeInteger);
+            listWhereField.add(whereField);
+        }
+        if (0 != operationId){
+            whereField = new WhereField();
+            whereField.setSearchField("operationIdBy20");
+            whereField.setSearchLogic(CommandConstant.QueryAND);
+            whereField.setSearchOper(CommandConstant.QueryEqual);
+            whereField.setSearchValue(operationId);
+            whereField.setSearchDataType(CommandConstant.DataTypeInteger);
+            listWhereField.add(whereField);
+        }
+        Paging paging = CommandQuery.CountRows(sessionFactory, listWhereField, CommandConstant.QueryAND, req, objectTable);
+        Query query = CommandQuery.CreateQuery(sessionFactory, listWhereField, CommandConstant.QueryAND, req, objectTable, paging);
+        /*
+         * Check array data if true set create object to array new.
+         */
+        if (!query.list().isEmpty()) {
+            list = query.list();
+
+            /*
+             * Start developer create object to array new.
+             */
+            for (Member memberObjectList : list) {
+                memberObject = new Member();
+                memberObject.setAccTypeId(memberObjectList.getAccTypeId());
+                memberObject.setAccTypeName(memberObjectList.getAccTypeName());
+                memberObject.setAddress(memberObjectList.getAddress());
+                memberObject.setAddressPrimary(memberObjectList.getAddressPrimary());
+                memberObject.setApplyDate(memberObjectList.getApplyDate());
+                memberObject.setBankAccName(memberObjectList.getBankAccName());
+                memberObject.setBankAccNo(memberObjectList.getBankAccNo());
+                memberObject.setBankBranchId(memberObjectList.getBankBranchId());
+                memberObject.setBankCode(memberObjectList.getBankCode());
+                memberObject.setBirthDate(memberObjectList.getBirthDate());
+                memberObject.setCitizenId(memberObjectList.getCitizenId());
+                memberObject.setCreateBy(memberObjectList.getCreateBy());
+                memberObject.setCreateDate(memberObjectList.getCreateDate());
+                memberObject.setDistrict(memberObjectList.getDistrict());
+                memberObject.setFax(memberObjectList.getFax());
+                memberObject.setGender(memberObjectList.getGender());
+                memberObject.setMarryStatusCode(memberObjectList.getMarryStatusCode());
+                memberObject.setMemberCode(memberObjectList.getMemberCode());
+                memberObject.setMemberGroupCode(memberObjectList.getMemberGroupCode());
+                memberObject.setMemberId(memberObjectList.getMemberId());
+                memberObject.setMemberStatusCode(memberObjectList.getMemberStatusCode());
+                memberObject.setMemberTypeCode(memberObjectList.getMemberTypeCode());
+                memberObject.setMilitaryId(memberObjectList.getMilitaryId());
+                memberObject.setMilitaryName(memberObjectList.getMilitaryName());
+                memberObject.setMobile(memberObjectList.getMobile());
+                memberObject.setMoo(memberObjectList.getMoo());
+                memberObject.setName(memberObjectList.getName());
+                memberObject.setPaymentRemark(memberObjectList.getPaymentRemark());
+                memberObject.setPaymentType(memberObjectList.getPaymentType());
+                memberObject.setPaymentTypeCode(memberObjectList.getPaymentTypeCode());
+                memberObject.setPermanentAddress(memberObjectList.getPermanentAddress());
+                memberObject.setPermanentDistrict(memberObjectList.getPermanentDistrict());
+                memberObject.setPermanentFax(memberObjectList.getPermanentFax());
+                memberObject.setPermanentMobile(memberObjectList.getPermanentMobile());
+                memberObject.setPermanentProvinceCode(memberObjectList.getPermanentProvinceCode());
+                memberObject.setPermanentProvinceName(memberObjectList.getPermanentProvinceName());
+                memberObject.setPermanentRoad(memberObjectList.getPermanentRoad());
+                memberObject.setPermanentSoi(memberObjectList.getPermanentSoi());
+                memberObject.setPermanentSubdistrict(memberObjectList.getPermanentSubdistrict());
+                memberObject.setPermanentTel(memberObjectList.getPermanentTel());
+                memberObject.setPermanentZipcode(memberObjectList.getPermanentZipcode());
+                memberObject.setProvinceCode(memberObjectList.getProvinceCode());
+                memberObject.setProvinceName(memberObjectList.getProvinceName());
+                memberObject.setTitleId(memberObjectList.getTitleId());
+                memberObject.setRankId(memberObjectList.getRankId());
+                memberObject.setRankOrTitleName(null != memberObjectList.getRankId() ? memberObjectList.getRankName() : memberObjectList.getTitleName());
+                memberObject.setReferrerId(memberObjectList.getReferrerId());
+                memberObject.setReferrerRelationshipCode(memberObjectList.getReferrerRelationshipCode());
+                memberObject.setRemark(memberObjectList.getRemark());
+                memberObject.setRoad(memberObjectList.getRoad());
+                memberObject.setSoi(memberObjectList.getSoi());
+                memberObject.setSubdistrict(memberObjectList.getSubdistrict());
+                memberObject.setSurname(memberObjectList.getSurname());
+                memberObject.setTel(memberObjectList.getTel());
+                memberObject.setUpdateBy(memberObjectList.getUpdateBy());
+                memberObject.setUpdateDate(memberObjectList.getUpdateDate());
+                memberObject.setWifehusbandFullname(memberObjectList.getWifehusbandFullname());
+                memberObject.setZipcode(memberObjectList.getZipcode());
+                memberObject.setPermanentMoo(memberObjectList.getPermanentMoo());
+
+                listResponse.add(memberObject);
+            }
+            /*
+             * End developer create object to array new.
+             */
+
+            /*
+             * Set Paging to jqgrid.
+             */
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        }
+        return jqGrid;
+    }
+
+    private String formatDate(String date) {
+
+        if (date.isEmpty()) {
+            Date currentDate = DateUtil.getCurrentDate();
+            String result = format.format(currentDate);
+            return result;
+        }
+        try {
+            Date tempDate = sf.parse(date);
+            String result = format.format(tempDate);
+            return result;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

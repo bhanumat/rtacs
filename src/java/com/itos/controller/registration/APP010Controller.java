@@ -20,6 +20,7 @@ import com.itos.service.model.IMemberService;
 import com.itos.util.DateUtil;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
+import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.io.IOException;
 import java.security.Principal;
@@ -88,6 +89,7 @@ public class APP010Controller {
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     JqGridResponse<Member> getListAPP010(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+        logger.info("APP010Controller : getListAPP010");
         req.setSearch(Boolean.parseBoolean(search));
         return iMemberService.getListMember(req);
     }
@@ -127,7 +129,7 @@ public class APP010Controller {
             Member memberDeserializer = JsonMember.JSONDeserializer(data2Json, stringDateFormat);
 
             BankAccountType bankAccountType = new BankAccountType();
-            if (null == memberDeserializer.getAccTypeId() && memberDeserializer.getAccTypeId() != 0) {
+            if (null != memberDeserializer.getAccTypeId() && memberDeserializer.getAccTypeId() != 0) {
                 bankAccountType.setAccTypeId(memberDeserializer.getAccTypeId());
             } else {
                 bankAccountType = null;
@@ -141,7 +143,7 @@ public class APP010Controller {
             memberRequest.setBankAccNo(memberDeserializer.getBankAccNo());
 
             BankBranch bankBranch = new BankBranch();
-            if (null == memberDeserializer.getBankBranchId() && memberDeserializer.getBankBranchId() != 0) {
+            if (null != memberDeserializer.getBankBranchId() && memberDeserializer.getBankBranchId() != 0) {
                 bankBranch.setBranchId(memberDeserializer.getBankBranchId());
             } else {
                 bankBranch = null;
@@ -150,7 +152,7 @@ public class APP010Controller {
 
             Bank bank = new Bank();
             bank.setBankCode(memberDeserializer.getBankCode());
-            if (null == memberDeserializer.getBankCode() && !memberDeserializer.getBankCode().isEmpty()) {
+            if (null != memberDeserializer.getBankCode() && !memberDeserializer.getBankCode().isEmpty()) {
                 bank.setBankCode(memberDeserializer.getBankCode());
             } else {
                 bank = null;
@@ -168,11 +170,11 @@ public class APP010Controller {
             memberRequest.setMemberCode(memberDeserializer.getMemberCode());
             memberRequest.setMemberGroupCode(memberDeserializer.getMemberGroupCode());
             memberRequest.setMemberId(memberDeserializer.getMemberId());
-            memberRequest.setMemberStatusCode(11);
+            memberRequest.setMemberStatusCode(10);
             memberRequest.setMemberTypeCode(memberDeserializer.getMemberTypeCode());
 
             MilitaryDepartment militaryDepartment = new MilitaryDepartment();
-            if (null == memberDeserializer.getMilitaryId() && memberDeserializer.getMilitaryId() != 0) {
+            if (null != memberDeserializer.getMilitaryId() && memberDeserializer.getMilitaryId() != 0) {
                 militaryDepartment.setMilitaryId(memberDeserializer.getMilitaryId());
             } else {
                 militaryDepartment = null;
@@ -191,7 +193,7 @@ public class APP010Controller {
             memberRequest.setPermanentMobile(memberDeserializer.getPermanentMobile());
 
             Province province = new Province();
-            if (null == memberDeserializer.getPermanentProvinceCode() && !memberDeserializer.getPermanentProvinceCode().isEmpty()) {
+            if (null != memberDeserializer.getPermanentProvinceCode() && !memberDeserializer.getPermanentProvinceCode().isEmpty()) {
                 province.setProvinceCode(memberDeserializer.getPermanentProvinceCode());
             } else {
                 province = null;
@@ -206,7 +208,7 @@ public class APP010Controller {
 
             province = null;
             province = new Province();
-            if (null == memberDeserializer.getProvinceCode() && !memberDeserializer.getProvinceCode().isEmpty()) {
+            if (null != memberDeserializer.getProvinceCode() && !memberDeserializer.getProvinceCode().isEmpty()) {
                 province.setProvinceCode(memberDeserializer.getProvinceCode());
             } else {
                 province = null;
@@ -214,7 +216,11 @@ public class APP010Controller {
             memberRequest.setProvinceByProvinceCode(province);
 
             Rank rank = new Rank();
-            rank.setRankId(memberDeserializer.getRankId());
+            if (null != memberDeserializer.getRankId() && memberDeserializer.getRankId() != 0) {
+                rank.setRankId(memberDeserializer.getRankId());
+            } else {
+                rank = null;
+            }
             memberRequest.setRank(rank);
 
             memberRequest.setReferrerId(memberDeserializer.getReferrerId());
@@ -227,7 +233,7 @@ public class APP010Controller {
             memberRequest.setTel(memberDeserializer.getTel());
 
             Title title = new Title();
-            if (null == memberDeserializer.getTitleId() && memberDeserializer.getTitleId() != 0) {
+            if (null != memberDeserializer.getTitleId() && memberDeserializer.getTitleId() != 0) {
                 title.setTitleId(memberDeserializer.getTitleId());
             } else {
                 title = null;
@@ -246,7 +252,7 @@ public class APP010Controller {
             if (null != listMemberBeneficiary && !listMemberBeneficiary.isEmpty() && listMemberBeneficiary.size() != 0) {
                 for (MemberBeneficiary memberBeneficiary : listMemberBeneficiary) {
                     rank = new Rank();
-                    if (null == memberBeneficiary.getRankId() && memberBeneficiary.getRankId() != 0) {
+                    if (null != memberBeneficiary.getRankId() && memberBeneficiary.getRankId() != 0) {
                         rank.setRankId(memberBeneficiary.getRankId());
                     } else {
                         rank = null;
@@ -254,7 +260,7 @@ public class APP010Controller {
                     memberBeneficiary.setRank(rank);
 
                     title = new Title();
-                    if (null == memberBeneficiary.getTitleId() && memberBeneficiary.getTitleId() != 0) {
+                    if (null != memberBeneficiary.getTitleId() && memberBeneficiary.getTitleId() != 0) {
                         title.setTitleId(memberBeneficiary.getTitleId());
                     } else {
                         title = null;
@@ -262,7 +268,7 @@ public class APP010Controller {
                     memberBeneficiary.setTitle(title);
 
                     province = new Province();
-                    if (null == memberBeneficiary.getPermanentProvinceCode() && !memberBeneficiary.getPermanentProvinceCode().isEmpty()) {
+                    if (null != memberBeneficiary.getPermanentProvinceCode() && !memberBeneficiary.getPermanentProvinceCode().isEmpty()) {
                         province.setProvinceCode(memberBeneficiary.getPermanentProvinceCode());
                     } else {
                         province = null;
@@ -270,7 +276,7 @@ public class APP010Controller {
                     memberBeneficiary.setProvinceByPermanentProvinceCode(province);
 
                     province = new Province();
-                    if (null == memberBeneficiary.getProvinceCode() && !memberBeneficiary.getProvinceCode().isEmpty()) {
+                    if (null != memberBeneficiary.getProvinceCode() && !memberBeneficiary.getProvinceCode().isEmpty()) {
                         province.setProvinceCode(memberBeneficiary.getProvinceCode());
                     } else {
                         province = null;
@@ -315,7 +321,7 @@ public class APP010Controller {
             Member memberDeserializer = JsonMember.JSONDeserializer(data2Json, stringDateFormat);
 
             BankAccountType bankAccountType = new BankAccountType();
-            if (null == memberDeserializer.getAccTypeId() && memberDeserializer.getAccTypeId() != 0) {
+            if (null != memberDeserializer.getAccTypeId() && memberDeserializer.getAccTypeId() != 0) {
                 bankAccountType.setAccTypeId(memberDeserializer.getAccTypeId());
             } else {
                 bankAccountType = null;
@@ -329,7 +335,7 @@ public class APP010Controller {
             memberRequest.setBankAccNo(memberDeserializer.getBankAccNo());
 
             BankBranch bankBranch = new BankBranch();
-            if (null == memberDeserializer.getBankBranchId() && memberDeserializer.getBankBranchId() != 0) {
+            if (null != memberDeserializer.getBankBranchId() && memberDeserializer.getBankBranchId() != 0) {
                 bankBranch.setBranchId(memberDeserializer.getBankBranchId());
             } else {
                 bankBranch = null;
@@ -338,7 +344,7 @@ public class APP010Controller {
 
             Bank bank = new Bank();
             bank.setBankCode(memberDeserializer.getBankCode());
-            if (null == memberDeserializer.getBankCode() && !memberDeserializer.getBankCode().isEmpty()) {
+            if (null != memberDeserializer.getBankCode() && !memberDeserializer.getBankCode().isEmpty()) {
                 bank.setBankCode(memberDeserializer.getBankCode());
             } else {
                 bank = null;
@@ -356,11 +362,11 @@ public class APP010Controller {
             memberRequest.setMemberCode(memberDeserializer.getMemberCode());
             memberRequest.setMemberGroupCode(memberDeserializer.getMemberGroupCode());
             memberRequest.setMemberId(memberDeserializer.getMemberId());
-            memberRequest.setMemberStatusCode(11);
+            //memberRequest.setMemberStatusCode(10);
             memberRequest.setMemberTypeCode(memberDeserializer.getMemberTypeCode());
 
             MilitaryDepartment militaryDepartment = new MilitaryDepartment();
-            if (null == memberDeserializer.getMilitaryId() && memberDeserializer.getMilitaryId() != 0) {
+            if (null != memberDeserializer.getMilitaryId() && memberDeserializer.getMilitaryId() != 0) {
                 militaryDepartment.setMilitaryId(memberDeserializer.getMilitaryId());
             } else {
                 militaryDepartment = null;
@@ -379,7 +385,7 @@ public class APP010Controller {
             memberRequest.setPermanentMobile(memberDeserializer.getPermanentMobile());
 
             Province province = new Province();
-            if (null == memberDeserializer.getPermanentProvinceCode() && !memberDeserializer.getPermanentProvinceCode().isEmpty()) {
+            if (null != memberDeserializer.getPermanentProvinceCode() && !memberDeserializer.getPermanentProvinceCode().isEmpty()) {
                 province.setProvinceCode(memberDeserializer.getPermanentProvinceCode());
             } else {
                 province = null;
@@ -394,7 +400,7 @@ public class APP010Controller {
 
             province = null;
             province = new Province();
-            if (null == memberDeserializer.getProvinceCode() && !memberDeserializer.getProvinceCode().isEmpty()) {
+            if (null != memberDeserializer.getProvinceCode() && !memberDeserializer.getProvinceCode().isEmpty()) {
                 province.setProvinceCode(memberDeserializer.getProvinceCode());
             } else {
                 province = null;
@@ -402,7 +408,11 @@ public class APP010Controller {
             memberRequest.setProvinceByProvinceCode(province);
 
             Rank rank = new Rank();
-            rank.setRankId(memberDeserializer.getRankId());
+            if (null != memberDeserializer.getRankId() && memberDeserializer.getRankId() != 0) {
+                rank.setRankId(memberDeserializer.getRankId());
+            } else {
+                rank = null;
+            }
             memberRequest.setRank(rank);
 
             memberRequest.setReferrerId(memberDeserializer.getReferrerId());
@@ -415,7 +425,7 @@ public class APP010Controller {
             memberRequest.setTel(memberDeserializer.getTel());
 
             Title title = new Title();
-            if (null == memberDeserializer.getTitleId() && memberDeserializer.getTitleId() != 0) {
+            if (null != memberDeserializer.getTitleId() && memberDeserializer.getTitleId() != 0) {
                 title.setTitleId(memberDeserializer.getTitleId());
             } else {
                 title = null;
@@ -429,12 +439,13 @@ public class APP010Controller {
             memberRequest.setPermanentMoo(memberDeserializer.getPermanentMoo());
             memberRequest.setCreateBy("");
             memberRequest.setCreateDate(DateUtil.getCurrentDate());
+            memberRequest.setDeleteBeneficiaryId(memberDeserializer.getDeleteBeneficiaryId());
 
             List<MemberBeneficiary> listMemberBeneficiary = memberDeserializer.getListMemberBeneficiary();
             if (null != listMemberBeneficiary && !listMemberBeneficiary.isEmpty() && listMemberBeneficiary.size() != 0) {
                 for (MemberBeneficiary memberBeneficiary : listMemberBeneficiary) {
                     rank = new Rank();
-                    if (null == memberBeneficiary.getRankId() && memberBeneficiary.getRankId() != 0) {
+                    if (null != memberBeneficiary.getRankId() && memberBeneficiary.getRankId() != 0) {
                         rank.setRankId(memberBeneficiary.getRankId());
                     } else {
                         rank = null;
@@ -442,7 +453,7 @@ public class APP010Controller {
                     memberBeneficiary.setRank(rank);
 
                     title = new Title();
-                    if (null == memberBeneficiary.getTitleId() && memberBeneficiary.getTitleId() != 0) {
+                    if (null != memberBeneficiary.getTitleId() && memberBeneficiary.getTitleId() != 0) {
                         title.setTitleId(memberBeneficiary.getTitleId());
                     } else {
                         title = null;
@@ -450,7 +461,7 @@ public class APP010Controller {
                     memberBeneficiary.setTitle(title);
 
                     province = new Province();
-                    if (null == memberBeneficiary.getPermanentProvinceCode() && !memberBeneficiary.getPermanentProvinceCode().isEmpty()) {
+                    if (null != memberBeneficiary.getPermanentProvinceCode() && !memberBeneficiary.getPermanentProvinceCode().isEmpty()) {
                         province.setProvinceCode(memberBeneficiary.getPermanentProvinceCode());
                     } else {
                         province = null;
@@ -458,7 +469,7 @@ public class APP010Controller {
                     memberBeneficiary.setProvinceByPermanentProvinceCode(province);
 
                     province = new Province();
-                    if (null == memberBeneficiary.getProvinceCode() && !memberBeneficiary.getProvinceCode().isEmpty()) {
+                    if (null != memberBeneficiary.getProvinceCode() && !memberBeneficiary.getProvinceCode().isEmpty()) {
                         province.setProvinceCode(memberBeneficiary.getProvinceCode());
                     } else {
                         province = null;
@@ -477,4 +488,52 @@ public class APP010Controller {
         }
     }
 
+    @RequestMapping(value = "/Plugins/Registration/setDeleteAPP010.json", method = RequestMethod.POST,
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    MessageResponse setDeleteAPP010(MessageRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+        req.setUserProfileId("");
+        MessageResponse messageResponse = new MessageResponse();
+        logger.info(req.getItemSelect());
+        try {
+            messageResponse = iMemberService.setDeleteMember(req);
+        } catch (Exception ex) {
+            messageResponse.setMessage(ex.getMessage());
+        }
+        return messageResponse;
+    }
+
+    @RequestMapping(value = "/Plugins/Registration/getListAPP010_FOR_APP040_2.json", method = {RequestMethod.POST},
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    JqGridResponse<Member> getListAPP010_FOR_APP040_2(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+        req.setSearch(Boolean.parseBoolean(search));
+        int memberStatusCode = 13;//Set Status 0 = ALL
+        return iMemberService.getListMember(req, memberStatusCode);
+    }
+    
+    @RequestMapping(value = "/Plugins/Registration/getListAPP010_FOR_APP040_3.json", method = {RequestMethod.POST},
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    JqGridResponse<Member> getListAPP010_FOR_APP040_3(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, @RequestParam(value = "id", defaultValue = "0") String id, Model model, Principal principal) {
+        req.setSearch(Boolean.parseBoolean(search)); 
+        int operationId = Integer.parseInt(id);
+        int memberStatusCode = 0;//Set Status 0 = ALL
+        return iMemberService.getListMember(req, memberStatusCode, operationId);
+    }
+    
+    @RequestMapping(value = "/Plugins/Registration/getListAPP010_FOR_REFERRER.json", method = {RequestMethod.POST},
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    JqGridResponse<Member> getListAPP010_FOR_REFERRER(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, @RequestParam(value = "id", defaultValue = "0") String id, Model model, Principal principal) {
+        logger.info("APP010Controller : getListAPP010_FOR_REFERRER : id >>" + id + "<<");
+        req.setSearch(Boolean.parseBoolean(search)); 
+        int operationId = Integer.parseInt(id);
+        int memberStatusCode = 105;//Set Status 0 = ALL
+        return iMemberService.getListMember(req, memberStatusCode, operationId);
+    }
 }

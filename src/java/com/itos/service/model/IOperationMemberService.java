@@ -5,6 +5,8 @@
  */
 package com.itos.service.model;
 
+import com.itos.model.Member;
+import com.itos.model.Operation;
 import com.itos.model.OperationMember;
 import com.itos.model.ext.PaymentDetail;
 import com.itos.model.ext.PaymentMember;
@@ -39,5 +41,11 @@ public interface IOperationMemberService {
     public PaymentDetail searchPaymentDetail(String operationMemberId);
     
     public MessageResponse savePaymentNewOperationMember(OperationMember operationMember);
+
+    public MessageResponse setSaveNewOperationMemberForRegisterNo(List<Member> listMember, Operation operation);
+
+    public JqGridResponse<OperationMember> getListOperationMember(JqGridRequest req, int memberStatusCode);
+
+    public MessageResponse setSaveApproveOperationMemberList(List<Member> listMember, Operation operation);
 
 }

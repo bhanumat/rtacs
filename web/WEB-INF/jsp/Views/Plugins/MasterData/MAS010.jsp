@@ -111,7 +111,7 @@
                         <div style="margin-bottom:5px" class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="lbMildeptIdNew"> รหัสหน่วยต้นสังกัด </label>
                             <div class="col-sm-9">
-                                <input type="text" class="col-xs-10 col-sm-5 validate[required,custom[onlyNumberSp],minSize[5],maxSize[5]]" id="txtMildeptIdNew" name="txtMildeptIdNew">
+                                <input type="text" class="col-xs-10 col-sm-5" id="txtMildeptIdNew" name="txtMildeptIdNew">
                             </div>
                         </div>
                         <div style="margin-bottom:5px" class="form-group">
@@ -141,18 +141,18 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label" for="lbSubdistrictNew"> ตำบล </label>
                             <div class="col-lg-2">
-                                <input type="text" class="validate[required]" id="txtSubdistrictNew" name="txtSubdistrictNew">
+                                <input type="text" id="txtSubdistrictNew" name="txtSubdistrictNew">
                             </div>
                             <label for="lbDistrictNew" class="col-lg-3 control-label">อำเภอ</label>
                             <div></div>
                             <div class="col-lg-2">
-                                <input type="text" class="validate[required]" id="txtDistrictNew" name="txtDistrictNew">
+                                <input type="text" id="txtDistrictNew" name="txtDistrictNew">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lbProvinceCodeNew" class="col-sm-3 control-label no-padding-right">จังหวัด</label>
                             <div class="col-lg-2">
-                                <select id="slProvinceCodeNew" name="slProvinceCodeNew" class="validate[required]">
+                                <select id="slProvinceCodeNew" name="slProvinceCodeNew">
                                 </select>
                             </div>
                             <label for="lbPostalCodeNew" class="col-lg-3 control-label ">รหัสไปรษณีย์</label>
@@ -176,7 +176,7 @@
                             <label for="lbBankCodeNew" class="col-lg-4 control-label">บัญชัเงินฝากธนาคาร</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <select id="slBankCodeNew" class= "validate[required]" name="slBankCodeNew">
+                                <select id="slBankCodeNew" name="slBankCodeNew">
                                 </select>
                             </div>
                         </div>
@@ -184,21 +184,21 @@
                             <label for="lbBankAccountNameNew" class="col-lg-4 control-label">ชื่อบัญชี</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <input type="text"  class="validate[required]" id="txtBankAccountNameNew" name="txtBankAccountNameNew">
+                                <input type="text" id="txtBankAccountNameNew" name="txtBankAccountNameNew">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lbBankAccountNoNew" class="col-lg-4 control-label">เลขที่บัญชี</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <input type="text"  class="validate[required]" id="txtBankAccountNoNew" name="txtBankAccountNoNew">
+                                <input type="text" id="txtBankAccountNoNew" name="txtBankAccountNoNew">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lbBankBranchNew" class="col-lg-4 control-label">สาขาธนาคาร</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <select id="slBankBranchNew" name="slBankBranchNew" class="validate[required]">
+                                <select id="slBankBranchNew" name="slBankBranchNew">
                                 </select>
                             </div>
                         </div>
@@ -206,7 +206,7 @@
                             <label for="lbBankAccountTypeNew" class="col-lg-4 control-label">ประเภทบัญชี</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <select id="slBankAccountTypeNew" name="slBankAccountTypeNew" class="validate[required]">
+                                <select id="slBankAccountTypeNew" name="slBankAccountTypeNew">
                                 </select>
                             </div>
                         </div>
@@ -231,7 +231,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="lbMildeptIdEdit"> รหัสหน่วยต้นสังกัด </label>
                             <div class="col-sm-9">
                                 <input type="hidden" id="hidMilitaryIdEdit" name="hidMilitaryIdEdit">
-                                <input type="text" class="col-xs-10 col-sm-5 validate[required,custom[onlyNumberSp],minSize[5],maxSize[5]]" id="txtMildeptIdEdit" name="txtMildeptIdEdit">
+                                <input type="text" class="col-xs-10 col-sm-5" id="txtMildeptIdEdit" name="txtMildeptIdEdit">
                             </div>
                         </div>
                         <div style="margin-bottom:5px" class="form-group">
@@ -261,18 +261,18 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label" for="lbSubdistrictEdit"> ตำบล </label>
                             <div class="col-lg-2">
-                                <input type="text" class="validate[required]" id="txtSubdistrictEdit" name="txtSubdistrictEdit">
+                                <input type="text" id="txtSubdistrictEdit" name="txtSubdistrictEdit">
                             </div>
                             <label for="lbDistrictEdit" class="col-lg-3 control-label">อำเภอ</label>
                             <div></div>
                             <div class="col-lg-2">
-                                <input type="text" class="validate[required]" id="txtDistrictEdit" name="txtDistrictEdit">
+                                <input type="text" id="txtDistrictEdit" name="txtDistrictEdit">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lbProvinceCodeEdit" class="col-sm-3 control-label no-padding-right">จังหวัด</label>
                             <div class="col-lg-2">
-                                <select id="slProvinceCodeEdit" name="slProvinceCodeEdit" class="validate[required]">
+                                <select id="slProvinceCodeEdit" name="slProvinceCodeEdit">
                                 </select>
                             </div>
                             <label for="lbPostalCodeEdit" class="col-lg-3 control-label ">รหัสไปรษณีย์</label>
@@ -296,7 +296,7 @@
                             <label for="lbBankCodeEdit" class="col-lg-4 control-label">บัญชัเงินฝากธนาคาร</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <select id="slBankCodeEdit" class= "validate[required]" name="slBankCodeEdit">
+                                <select id="slBankCodeEdit" name="slBankCodeEdit">
                                 </select>
                             </div>
                         </div>
@@ -304,21 +304,21 @@
                             <label for="lbBankAccountNameEdit" class="col-lg-4 control-label">ชื่อบัญชี</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <input type="text"  class="validate[required]" id="txtBankAccountNameEdit" name="txtBankAccountNameEdit">
+                                <input type="text" id="txtBankAccountNameEdit" name="txtBankAccountNameEdit">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lbBankAccountNoEdit" class="col-lg-4 control-label">เลขที่บัญชี</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <input type="text"  class="validate[required]" id="txtBankAccountNoEdit" name="txtBankAccountNoEdit">
+                                <input type="text" id="txtBankAccountNoEdit" name="txtBankAccountNoEdit">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lbBankBranchEdit" class="col-lg-4 control-label">สาขาธนาคาร</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <select id="slBankBranchEdit" name="slBankBranchEdit" class="validate[required]">
+                                <select id="slBankBranchEdit" name="slBankBranchEdit">
                                 </select>
                             </div>
                         </div>
@@ -326,7 +326,7 @@
                             <label for="lbBankAccountTypeEdit" class="col-lg-4 control-label">ประเภทบัญชี</label>
                             <div></div>
                             <div class="col-lg-5">
-                                <select id="slBankAccountTypeEdit" name="slBankAccountTypeEdit" class="validate[required]">
+                                <select id="slBankAccountTypeEdit" name="slBankAccountTypeEdit">
                                 </select>
                             </div>
                         </div>

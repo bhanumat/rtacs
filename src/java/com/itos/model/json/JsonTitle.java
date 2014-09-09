@@ -19,11 +19,23 @@ public class JsonTitle {
 
     public static Title JSONDeserializer(String json, String stringDateFormat) throws IOException {
         Title title = new Title();
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            title = mapper.readValue(json, Title.class);
-        } catch (IOException ex) {
-            throw ex;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject = JSONObject.fromObject(json);
+            if (jsonObject.containsKey("titleId")) {
+                title.setTitleId(MiscUtil.getInt(jsonObject.getString("titleId")));
+            }
+            if (jsonObject.containsKey("titleDesc")) {
+                title.setTitleDesc(MiscUtil.getNull(jsonObject.getString("titleDesc")));
+            }
+            if (jsonObject.containsKey("title")) {
+                title.setTitle(MiscUtil.getNull(jsonObject.getString("title")));
+            }
+            if (jsonObject.containsKey("status")) {
+                title.setStatus(MiscUtil.getChar(jsonObject.getString("status")));
+            }
+        } catch (Exception ex) {
+            //return null;
         }
         return title;
     }

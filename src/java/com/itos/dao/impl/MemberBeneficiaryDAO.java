@@ -239,7 +239,7 @@ public class MemberBeneficiaryDAO implements IMemberBeneficiaryDAO {
 
     private MemberBeneficiary getLoadDetailByObject(MemberBeneficiary memberBeneficiaryObject) {
         MemberBeneficiary memberBeneficiaryResponse = new MemberBeneficiary();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<MemberBeneficiary> list;
         WhereField whereField = null;
         try {
@@ -319,7 +319,7 @@ public class MemberBeneficiaryDAO implements IMemberBeneficiaryDAO {
 
     private MemberBeneficiary getLoadDetailById(MemberBeneficiary memberBeneficiary) {
         MemberBeneficiary memberBeneficiaryResponse = null;
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<MemberBeneficiary> list;
         WhereField whereField = null;
         try {
@@ -395,7 +395,7 @@ public class MemberBeneficiaryDAO implements IMemberBeneficiaryDAO {
     public List<MemberBeneficiary> getListByMember(Member member) {
         MemberBeneficiary memberBeneficiaryResponse = null;
         List<MemberBeneficiary> listResponse = new ArrayList<>();
-        List<WhereField> listWhereField = new ArrayList();
+        List<WhereField> listWhereField = new ArrayList<>();
         List<MemberBeneficiary> list;
         WhereField whereField = null;
         int iCount = 0;
