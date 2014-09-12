@@ -5,41 +5,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<!DOCTYPE html>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY010_1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY010_1.js"></script>
 <div class="page-header">
     <h1>
         รับชำระเงินค่าบำรุงศพ 
-
     </h1>
 </div><!-- /.page-header -->
 <div class="row">
-    <div id="track-changes" class="modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">&nbsp;</h4>
-                </div>
-                <form>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-
-                                <h4>
-                                    สมัครซ้ำ
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>                    
     <div class="col-xs-12">
         <div class="row">
             <div class="col-sm-12">
@@ -50,9 +24,9 @@
                     <div class="widget-body">
                         <div class="widget-body">
                             <div class="widget-main">
-                                <form class="form-search">
+                                <form class="form-horizontal">
                                     <div class="row" style="margin-bottom:5px">
-                                        <div class="col-xs-12 col-sm-3" align="right">
+                                        <div class="col-xs-12 col-sm-4" align="right">
                                             <div class="bigger-110" >
                                                 <label class="position-relative">
                                                     <input type="radio" class="ace" name="select-name">
@@ -63,14 +37,14 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-2">
+                                        <div class="col-xs-12 col-sm-4">
                                             <div class="input-group">
                                                 <input type="text" class="form-control search-query" placeholder="">
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-info btn-sm"> แสดง <i class="ace-icon fa fa-check icon-on-right bigger-110"></i> </button>
                                                 </span> </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-2"> <a href="#modal-form" role="button" class="blue" data-toggle="modal">
+                                        <div class="col-xs-12 col-sm-4"> <a href="#modal-form" role="button" class="blue" data-toggle="modal">
                                                 <button type="button" class="btn btn-purple btn-sm"> ค้นหา <i class="ace-icon fa fa-search icon-on-right bigger-110"></i> </button>
                                             </a> </div>
                                     </div>
@@ -119,11 +93,17 @@
                                 <span style="padding-left:10px;" class="lbl"> ธนาณัติ</span>
                             </label></span> </div>
                     <div class="profile-info-name" style="width:170px;">หมายเลขธนาณัติ </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input name="postalNo" id="postalNo" type="text"></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable">
+                            <input name="postalNo" id="postalNo" type="text"></span> </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> วันที่ชำระ</div>
-                    <div class="profile-info-value"> <span id="username" class="editable"> <input type="text" id="paymentDate" /></span> </div>
+                    <!--                    <div class="profile-info-value"> <span id="username" class="editable">
+                                                <input type="text"  id="paymentDate" /></span> </div>-->
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" name="paymentDate" id="paymentDate">
+                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                    </div>
                     <div class="profile-info-name" style="width:170px;">หน่วยต้นสังกัด </div>
                     <div class="profile-info-value"> <span id="username" class="editable">กกส.กห.</span> </div>
                 </div>		
@@ -186,30 +166,30 @@
                                 <div class="form-group" style="margin-bottom:5px">
                                     <label for="form-field-1" class="col-sm-2 control-label no-padding-right"> เลขทะเบียนสมาชิก </label>
                                     <div class="col-sm-9">
-                                        <input type="text" >
+                                        <input type="text" name="memberCode" id="memberCode">
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เลขประจำตัวประชาชน
-                                        <input type="text"  >
+                                        <input type="text"  name="idCard" id="idCard">
                                     </div>
                                 </div>
                                 <div class="form-group" style="margin-bottom:5px">
                                     <label for="form-field-1" class="col-sm-2 control-label no-padding-right"> ชื่อ </label>
                                     <div class="col-sm-9">
-                                        <input type="text" >
+                                        <input type="text" name="name" id="name">
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สกุล
-                                        <input type="text"  >
+                                        <input type="text"  name="surname" id="surname"">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="form-field-1" class="col-sm-2 control-label no-padding-right"> หน่วยต้นสังกัด </label>
                                     <div class="col-sm-6">
-                                        <select class="col-xs-10 col-sm-4" id="form-field-3" name="xx2">
+                                        <select class="col-xs-10 col-sm-4" id="form-field-3" name="departmentCode">
                                             <option>ทั้งหมด</option>
                                             <option>รอ. 1</option>
                                             <option>พัน. 153</option>
                                             <option>สกทบ.</option>
                                         </select>
                                         <label for="form-field-2" class="col-sm-3 control-label no-padding-right"> สถานะ &nbsp;&nbsp;</label>
-                                        <select class="col-xs-10 col-sm-4" id="form-field-4" name="xx3">
+                                        <select class="col-xs-10 col-sm-4" id="form-field-4" name="statusCode">
                                             <option>ทั้งหมด</option>
                                             <option>สมาชิกปกติ</option>
                                             <option>สมาชิกถอนสภาพชั่วคราว</option>

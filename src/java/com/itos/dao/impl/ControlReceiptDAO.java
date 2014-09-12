@@ -47,7 +47,7 @@ public class ControlReceiptDAO implements IControlReceiptDAO {
 
         Query query;
         whereField = new WhereField();
-        whereField.setSearchField("control_receipt_id");
+        whereField.setSearchField("controlReceiptId");
         whereField.setSearchLogic("");
         whereField.setSearchOper(CommandConstant.QueryEqual);
         whereField.setSearchValue(id);

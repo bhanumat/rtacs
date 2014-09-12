@@ -67,6 +67,18 @@ public class JsonOperationMember {
             if (jsonObject.containsKey("operationMemberId")) {
                 operationMember.setOperationMemberId(MiscUtil.getInt(jsonObject.getString("operationMemberId")));
             }
+            if (jsonObject.containsKey("citizenId")) {
+                operationMember.setCitizenId(MiscUtil.getNull(jsonObject.getString("citizenId")));
+            }
+            if (jsonObject.containsKey("docCode")) {
+                operationMember.setDocCode(MiscUtil.getNull(jsonObject.getString("docCode")));
+            }
+            if (jsonObject.containsKey("docDate")) {
+                operationMember.setDocDate(MiscUtil.getDate(jsonObject.getString("docDate"),stringDateFormat));
+            }
+            if (jsonObject.containsKey("amount")) {
+                operationMember.setAmount(new BigDecimal((MiscUtil.getNull(jsonObject.getString("amount")).equals(""))?"0":MiscUtil.getNull(jsonObject.getString("amount"))));
+            }
         } catch (Exception ex) {
             //return null;
         }

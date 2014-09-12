@@ -9,10 +9,10 @@ $(function() {
             dataType: 'json',
             async: true,
             success: function(msg) {
-                if (msg.checkSuccess === true && msg.obj!=null) {
+                if (msg.checkSuccess === true && msg.obj != null) {
                     var object = msg.obj;
                     //alert("status : >>" + object.status + "<<");
-                    if(object.status === 10 || object.status === 11){
+                    if (object.status === 10 || object.status === 11) {
                         $("#citizenID").text(object.citizenID);
                         $("#username").text(object.name);
                         $("#militaryName").text(object.militaryName);
@@ -20,7 +20,7 @@ $(function() {
                         $("#memberId").val(object.memberId);
                         $("#amount").val(object.billAmount);
                         $("#docCode").val(object.docCode);
-                    }else{
+                    } else {
                         $("#citizenFindId").val('');
                         $("#Dialog-Confirm").html("ชำระเบี้ยแล้ว");
                         $("#Dialog-Confirm").removeClass('hide').dialog({
@@ -41,9 +41,12 @@ $(function() {
                             ]
                         });
                     }
+                    listStatus();
+                    checkStatus();
+                } else {
+                    $.fn.DialogMessage(msg);
                 }
-                listStatus();
-                checkStatus();
+
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 $.fn.MessageError(XMLHttpRequest, textStatus, errorThrown);
@@ -51,7 +54,7 @@ $(function() {
         });
 
     };
-    
+
     onActionSearchAfterSave = function(objData) {
         $.ajax({
             type: 'POST',
@@ -60,7 +63,7 @@ $(function() {
             dataType: 'json',
             async: true,
             success: function(msg) {
-                if (msg.checkSuccess === true && msg.obj!=null) {
+                if (msg.checkSuccess === true && msg.obj != null) {
                     var object = msg.obj;
                     $("#citizenID").text(object.citizenID);
                     $("#username").text(object.name);
@@ -79,7 +82,7 @@ $(function() {
         });
 
     };
-    
+
     onActionSearchOperationMemberId = function(objData) {
         $.ajax({
             type: 'POST',
@@ -88,7 +91,7 @@ $(function() {
             dataType: 'json',
             async: true,
             success: function(msg) {
-                if (msg.checkSuccess === true && msg.obj!=null) {
+                if (msg.checkSuccess === true && msg.obj != null) {
                     var object = msg.obj;
                     $("#citizenFindId").val(object.citizenID);
                     $("#citizenID").text(object.citizenID);
@@ -99,16 +102,16 @@ $(function() {
                     $("#amount").val(object.billAmount);
                     $("#docCode").val(object.docCode);
                     $("#docDate").val(object.dateString);
-                    
+
                     $("#btnSearch").addClass('hide');
                     $("#btnSubmit").addClass('hide');
                     $("#btnCancel").addClass('hide');
                     $("#btnPrint").addClass('hide');
                     $("#btnBillCancel").addClass('hide');
-                    
+
                     document.getElementById("citizenFindId").disabled = true;
                     document.getElementById("docDate").disabled = true;
-                    
+
                     listStatus();
                 }
             },
@@ -118,7 +121,7 @@ $(function() {
         });
 
     };
-    
+
     onDialogSave = function() {
         $("#Dialog-Confirm").html("คุณต้องการยืนยันการรับชำระใช่หรือไม่?");
         $("#Dialog-Confirm").removeClass('hide').dialog({
@@ -146,9 +149,9 @@ $(function() {
                 }
             ]
         });
-        
+
     };
-    
+
     onDialogCancel = function(id) {
         $("#Dialog-Confirm").html("คุณต้องการยกเลิกใบเสร็จนี้ใช่หรือไม่?");
         $("#Dialog-Confirm").removeClass('hide').dialog({
@@ -179,7 +182,7 @@ $(function() {
             ]
         });
     };
-    
+
     onActionCancel = function(thisDialog, objData) {
         $.ajax({
             type: 'POST',
@@ -199,7 +202,7 @@ $(function() {
 
         $(thisDialog).dialog("close");
     };
-    
+
     onActionSaveNew = function(thisDialog) {
         var formId = '#formDetail';
         var formName = $(formId);
@@ -258,67 +261,67 @@ $(function() {
         });
 
     };
-    
+
     checkStatus = function() {
-        if($("#hiddenStatus").text() === ''){
+        if ($("#hiddenStatus").text() === '') {
             $("#btnSubmit").addClass('hide');
             $("#btnCancel").addClass('hide');
             $("#btnPrint").addClass('hide');
             $("#btnBillCancel").addClass('hide');
-        }else if($("#hiddenStatus").text() === '11'){
+        } else if ($("#hiddenStatus").text() === '11') {
             $("#btnSubmit").addClass('hide');
             $("#btnCancel").addClass('hide');
-            
+
 //            $("#btnPrint").addClass('hide');
 //            $("#btnBillCancel").addClass('hide');
-            
+
             $("#btnPrint").removeClass('hide');
             $("#btnBillCancel").removeClass('hide');
             $("#btnPrint").addClass('btn btn-success');
             $("#btnBillCancel").addClass('btn btn-danger');
-        }else if($("#hiddenStatus").text() === '10'){
+        } else if ($("#hiddenStatus").text() === '10') {
             $("#btnSubmit").removeClass('hide');
             $("#btnCancel").removeClass('hide');
             $("#btnSubmit").addClass('btn btn-info');
             $("#btnCancel").addClass('btn btn-rotate');
-            
+
             $("#btnPrint").addClass('hide');
             $("#btnBillCancel").addClass('hide');
-        }else{
+        } else {
             $("#btnSubmit").addClass('hide');
             $("#btnCancel").addClass('hide');
-            
+
             $("#btnPrint").addClass('hide');
             $("#btnBillCancel").addClass('hide');
         }
     };
 
     listStatus = function() {
-        if($("#hiddenStatus").text() === '10'){
+        if ($("#hiddenStatus").text() === '10') {
             $("#status").text("ยื่นใบสมัคร");
-        }else if($("#hiddenStatus").text() === '11'){
+        } else if ($("#hiddenStatus").text() === '11') {
             $("#status").text("ชำระเงินสมัคร");
-        }else if($("#hiddenStatus").text() === '12'){
+        } else if ($("#hiddenStatus").text() === '12') {
             $("#status").text("บันทึกข้อมูลเพิ่มเติ่ม");
-        }else if($("#hiddenStatus").text() === '13'){
+        } else if ($("#hiddenStatus").text() === '13') {
             $("#status").text("อนุมัติเห็นชอบ");
-        }else if($("#hiddenStatus").text() === '20'){
+        } else if ($("#hiddenStatus").text() === '20') {
             $("#status").text("กำหนดเลขทะเบียนสมาชิก");
-        }else if($("#hiddenStatus").text() === '25'){
+        } else if ($("#hiddenStatus").text() === '25') {
             $("#status").text("ดำเนินการขออนุมัติขึ้นทะเบียน");
-        }else if($("#hiddenStatus").text() === '105'){
+        } else if ($("#hiddenStatus").text() === '105') {
             $("#status").text("อนุมัติขึ้นทะเบียนสมาชิก");
-        }else{
+        } else {
             $("#status").text("");
         }
     };
-    
+
     $("#btnReload").click(function(event) {
         event.preventDefault();
         onActionSearch();
     });
-    
-     $("#btnSearch").click(function(event) {
+
+    $("#btnSearch").click(function(event) {
         event.preventDefault();
         $("#citizenID").text('');
         $("#username").text('');
@@ -327,34 +330,34 @@ $(function() {
         $("#status").text('');
         $("#docCode").val('');
         checkStatus();
-        if($('#citizenFindId').val().length != 0){
+        if ($('#citizenFindId').val().length != 0) {
             var objData = {};
             objData.ItemSelect = $('#citizenFindId').val();
             onActionSearch(objData);
         }
     });
-    
+
     $("#btnSaveNew").click(function(event) {
         onActionSaveNew();
     });
-    
+
     $("#btnSubmit").click(function(event) {
         event.preventDefault();
-        if($('#citizenFindId').val().length != 0){
+        if ($('#citizenFindId').val().length != 0) {
             onDialogSave();
         }
     });
-    
+
     $("#btnBillCancel").click(function(event) {
         event.preventDefault();
-        if($('#memberId').val().length != 0){
+        if ($('#memberId').val().length != 0) {
             var memberId = {};
             memberId = $('#memberId').val();
             //alert(memberId);
             //onDialogCancel(memberId);
         }
     });
-    
+
     $("#btnCancel").click(function(event) {
         event.preventDefault();
         $("#citizenFindId").val('');
@@ -364,14 +367,14 @@ $(function() {
         $("#username").text('');
         $("#militaryName").text('');
         $("#hiddenStatus").text('');
-        $("#status").text(''); 
+        $("#status").text('');
     });
-    
+
     onInit = function() {
-         //alert("first : >>" + $('#operationMemberId').val() + "<<");
-        if($('#operationMemberId').val()==="" || $('#operationMemberId').val() ===null){
+        //alert("first : >>" + $('#operationMemberId').val() + "<<");
+        if ($('#operationMemberId').val() === "" || $('#operationMemberId').val() === null) {
             onLoad(1);
-        }else{
+        } else {
             var objData = {};
             objData.ItemSelect = $('#operationMemberId').val();
             onActionSearchOperationMemberId(objData);

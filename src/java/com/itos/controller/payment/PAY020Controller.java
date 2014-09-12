@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.itos.controller.payment;
 
 import com.itos.model.ControlReceipt;
@@ -18,6 +17,7 @@ import com.itos.service.model.IControlReceiptService;
 import com.itos.service.model.IMemberService;
 import com.itos.service.model.IOperationMemberService;
 import com.itos.service.model.IOperationService;
+import com.itos.util.ConstantsMessage;
 import com.itos.util.DateUtil;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
@@ -46,31 +46,32 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 public class PAY020Controller {
+
     protected final Log logger = LogFactory.getLog(getClass());
-    
+
     @Value("${application.DateFormat}")
     private String stringDateFormat;
-    
+
     @Autowired
     IOperationMemberService iOperationMemberService;
-    
+
     @Autowired
     IMemberService iMemberService;
-    
+
     @Autowired
     IControlMemberService iControlMemberService;
-    
+
     @Autowired
     IControlReceiptService iControlReceiptService;
-    
+
     @Autowired
     IOperationService iOperationService;
-    
+
     @RequestMapping("/Plugins/Payment/PAY020.htm")
     public String PAY020(Model model, Principal principal) {
         return "/Plugins/Payment/PAY020";
     }
-    
+
     @RequestMapping(value = "/Plugins/Payment/getListPAY020.json", method = RequestMethod.POST,
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
@@ -80,25 +81,25 @@ public class PAY020Controller {
         req.setSearch(Boolean.parseBoolean(search));
         return iOperationMemberService.getListPaymentMember(req);
     }
-    
+
     @RequestMapping("/Plugins/Payment/PAY020_1.htm")
     public String PAY020_1(Model model, Principal principal) {
         logger.info("TeTe info PAY020Controller : PAY020_1");
         return "/Plugins/Payment/PAY020_1";
     }
-    
+
     @RequestMapping(value = "/Plugins/Payment/TOPAY020_1.htm", method = RequestMethod.POST)
-    public String TOPAY020_1(@ModelAttribute("operationMemberId")String operationMemberId, Model model, Principal principal) {
+    public String TOPAY020_1(@ModelAttribute("operationMemberId") String operationMemberId, Model model, Principal principal) {
         logger.info("TeTe info PAY020Controller : TOPAY020_1");
-        if(operationMemberId!=null){
+        if (operationMemberId != null) {
             logger.info("operationMemberId : >>" + operationMemberId + "<<");
-            model.addAttribute("operationMemberId",operationMemberId);
-        }else{
+            model.addAttribute("operationMemberId", operationMemberId);
+        } else {
             logger.info("operationMemberId : >>is null<<");
         }
         return "/Plugins/Payment/PAY020_1";
     }
-    
+
     @RequestMapping(value = "/Plugins/Payment/setDeletePAY020.json", method = RequestMethod.POST,
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
@@ -115,7 +116,7 @@ public class PAY020Controller {
         }
         return messageResponse;
     }
-    
+
     @RequestMapping(value = "/Plugins/Payment/cancelPAY020.json", method = RequestMethod.POST,
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
@@ -132,7 +133,7 @@ public class PAY020Controller {
         }
         return messageResponse;
     }
-    
+
     @RequestMapping(value = "/Plugins/Payment/getSearchPAY020_1.json", method = RequestMethod.POST,
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
@@ -143,31 +144,35 @@ public class PAY020Controller {
         req.setUserProfileId("");
         PaymentDetail paymentDetail = new PaymentDetail();
         String citizenId = "";
-        if(req.getItemSelect() != null && req.getItemSelect().size()>0){
-            for(String item:req.getItemSelect()){
+        if (req.getItemSelect() != null && req.getItemSelect().size() > 0) {
+            for (String item : req.getItemSelect()) {
                 citizenId = item;
                 break;
             }
         }
         try {
             paymentDetail = iMemberService.searchMemberFromCitisenId(citizenId);
-            if(paymentDetail.getStatus()==10){
-                paymentDetail.setDocCode(iControlReceiptService.getDocumentCode());
+            if (null != paymentDetail) {
+                if (paymentDetail.getStatus() == 10) {
+                    paymentDetail.setDocCode(iControlReceiptService.getDocumentCode());
+                }
+                paymentDetail.setBillAmount(iControlMemberService.getLastApplyFee());
+                messageResponse.setCheckSuccess(Boolean.TRUE);
+                messageResponse.setMessage(ConstantsMessage.SaveSuccessful);
+                messageResponse.setObj(paymentDetail);
+            } else {
+                messageResponse.setCheckSuccess(Boolean.FALSE);
+                messageResponse.setMessage(ConstantsMessage.SearchNotfound);
             }
-            paymentDetail.setBillAmount(iControlMemberService.getLastApplyFee());
         } catch (Exception ex) {
-           logger.info("error : " + ex);
-           messageResponse.setCheckSuccess(Boolean.FALSE);
-           messageResponse.setMessage("Error : " + ex);
-            return messageResponse;
+            logger.info("error : " + ex);
+            messageResponse.setCheckSuccess(Boolean.FALSE);
+            messageResponse.setMessage("Error : " + ex);
         }
-        
-        messageResponse.setCheckSuccess(Boolean.TRUE);
-        messageResponse.setMessage("SUSCESS");
-        messageResponse.setObj(paymentDetail);
+
         return messageResponse;
     }
-    
+
     @RequestMapping(value = "/Plugins/Payment/onLoadPAY020_1.json", method = RequestMethod.POST,
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
@@ -182,18 +187,18 @@ public class PAY020Controller {
             amount = iControlMemberService.getLastApplyFee();
             //docCode= iControlReceiptService.getDocumentCode();
         } catch (Exception ex) {
-           logger.info("error : " + ex);
-           messageResponse.setCheckSuccess(Boolean.FALSE);
-           messageResponse.setMessage("Error : " + ex);
+            logger.info("error : " + ex);
+            messageResponse.setCheckSuccess(Boolean.FALSE);
+            messageResponse.setMessage("Error : " + ex);
             return messageResponse;
         }
-        
+
         messageResponse.setCheckSuccess(Boolean.TRUE);
-        messageResponse.setMessage("" + (amount!=null?amount:BigDecimal.ZERO));
-       // messageResponse.setId(docCode);
+        messageResponse.setMessage("" + (amount != null ? amount : BigDecimal.ZERO));
+        // messageResponse.setId(docCode);
         return messageResponse;
     }
-    
+
     @RequestMapping(value = "/Plugins/Payment/addNewPAY020_1.json", method = {RequestMethod.POST, RequestMethod.GET},
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
@@ -201,13 +206,13 @@ public class PAY020Controller {
     MessageResponse addNewPAY020_1(@RequestParam(value = "operation") String operation, Model model, Principal principal) {
         logger.info("PAY020Controller : addNewPAY020_1");
         Member memberResponse = new Member();
-        MessageResponse operationMemberMessageResponse  = new MessageResponse();
+        MessageResponse operationMemberMessageResponse = new MessageResponse();
         Operation operationResponse = new Operation();
         Operation operationRequest = new Operation();
         ControlReceipt receipt = new ControlReceipt();
-        
+
         OperationMember operationMemberModify = JsonOperationMember.JSONDeserializerPayment(operation, stringDateFormat);
-        
+
 //        operationRequest.setOperationId(operationMemberModify.getOperationId());
         operationRequest.setOperationTypeCode(11);
         operationRequest.setDocCode(operationMemberModify.getDocCode());
@@ -215,20 +220,22 @@ public class PAY020Controller {
         operationRequest.setAmount(operationMemberModify.getAmount());
         operationRequest.setCreateDate(DateUtil.getCurrentDate());
         operationRequest.setPrintedStatus('N');
-        
+
         memberResponse = iMemberService.updateMemberStatus(operationMemberModify.getCitizenId());
         operationResponse = iOperationService.saveNewOperation(operationRequest);
         receipt = iControlReceiptService.updateMemberStatus(1);
-        System.out.println("new runningNo : >>" + receipt.getRunningNo() + "<<");
+        if (null != receipt) {
+            System.out.println("new runningNo : >>" + receipt.getRunningNo() + "<<");
+        }
         OperationMember operationMemberRequest = new OperationMember();
         operationMemberRequest.setMember(memberResponse);
         operationMemberRequest.setOperation(operationResponse);
         operationMemberMessageResponse = iOperationMemberService.savePaymentNewOperationMember(operationMemberRequest);
         logger.info("save success");
-        
+
         return operationMemberMessageResponse;
     }
-    
+
     @RequestMapping(value = "/Plugins/Payment/searchByOperationMemberId.json", method = RequestMethod.POST,
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
@@ -238,8 +245,8 @@ public class PAY020Controller {
         MessageResponse messageResponse = new MessageResponse();
         PaymentDetail paymentDetail = new PaymentDetail();
         String operationMemberId = "";
-        if(req.getItemSelect() != null && req.getItemSelect().size()>0){
-            for(String item:req.getItemSelect()){
+        if (req.getItemSelect() != null && req.getItemSelect().size() > 0) {
+            for (String item : req.getItemSelect()) {
                 operationMemberId = item;
                 break;
             }
@@ -247,12 +254,12 @@ public class PAY020Controller {
         try {
             paymentDetail = iOperationMemberService.searchPaymentDetail(operationMemberId);
         } catch (Exception ex) {
-           logger.info("error : " + ex);
-           messageResponse.setCheckSuccess(Boolean.FALSE);
-           messageResponse.setMessage("Error : " + ex);
+            logger.info("error : " + ex);
+            messageResponse.setCheckSuccess(Boolean.FALSE);
+            messageResponse.setMessage("Error : " + ex);
             return messageResponse;
         }
-        
+
         messageResponse.setCheckSuccess(Boolean.TRUE);
         messageResponse.setMessage("SUSCESS");
         messageResponse.setObj(paymentDetail);

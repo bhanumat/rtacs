@@ -38,4 +38,8 @@ public class ConstantsMessage {
     
     public static String UpdateUnsuccessful = "Update unsuccessful";
     
+    /*
+    *Search
+    */
+    public static String SearchNotfound = "Not found";
 }

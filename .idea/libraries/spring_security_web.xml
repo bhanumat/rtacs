@@ -1,0 +1,41 @@
+<component name="libraryTable">
+  <library name="spring-security-web">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-core-3.1.2.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-beans-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/aopalliance-1.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-core-3.1.2.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-beans-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-core-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-core-3.1.4.RELEASE-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-aop-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-asm-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/commons-logging-1.1.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-aop-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-core-3.1.4.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-jdbc-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-core-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-web-3.1.2.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-web-3.1.2.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-asm-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/commons-logging-1.1.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-tx-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-web-3.1.2.RELEASE-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-context-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-web-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-web-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-expression-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-tx-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-web-3.1.4.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-jdbc-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/aopalliance-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-core-3.1.2.RELEASE-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-context-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-expression-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-web/spring-security-core-3.1.4.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

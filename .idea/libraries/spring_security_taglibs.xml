@@ -1,0 +1,43 @@
+<component name="libraryTable">
+  <library name="spring-security-taglibs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-core-3.1.4.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-context-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-core-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-expression-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-asm-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-tx-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-jdbc-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/commons-logging-1.1.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-core-3.1.4.RELEASE-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-asm-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-expression-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-acl-3.1.4.RELEASE-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-web-3.1.4.RELEASE-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/aopalliance-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-taglibs-3.1.4.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-context-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-tx-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-acl-3.1.4.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/commons-logging-1.1.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-aop-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-taglibs-3.1.4.RELEASE-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-aop-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/aopalliance-1.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-web-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-core-3.1.4.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-web-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-web-3.1.4.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-jdbc-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-beans-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-acl-3.1.4.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-taglibs-3.1.4.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-beans-3.0.7.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-security-web-3.1.4.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-taglibs/spring-core-3.0.7.RELEASE-sources.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

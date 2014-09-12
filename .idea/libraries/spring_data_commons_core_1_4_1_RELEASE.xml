@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="spring-data-commons-core-1.4.1.RELEASE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spring/spring-data-commons-core-1.4.1.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,32 @@
+<component name="libraryTable">
+  <library name="spring-framework400">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-aspects-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-instrument-tomcat-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-framework-bom-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/cglib-2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-jms-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-tx-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-webmvc-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-oxm-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-context-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/org-apache-commons-logging.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-orm-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-expression-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-beans-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-test-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-instrument-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-messaging-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-core-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-context-support-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-websocket-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-web-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-jdbc-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-aop-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-webmvc-portlet-4.0.1.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-framework400/spring-build-src-4.0.1.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
