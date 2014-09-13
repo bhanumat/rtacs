@@ -1,4 +1,4 @@
-package com.my.test;
+package com.itos.model;
 // Generated Sep 13, 2014 5:40:42 PM by Hibernate Tools 3.6.0
 
 
