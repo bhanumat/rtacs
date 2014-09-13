@@ -34,12 +34,12 @@ public class PAY010Controller {
     private IOperationMemberService iOperationMemberService;
 
     @RequestMapping("/Plugins/Payment/PAY010.htm")
-    public String getPagePAY020(Model model, Principal principal) {
+    public String getPagePAY010(Model model, Principal principal) {
         return "/Plugins/Payment/PAY010";
     }
 
     @RequestMapping("/Plugins/Payment/PAY010_1.htm")
-    public String getPagePAY020_1(Model model, Principal principal) {
+    public String getPagePAY010_1(Model model, Principal principal) {
         return "/Plugins/Payment/PAY010_1";
     }
     
