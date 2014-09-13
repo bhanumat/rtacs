@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<script type="text/javascript">
+    console.log(rootPath);
+    var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
+
+</script>
 <div class="page-header">
     <h1>
         รายการรับชำระเงินค่าบำรุงศพ
@@ -40,11 +45,34 @@
         <!-- PAGE CONTENT BEGINS -->						
         <form role="form" class="form-horizontal">
             <div class="form-group">
+                <div class="col-md-2">
+                    <div class="col-lg-12">
+                        <div class="col-md-6">
+                            <input name="txtAgeNew" class="form-control" id="txtAgeNew" type="text">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label no-padding-right" for="lbAgeYearNew">ปี</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label no-padding-right">เพศ<span style="color: red;">*</span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <select name="slGenderNew" class="form-control select2" id="slGenderNew">
+                        <option value="">-เลือก-</option>
+                        <option value="M">ชาย</option>
+                        <option value="F">หญิง</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="form-field-2" class="col-sm-3 control-label no-padding-right"> วันที่ชำระเงิน </label>
-                <div class="col-sm-9">
-                    <input type="text" id="date_begin" />
+                <div class="col-xs-4">
+                    <div class="input-group input-group-sm"></div>
+                    <input type="text" id="dateBegin" name="dateBegin" class="form-control"/>
                     <span class="middle" style="padding-left:65px;">ถึง</span>
-                    <input type="text" id="date_end"/>
+                    <input type="text" id="dateEnd" name="dateEnd"/>
                 </div>
             </div>	
             <div class="form-group">

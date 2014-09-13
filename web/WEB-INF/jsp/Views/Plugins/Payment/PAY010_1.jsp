@@ -6,8 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<script type="text/javascript">
+    var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
+</script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY010_1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY010_1.js"></script>
+
 <div class="page-header">
     <h1>
         รับชำระเงินค่าบำรุงศพ 
@@ -37,14 +41,14 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-4">
+                                        <div class="col-xs-12 col-sm-3">
                                             <div class="input-group">
                                                 <input type="text" class="form-control search-query" placeholder="">
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-info btn-sm"> แสดง <i class="ace-icon fa fa-check icon-on-right bigger-110"></i> </button>
                                                 </span> </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-4"> <a href="#modal-form" role="button" class="blue" data-toggle="modal">
+                                        <div class="col-xs-12 col-sm-5"> <a href="#modal-form" role="button" class="blue" data-toggle="modal">
                                                 <button type="button" class="btn btn-purple btn-sm"> ค้นหา <i class="ace-icon fa fa-search icon-on-right bigger-110"></i> </button>
                                             </a> </div>
                                     </div>
@@ -63,14 +67,10 @@
         <!-- PAGE CONTENT BEGINS -->						
 
         <form role="form" class="form-horizontal">
-            <div class="profile-user-info profile-user-info-striped">
-                <div class="profile-info-row">
-                    <div class="profile-info-name" style="width:170px;"> สถานะสมาชิก</div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><span class="label label-xlg label-yellow arrowed arrowed-right">ค้างชำระ 1 เดือน</span></span> </div>
-
-                </div>
-                <div class="profile-info-row">
-                    <div class="profile-info-name" style="width:170px;"> เลขทะเบียนสมาชิก </div>
+            <div class="form-group">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <div class="col-md-2 control-label no-padding-right" style="width:170px;"> เลขทะเบียนสมาชิก </div>
                     <div class="profile-info-value"> <span id="username" class="editable"> 	5450012551</span> </div>
                     <div class="profile-info-name" style="width:170px;"> เลขประจำตัวประชาชน </div>
                     <div class="profile-info-value"> <span id="username" class="editable">3-3411-01241-39-1</span> </div>
@@ -98,25 +98,18 @@
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> วันที่ชำระ</div>
-                    <!--                    <div class="profile-info-value"> <span id="username" class="editable">
-                                                <input type="text"  id="paymentDate" /></span> </div>-->
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" name="paymentDate" id="paymentDate">
                         <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
                     </div>
-                    <div class="profile-info-name" style="width:170px;">หน่วยต้นสังกัด </div>
-                    <div class="profile-info-value"> <span id="username" class="editable">กกส.กห.</span> </div>
+                    <div class="profile-info-name" style="width:170px;"> สถานะสมาชิก</div>
+                    <div class="profile-info-value">
+                        <span id="username" class="editable">
+                            <span class="label label-xlg label-yellow arrowed arrowed-right">ค้างชำระ 1 เดือน</span>
+                        </span>
+                    </div>
                 </div>		
-                <div class="profile-info-row">
-                    <div class="profile-info-name" style="width:170px;"> เลขที่ใบเสร็จ</div>
-                    <div class="profile-info-value"> <span id="username" class="editable"> <input type="text" id="billingNo" value="ฬ0011375" readonly /></span> </div>
-                    <div class="profile-info-name" style="width:170px;"> สถานะการชำระเงิน</div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><span class="label label-xlg label-success arrowed arrowed-right">พิมพ์ใบเสร็จ</span></span> </div>
-
-                </div>									
-
             </div>									
-
         </form>
 
         <div tabindex="-1" class="modal" id="modal-form-cancel" style="display: none;" aria-hidden="true">
@@ -176,30 +169,28 @@
                                     <div class="col-sm-9">
                                         <input type="text" name="name" id="name">
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สกุล
-                                        <input type="text"  name="surname" id="surname"">
+                                        <input type="text"  name="surname" id="surname">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="form-field-1" class="col-sm-2 control-label no-padding-right"> หน่วยต้นสังกัด </label>
                                     <div class="col-sm-6">
-                                        <select class="col-xs-10 col-sm-4" id="form-field-3" name="departmentCode">
-                                            <option>ทั้งหมด</option>
-                                            <option>รอ. 1</option>
-                                            <option>พัน. 153</option>
-                                            <option>สกทบ.</option>
+                                        <select class="col-xs-10 col-sm-4" name="military" id="military">
+                                             <option value="">ทั้งหมด</option>
                                         </select>
                                         <label for="form-field-2" class="col-sm-3 control-label no-padding-right"> สถานะ &nbsp;&nbsp;</label>
-                                        <select class="col-xs-10 col-sm-4" id="form-field-4" name="statusCode">
-                                            <option>ทั้งหมด</option>
-                                            <option>สมาชิกปกติ</option>
-                                            <option>สมาชิกถอนสภาพชั่วคราว</option>
-                                            <option>สมาชิกถอนสภาพถาวร</option>
+                                        <select class="col-xs-10 col-sm-4" id="form-field-4" name="status" id="status">
+                                            <option value="">ทั้งหมด</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-offset-3 col-md-9">
-                                    <button class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple" id="fbox_grid-table_search"><span class="ace-icon fa fa-search"></span>ค้นหา</button>
-                                    <button id="fbox_grid-table_reset" class="fm-button ui-state-default ui-corner-all fm-button-icon-left ui-search btn btn-sm btn-info"><span class="ace-icon fa fa-retweet"></span>ล้าง</button>
+                                    <button id="btnSearchSubmit"  type="button" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple">
+                                        <span class="ace-icon fa fa-search"></span>ค้นหา
+                                    </button>
+                                    <button  type="reset" id="btnResetSearch" class="fm-button ui-state-default ui-corner-all fm-button-icon-left ui-search btn btn-sm btn-info">
+                                        <span class="ace-icon fa fa-retweet"></span>ล้าง
+                                    </button>
                                 </div>
                                 <!-- /section:elements.form -->
                             </form>
@@ -297,7 +288,6 @@
 
 </div>
 <div class="row">
-
     <div class="col-xs-12">
         <div style="padding:1px"></div>
         <div class="table-header">ข้อมูลสมาชิก</div>
@@ -322,7 +312,6 @@
                     <td class="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
 
                     <td><input type="text" name="checkbox2" id="checkbox2"></td>
-
                 </tr>
                 <tr>
                     <td class="center">2</td>
@@ -332,10 +321,7 @@
                     <td class="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
 
                     <td><input type="text" name="checkbox2" id="checkbox2"></td>
-
                 </tr>
-
-
             </tbody>
         </table>
     </div>
@@ -343,21 +329,16 @@
 
 <div class="row">
     <div class="col-xs-12">
-
-
-
         <div class="clearfix form-actions">
             <div class="col-md-offset-3 col-md-9">
                 <button type="button" id="bootbox-submit" class="btn btn-info">
                     <i class="ace-icon fa fa-floppy-o bigger-110"></i>
                     รับชำระ
                 </button>
-
                 &nbsp; &nbsp; &nbsp;
                 <button type="reset" class="btn">
                     <i class="ace-icon fa fa-undo bigger-110"></i>
                     ยกเลิก
-
                 </button>
                 &nbsp; &nbsp; &nbsp;
                 <button type="button" id="bootbox-submit" class="btn btn-success">
@@ -371,8 +352,6 @@
                         ยกเลิกใบเสร็จ
                     </button>
                 </a>								
-
-
             </div>
         </div>
     </div>
