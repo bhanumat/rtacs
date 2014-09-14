@@ -47,7 +47,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
     "classpath:spring-datasource.xml",
     "classpath:spring-security.xml"
 })
-@TransactionConfiguration(transactionManager = "hibernateTransactionManager", defaultRollback = true)
+@TransactionConfiguration(transactionManager = "hibernateTransactionManager", defaultRollback = false)
 @Transactional
 public class Pay010ControllerIntegrationTest {
 
@@ -78,7 +78,6 @@ public class Pay010ControllerIntegrationTest {
         MemberPaymentHead payment = new MemberPaymentHead();
         payment.setMemberId(7);
         payment.setAmount(new BigDecimal(200));
-        payment.setPaymentId(1);
         payment.setPaymentTypeCode(20);
         payment.setPaymentDate(new Date());
         payment.setReceiptNo("xxxxxxx");
