@@ -34,9 +34,9 @@ public class MemberPayment implements java.io.Serializable {
     private Integer cancelFlag;
     private String remark;
     private Date createdDate;
-    private Integer createdBy;
+    private String createdBy;
     private Date updatedDate;
-    private Integer updatedBy;
+    private String updatedBy;
 
     public MemberPayment() {
     }
@@ -46,7 +46,7 @@ public class MemberPayment implements java.io.Serializable {
         this.memberId = memberId;
     }
 
-    public MemberPayment(int paymentId, int memberId, Date paymentDate, String monthCode, Integer paymentTypeCode, Integer referenceId, String bankCode, String bankAccNo, Integer bankOperationId, BigDecimal bankPayAmount, BigDecimal payAmount, BigDecimal amount, BigDecimal overAmount, Integer cancelFlag, String remark, Date createdDate, Integer createdBy, Date updatedDate, Integer updatedBy) {
+    public MemberPayment(int paymentId, int memberId, Date paymentDate, String monthCode, Integer paymentTypeCode, Integer referenceId, String bankCode, String bankAccNo, Integer bankOperationId, BigDecimal bankPayAmount, BigDecimal payAmount, BigDecimal amount, BigDecimal overAmount, Integer cancelFlag, String remark, Date createdDate, String createdBy, Date updatedDate, String updatedBy) {
         this.paymentId = paymentId;
         this.memberId = memberId;
         this.paymentDate = paymentDate;
@@ -217,11 +217,11 @@ public class MemberPayment implements java.io.Serializable {
     }
 
     @Column(name = "created_by")
-    public Integer getCreatedBy() {
+    public String getCreatedBy() {
         return this.createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -236,11 +236,11 @@ public class MemberPayment implements java.io.Serializable {
     }
 
     @Column(name = "updated_by")
-    public Integer getUpdatedBy() {
+    public String getUpdatedBy() {
         return this.updatedBy;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
+    public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
 
