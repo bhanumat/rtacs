@@ -1,11 +1,12 @@
 package com.itos.service;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License ers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.itos.model.MemberPaymentHead;
+import com.itos.model.MemberPayment;
+import com.itos.service.model.IMemberPaymentService;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.util.ConstantsMessage;
 import com.itos.util.jsonObject.MessageRequest;
@@ -79,10 +80,26 @@ public class MemberPaymentServiceIntegrationTest {
     }
 
     @Test
-    public void createMemberPaymentHead() {
-        MemberPaymentHead payment = buildMemberPaymentHead(7, 200, 20, "xxxxxx");
+    public void createMemberPayment() {
+        int memberId = 7;
+        String monthCode = "55709";
+        int paymentTypeCode = 20;
+        int referenceId = 1;
+        String bankCode = "";
+        String bankAccNo = "";
+        int bankOperationId = 11;
+        float bankPaymentAmount = 200;
+        float payAmount = 200;
+        float amount = 200;
+        float overAmount = 0;
+        int cancelFlag = 1;
+        String remark = "Test";
 
-        MessageResponse response = iMemberPaymentService.createMemberPaymentHead(payment);
+        MemberPayment payment = buildMemberPayment(memberId, monthCode, paymentTypeCode, referenceId, bankCode,
+                bankAccNo, bankOperationId, bankPaymentAmount, payAmount, amount, overAmount, cancelFlag, remark
+        );
+
+        MessageResponse response = iMemberPaymentService.createMemberPayment(payment);
         if (response != null) {
             assertEquals(true, response.getCheckSuccess());
             assertEquals(ConstantsMessage.SaveSuccessful, response.getMessage());
@@ -90,7 +107,7 @@ public class MemberPaymentServiceIntegrationTest {
             assertTrue(Integer.valueOf(response.getId()) > 0);
             assertNotNull("obj", response.getObj());
 
-            MemberPaymentHead created = (MemberPaymentHead) response.getObj();
+            MemberPayment created = (MemberPayment) response.getObj();
             assertNotNull(created.getCreatedBy());
             assertNotNull(created.getCreatedDate());
         } else {
@@ -98,44 +115,71 @@ public class MemberPaymentServiceIntegrationTest {
         }
     }
 
-    private MemberPaymentHead buildMemberPaymentHead(int memberId, int amount, int payTypeCode, String receiptNo) {
-        MemberPaymentHead payment = new MemberPaymentHead();
+    private MemberPayment buildMemberPayment(int memberId, String monthCode, int paymentTypeCode, int referenceId, String bankCode,
+            String bankAccNo, int bankOperationId, float bankPaymentAmount,
+            float payAmount, float amount, float overAmount, int cancelFlag, String remark) {
+        MemberPayment payment = new MemberPayment();
         payment.setMemberId(memberId);
+        payment.setMonthCode(monthCode);
+        payment.setReferenceId(referenceId);
+        payment.setBankCode(bankCode);
+        payment.setBankAccNo(bankAccNo);
+        payment.setBankOperationId(bankOperationId);
+        payment.setBankPayAmount(BigDecimal.valueOf(bankPaymentAmount));
+        payment.setPayAmount(BigDecimal.valueOf(payAmount));
         payment.setAmount(BigDecimal.valueOf(amount));
-        payment.setPaymentTypeCode(payTypeCode);
+        payment.setOverAmount(BigDecimal.valueOf(overAmount));
+        payment.setCancelFlag(cancelFlag);
+        payment.setRemark(remark);
+        payment.setPaymentTypeCode(paymentTypeCode);
         payment.setPaymentDate(new Date());
-        payment.setReceiptNo(receiptNo);
+
         payment.setCreatedBy("JUnit Testing");
         payment.setCreatedDate(new Date());
         return payment;
     }
 
     @Test
-    public void updateMemberPaymentHead() {
+    public void updateMemberPayment() {
 
-        MemberPaymentHead payment = buildMemberPaymentHead(7, 300, 22, "xxxxxx");
-        MessageResponse createdResponse = iMemberPaymentService.createMemberPaymentHead(payment);
+        int memberId = 7;
+        String monthCode = "55709";
+        int paymentTypeCode = 20;
+        int referenceId = 1;
+        String bankCode = "";
+        String bankAccNo = "";
+        int bankOperationId = 11;
+        float bankPaymentAmount = 200;
+        float payAmount = 200;
+        float amount = 200;
+        float overAmount = 0;
+        int cancelFlag = 0;
+        String remark = "Test";
+
+        MemberPayment payment = buildMemberPayment(memberId, monthCode, paymentTypeCode, referenceId, bankCode,
+                bankAccNo, bankOperationId, bankPaymentAmount, payAmount, amount, overAmount, cancelFlag, remark
+        );
+
+        MessageResponse createdResponse = iMemberPaymentService.createMemberPayment(payment);
         if (createdResponse != null) {
-            payment = (MemberPaymentHead) createdResponse.getObj();
+            payment = (MemberPayment) createdResponse.getObj();
             payment.setMemberId(8);
             payment.setAmount(BigDecimal.valueOf(350));
             payment.setPaymentTypeCode(20);
-            payment.setReceiptNo("yyyyyy");
             payment.setCancelFlag(1); // 1=true, 0=false
             payment.setUpdatedBy("JUnit Testing");
             payment.setUpdatedDate(new Date());
 
-            MessageResponse updatedResponse = iMemberPaymentService.updateMemberPaymentHead(payment);
+            MessageResponse updatedResponse = iMemberPaymentService.updateMemberPayment(payment);
             if (updatedResponse != null) {
-                assertEquals(payment.getPaymentId(), ((MemberPaymentHead) updatedResponse.getObj()).getPaymentId());
+                assertEquals(payment.getPaymentId(), ((MemberPayment) updatedResponse.getObj()).getPaymentId());
                 assertEquals(true, updatedResponse.getCheckSuccess());
                 assertEquals(ConstantsMessage.UpdateSuccessful, updatedResponse.getMessage());
 
-                MemberPaymentHead afterUpdated = iMemberPaymentService.getMemberPaymentHead(Integer.valueOf(updatedResponse.getId()));
+                MemberPayment afterUpdated = iMemberPaymentService.getMemberPayment(Integer.valueOf(updatedResponse.getId()));
                 assertEquals(payment.getMemberId(), afterUpdated.getMemberId());
                 assertEquals(payment.getAmount(), afterUpdated.getAmount());
                 assertEquals(payment.getPaymentTypeCode(), afterUpdated.getPaymentTypeCode());
-                assertEquals(payment.getReceiptNo(), afterUpdated.getReceiptNo());
                 assertEquals(payment.getCancelFlag(), afterUpdated.getCancelFlag());
 
                 assertNotNull(afterUpdated.getUpdatedBy());
@@ -148,13 +192,33 @@ public class MemberPaymentServiceIntegrationTest {
     }
 
     @Test
-    public void removeMemberPaymentHead() {
+    public void removeMemberPayment() {
 
-        MemberPaymentHead payment = buildMemberPaymentHead(7, 301, 22, "xxxxxx");
-        MessageResponse createdResponse1 = iMemberPaymentService.createMemberPaymentHead(payment);
+        int memberId = 7;
+        String monthCode = "55709";
+        int paymentTypeCode = 20;
+        int referenceId = 1;
+        String bankCode = "";
+        String bankAccNo = "";
+        int bankOperationId = 11;
+        float bankPaymentAmount = 200;
+        float payAmount = 200;
+        float amount = 200;
+        float overAmount = 0;
+        int cancelFlag = 1;
+        String remark = "Test";
 
-        payment = buildMemberPaymentHead(7, 302, 22, "xxxxxx2");
-        MessageResponse createdResponse2 = iMemberPaymentService.createMemberPaymentHead(payment);
+        MemberPayment payment = buildMemberPayment(memberId, monthCode, paymentTypeCode, referenceId, bankCode,
+                bankAccNo, bankOperationId, bankPaymentAmount, payAmount, amount, overAmount, cancelFlag, remark
+        );
+        MessageResponse createdResponse1 = iMemberPaymentService.createMemberPayment(payment);
+        
+        paymentTypeCode = 22;
+        referenceId = 2;
+        payment = buildMemberPayment(memberId, monthCode, paymentTypeCode, referenceId, bankCode,
+                bankAccNo, bankOperationId, bankPaymentAmount, payAmount, amount, overAmount, cancelFlag, remark
+        );
+        MessageResponse createdResponse2 = iMemberPaymentService.createMemberPayment(payment);
 
         List<String> ids = new ArrayList();
         ids.add(createdResponse1.getId());
@@ -165,7 +229,7 @@ public class MemberPaymentServiceIntegrationTest {
         req.setUserProfileCode("");
         req.setUserProfileId("");
 
-        MessageResponse createdResponse = iMemberPaymentService.removeMemberPaymentHead(req);
+        MessageResponse createdResponse = iMemberPaymentService.removeMemberPayment(req);
         if (createdResponse != null) {
             assertEquals(true, createdResponse.getCheckSuccess());
             assertEquals(ConstantsMessage.DeleteSuccessful, createdResponse.getMessage());
@@ -175,18 +239,33 @@ public class MemberPaymentServiceIntegrationTest {
     }
 
     @Test
-    public void getMemberPaymentHead() {
+    public void getMemberPayment() {
 
-        MemberPaymentHead payment = buildMemberPaymentHead(7, 300, 22, "xxxxxx");
-        MessageResponse createdResponse = iMemberPaymentService.createMemberPaymentHead(payment);
+        int memberId = 7;
+        String monthCode = "55709";
+        int paymentTypeCode = 20;
+        int referenceId = 1;
+        String bankCode = "";
+        String bankAccNo = "";
+        int bankOperationId = 11;
+        float bankPaymentAmount = 200;
+        float payAmount = 200;
+        float amount = 200;
+        float overAmount = 0;
+        int cancelFlag = 1;
+        String remark = "Test";
+
+        MemberPayment payment = buildMemberPayment(memberId, monthCode, paymentTypeCode, referenceId, bankCode,
+                bankAccNo, bankOperationId, bankPaymentAmount, payAmount, amount, overAmount, cancelFlag, remark
+        );
+        MessageResponse createdResponse = iMemberPaymentService.createMemberPayment(payment);
         if (createdResponse != null) {
-            MemberPaymentHead created = (MemberPaymentHead) createdResponse.getObj();
-            MemberPaymentHead loaded = iMemberPaymentService.getMemberPaymentHead(Integer.valueOf(createdResponse.getId()));
+            MemberPayment created = (MemberPayment) createdResponse.getObj();
+            MemberPayment loaded = iMemberPaymentService.getMemberPayment(Integer.valueOf(createdResponse.getId()));
             assertNotNull(loaded);
             assertEquals(created.getPaymentId(), loaded.getPaymentId());
             assertEquals(created.getAmount(), loaded.getAmount());
             assertEquals(created.getPaymentTypeCode(), loaded.getPaymentTypeCode());
-            assertEquals(created.getReceiptNo(), loaded.getReceiptNo());
             assertEquals(created.getCancelFlag(), loaded.getCancelFlag());
 
             assertNotNull(loaded.getCreatedBy());

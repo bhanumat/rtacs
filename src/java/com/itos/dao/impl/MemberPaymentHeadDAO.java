@@ -64,6 +64,35 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
     }
 
     @Override
+    public MemberPaymentHead getMemberPaymentHeadById(int paymentId) {
+        MemberPaymentHead memberPaymentHead = null;
+        List<WhereField> listWhereField = new ArrayList<>();
+
+        try {
+            /*
+             * Command HQL query Data.
+             */
+            WhereField whereField = new WhereField();
+            whereField.setSearchField(ATT_PAYMENT_ID);
+            whereField.setSearchLogic(StringPool.BLANK);
+            whereField.setSearchOper(CommandConstant.QueryEqual);
+            whereField.setSearchValue(paymentId);
+            listWhereField.add(whereField);
+
+            Query query = CommandQuery.CreateQuery(sessionFactory, TB_NAME, listWhereField, 0, 1);
+
+            if (!query.list().isEmpty() && query.list().size() == 1) {
+                memberPaymentHead = (MemberPaymentHead) query.list().get(0);
+            } else if (query.list().size() > 1) {
+                throw new RuntimeException("Multiple record returned");
+            }  //else no data found
+        } catch (HibernateException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+        return memberPaymentHead;
+    }
+
+    @Override
     public MessageResponse remove(MessageRequest req) {
         int iCountSuccessful = 0;
         MessageResponse response = new MessageResponse();
@@ -76,11 +105,7 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
                 iCountSuccessful++;
             }
         }
-        if (iCountSuccessful == req.getItemSelect().size()) {
-            response.setCheckSuccess(true);
-        } else {
-            response.setCheckSuccess(false);
-        }
+        response.setCheckSuccess(iCountSuccessful == req.getItemSelect().size());
         success = response.getCheckSuccess();
         if (success) {
             response.setId(StringPool.BLANK);
@@ -115,32 +140,4 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
         }
         return response;
     }
-
-    @Override
-    public MemberPaymentHead getMemberPaymentHeadById(int paymentId) {
-        MemberPaymentHead memberPaymentHead = null;
-        List<WhereField> listWhereField = new ArrayList<>();
-
-        try {
-            /*
-             * Command HQL query Data.
-             */
-            WhereField whereField = new WhereField();
-            whereField.setSearchField(ATT_PAYMENT_ID);
-            whereField.setSearchLogic(StringPool.BLANK);
-            whereField.setSearchOper(CommandConstant.QueryEqual);
-            whereField.setSearchValue(paymentId);
-            listWhereField.add(whereField);
-
-            Query query = CommandQuery.CreateQuery(sessionFactory, TB_NAME, listWhereField, 0, 1);
-
-            if (!query.list().isEmpty()) {
-                memberPaymentHead = (MemberPaymentHead) query.list().get(0);
-            }
-        } catch (HibernateException ex) {
-            throw new RuntimeException(ex.getMessage());
-        }
-        return memberPaymentHead;
-    }
-
 }

@@ -1,6 +1,6 @@
 package com.itos.service.model;
 
-import com.itos.model.MemberPaymentHead;
+import com.itos.model.MemberPayment;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 
@@ -10,12 +10,12 @@ import com.itos.util.jsonObject.MessageResponse;
  */
 public interface IMemberPaymentService {
 
-    MessageResponse createMemberPaymentHead(MemberPaymentHead memberPaymentHead);
+    MessageResponse createMemberPayment(MemberPayment memberPayment);
 
-    MessageResponse updateMemberPaymentHead(MemberPaymentHead memberPaymentHead);
+    MessageResponse updateMemberPayment(MemberPayment memberPayment);
 
-    MessageResponse removeMemberPaymentHead(MessageRequest req);
-    
-    MemberPaymentHead getMemberPaymentHead(int paymentId);
+    MessageResponse removeMemberPayment(MessageRequest req);
+
+    MemberPayment getMemberPayment(int paymentId);
 
 }

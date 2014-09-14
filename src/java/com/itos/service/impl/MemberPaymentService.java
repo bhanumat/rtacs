@@ -6,8 +6,7 @@
 package com.itos.service.impl;
 
 import com.itos.dao.model.IMemberPaymentDAO;
-import com.itos.dao.model.IMemberPaymentHeadDAO;
-import com.itos.model.MemberPaymentHead;
+import com.itos.model.MemberPayment;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
@@ -28,37 +27,34 @@ public class MemberPaymentService implements IMemberPaymentService {
     @Autowired
     private IMemberPaymentDAO iMemberPaymentDAO;
 
-    @Autowired
-    private IMemberPaymentHeadDAO iMemberPaymentHeadDAO;
-
     public MemberPaymentService() {
 
     }
 
     @Override
-    public MessageResponse createMemberPaymentHead(MemberPaymentHead memberPaymentHead) {
-        if (memberPaymentHead != null) {
-            return iMemberPaymentHeadDAO.add(memberPaymentHead);
+    public MessageResponse createMemberPayment(MemberPayment memberPayment) {
+        if (memberPayment != null) {
+            return iMemberPaymentDAO.add(memberPayment);
         } else {
-            logger.error("Passing memberPaymentHead=null");
-            throw new NullPointerException("MemberPaymentHead memberPaymentHead is null");
+            logger.error("Passing memberPayment=null");
+            throw new NullPointerException("MemberPayment memberPayment is null");
         }
     }
 
     @Override
-    public MessageResponse updateMemberPaymentHead(MemberPaymentHead memberPaymentHead) {
-        if (memberPaymentHead != null) {
-            return iMemberPaymentHeadDAO.update(memberPaymentHead);
+    public MessageResponse updateMemberPayment(MemberPayment memberPayment) {
+        if (memberPayment != null) {
+            return iMemberPaymentDAO.update(memberPayment);
         } else {
-            logger.error("Passing memberPaymentHead=null");
-            throw new NullPointerException("MemberPaymentHead memberPaymentHead is null");
+            logger.error("Passing memberPayment=null");
+            throw new NullPointerException("MemberPayment memberPayment is null");
         }
     }
 
     @Override
-    public MessageResponse removeMemberPaymentHead(MessageRequest req) {
+    public MessageResponse removeMemberPayment(MessageRequest req) {
         if (req != null) {
-            return iMemberPaymentHeadDAO.remove(req);
+            return iMemberPaymentDAO.remove(req);
         } else {
             logger.error("Passing req=null");
             throw new NullPointerException("MessageReqquest req is null");
@@ -66,8 +62,8 @@ public class MemberPaymentService implements IMemberPaymentService {
     }
 
     @Override
-    public MemberPaymentHead getMemberPaymentHead(int paymentId) {
-            return iMemberPaymentHeadDAO.getMemberPaymentHeadById(paymentId);
+    public MemberPayment getMemberPayment(int paymentId) {
+        return iMemberPaymentDAO.getMemberPaymentById(paymentId);
     }
 
 }
