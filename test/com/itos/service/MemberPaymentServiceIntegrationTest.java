@@ -1,4 +1,4 @@
-package com.itos.controller.payment;
+package com.itos.service;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -54,12 +54,12 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 })
 @TransactionConfiguration(transactionManager = "hibernateTransactionManager", defaultRollback = true)
 @Transactional
-public class Pay010ControllerIntegrationTest {
+public class MemberPaymentServiceIntegrationTest {
 
     @Autowired
     private IMemberPaymentService iMemberPaymentService;
 
-    public Pay010ControllerIntegrationTest() {
+    public MemberPaymentServiceIntegrationTest() {
     }
 
     @BeforeClass
