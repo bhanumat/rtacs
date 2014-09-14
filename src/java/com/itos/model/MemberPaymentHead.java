@@ -23,12 +23,12 @@ public class MemberPaymentHead implements java.io.Serializable {
     private Date paymentDate;
     private String receiptNo;
     private Integer paymentTypeCode;
-    private BigDecimal amont;
+    private BigDecimal amount;
     private Integer cancelFlag;
     private Date createdDate;
-    private Integer createdBy;
+    private String createdBy;
     private Date updatedDate;
-    private Integer updatedBy;
+    private String updatedBy;
 
     public MemberPaymentHead() {
     }
@@ -37,13 +37,13 @@ public class MemberPaymentHead implements java.io.Serializable {
         this.paymentId = paymentId;
     }
 
-    public MemberPaymentHead(int paymentId, Integer memberId, Date paymentDate, String receiptNo, Integer paymentTypeCode, BigDecimal amont, Integer cancelFlag, Date createdDate, Integer createdBy, Date updatedDate, Integer updatedBy) {
+    public MemberPaymentHead(int paymentId, Integer memberId, Date paymentDate, String receiptNo, Integer paymentTypeCode, BigDecimal amount, Integer cancelFlag, Date createdDate, String createdBy, Date updatedDate, String updatedBy) {
         this.paymentId = paymentId;
         this.memberId = memberId;
         this.paymentDate = paymentDate;
         this.receiptNo = receiptNo;
         this.paymentTypeCode = paymentTypeCode;
-        this.amont = amont;
+        this.amount = amount;
         this.cancelFlag = cancelFlag;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
@@ -100,12 +100,12 @@ public class MemberPaymentHead implements java.io.Serializable {
     }
 
     @Column(name = "amont", precision = 14, scale = 4)
-    public BigDecimal getAmont() {
-        return this.amont;
+    public BigDecimal getAmount() {
+        return this.amount;
     }
 
-    public void setAmont(BigDecimal amont) {
-        this.amont = amont;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     @Column(name = "cancel_flag")
@@ -128,11 +128,11 @@ public class MemberPaymentHead implements java.io.Serializable {
     }
 
     @Column(name = "created_by")
-    public Integer getCreatedBy() {
+    public String getCreatedBy() {
         return this.createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -147,11 +147,11 @@ public class MemberPaymentHead implements java.io.Serializable {
     }
 
     @Column(name = "updated_by")
-    public Integer getUpdatedBy() {
+    public String getUpdatedBy() {
         return this.updatedBy;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
+    public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
 

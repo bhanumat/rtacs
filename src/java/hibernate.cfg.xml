@@ -27,5 +27,7 @@
     <mapping class="com.itos.model.Bank"/>
     <mapping class="com.itos.model.ControlReceipt"/>
     <mapping class="com.itos.model.Member"/>
+    <mapping class="com.itos.model.MemberPayment"/>
+    <mapping class="com.itos.model.MemberPaymentHead"/>
   </session-factory>
 </hibernate-configuration>
