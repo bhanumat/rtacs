@@ -11,8 +11,15 @@ import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -25,6 +32,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("iMemberPaymentHeadDAO")
 public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
+
+    static {
+        //Ignore null converting 
+        ConvertUtils.register(new DateConverter(null), Date.class);
+    }
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -59,7 +71,7 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
         boolean success;
 
         for (String id : req.getItemSelect()) {
-            memberPaymentHead = (MemberPaymentHead) CommandQuery.LoadDetail(sessionFactory, MemberPaymentHead.class, id);
+            memberPaymentHead = (MemberPaymentHead) CommandQuery.LoadDetail(sessionFactory, MemberPaymentHead.class, Integer.valueOf(id));
             if (CommandQuery.Delete(sessionFactory, memberPaymentHead)) {
                 iCountSuccessful++;
             }
@@ -83,14 +95,20 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
     public MessageResponse update(MemberPaymentHead memberPaymentHead) {
         MessageResponse response = new MessageResponse();
         MemberPaymentHead memberPaymentHeadOrigin = (MemberPaymentHead) CommandQuery.LoadDetail(sessionFactory, MemberPaymentHead.class, memberPaymentHead.getPaymentId());
-        memberPaymentHeadOrigin.setCancelFlag(memberPaymentHead.getCancelFlag());
-        memberPaymentHeadOrigin.setPaymentDate(memberPaymentHead.getPaymentDate());
+        try {
+            BeanUtils.copyProperties(memberPaymentHeadOrigin, memberPaymentHead);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            Logger.getLogger(MemberPaymentHeadDAO.class.getName()).log(Level.SEVERE, null, e);
+            throw new RuntimeException(ConstantsMessage.UpdateUnsuccessful);
+        }
+
         memberPaymentHeadOrigin.setUpdatedBy(memberPaymentHead.getUpdatedBy());
         memberPaymentHeadOrigin.setUpdatedDate(memberPaymentHead.getUpdatedDate());
 
         if (CommandQuery.Update(sessionFactory, memberPaymentHeadOrigin)) {
             response.setCheckSuccess(true);
             response.setId(String.valueOf(memberPaymentHeadOrigin.getPaymentId()));
+            response.setObj(memberPaymentHeadOrigin);
             response.setMessage(ConstantsMessage.UpdateSuccessful);
         } else {
             throw new RuntimeException(ConstantsMessage.UpdateUnsuccessful);
