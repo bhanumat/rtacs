@@ -15,7 +15,9 @@
  */
 package com.itos.util.jqGrid;
 
+import com.itos.model.ext.PaymentMember;
 import java.util.Collection;
+import java.util.List;
 
 public class JqGridResponse<T> {
 
@@ -84,4 +86,9 @@ public class JqGridResponse<T> {
      return builder.toString();
      }
      */
+/*  Implementing...
+    public void setRows(List<PaymentMember> listResponse) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    */
 }
