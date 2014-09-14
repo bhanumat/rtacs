@@ -7,6 +7,7 @@ package com.itos.controller.payment;
  */
 import com.itos.model.MemberPaymentHead;
 import com.itos.service.model.IMemberPaymentService;
+import com.itos.util.ConstantsMessage;
 import com.itos.util.jsonObject.MessageResponse;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,7 +15,9 @@ import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -47,7 +50,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
     "classpath:spring-datasource.xml",
     "classpath:spring-security.xml"
 })
-@TransactionConfiguration(transactionManager = "hibernateTransactionManager", defaultRollback = false)
+@TransactionConfiguration(transactionManager = "hibernateTransactionManager", defaultRollback = true)
 @Transactional
 public class Pay010ControllerIntegrationTest {
 
@@ -87,8 +90,10 @@ public class Pay010ControllerIntegrationTest {
         MessageResponse response = iMemberPaymentService.createMemberPaymentHead(payment);
         if (response != null) {
             assertEquals(true, response.getCheckSuccess());
-            org.junit.Assert.assertNotNull("paymentId", response.getId());
-            org.junit.Assert.assertNotNull("object", response.getObj());
+            assertEquals(ConstantsMessage.SaveSuccessful, response.getMessage());
+            assertNotNull("paymentId", response.getId());
+            assertTrue(Integer.valueOf(response.getId()) > 0);
+            assertNotNull("object", response.getObj());
         } else {
             fail("response is null");
         }
