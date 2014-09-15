@@ -187,10 +187,9 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         hql.append(TB_NAME);
         hql.append(" ");
         hql.append(CommandConstant.QueryWhere);
-        hql.append(" paymentDate is not null");
+        hql.append(" paymentDate is null");
         
         if (req.isSearch()) {
-            
             Search search = new Search();
             search = Search.JSONDeserializer(req.getSearchCommand());
             List<WhereField> memberWhereFieldList = new ArrayList<>();
