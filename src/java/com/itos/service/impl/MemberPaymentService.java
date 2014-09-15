@@ -7,13 +7,18 @@ package com.itos.service.impl;
 
 import com.itos.dao.model.IMemberPaymentDAO;
 import com.itos.model.MemberPayment;
+import com.itos.model.ext.MemberPaymentDto;
+import com.itos.model.ext.PaymentMember;
 import com.itos.service.model.IMemberPaymentService;
+import com.itos.util.jqGrid.JqGridRequest;
+import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -62,8 +67,20 @@ public class MemberPaymentService implements IMemberPaymentService {
     }
 
     @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
     public MemberPayment getMemberPayment(int paymentId) {
         return iMemberPaymentDAO.getMemberPaymentById(paymentId);
+    }
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req){
+        if (req != null) {
+            return iMemberPaymentDAO.searchMemberPayment(req);
+        } else {
+            logger.error("Passing req=null");
+            throw new NullPointerException("MessageReqquest req is null");
+        }
     }
 
 }

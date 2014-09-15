@@ -1,7 +1,11 @@
 package com.itos.controller.payment;
 
+import com.itos.dao.model.IMemberDAO;
+import com.itos.model.Member;
+import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.PaymentMember;
 import com.itos.service.model.IMemberPaymentService;
+import com.itos.service.model.IMemberService;
 import com.itos.service.model.IOperationMemberService;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
@@ -31,7 +35,7 @@ public class PAY010Controller {
     private IMemberPaymentService iMemberPaymentService;
     
     @Autowired
-    private IOperationMemberService iOperationMemberService;
+    IMemberService iMemberService;
 
     @RequestMapping("/Plugins/Payment/PAY010.htm")
     public String getPagePAY010(Model model, Principal principal) {
@@ -47,10 +51,20 @@ public class PAY010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<PaymentMember> getListPAY010(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+    JqGridResponse<MemberPaymentDto> getListPAY010(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         logger.info("info PAY010Controller : getListPAY010: search >>" + search + "<<");
         req.setSearch(Boolean.parseBoolean(search));
-        JqGridResponse<PaymentMember> resMemberPayments = iOperationMemberService.getListPaymentMember(req);
+        JqGridResponse<MemberPaymentDto> resMemberPayments = iMemberPaymentService.searchMemberPayment(req);
         return resMemberPayments;
+    }
+    
+    @RequestMapping(value = "/Plugins/Payment/getListMemberPAY010_1.json", method = {RequestMethod.POST},
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    JqGridResponse<Member> searchMember(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+        logger.info("PAY010Controller : searchMember");
+        req.setSearch(Boolean.parseBoolean(search));
+        return iMemberService.getListMember(req);
     }
 }

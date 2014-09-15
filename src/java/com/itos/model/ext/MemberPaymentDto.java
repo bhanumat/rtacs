@@ -16,8 +16,8 @@ import java.util.Date;
 public class MemberPaymentDto {
     
     private int memberPaymentId;
-    private Date docDate;
-    private String docCode;
+    private Date paymentDate;
+    private String referenceId;
     private String memberCode;
     private String militaryName;
     private String citizenId;
@@ -25,8 +25,8 @@ public class MemberPaymentDto {
     private String name;
     private String surname;
     private BigDecimal amount;
-    private int typeCode;
-    private String printedStatus;
+    private int paymentTypeCode;
+    private String paymentStatus;
     
      public int getMemberPaymentId() {
         return memberPaymentId;
@@ -36,20 +36,20 @@ public class MemberPaymentDto {
         this.memberPaymentId = memberPaymentId;
     }
     
-    public Date getDocDate() {
-        return docDate;
+    public Date getPaymentDate() {
+        return paymentDate;
     }
 
-    public void setDocDate(Date docDate) {
-        this.docDate = docDate;
+    public void setPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
     }
 
-    public String getDocCode() {
-        return docCode;
+    public String getReferenceId() {
+        return referenceId;
     }
 
-    public void setDocCode(String docCode) {
-        this.docCode = docCode;
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
     }
 
     public String getMilitaryName() {
@@ -108,20 +108,20 @@ public class MemberPaymentDto {
         this.amount = amount;
     }
 
-    public int getTypeCode() {
-        return typeCode;
+    public int getPaymentTypeCode() {
+        return paymentTypeCode;
     }
 
-    public void setTypeCode(int typeCode) {
-        this.typeCode = typeCode;
+    public void setPaymentTypeCode(int paymentTypeCode) {
+        this.paymentTypeCode = paymentTypeCode;
     }
 
-    public String getPrintedStatus() {
-        return printedStatus;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setPrintedStatus(String printedStatus) {
-        this.printedStatus = printedStatus;
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
     
 }
