@@ -991,6 +991,20 @@ public class CommandQuery {
         return query;
     }
     
+    public static Query CreateQuery(SessionFactory sessionFactory, StringBuilder hql) {
+
+        Query query;
+        try {
+            System.out.print(hql.toString());
+            query = sessionFactory.getCurrentSession().createQuery(hql.toString());
+        } catch (HibernateException exception) {
+            throw exception;
+        } finally {
+            hql = null;
+        }
+        return query;
+    }
+    
     private static String formatDate(String date){
         
         if(date.isEmpty()){

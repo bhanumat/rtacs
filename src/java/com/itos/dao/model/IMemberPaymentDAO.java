@@ -7,6 +7,7 @@ import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
+import java.util.List;
 
 /**
  *
@@ -25,4 +26,6 @@ public interface IMemberPaymentDAO {
     MessageResponse update(MemberPayment memberPayment);
     
     JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req);
+    
+    List<MemberPayment> getMemberPaymentByCode(String citizenId, String memberCode);
 }

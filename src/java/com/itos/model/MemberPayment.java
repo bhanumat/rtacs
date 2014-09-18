@@ -1,14 +1,18 @@
 package com.itos.model;
 // Generated Sep 13, 2014 5:40:42 PM by Hibernate Tools 3.6.0
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,6 +44,8 @@ public class MemberPayment implements java.io.Serializable {
     private String createdBy;
     private Date updatedDate;
     private String updatedBy;
+    private Member member;
+    private ControlPayment controlPayment;
 
     public MemberPayment() {
     }
@@ -49,7 +55,7 @@ public class MemberPayment implements java.io.Serializable {
         this.memberId = memberId;
     }
 
-    public MemberPayment(int paymentId, int memberId, Date paymentDate, String monthCode, Integer paymentTypeCode, Integer referenceId, String bankCode, String bankAccNo, Integer bankOperationId, BigDecimal bankPayAmount, BigDecimal payAmount, BigDecimal amount, BigDecimal overAmount, Integer cancelFlag, String remark, Date createdDate, String createdBy, Date updatedDate, String updatedBy) {
+    public MemberPayment(int paymentId, int memberId, Date paymentDate, String monthCode, Integer paymentTypeCode, Integer referenceId, String bankCode, String bankAccNo, Integer bankOperationId, BigDecimal bankPayAmount, BigDecimal payAmount, BigDecimal amount, BigDecimal overAmount, Integer cancelFlag, String remark, Date createdDate, String createdBy, String updatedBy, Member member, ControlPayment controlPayment) {
         this.paymentId = paymentId;
         this.memberId = memberId;
         this.paymentDate = paymentDate;
@@ -67,8 +73,9 @@ public class MemberPayment implements java.io.Serializable {
         this.remark = remark;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
-        this.updatedDate = updatedDate;
         this.updatedBy = updatedBy;
+        this.member = member;
+        this.controlPayment = controlPayment;
     }
 
     @Id
@@ -247,5 +254,29 @@ public class MemberPayment implements java.io.Serializable {
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = true, insertable = false, updatable = false)
+    @JsonBackReference
+    public Member getMember() {
+        return this.member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "month_code", nullable = true, insertable = false, updatable = false)
+    @JsonBackReference
+    public ControlPayment getControlPayment() {
+        return controlPayment;
+    }
+
+    public void setControlPayment(ControlPayment controlPayment) {
+        this.controlPayment = controlPayment;
+    }
+    
+    
 
 }

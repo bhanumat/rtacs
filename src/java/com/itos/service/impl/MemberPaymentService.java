@@ -8,12 +8,16 @@ package com.itos.service.impl;
 import com.itos.dao.model.IMemberPaymentDAO;
 import com.itos.model.MemberPayment;
 import com.itos.model.ext.MemberPaymentDto;
+import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.model.ext.PaymentMember;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
+import com.itos.util.jqGrid.Search;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +85,40 @@ public class MemberPaymentService implements IMemberPaymentService {
             logger.error("Passing req=null");
             throw new NullPointerException("MessageReqquest req is null");
         }
+    }
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<MemberPaymentHeadDto> searchMemberPaymentByCode(String citizenId, String memberCode){
+//        if (req != null) {
+            List<MemberPayment> memberPaymentList = iMemberPaymentDAO.getMemberPaymentByCode(citizenId, memberCode);
+            MemberPaymentHeadDto mph;
+            StringBuilder sb;
+            List<MemberPaymentHeadDto> mphDtoList = new ArrayList<>();
+            for(MemberPayment mp : memberPaymentList){
+                mph = new MemberPaymentHeadDto();
+                sb = new StringBuilder();
+                sb.append("ค่าบำรุงศพประจำเดือน ");
+                sb.append(mp.getControlPayment().getMonthCode());
+                sb.append(" ตั้งแต่ศพที่ ");
+                sb.append(mp.getControlPayment().getStartSopNo());
+                sb.append(" ถึงศพที่ ");
+                sb.append(mp.getControlPayment().getEndSopNo());
+                mph.setPaymentDetail(sb.toString());
+                mph.setSopAmount(mp.getControlPayment().getEndSopNo()-mp.getControlPayment().getStartSopNo());
+                mph.setAmount(mp.getControlPayment().getAmount());
+                mph.setPaymentFlag(false);
+                mph.setRemark("");
+                mphDtoList.add(mph);
+            }
+            JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
+            jqGrid.setRows(mphDtoList);
+            
+            return jqGrid;
+//        } else {
+//            logger.error("Passing req=null");
+//            throw new NullPointerException("MessageReqquest req is null");
+//        }
     }
 
 }
