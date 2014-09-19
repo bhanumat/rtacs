@@ -3,9 +3,7 @@ package com.itos.dao.impl;
 import com.itos.dao.model.IMemberPaymentDAO;
 import com.itos.model.Member;
 import com.itos.model.MemberPayment;
-import com.itos.model.MemberPaymentHead;
 import com.itos.model.ext.MemberPaymentDto;
-import com.itos.model.ext.PaymentMember;
 import com.itos.util.ConstantsMessage;
 import com.itos.util.DateUtil;
 import com.itos.util.Hibernate.CommandConstant;
@@ -55,8 +53,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     
     protected final Log logger = LogFactory.getLog(getClass());
     private static final Locale ENG_LOCALE = new Locale("en", "EN");
-    private static final SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", ENG_LOCALE);
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", ENG_LOCALE);
+    private static final SimpleDateFormat SF = new SimpleDateFormat("dd/MM/yyyy", ENG_LOCALE);
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd", ENG_LOCALE);
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -296,6 +294,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
             MemberPaymentDto memberPaymentDto;
             for(MemberPayment mp : memberPaymentList){
                 memberPaymentDto = new MemberPaymentDto();
+                /*
                 searchField = new WhereField();
                 memberWhereFieldList = new ArrayList<>();
                 
@@ -304,18 +303,18 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 searchField.setSearchOper(CommandConstant.QueryEqual);
                 searchField.setSearchLogic("");
                 memberWhereFieldList.add(searchField);
-                
                 Query queryMember = CommandQuery.CreateQuery(sessionFactory, TB_MEMBER, memberWhereFieldList, 0, 1);
                 member = (Member) queryMember.list().get(0);
+                */
                 memberPaymentDto.setMemberPaymentId(mp.getPaymentId());
                 memberPaymentDto.setPaymentDate(mp.getPaymentDate());
                 memberPaymentDto.setReferenceId(String.valueOf(mp.getReferenceId()));
-                memberPaymentDto.setMemberCode(member.getMemberCode());
-                memberPaymentDto.setMilitaryName(member.getMilitaryName());
-                memberPaymentDto.setCitizenId(member.getCitizenId());
-                memberPaymentDto.setTitle(member.getTitleName());
-                memberPaymentDto.setName(member.getName());
-                memberPaymentDto.setSurname(member.getSurname());
+                memberPaymentDto.setMemberCode(mp.getMember().getMemberCode());
+                memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryName());
+                memberPaymentDto.setCitizenId(mp.getMember().getCitizenId());
+                memberPaymentDto.setTitle(mp.getMember().getTitleName());
+                memberPaymentDto.setName(mp.getMember().getName());
+                memberPaymentDto.setSurname(mp.getMember().getSurname());
                 memberPaymentDto.setAmount(mp.getAmount() != null ? mp.getAmount() : BigDecimal.ZERO);
                 rowList.add(memberPaymentDto);
             }
@@ -324,16 +323,47 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         return jqGrid;
     }
     
+    @Override
+    public List<MemberPayment> getMemberPaymentByCode(String citizenId, String memberCode) {
+        List<MemberPayment> memberPaymentList = new ArrayList<>();
+        StringBuilder hqlCondition = new StringBuilder();
+        StringBuilder hql = new StringBuilder();
+        
+        if(citizenId != null){
+            hqlCondition.append(" and mp.member.citizenId=");
+            hqlCondition.append(citizenId);
+        } else if(memberCode != null) {
+            hqlCondition.append(" and mp.member.memberCode=");
+            hqlCondition.append(memberCode);
+        } else {
+            logger.error("citizenId and memberCode is null");
+            throw new NullPointerException("citizenId and memberCode parameter is null");
+        }
+        
+        hql.append("select mp");
+        hql.append(" from "+TB_NAME+" mp");
+        hql.append(" where");
+        hql.append(" mp.paymentDate is null");
+        hql.append(hqlCondition);
+        
+        Query queryMemberPayment = CommandQuery.CreateQuery(sessionFactory, hql);
+        
+        if (!queryMemberPayment.list().isEmpty()) {
+            memberPaymentList = queryMemberPayment.list();
+        }
+        return memberPaymentList;
+    }
+    
     private String formatDate(String date) {
         
         if (date.isEmpty()) {
             Date currentDate = DateUtil.getCurrentDate();
-            String result = format.format(currentDate);
+            String result = FORMAT.format(currentDate);
             return result;
         }
         try {
-            Date tempDate = sf.parse(date);
-            String result = format.format(tempDate);
+            Date tempDate = SF.parse(date);
+            String result = FORMAT.format(tempDate);
             return result;
 
         } catch (ParseException e) {
