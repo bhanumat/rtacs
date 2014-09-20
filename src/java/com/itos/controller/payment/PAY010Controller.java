@@ -2,6 +2,7 @@ package com.itos.controller.payment;
 
 import com.itos.dao.model.IMemberDAO;
 import com.itos.model.Member;
+import com.itos.model.MemberPayment;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.PaymentMember;
 import com.itos.service.model.IMemberPaymentService;
@@ -66,5 +67,15 @@ public class PAY010Controller {
         logger.info("PAY010Controller : searchMember");
         req.setSearch(Boolean.parseBoolean(search));
         return iMemberService.getListMember(req);
+    }
+    
+    @RequestMapping(value = "/Plugins/Payment/getMemberPayment.json", method = {RequestMethod.POST},
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    MemberPayment getMemberPayment(@RequestParam(value = "paymentId") int paymentId) {
+        logger.info("PAY010Controller : searchMember");
+//        req.setSearch(Boolean.parseBoolean(search));
+        return iMemberPaymentService.getMemberPayment(paymentId);
     }
 }
