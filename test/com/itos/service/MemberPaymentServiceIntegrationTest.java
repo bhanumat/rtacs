@@ -6,9 +6,11 @@ package com.itos.service;
  * and open the template in the editor.
  */
 import com.itos.model.MemberPayment;
-import com.itos.service.model.IMemberPaymentService;
+import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.util.ConstantsMessage;
+import com.itos.util.jqGrid.JqGridRequest;
+import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.math.BigDecimal;
@@ -18,9 +20,15 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -273,5 +281,30 @@ public class MemberPaymentServiceIntegrationTest {
         } else {
             fail("response is null");
         }
+    }
+    
+    @Test
+    public void getMemberPaymentByCode() {
+        
+        JqGridRequest req = new JqGridRequest();
+        req.setNd("1411189121948");	
+        req.setRows(10);	
+        req.setPage(1);	
+        req.setSidx("mp.controlPayment.monthCode");	
+        req.setSord("asc");	
+        req.setSearchField(null);	
+        req.setSearchString(null);	
+        req.setSearchOper(null);	
+        req.setFilters(null);	
+        req.setSearch (true);
+        req.setSearchCommand("{\"conditions\":[{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"}]}");
+        //req.setSearchCommand("{\"conditions\":[{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"}]}");
+        JqGridResponse<MemberPaymentHeadDto> memberPaymentHeadDto = iMemberPaymentService.getMemberPaymentByCode(req);
+        if (memberPaymentHeadDto != null && memberPaymentHeadDto.getRows() != null) {
+            System.out.println("getMemberPaymentByCode result : "+memberPaymentHeadDto.getRows().toString());
+        }else {
+            fail("response is null");
+        }
+        
     }
 }

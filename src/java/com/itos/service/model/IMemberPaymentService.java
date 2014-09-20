@@ -26,5 +26,7 @@ public interface IMemberPaymentService {
     JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req);
     
     JqGridResponse<MemberPaymentHeadDto> searchMemberPaymentByCode(String citizenId, String memberCode);
+    
+    JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req);
 
 }

@@ -24,24 +24,31 @@ public class MemberPaymentHeadDto {
     private Integer sopAmount;
     private boolean paymentFlag;
     private String remark;
+    private String monthCode;
+    private Integer startSopNo;
+    private Integer endSopNo;
 
     public MemberPaymentHeadDto() {
     }
 
-    public MemberPaymentHeadDto(Date paymentDate, BigDecimal amount, String paymentDetail, Integer sopAmount) {
-        this.paymentDate = paymentDate;
-        this.amount = amount;
-        this.paymentDetail = paymentDetail;
-        this.sopAmount = sopAmount;
-    }
-    
-
-    public MemberPaymentHeadDto(int paymentId, Integer memberId, Date paymentDate, String receiptNo, Integer paymentTypeCode, BigDecimal amount, String paymentDetail, Integer sopAmount, boolean paymentFlag, String remark) {
+    public MemberPaymentHeadDto(int paymentId, Integer memberId, Date paymentDate, String receiptNo, Integer paymentTypeCode, BigDecimal amount, String paymentDetail, Integer sopAmount, boolean paymentFlag, String remark, String monthCode, Integer startSopNo, Integer endSopNo) {
         this.paymentId = paymentId;
         this.memberId = memberId;
         this.paymentDate = paymentDate;
         this.receiptNo = receiptNo;
         this.paymentTypeCode = paymentTypeCode;
+        this.amount = amount;
+        this.paymentDetail = paymentDetail;
+        this.sopAmount = sopAmount;
+        this.paymentFlag = paymentFlag;
+        this.remark = remark;
+        this.monthCode = monthCode;
+        this.startSopNo = startSopNo;
+        this.endSopNo = endSopNo;
+    }
+
+    public MemberPaymentHeadDto(int paymentId, BigDecimal amount, String paymentDetail, Integer sopAmount, boolean paymentFlag, String remark) {
+        this.paymentId = paymentId;
         this.amount = amount;
         this.paymentDetail = paymentDetail;
         this.sopAmount = sopAmount;
@@ -189,10 +196,51 @@ public class MemberPaymentHeadDto {
         this.remark = remark;
     }
 
+    /**
+     * @return the monthCode
+     */
+    public String getMonthCode() {
+        return monthCode;
+    }
+
+    /**
+     * @param monthCode the monthCode to set
+     */
+    public void setMonthCode(String monthCode) {
+        this.monthCode = monthCode;
+    }
+
+    /**
+     * @return the startSopNo
+     */
+    public Integer getStartSopNo() {
+        return startSopNo;
+    }
+
+    /**
+     * @param startSopNo the startSopNo to set
+     */
+    public void setStartSopNo(Integer startSopNo) {
+        this.startSopNo = startSopNo;
+    }
+
+    /**
+     * @return the endSopNo
+     */
+    public Integer getEndSopNo() {
+        return endSopNo;
+    }
+
+    /**
+     * @param endSopNo the endSopNo to set
+     */
+    public void setEndSopNo(Integer endSopNo) {
+        this.endSopNo = endSopNo;
+    }
+
     @Override
     public String toString() {
-        return "MemberPaymentHeadDto{" + "paymentId=" + paymentId + ", memberId=" + memberId + ", paymentDate=" + paymentDate + ", receiptNo=" + receiptNo + ", paymentTypeCode=" + paymentTypeCode + ", amount=" + amount + ", paymentDetail=" + paymentDetail + ", sopAmount=" + sopAmount + ", paymentFlag=" + paymentFlag + ", remark=" + remark + '}';
+        return "MemberPaymentHeadDto{" + "paymentId=" + paymentId + ", memberId=" + memberId + ", paymentDate=" + paymentDate + ", receiptNo=" + receiptNo + ", paymentTypeCode=" + paymentTypeCode + ", amount=" + amount + ", paymentDetail=" + paymentDetail + ", sopAmount=" + sopAmount + ", paymentFlag=" + paymentFlag + ", remark=" + remark + ", monthCode=" + monthCode + ", startSopNo=" + startSopNo + ", endSopNo=" + endSopNo + '}';
     }
-    
     
 }

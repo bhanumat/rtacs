@@ -4,6 +4,7 @@ import com.itos.dao.model.IMemberPaymentDAO;
 import com.itos.model.Member;
 import com.itos.model.MemberPayment;
 import com.itos.model.ext.MemberPaymentDto;
+import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.util.ConstantsMessage;
 import com.itos.util.DateUtil;
 import com.itos.util.Hibernate.CommandConstant;
@@ -352,6 +353,82 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
             memberPaymentList = queryMemberPayment.list();
         }
         return memberPaymentList;
+    }
+    
+    @Override
+    public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
+        JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
+        List<MemberPayment> memberPaymentList = new ArrayList<>();
+        StringBuilder hqlCount = new StringBuilder();
+        StringBuilder hqlCondition = new StringBuilder();
+        StringBuilder hql = new StringBuilder();
+        
+        if (req.isSearch()) {
+            Search search = new Search();
+            search = Search.JSONDeserializer(req.getSearchCommand());
+            String memberCode = null;
+            String citizenId = null;
+            for (Condition condition : search.getConditions()) {
+                if (condition.getField().equalsIgnoreCase("citizenId")) {
+                    citizenId = condition.getData();
+                } else if(condition.getField().equalsIgnoreCase("memberCode")){
+                    memberCode = condition.getData();
+                }//search member
+            }
+        
+            if(citizenId != null){
+                hqlCondition.append(" and mp.member.citizenId=");
+                hqlCondition.append(citizenId);
+            } else if(memberCode != null) {
+                hqlCondition.append(" and mp.member.memberCode=");
+                hqlCondition.append(memberCode);
+            } else {
+                logger.error("citizenId and memberCode is null");
+                throw new NullPointerException("citizenId and memberCode parameter is null");
+            }
+        }
+        if(hqlCount.toString().isEmpty()){
+            hqlCount.append("select count(mp)");
+            hql.append("  from "+TB_NAME+" mp");
+            hql.append(" where");
+            hql.append(" paymentDate is null");
+            hql.append(hqlCondition);
+            hqlCount.append(hql);
+        }
+        Paging paging = CommandQuery.queryCountRows(sessionFactory, req, hqlCount);
+        
+        if(!hqlCount.toString().isEmpty()){
+            hql.replace(0, 1, "select mp");
+            hql.append(hqlCondition);
+        }
+        
+        Query queryMemberPayment = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
+        if (!queryMemberPayment.list().isEmpty()) {
+            memberPaymentList = queryMemberPayment.list();
+            MemberPaymentHeadDto mph;
+            StringBuilder sb;
+            List<MemberPaymentHeadDto> mphDtoList = new ArrayList<>();
+            for(MemberPayment mp : memberPaymentList){
+                mph = new MemberPaymentHeadDto();
+                sb = new StringBuilder();
+                mph.setPaymentId(mp.getPaymentId());
+                mph.setMemberId(mp.getMember().getMemberId());
+                mph.setMonthCode(mp.getControlPayment().getMonthCode());
+                mph.setStartSopNo(mp.getControlPayment().getStartSopNo());
+                mph.setEndSopNo(mp.getControlPayment().getEndSopNo());
+                mph.setPaymentDetail("Front End Mapping with MonthCode for Display by self.");
+                mph.setSopAmount(mp.getControlPayment().getEndSopNo()-mp.getControlPayment().getStartSopNo());
+                mph.setAmount(mp.getControlPayment().getAmount());
+                mph.setPaymentFlag(false);
+                mph.setRemark("");
+                mphDtoList.add(mph);
+            }
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(mphDtoList);
+        }
+        return jqGrid;
     }
     
     private String formatDate(String date) {
