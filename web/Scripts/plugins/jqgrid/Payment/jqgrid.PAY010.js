@@ -110,7 +110,7 @@ $(document).ready(function () {
         autowidth: true,
         shrinkToFit: false,
         pager: gridPager,
-        height: 350,
+        height: 'auto',
         width: 'auto',
         rowNum: 10,
         sortname: gridSortName,
