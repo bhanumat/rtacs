@@ -41,6 +41,7 @@ public class MemberPaymentService implements IMemberPaymentService {
     }
 
     @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse createMemberPayment(MemberPayment memberPayment) {
         if (memberPayment != null) {
             return iMemberPaymentDAO.add(memberPayment);
@@ -51,6 +52,7 @@ public class MemberPaymentService implements IMemberPaymentService {
     }
 
     @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse updateMemberPayment(MemberPayment memberPayment) {
         if (memberPayment != null) {
             return iMemberPaymentDAO.update(memberPayment);
@@ -61,6 +63,7 @@ public class MemberPaymentService implements IMemberPaymentService {
     }
 
     @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse removeMemberPayment(MessageRequest req) {
         if (req != null) {
             return iMemberPaymentDAO.remove(req);

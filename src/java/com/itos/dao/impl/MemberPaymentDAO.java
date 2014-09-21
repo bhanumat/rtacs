@@ -115,9 +115,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         MessageResponse response = new MessageResponse();
         MemberPayment memberPayment;
         boolean success;
-        memberPayment = new MemberPayment();
         for (String id : req.getItemSelect()) {
-            memberPayment.setPaymentId(Integer.valueOf(id));
+            memberPayment = (MemberPayment) CommandQuery.LoadDetail(sessionFactory, MemberPayment.class, Integer.parseInt(id));
             if (CommandQuery.Delete(sessionFactory, memberPayment)) {
                 iCountSuccessful++;
             }
@@ -224,8 +223,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                             beginDate = formatDate(tempDate[0]);
                             endDate = formatDate(tempDate[1]);
                         }
-                        
-                        if(!hql.toString().isEmpty()){
+
+                        if (!hql.toString().isEmpty()) {
                             hql.append(StringPool.SPACE);
                             hql.append(CommandConstant.QueryAND);
                             hql.append(StringPool.SPACE);
@@ -238,17 +237,17 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                             hql.append(CommandConstant.QueryAND);
                             hql.append(StringPool.SPACE);
                             hql.append(StringPool.APOSTROPHE + endDate + StringPool.APOSTROPHE); // 'yyyy-MM-dd'
-                        } 
-                    } 
-                    if (condition.getField().equalsIgnoreCase("printedStatus")){
+                        }
+                    }
+                    if (condition.getField().equalsIgnoreCase("printedStatus")) {
                         /*
-                        hql.append(StringPool.SPACE);
-                        hql.append(CommandConstant.QueryAND);
-                        hql.append(StringPool.SPACE);
-                        hql.append(condition.getField());
-                        hql.append(StringPool.EQUAL);
-                        hql.append(condition.getData());
-                        */
+                         hql.append(StringPool.SPACE);
+                         hql.append(CommandConstant.QueryAND);
+                         hql.append(StringPool.SPACE);
+                         hql.append(condition.getField());
+                         hql.append(StringPool.EQUAL);
+                         hql.append(condition.getData());
+                         */
                     }
                 }//search operation
             }
@@ -276,7 +275,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 }
             }
         }
-        
+
         hqlSearch.append(hql);
         Paging paging = CommandQuery.queryCountRows(sessionFactory, req, hqlSearch);
         Query query = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
@@ -434,7 +433,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
 
     private String buildTitleOrRank(Member member) {
         String titleOrRank = "";
-        if(member != null){
+        if (member != null) {
             Rank rank = member.getRank();
             Title title = member.getTitle();
 
