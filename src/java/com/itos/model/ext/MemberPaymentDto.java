@@ -15,9 +15,9 @@ import java.util.Date;
  */
 public class MemberPaymentDto {
     
-    private int memberPaymentId;
+    private int paymentId;
     private Date paymentDate;
-    private String referenceId;
+    private String receiptNo;
     private String memberCode;
     private String militaryName;
     private String citizenId;
@@ -31,10 +31,10 @@ public class MemberPaymentDto {
     public MemberPaymentDto() {
     }
 
-    public MemberPaymentDto(int memberPaymentId, Date paymentDate, String referenceId, String memberCode, String militaryName, String citizenId, String title, String name, String surname, BigDecimal amount, int paymentTypeCode, String paymentStatus) {
-        this.memberPaymentId = memberPaymentId;
+    public MemberPaymentDto(int paymentId, Date paymentDate, String receiptNo, String memberCode, String militaryName, String citizenId, String title, String name, String surname, BigDecimal amount, int paymentTypeCode, String paymentStatus) {
+        this.paymentId = paymentId;
         this.paymentDate = paymentDate;
-        this.referenceId = referenceId;
+        this.receiptNo = receiptNo;
         this.memberCode = memberCode;
         this.militaryName = militaryName;
         this.citizenId = citizenId;
@@ -45,19 +45,19 @@ public class MemberPaymentDto {
         this.paymentTypeCode = paymentTypeCode;
         this.paymentStatus = paymentStatus;
     }
-    
+
     /**
-     * @return the memberPaymentId
+     * @return the paymentId
      */
-    public int getMemberPaymentId() {
-        return memberPaymentId;
+    public int getPaymentId() {
+        return paymentId;
     }
 
     /**
-     * @param memberPaymentId the memberPaymentId to set
+     * @param paymentId the paymentId to set
      */
-    public void setMemberPaymentId(int memberPaymentId) {
-        this.memberPaymentId = memberPaymentId;
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
     }
 
     /**
@@ -75,17 +75,17 @@ public class MemberPaymentDto {
     }
 
     /**
-     * @return the referenceId
+     * @return the receiptNo
      */
-    public String getReferenceId() {
-        return referenceId;
+    public String getReceiptNo() {
+        return receiptNo;
     }
 
     /**
-     * @param referenceId the referenceId to set
+     * @param receiptNo the receiptNo to set
      */
-    public void setReferenceId(String referenceId) {
-        this.referenceId = referenceId;
+    public void setReceiptNo(String receiptNo) {
+        this.receiptNo = receiptNo;
     }
 
     /**
@@ -212,6 +212,11 @@ public class MemberPaymentDto {
      */
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberPaymentDto{" + "paymentId=" + paymentId + ", paymentDate=" + paymentDate + ", receiptNo=" + receiptNo + ", memberCode=" + memberCode + ", militaryName=" + militaryName + ", citizenId=" + citizenId + ", title=" + title + ", name=" + name + ", surname=" + surname + ", amount=" + amount + ", paymentTypeCode=" + paymentTypeCode + ", paymentStatus=" + paymentStatus + '}';
     }
     
 }

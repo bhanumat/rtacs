@@ -3,6 +3,8 @@ package com.itos.dao.impl;
 import com.itos.dao.model.IMemberPaymentDAO;
 import com.itos.model.Member;
 import com.itos.model.MemberPayment;
+import com.itos.model.Rank;
+import com.itos.model.Title;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.util.ConstantsMessage;
@@ -174,26 +176,26 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hqlSearch = new StringBuilder();
         StringBuilder hql = new StringBuilder();
         hqlSearch.append(CommandConstant.CountRows);
-        hqlSearch.append(" ");
+        hqlSearch.append(StringPool.SPACE);
 
         hql.append(CommandConstant.QueryFrom);
-        hql.append(" ");
+        hql.append(StringPool.SPACE);
         hql.append(TB_NAME);
-        hql.append(" ");
+        hql.append(StringPool.SPACE);
         hql.append(CommandConstant.QueryWhere);
-        hql.append(" paymentDate is null");
+        hql.append(StringPool.SPACE);
+        hql.append("paymentDate is not null");
 
         if (req.isSearch()) {
             Search search = new Search();
             search = Search.JSONDeserializer(req.getSearchCommand());
             List<WhereField> memberWhereFieldList = new ArrayList<>();
-            List<WhereField> operationWhereFieldList = new ArrayList<>();
             boolean memberFlag = false;
-            boolean operationFlag = false;
             for (Condition condition : search.getConditions()) {
                 if (condition.getField().equalsIgnoreCase("citizenId")
                         || condition.getField().equalsIgnoreCase("name")
                         || condition.getField().equalsIgnoreCase("surname")
+                        || condition.getField().equalsIgnoreCase("memberCode")
                         || condition.getField().equalsIgnoreCase("memberGroupCode")
                         || condition.getField().equalsIgnoreCase("memberTypeCode")
                         || condition.getField().equalsIgnoreCase("militaryId")) {
@@ -208,21 +210,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                     memberWhereFieldList.add(whereField);
                     memberFlag = true;
                 }//search member
-                if (condition.getField().equalsIgnoreCase("printedStatus")
-                        || condition.getField().equalsIgnoreCase("docDate")) {
-                    WhereField searchWhereField = new WhereField();
-                    searchWhereField.setSearchField("paymentTypeCode");
-                    searchWhereField.setSearchValue("20");
-                    searchWhereField.setSearchOper(CommandConstant.QueryEqual);
-                    if (operationFlag) {
-                        searchWhereField.setSearchLogic("and");
-                    }
-                    searchWhereField.setSearchDataType(CommandConstant.DataTypeInteger);
-                    operationWhereFieldList.add(searchWhereField);
-                    operationFlag = true;
-
-                    WhereField whereField = new WhereField();
-                    whereField.setSearchField(condition.getField());
+                if (condition.getField().equalsIgnoreCase("paymentDate")
+                        || condition.getField().equalsIgnoreCase("printedStatus")) {
                     logger.info("1 setSearchValue : >>" + condition.getData() + "<<");
                     if (CommandConstant.DataTypeDate.equalsIgnoreCase(condition.getDataType())) {
                         String[] tempDate = condition.getData().split(",");
@@ -235,19 +224,32 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                             beginDate = formatDate(tempDate[0]);
                             endDate = formatDate(tempDate[1]);
                         }
-                        condition.setData(beginDate + "," + endDate);
+                        
+                        if(!hql.toString().isEmpty()){
+                            hql.append(StringPool.SPACE);
+                            hql.append(CommandConstant.QueryAND);
+                            hql.append(StringPool.SPACE);
+                            hql.append("paymentDate");
+                            hql.append(StringPool.SPACE);
+                            hql.append("Between");
+                            hql.append(StringPool.SPACE);
+                            hql.append(StringPool.APOSTROPHE + beginDate + StringPool.APOSTROPHE);  // 'yyyy-MM-dd'
+                            hql.append(StringPool.SPACE);
+                            hql.append(CommandConstant.QueryAND);
+                            hql.append(StringPool.SPACE);
+                            hql.append(StringPool.APOSTROPHE + endDate + StringPool.APOSTROPHE); // 'yyyy-MM-dd'
+                        } 
+                    } 
+                    if (condition.getField().equalsIgnoreCase("printedStatus")){
+                        /*
+                        hql.append(StringPool.SPACE);
+                        hql.append(CommandConstant.QueryAND);
+                        hql.append(StringPool.SPACE);
+                        hql.append(condition.getField());
+                        hql.append(StringPool.EQUAL);
+                        hql.append(condition.getData());
+                        */
                     }
-                    logger.info("2 setSearchValue : >>" + condition.getData() + "<<");
-
-                    whereField.setSearchValue(condition.getData());
-                    whereField.setSearchOper(condition.getOp());
-                    if (operationFlag) {
-                        whereField.setSearchLogic("and");
-                    }
-
-                    whereField.setSearchDataType(condition.getDataType());
-                    operationWhereFieldList.add(whereField);
-                    operationFlag = true;
                 }//search operation
             }
 
@@ -274,46 +276,34 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 }
             }
         }
-
+        
         hqlSearch.append(hql);
         Paging paging = CommandQuery.queryCountRows(sessionFactory, req, hqlSearch);
         Query query = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
-        query.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         /*
          * Check array data if true set create object to array new.
          */
         if (!query.list().isEmpty()) {
             memberPaymentList = query.list();
-            List<WhereField> memberWhereFieldList;
-            WhereField searchField;
-            Member member;
             MemberPaymentDto memberPaymentDto;
             for (MemberPayment mp : memberPaymentList) {
                 memberPaymentDto = new MemberPaymentDto();
-                /*
-                 searchField = new WhereField();
-                 memberWhereFieldList = new ArrayList<>();
-                
-                 searchField.setSearchField("member_id");
-                 searchField.setSearchValue(mp.getMemberId());
-                 searchField.setSearchOper(CommandConstant.QueryEqual);
-                 searchField.setSearchLogic("");
-                 memberWhereFieldList.add(searchField);
-                 Query queryMember = CommandQuery.CreateQuery(sessionFactory, TB_MEMBER, memberWhereFieldList, 0, 1);
-                 member = (Member) queryMember.list().get(0);
-                 */
-                memberPaymentDto.setMemberPaymentId(mp.getPaymentId());
+                memberPaymentDto.setPaymentId(mp.getPaymentId());
                 memberPaymentDto.setPaymentDate(mp.getPaymentDate());
-                memberPaymentDto.setReferenceId(String.valueOf(mp.getReferenceId()));
+                memberPaymentDto.setReceiptNo(mp.getReferenceId() != null ? String.valueOf(mp.getReferenceId()) : StringPool.BLANK);
                 memberPaymentDto.setMemberCode(mp.getMember().getMemberCode());
                 memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryName());
                 memberPaymentDto.setCitizenId(mp.getMember().getCitizenId());
-                memberPaymentDto.setTitle(mp.getMember().getTitleName());
+                memberPaymentDto.setTitle(buildTitleOrRank(mp.getMember()));
                 memberPaymentDto.setName(mp.getMember().getName());
                 memberPaymentDto.setSurname(mp.getMember().getSurname());
                 memberPaymentDto.setAmount(mp.getAmount() != null ? mp.getAmount() : BigDecimal.ZERO);
+                memberPaymentDto.setPaymentStatus("N");
                 rowList.add(memberPaymentDto);
             }
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(paging.getiRecords());
+            jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
             jqGrid.setRows(rowList);
         }
         return jqGrid;
@@ -401,21 +391,19 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         if (!queryMemberPayment.list().isEmpty()) {
             memberPaymentList = queryMemberPayment.list();
             MemberPaymentHeadDto mph;
-            StringBuilder sb;
             List<MemberPaymentHeadDto> mphDtoList = new ArrayList<>();
             for (MemberPayment mp : memberPaymentList) {
                 mph = new MemberPaymentHeadDto();
-                sb = new StringBuilder();
                 mph.setPaymentId(mp.getPaymentId());
                 mph.setMemberId(mp.getMember().getMemberId());
                 mph.setMonthCode(mp.getControlPayment().getMonthCode());
                 mph.setStartSopNo(mp.getControlPayment().getStartSopNo());
                 mph.setEndSopNo(mp.getControlPayment().getEndSopNo());
-                mph.setPaymentDetail("Front End Mapping with MonthCode for Display by self.");
+                mph.setPaymentDetail(StringPool.BLANK);
                 mph.setSopAmount(mp.getControlPayment().getEndSopNo() - mp.getControlPayment().getStartSopNo());
                 mph.setAmount(mp.getControlPayment().getAmount());
                 mph.setPaymentFlag(false);
-                mph.setRemark("");
+                mph.setRemark(StringPool.BLANK);
                 mphDtoList.add(mph);
             }
             jqGrid.setPage(req.getPage());
@@ -444,4 +432,19 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         return "";
     }
 
+    private String buildTitleOrRank(Member member) {
+        String titleOrRank = "";
+        if(member != null){
+            Rank rank = member.getRank();
+            Title title = member.getTitle();
+
+            if (rank != null && rank.getRankName() != null) {
+                titleOrRank = titleOrRank + rank.getRankName() + " ";
+            }
+            if (title != null && title.getTitleDesc() != null) {
+                titleOrRank = titleOrRank + title.getTitleDesc() + " ";
+            }
+        }
+        return titleOrRank;
+    }
 }
