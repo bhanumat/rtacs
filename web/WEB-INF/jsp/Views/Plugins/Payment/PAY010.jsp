@@ -9,10 +9,9 @@
     <head>
         <script type="text/javascript">
             var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
-            var urlListPay010 = rootPath + '/Plugins/Payment/getListPAY010.json';
-            var urlDeletePay010 = rootPath + '/Plugins/Payment/setDeletePAY010.json';
-            var urlCancelPay010 = rootPath + '/Plugins/Payment/cancelPAY010.json';
-            var urlAddPay010 = rootPath + '/Plugins/Payment/PAY010_1.htm';
+            var urlListMemberPayment = rootPath + '/Plugins/Payment/getListMemberPayment.json';
+            var urlDeleteMemberPayment = rootPath + '/Plugins/Payment/deleteMemberPayment.json';
+            var urlAddMemberPayment = rootPath + '/Plugins/Payment/PAY010_1.htm';
         </script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY010.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY010.js"></script>

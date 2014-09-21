@@ -1,5 +1,5 @@
 
-var gridUrl = urlListPay010;
+var gridUrl = urlListMemberPayment;
 var gridName = '#gridData_MemberPaymentGrid_List';
 var gridPager = '#gridPager_MemberPaymentGrid_List';
 var gridSortName = 'paymentId';
@@ -26,7 +26,7 @@ var gridColModel = [
     {name: 'receiptNo', index: 'receiptNo', align: 'center', sortable: false, width: 100},
     {name: 'militaryName', index: 'militaryName', align: 'left', sortable: false, width: 150},
     {name: 'memberCode', index: 'memberCode', align: 'center', sortable: false, width: 116},
-    {name: 'citizenID', index: 'citizenId', align: 'center', sortable: false, width: 140},
+    {name: 'citizenId', index: 'citizenId', align: 'center', sortable: false, width: 140},
     {name: 'title', index: 'title', align: 'right', sortable: false, width: 80},
     {name: 'name', index: 'name', align: 'left', sortable: false, width: 150},
     {name: 'surname', index: 'surname', align: 'left', sortable: false, width: 150},
@@ -153,6 +153,5 @@ $(document).ready(function () {
                 closeAfterSearch: true
             }
     );
-
 
 });

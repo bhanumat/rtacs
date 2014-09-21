@@ -79,11 +79,6 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     }
 
     @Override
-    public JqGridResponse<MemberPayment> getList(JqGridRequest req) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public MemberPayment getMemberPaymentById(int paymentId) {
         MemberPayment memberPayment = null;
         List<WhereField> listWhereField = new ArrayList<>();
@@ -118,9 +113,9 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         MessageResponse response = new MessageResponse();
         MemberPayment memberPayment;
         boolean success;
-
+        memberPayment = new MemberPayment();
         for (String id : req.getItemSelect()) {
-            memberPayment = (MemberPayment) CommandQuery.LoadDetail(sessionFactory, MemberPayment.class, Integer.valueOf(id));
+            memberPayment.setPaymentId(Integer.valueOf(id));
             if (CommandQuery.Delete(sessionFactory, memberPayment)) {
                 iCountSuccessful++;
             }

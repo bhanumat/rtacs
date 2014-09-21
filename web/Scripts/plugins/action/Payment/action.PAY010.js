@@ -2,6 +2,7 @@
 $(function () {
     //Declaration variables for cover all in this scope
     var responseId = '#main-page-content-loading';
+    
     onActionSearch = function () {
         var search = {};
         var statusSearch = false; //0 is not in condition, 1 is in condition
@@ -24,14 +25,12 @@ $(function () {
             statusSearch = true;
         }
 
-
         if (paymentDateStart && paymentDateEnd) {
-
-            requestSearch.push({'groupOp': condition, 'field': 'applyDate', 'op': 'bw', 'data': paymentDateStart + ',' + paymentDateEnd, 'dataType': 'date'});
+            requestSearch.push({'groupOp': condition, 'field': 'paymentDate', 'op': 'bw', 'data': paymentDateStart + ',' + paymentDateEnd, 'dataType': 'date'});
             statusSearch = true;
             condition = 'and';
         } else if (paymentDateStart) {
-            requestSearch.push({'groupOp': condition, 'field': 'applyDate', 'op': 'bw', 'data': paymentDateStart, 'dataType': 'date'});
+            requestSearch.push({'groupOp': condition, 'field': 'paymentDate', 'op': 'bw', 'data': paymentDateStart, 'dataType': 'date'});
             statusSearch = true;
             condition = 'and';
         } else if (paymentDateEnd) {
@@ -132,11 +131,63 @@ $(function () {
         }
     };
 
+    onDialogDelete = function (id) {
+        $("#Dialog-Confirm").html("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?");
+        $("#Dialog-Confirm").removeClass('hide').dialog({
+            width: '300px',
+            resizable: false,
+            modal: true,
+            title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon glyphicon glyphicon-trash'></i> ลบข้อมูล</h4></div>",
+            title_html: true,
+            autoOpen: true,
+            buttons: [
+                {
+                    html: "<i class='ace-icon fa fa-floppy-o'></i>&nbsp; ลบข้อมูล",
+                    "class": "btn btn-primary btn-xs",
+                    click: function () {
+                        var objData = {};
+                        objData.ItemSelect = id;//JSON.stringify(ids);
+                        onActionDelete(this, objData);
+                    }
+                }
+                ,
+                {
+                    html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ยกเลิก",
+                    "class": "btn btn-xs",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        });
+    };
 
-    (function () { //immediately-invoked
+    onActionDelete = function (thisDialog, objData) {
+        $.ajax({
+            type: 'POST',
+            url: urlDeleteMemberPayment,
+            data: objData,
+            dataType: 'json',
+            async: true,
+            success: function (msg) {
+                $.fn.DialogMessage(msg);
+                if (msg.checkSuccess === true) {
+                    onActionSearch();
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.fn.MessageError(XMLHttpRequest, textStatus, errorThrown);
+            }
+        });
+
+        $(thisDialog).dialog("close");
+    };
+
+
+    //immediately-invoked
+    (function () {
         console.log("initialize action.PAY010.js ...");
-
-        $.fn.datepicker.defaults.format = "dd M yyyy";
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
         $.fn.datepicker.defaults.language = 'th';
         $.fn.datepicker.defaults.todayHighlight = true;
 
@@ -171,7 +222,7 @@ $(function () {
 
         $('#btnAdd').click(function (event) {
             var typeAction = 'GET';
-            var urlAction = urlAddPay010;
+            var urlAction = urlAddMemberPayment;
             var objDataAction = {};
             var dataTypeAction = 'html';
             $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
