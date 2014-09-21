@@ -7,7 +7,6 @@ package com.itos.controller.payment;
 
 import com.itos.model.MemberPayment;
 import com.itos.service.model.IMemberPaymentService;
-import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
