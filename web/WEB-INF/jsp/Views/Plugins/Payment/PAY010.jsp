@@ -12,6 +12,7 @@
             var urlListPay010 = rootPath + '/Plugins/Payment/getListPAY010.json';
             var urlDeletePay010 = rootPath + '/Plugins/Payment/setDeletePAY010.json';
             var urlCancelPay010 = rootPath + '/Plugins/Payment/cancelPAY010.json';
+            var urlAddPay010 = rootPath + '/Plugins/Payment/PAY010_1.htm';
         </script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY010.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY010.js"></script>
@@ -70,16 +71,16 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-1"></div>
-                        <label class="col-md-2 control-label no-padding-right" for="militaryDeptId">หน่วยต้นสังกัด</label>
+                        <label class="col-md-2 control-label no-padding-right" for="militaryId">หน่วยต้นสังกัด</label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="militaryDeptId" id="militaryDeptId">
-                                <option value="%">ทั้งหมด</option>
+                            <select class="form-control select2" name="militaryId" id="militaryId">
+                                <option value="">ทั้งหมด</option>
                             </select>
                         </div>
-                        <label class="col-md-2 control-label no-padding-right" for="applyTypeCode">ประเภทการสมัคร</label>
+                        <label class="col-md-2 control-label no-padding-right" for="memberTypeCode">ประเภทการสมัคร</label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="applyTypeCode" id="applyType">
-                                <option value="%">ทั้งหมด</option>
+                            <select class="form-control select2" name="memberTypeCode" id="memberTypeCode">
+                                <option value="">ทั้งหมด</option>
                                 <option value="10">สมัครด้วยตนเอง</option>
                                 <option value="20">สมัครผ่านหน่วยต้นสังกัด</option>
                                 <option value="30">สมัครผ่านชุดรับสมัคร</option>
@@ -89,10 +90,10 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-1"></div>
-                        <label class="col-md-2 control-label no-padding-right" for="memberTypeCode">ประเภทสมาชิก</label>
+                        <label class="col-md-2 control-label no-padding-right" for="memberGroupCode">ประเภทสมาชิก</label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="memberTypeCode" id="memberTypeCode">
-                                <option value="%">ทั้งหมด</option>
+                            <select class="form-control select2" name="memberGroupCode" id="memberGroupCode">
+                                <option value="">ทั้งหมด</option>
                                 <option value="10">ข้าราชการ</option>
                                 <option value="20">ลูกจ้าง</option>
                                 <option value="30">ครอบครัว</option>
@@ -102,7 +103,7 @@
                         <label class="col-md-2 control-label no-padding-right" for="memberStatusCode">สถานะ</label>
                         <div class="col-md-3">
                             <select class="form-control select2" name="memberStatusCode" id="memberStatusCode">
-                                <option value="%">ทั้งหมด</option>
+                                <option value="">ทั้งหมด</option>
                                 <option value="Y">พิมพ์ใบเสร็จแล้ว</option>
                                 <option value="N">ยังไม่พิมพ์ใบเสร็จ</option>
                                 <option value="C">ยกเลิกใบเสร็จ</option>
@@ -151,17 +152,21 @@
                 </div>
                 <div class="row">
                     <div>
-                        <button id="btnAdd"   type="button" class="btn btn-sm btn-success" style="font-size: 14px;"><i class="glyphicon glyphicon-plus"></i>&nbsp;ชำระค่าสมัคร</button>
-                        <button id="btnCancel"  type="button" class="btn btn-sm btn-danger" style="font-size: 14px;"><i class="glyphicon glyphicon-remove"></i>&nbsp;ยกเลิกใบเสร็จ</button>
+                        <button id="btnAdd"   type="button" class="btn btn-sm btn-success" style="font-size: 14px;">
+                            <i class="glyphicon glyphicon-plus"></i>&nbsp;ชำระค่าสมัคร
+                        </button>
+<!--                        <button id="btnCancel"  type="button" class="btn btn-sm btn-danger" style="font-size: 14px;">
+                            <i class="glyphicon glyphicon-remove"></i>&nbsp;ยกเลิกใบเสร็จ
+                        </button>-->
                     </div>
                 </div>
+                <!-- Grid View -->
                 <div id="jqGridContainer" class="row">
                     <div>
                         <table id="gridData_MemberPaymentGrid_List"></table>
                         <div id="gridPager_MemberPaymentGrid_List"></div>
                     </div>
                 </div>
-                <!-- /.col -->
             </div>
         </div>
     </body></html>
