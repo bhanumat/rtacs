@@ -6,6 +6,7 @@
 package com.itos.service.impl;
 
 import com.itos.dao.model.IMemberPaymentDAO;
+import com.itos.dao.model.IMemberPaymentHeadDAO;
 import com.itos.model.MemberPayment;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
@@ -35,6 +36,9 @@ public class MemberPaymentService implements IMemberPaymentService {
 
     @Autowired
     private IMemberPaymentDAO iMemberPaymentDAO;
+
+    @Autowired
+    private IMemberPaymentHeadDAO iMemberPaymentHeadDAO;
 
     public MemberPaymentService() {
 
@@ -66,7 +70,13 @@ public class MemberPaymentService implements IMemberPaymentService {
     @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse removeMemberPayment(MessageRequest req) {
         if (req != null) {
-            return iMemberPaymentDAO.remove(req);
+            MessageResponse resp = iMemberPaymentDAO.remove(req);
+            if (resp.getCheckSuccess()) {
+                //Manual remove cascade table related.
+                return iMemberPaymentHeadDAO.remove(req);
+            } else {
+                return resp;
+            }
         } else {
             logger.error("Passing req=null");
             throw new NullPointerException("MessageReqquest req is null");
@@ -78,10 +88,10 @@ public class MemberPaymentService implements IMemberPaymentService {
     public MemberPayment getMemberPayment(int paymentId) {
         return iMemberPaymentDAO.getMemberPaymentById(paymentId);
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req){
+    public JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req) {
         if (req != null) {
             return iMemberPaymentDAO.searchMemberPayment(req);
         } else {
@@ -89,15 +99,15 @@ public class MemberPaymentService implements IMemberPaymentService {
             throw new NullPointerException("MessageReqquest req is null");
         }
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<MemberPaymentHeadDto> searchMemberPaymentByCode(String citizenId, String memberCode){
+    public JqGridResponse<MemberPaymentHeadDto> searchMemberPaymentByCode(String citizenId, String memberCode) {
         List<MemberPayment> memberPaymentList = iMemberPaymentDAO.getMemberPaymentByCode(citizenId, memberCode);
         MemberPaymentHeadDto mph;
         StringBuilder sb;
         List<MemberPaymentHeadDto> mphDtoList = new ArrayList<>();
-        for(MemberPayment mp : memberPaymentList){
+        for (MemberPayment mp : memberPaymentList) {
             mph = new MemberPaymentHeadDto();
             sb = new StringBuilder();
             sb.append("ค่าบำรุงศพประจำเดือน ");
@@ -109,7 +119,7 @@ public class MemberPaymentService implements IMemberPaymentService {
             mph.setPaymentId(mp.getPaymentId());
             mph.setMemberId(mp.getMember().getMemberId());
             mph.setPaymentDetail(sb.toString());
-            mph.setSopAmount(mp.getControlPayment().getEndSopNo()-mp.getControlPayment().getStartSopNo());
+            mph.setSopAmount(mp.getControlPayment().getEndSopNo() - mp.getControlPayment().getStartSopNo());
             mph.setAmount(mp.getControlPayment().getAmount());
             mph.setPaymentFlag(false);
             mph.setRemark("");
@@ -120,10 +130,10 @@ public class MemberPaymentService implements IMemberPaymentService {
 
         return jqGrid;
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req){
+    public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
         if (req != null) {
             return iMemberPaymentDAO.getMemberPaymentByCode(req);
         } else {

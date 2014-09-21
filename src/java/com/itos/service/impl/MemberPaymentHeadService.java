@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -31,8 +32,8 @@ public class MemberPaymentHeadService implements IMemberPaymentHeadService {
 
     }
 
-    
     @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse createMemberPaymentHead(MemberPaymentHead memberPaymentHead) {
         if (memberPaymentHead != null) {
             return iMemberPaymentHeadDAO.add(memberPaymentHead);
@@ -43,6 +44,7 @@ public class MemberPaymentHeadService implements IMemberPaymentHeadService {
     }
 
     @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse updateMemberPaymentHead(MemberPaymentHead memberPaymentHead) {
         if (memberPaymentHead != null) {
             return iMemberPaymentHeadDAO.update(memberPaymentHead);
@@ -53,6 +55,7 @@ public class MemberPaymentHeadService implements IMemberPaymentHeadService {
     }
 
     @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
     public MessageResponse removeMemberPaymentHead(MessageRequest req) {
         if (req != null) {
             return iMemberPaymentHeadDAO.remove(req);
@@ -64,8 +67,6 @@ public class MemberPaymentHeadService implements IMemberPaymentHeadService {
 
     @Override
     public MemberPaymentHead getMemberPaymentHead(int paymentId) {
-            return iMemberPaymentHeadDAO.getMemberPaymentHeadById(paymentId);
+        return iMemberPaymentHeadDAO.getMemberPaymentHeadById(paymentId);
     }
-    
-
 }
