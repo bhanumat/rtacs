@@ -163,7 +163,6 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         List<MemberPaymentDto> listResponse = new ArrayList<>();
         JqGridResponse<MemberPaymentDto> jqGrid = new JqGridResponse<>();
         List<MemberPayment> memberPaymentList = new ArrayList<>();
-        List rowList = new ArrayList();
         List<Member> listMember = null;
 
         /*
@@ -304,7 +303,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
             jqGrid.setRecords(paging.getiRecords());
             jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
             jqGrid.setRows(listResponse);
-        }else {
+        } else {
             jqGrid.setPage(0);
             jqGrid.setRecords(0);
             jqGrid.setTotalPages(0);
@@ -347,8 +346,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
 
     @Override
     public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
-        List<MemberPaymentHeadDto> listResponse = new ArrayList<>();
         JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
+        List<MemberPaymentHeadDto> listResponse = new ArrayList<>();
         List<MemberPayment> memberPaymentList = new ArrayList<>();
         StringBuilder hqlCount = new StringBuilder();
         StringBuilder hqlCondition = new StringBuilder();
@@ -390,7 +389,6 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
 
         if (!hqlCount.toString().isEmpty()) {
             hql.replace(0, 1, "select mp");
-            hql.append(hqlCondition);
         }
 
         Query queryMemberPayment = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
@@ -415,8 +413,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
             jqGrid.setRecords(paging.getiRecords());
             jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
             jqGrid.setRows(listResponse);
-        }
-        else {
+        } else {
             jqGrid.setPage(0);
             jqGrid.setRecords(0);
             jqGrid.setTotalPages(0);
