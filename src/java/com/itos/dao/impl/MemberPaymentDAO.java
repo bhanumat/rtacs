@@ -163,7 +163,6 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         List<MemberPaymentDto> listResponse = new ArrayList<>();
         JqGridResponse<MemberPaymentDto> jqGrid = new JqGridResponse<>();
         List<MemberPayment> memberPaymentList = new ArrayList<>();
-        List rowList = new ArrayList();
         List<Member> listMember = null;
 
         /*
@@ -298,12 +297,18 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 memberPaymentDto.setSurname(mp.getMember().getSurname());
                 memberPaymentDto.setAmount(mp.getAmount() != null ? mp.getAmount() : BigDecimal.ZERO);
                 memberPaymentDto.setPaymentStatus("N");
-                rowList.add(memberPaymentDto);
+                listResponse.add(memberPaymentDto);
             }
             jqGrid.setPage(req.getPage());
             jqGrid.setRecords(paging.getiRecords());
             jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
-            jqGrid.setRows(rowList);
+            jqGrid.setRows(listResponse);
+        } else {
+            jqGrid.setPage(0);
+            jqGrid.setRecords(0);
+            jqGrid.setTotalPages(0);
+            jqGrid.setRows(listResponse);
+            return jqGrid;
         }
         return jqGrid;
     }
@@ -342,6 +347,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     @Override
     public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
         JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
+        List<MemberPaymentHeadDto> listResponse = new ArrayList<>();
         List<MemberPayment> memberPaymentList = new ArrayList<>();
         StringBuilder hqlCount = new StringBuilder();
         StringBuilder hqlCondition = new StringBuilder();
@@ -383,14 +389,12 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
 
         if (!hqlCount.toString().isEmpty()) {
             hql.replace(0, 1, "select mp");
-            hql.append(hqlCondition);
         }
 
         Query queryMemberPayment = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
         if (!queryMemberPayment.list().isEmpty()) {
             memberPaymentList = queryMemberPayment.list();
             MemberPaymentHeadDto mph;
-            List<MemberPaymentHeadDto> mphDtoList = new ArrayList<>();
             for (MemberPayment mp : memberPaymentList) {
                 mph = new MemberPaymentHeadDto();
                 mph.setPaymentId(mp.getPaymentId());
@@ -403,12 +407,18 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 mph.setAmount(mp.getControlPayment().getAmount());
                 mph.setPaymentFlag(false);
                 mph.setRemark(StringPool.BLANK);
-                mphDtoList.add(mph);
+                listResponse.add(mph);
             }
             jqGrid.setPage(req.getPage());
             jqGrid.setRecords(paging.getiRecords());
             jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
-            jqGrid.setRows(mphDtoList);
+            jqGrid.setRows(listResponse);
+        } else {
+            jqGrid.setPage(0);
+            jqGrid.setRecords(0);
+            jqGrid.setTotalPages(0);
+            jqGrid.setRows(listResponse);
+            return jqGrid;
         }
         return jqGrid;
     }

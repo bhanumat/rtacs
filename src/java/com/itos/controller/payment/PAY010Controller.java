@@ -66,10 +66,21 @@ public class PAY010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<Member> searchMember(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+    JqGridResponse<Member> getListMember(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         logger.info("search member >>" + req.getSearchCommand() + "<<");
         req.setSearch(Boolean.parseBoolean(search));
         return iMemberService.getListMember(req);
+    }
+
+    @RequestMapping(value = "/Plugins/Payment/getMemberPAY010_1.json", method = RequestMethod.POST,
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    MessageResponse getMember(MessageRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+        logger.info("Ids selected >>" + req.getItemSelect() + "<<");
+        req.setUserProfileId("");
+        //return iMemberService.getMember(req);
+        return null;
     }
 
     @RequestMapping(value = "/Plugins/Payment/getMemberPayment.json", method = {RequestMethod.POST},
