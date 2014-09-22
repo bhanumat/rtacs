@@ -19,6 +19,7 @@ import com.itos.util.DateUtil;
 import com.itos.util.Hibernate.CommandConstant;
 import com.itos.util.Hibernate.CommandQuery;
 import com.itos.util.Hibernate.WhereField;
+import com.itos.util.MiscUtil;
 import com.itos.util.jqGrid.Condition;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -972,7 +974,7 @@ public class MemberDAO implements IMemberDAO {
         memberResponse.setProvinceName(memberObject.getProvinceName());
         memberResponse.setTitleId(memberObject.getTitleId());
         memberResponse.setRankId(memberObject.getRankId());
-        memberResponse.setRankOrTitleName(null != memberObject.getRankId() ? memberObject.getRankName() : memberObject.getTitleName());
+        memberResponse.setRankOrTitleName(memberObject.getRankOrTitleName());
         memberResponse.setReferrerId(memberObject.getReferrerId());
         memberResponse.setReferrerRelationshipCode(memberObject.getReferrerRelationshipCode());
         memberResponse.setRemark(memberObject.getRemark());
@@ -999,19 +1001,32 @@ public class MemberDAO implements IMemberDAO {
             /*
              * Command HQL query Data.
              */
-            whereField = new WhereField();
-            whereField.setSearchField("memberId");
-            whereField.setSearchLogic("");
-            whereField.setSearchOper(CommandConstant.QueryEqual);
-            whereField.setSearchValue(member.getMemberId());
-            listWhereField.add(whereField);
-
-//            whereField = new WhereField();
-//            whereField.setSearchField("flag");
-//            whereField.setSearchLogic(CommandConstant.QueryAND);
-//            whereField.setSearchOper(CommandConstant.QueryEqual);
-//            whereField.setSearchValue("Y");
-//            listWhereField.add(whereField);
+            
+            if (member.getMemberId() != 0) {
+                whereField = new WhereField();
+                whereField.setSearchField("memberId");
+                whereField.setSearchLogic("");
+                whereField.setSearchOper(CommandConstant.QueryEqual);
+                whereField.setSearchValue(member.getMemberId());
+                listWhereField.add(whereField);
+            }
+            if (StringUtils.isNotBlank(member.getMemberCode())) {
+                whereField = new WhereField();
+                whereField.setSearchField("memberCode");
+                whereField.setSearchLogic("");
+                whereField.setSearchOper(CommandConstant.QueryEqual);
+                whereField.setSearchValue(member.getMemberCode());
+                listWhereField.add(whereField);
+            }
+            if (StringUtils.isNotBlank(member.getCitizenId())) {
+                whereField = new WhereField();
+                whereField.setSearchField("citizenId");
+                whereField.setSearchLogic("");
+                whereField.setSearchOper(CommandConstant.QueryEqual);
+                whereField.setSearchValue(member.getCitizenId());
+                listWhereField.add(whereField);
+            }
+            
             Query query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField, 0, 1);
             /*
              * Check array data if true set create object to array new.

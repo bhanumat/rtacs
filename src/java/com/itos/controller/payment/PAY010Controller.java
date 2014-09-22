@@ -3,16 +3,19 @@ package com.itos.controller.payment;
 import com.itos.model.Member;
 import com.itos.model.MemberPayment;
 import com.itos.model.ext.MemberPaymentDto;
+import com.itos.model.json.JsonMember;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.service.model.IMemberService;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
+import java.io.IOException;
 import java.security.Principal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +39,9 @@ public class PAY010Controller {
 
     @Autowired
     IMemberService iMemberService;
+
+    @Value("${application.DateFormat}")
+    private String stringDateFormat;
 
     @RequestMapping("/Plugins/Payment/PAY010.htm")
     public String getPagePAY010(Model model, Principal principal) {
@@ -76,11 +82,13 @@ public class PAY010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    MessageResponse getMember(MessageRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
-        logger.info("Ids selected >>" + req.getItemSelect() + "<<");
-        req.setUserProfileId("");
-        //return iMemberService.getMember(req);
-        return null;
+    Member getMember(@RequestParam(value = "data2Json") String data2Json, Model model, Principal principal) {
+        try {
+            Member member = JsonMember.JSONDeserializer(data2Json, stringDateFormat);
+            return iMemberService.getLoadMember(member);
+        } catch (IOException ex) {
+            return null;
+        }
     }
 
     @RequestMapping(value = "/Plugins/Payment/getMemberPayment.json", method = {RequestMethod.POST},

@@ -85,14 +85,14 @@ $(function() {
     };
 
     onClickSearch = function(memberId) {
-        var search = {};
         if(memberId !== null) {
             // get memberId from search advance
-            var requestSearch = new Array();
-            requestSearch.push({'groupOp': '', 'field': 'memberId', 'op': 'eq', 'data': memberId, 'dataType': 'varchar'});
-            search.conditions = requestSearch;
+            var objData = {};
+            objData["memberId"] = memberId;
+            var req = {};
+            req.data2Json = $.toJSON(objData);
 
-            searchMember($.toJSON(search));
+            searchMember(req);
         } else {
             // click quick search between Citizenid or Membercode
             var txtSearch = $("#txtSearch").val();
@@ -106,11 +106,12 @@ $(function() {
                 }
 
                 if (field !== "undefined") {
-                    var requestSearch = new Array();
-                    requestSearch.push({'groupOp': '', 'field': 'memberCode', 'op': 'eq', 'data': txtSearch, 'dataType': 'varchar'});
-                    search.conditions = requestSearch;
+                    var objData = {};
+                    objData[field] = txtSearch;
+                    var req = {};
+                    req.data2Json = $.toJSON(objData);
 
-                    searchMember($.toJSON(search));
+                    searchMember(req);
                 }
             } else {
                 $("#Dialog-Confirm").html("กรุณากรอกข้อมูลการค้นหา");
@@ -133,47 +134,39 @@ $(function() {
         }
     };
 
-    searchMember = function(objData) {
+    searchMember = function(req) {
         $.ajax({
             type: 'POST',
-            url: urlListMember,
-            data: objData,
+            url: urlMember,
+            data: req,
             dataType: 'json',
-            async: true,
-            success: function(msg) {
-                alert("msg=" + msg);
-                if (msg.checkSuccess === true && msg.obj !== null) {
-                    var object = msg.obj;
-                    //alert("status : >>" + object.status + "<<");
-                    if (object.status === 10 || object.status === 11) {
-                        $("#lblMemberCode").text(object.memberCode);
-                        $("#lblCitizenId").text(object.citizenId);
-                        $("#lblName").text(object.rankOrTitleName + object.name + " " + object.surname);
-                        $("#lblMilitaryName").text(object.militaryName);
-                    } else {
-                        $("#Dialog-Confirm").html("ไม่พบข้อมูล");
-                        $("#Dialog-Confirm").removeClass('hide').dialog({
-                            width: '300px',
-                            resizable: false,
-                            modal: true,
-                            title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon glyphicon glyphicon-trash'></i> สถานะ</h4></div>",
-                            title_html: true,
-                            autoOpen: true,
-                            buttons: [
-                                {
-                                    html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
-                                    "class": "btn btn-xs",
-                                    click: function() {
-                                        $(this).dialog("close");
-                                    }
+            async: false,
+            success: function(object) {
+                if (object.memberId === 0) {
+                    $("#Dialog-Confirm").html("ไม่พบข้อมูล");
+                    $("#Dialog-Confirm").removeClass('hide').dialog({
+                        width: '300px',
+                        resizable: false,
+                        modal: true,
+                        title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon glyphicon glyphicon-trash'></i> สถานะ</h4></div>",
+                        title_html: true,
+                        autoOpen: true,
+                        buttons: [
+                            {
+                                html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
+                                "class": "btn btn-xs",
+                                click: function() {
+                                    $(this).dialog("close");
                                 }
-                            ]
-                        });
-                    }
+                            }
+                        ]
+                    });
                 } else {
-                    $.fn.DialogMessage(msg);
+                    $("#lblMemberCode").text(object.memberCode);
+                    $("#lblCitizenId").text(object.citizenId);
+                    $("#lblName").text(object.rankOrTitleName + object.name + "  " + object.surname);
+                    $("#lblMilitaryName").text(object.militaryName);
                 }
-
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 $.fn.MessageError(XMLHttpRequest, textStatus, errorThrown);
@@ -195,7 +188,7 @@ $(function() {
         event.preventDefault();
         onClickSearch($("input:radio[name=selectMember]:checked").val());
     });
-
+  
     $("#btnClearAdvance").click(function(event) {
         event.preventDefault();
         $('#paymentDate').val("");

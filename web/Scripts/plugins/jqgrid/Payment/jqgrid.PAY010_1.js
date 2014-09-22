@@ -8,7 +8,7 @@ var gridColNames = ['', 'หน่วยต้นสังกัด', 'เลข
 var gridColModel = [
     {name: 'memberId', index: 'memberId', align: 'center', sortable: false, width: 40,
         formatter: function (cellVal, opts, rowObject, action) {
-            return '<input type="radio" name="selectMember" id="member_' + cellVal + '" value="' + cellVal + '"/>';
+            return '<input type="radio" class="ace" name="selectMember" id="member_' + cellVal + '" value="' + cellVal + '"><span class="lbl"></span>';
         }
     },
     {name: 'militaryName', index: 'militaryName', sortable: false, width: 150},

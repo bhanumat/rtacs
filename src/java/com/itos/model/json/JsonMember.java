@@ -32,6 +32,9 @@ public class JsonMember {
             if (jsonObject.containsKey("memberId")) {
                 member.setMemberId(MiscUtil.getInt(jsonObject.getString("memberId")));
             }
+            if (jsonObject.containsKey("memberCode")) {
+                member.setMemberCode(MiscUtil.getNull(jsonObject.getString("memberCode")));
+            }
             if (jsonObject.containsKey("memberGroupCode")) {
                 member.setMemberGroupCode(MiscUtil.getInt(jsonObject.getString("memberGroupCode")));
             }

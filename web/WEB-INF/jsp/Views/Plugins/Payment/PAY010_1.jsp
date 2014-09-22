@@ -9,7 +9,7 @@
 <script type="text/javascript">
     var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
     var urlListMember = rootPath + '/Plugins/Payment/getListMemberPAY010_1.json';
-    //var urlListMemberPayment = rootPath + '/Plugins/Payment/getListMemberPayment.json';
+    var urlMember = rootPath + '/Plugins/Payment/getMemberPAY010_1.json';
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY010_1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY010_1.js"></script>
@@ -210,8 +210,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button id="btnSearchAdvanceSelect" class="btn btn-sm btn-primary" data-dismiss="modal"> <i class="ace-icon fa fa-check"></i> เลือก </button>
                         <button class="btn btn-sm" data-dismiss="modal"> <i class="ace-icon fa fa-times"></i> ไม่เลือก </button>
-                        <button id="btnSearchAdvanceSelect" class="btn btn-sm btn-primary"> <i class="ace-icon fa fa-check"></i> เลือก </button>
                     </div>
                 </div>
             </div>
