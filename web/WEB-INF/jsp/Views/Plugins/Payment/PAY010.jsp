@@ -152,7 +152,7 @@
                 <div class="row">
                     <div>
                         <button id="btnAdd"   type="button" class="btn btn-sm btn-success" style="font-size: 14px;">
-                            <i class="glyphicon glyphicon-plus"></i>&nbsp;ชำระค่าสมัคร
+                            <i class="glyphicon glyphicon-plus"></i>&nbsp;ชำระค่าบำรุงศพ
                         </button>
 <!--                        <button id="btnCancel"  type="button" class="btn btn-sm btn-danger" style="font-size: 14px;">
                             <i class="glyphicon glyphicon-remove"></i>&nbsp;ยกเลิกใบเสร็จ
