@@ -22,6 +22,7 @@ import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,9 +34,10 @@ import java.util.logging.Logger;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -61,6 +63,9 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     private static final String TB_NAME = "MemberPayment";
     private static final String ATT_PAYMENT_ID = "paymentId";
     private static final String TB_MEMBER = "Member";
+    private static final String MONTHLY_FEE = "ค่าบำรุงศพประจำเดือน ";
+    private static final String START_SOP = "ตั้งแต่ศพที่ ";
+    private static final String END_SOP = "ถึงศพที่ ";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -399,10 +404,10 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 mph = new MemberPaymentHeadDto();
                 mph.setPaymentId(mp.getPaymentId());
                 mph.setMemberId(mp.getMember().getMemberId());
-                mph.setMonthCode(mp.getControlPayment().getMonthCode());
+                mph.setMonthCode(mp.getMonthCode());
                 mph.setStartSopNo(mp.getControlPayment().getStartSopNo());
                 mph.setEndSopNo(mp.getControlPayment().getEndSopNo());
-                mph.setPaymentDetail(StringPool.BLANK);
+                mph.setPaymentDetail(buildMemberPaymentDetail(mp.getMonthCode(), mp.getControlPayment().getStartSopNo(), mp.getControlPayment().getEndSopNo()));
                 mph.setSopAmount(mp.getControlPayment().getEndSopNo() - mp.getControlPayment().getStartSopNo());
                 mph.setAmount(mp.getControlPayment().getAmount());
                 mph.setPaymentFlag(false);
@@ -455,5 +460,29 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
             }
         }
         return titleOrRank;
+    }
+    
+    private String buildMemberPaymentDetail(String monthCode, Integer start, Integer end) {
+        String strMm = StringUtils.substring(monthCode, 3, 5);  //  MM.
+        String StrYyy = StringUtils.substring(monthCode, 0, 3); //  yyy.
+        String StrYy = StringUtils.substring(monthCode, 1, 3);  //  yy.
+        String strBbuddhistYear = StringUtils.rightPad("2", 4, StrYyy); //  '2' + yyy.
+        String shortMonth = formatMonth(NumberUtils.toInt(strMm), new Locale("th", "TH"));  //  ม.ค. etc.
+        StringBuilder sb = new StringBuilder();
+        sb.append(MONTHLY_FEE);
+        sb.append(shortMonth);
+        sb.append(StringPool.SPACE);
+        sb.append(strBbuddhistYear);
+        sb.append(StringPool.SPACE);
+        sb.append(START_SOP+start+StringPool.SLASH+StrYy);
+        sb.append(StringPool.SPACE);
+        sb.append(END_SOP+end+StringPool.SLASH+StrYy);
+        return sb.toString();
+    }
+    
+    private String formatMonth(int month, Locale locale) {
+        DateFormatSymbols symbols = new DateFormatSymbols(locale);
+        String[] monthNames = symbols.getShortMonths();
+        return monthNames[month - 1];
     }
 }
