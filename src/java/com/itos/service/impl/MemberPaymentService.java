@@ -102,37 +102,6 @@ public class MemberPaymentService implements IMemberPaymentService {
 
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<MemberPaymentHeadDto> searchMemberPaymentByCode(String citizenId, String memberCode) {
-        List<MemberPayment> memberPaymentList = iMemberPaymentDAO.getMemberPaymentByCode(citizenId, memberCode);
-        MemberPaymentHeadDto mph;
-        StringBuilder sb;
-        List<MemberPaymentHeadDto> mphDtoList = new ArrayList<>();
-        for (MemberPayment mp : memberPaymentList) {
-            mph = new MemberPaymentHeadDto();
-            sb = new StringBuilder();
-            sb.append("ค่าบำรุงศพประจำเดือน ");
-            sb.append(mp.getControlPayment().getMonthCode());
-            sb.append(" ตั้งแต่ศพที่ ");
-            sb.append(mp.getControlPayment().getStartSopNo());
-            sb.append(" ถึงศพที่ ");
-            sb.append(mp.getControlPayment().getEndSopNo());
-            mph.setPaymentId(mp.getPaymentId());
-            mph.setMemberId(mp.getMember().getMemberId());
-            mph.setPaymentDetail(sb.toString());
-            mph.setSopAmount(mp.getControlPayment().getEndSopNo() - mp.getControlPayment().getStartSopNo());
-            mph.setAmount(mp.getControlPayment().getAmount());
-            mph.setPaymentFlag(false);
-            mph.setRemark("");
-            mphDtoList.add(mph);
-        }
-        JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
-        jqGrid.setRows(mphDtoList);
-
-        return jqGrid;
-    }
-
-    @Override
-    @Transactional(value = "hibernateTransactionManager", readOnly = true)
     public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
         if (req != null) {
             return iMemberPaymentDAO.getMemberPaymentByCode(req);

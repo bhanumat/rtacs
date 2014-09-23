@@ -319,37 +319,6 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     }
 
     @Override
-    public List<MemberPayment> getMemberPaymentByCode(String citizenId, String memberCode) {
-        List<MemberPayment> memberPaymentList = new ArrayList<>();
-        StringBuilder hqlCondition = new StringBuilder();
-        StringBuilder hql = new StringBuilder();
-
-        if (citizenId != null) {
-            hqlCondition.append(" and mp.member.citizenId=");
-            hqlCondition.append(citizenId);
-        } else if (memberCode != null) {
-            hqlCondition.append(" and mp.member.memberCode=");
-            hqlCondition.append(memberCode);
-        } else {
-            logger.error("citizenId and memberCode is null");
-            throw new NullPointerException("citizenId and memberCode parameter is null");
-        }
-
-        hql.append("select mp");
-        hql.append(" from " + TB_NAME + " mp");
-        hql.append(" where");
-        hql.append(" mp.paymentDate is null");
-        hql.append(hqlCondition);
-
-        Query queryMemberPayment = CommandQuery.CreateQuery(sessionFactory, hql);
-
-        if (!queryMemberPayment.list().isEmpty()) {
-            memberPaymentList = queryMemberPayment.list();
-        }
-        return memberPaymentList;
-    }
-
-    @Override
     public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
         JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
         List<MemberPaymentHeadDto> listResponse = new ArrayList<>();

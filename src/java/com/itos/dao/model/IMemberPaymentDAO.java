@@ -25,7 +25,5 @@ public interface IMemberPaymentDAO {
     
     JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req);
     
-    List<MemberPayment> getMemberPaymentByCode(String citizenId, String memberCode);
-    
     JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req);
 }
