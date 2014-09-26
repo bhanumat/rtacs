@@ -5,9 +5,22 @@
  */
 $(function() {
     $('#txtDocDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
-    $('#date_begin').datepicker({language: 'th', format: 'dd/mm/yyyy'});
-    $('#date_end').datepicker({language: 'th', format: 'dd/mm/yyyy'});
-    
+    $("#txtDocDate").datepicker("setDate", new Date());
+    $('#subDateBegin').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $('#subDateEnd').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+
+    $("#btnBack").click(function(event) {
+        onBackAPP031();
+    });
+
+    onBackAPP031 = function() {
+        var typeAction = 'GET';
+        var urlAction = urlAPP031;
+        var objDataAction = {};
+        var dataTypeAction = 'html';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+    };
+
     $("#dialogFormAdd").removeClass('hide').dialog({
         width: '1000px',
         resizable: false,
@@ -33,68 +46,69 @@ $(function() {
             }
         ]
     });
-    
-   onAddActionSearch = function(){
-       //alert("onAddActionSearch");
+
+    onAddActionSearch = function() {
+        //alert("onAddActionSearch");
         var search = {};
         var requestSearch = new Array();
-        if ($('#date_begin').val().length != 0 && $('#date_end').val().length != 0) {
-            var search1 = {'groupOp': '', 'field': 'apply_date', 'op': 'bw', 'data': $('#date_begin').val() +","+ $('#date_end').val(), 'dataType': 'date' };
+        if ($('#subMemberCode').val().length != 0 && '' != $('#subMemberCode').val()) {
+            var search2 = {'groupOp': 'and', 'field': 'm.member_code', 'op': 'cn', 'data': $('#subMemberCode').val(), 'dataType': 'varchar'};
+            requestSearch.push(search2);
+        }
+        if ($('#subCitizenId').val().length != 0 && '' != $('#subCitizenId').val()) {
+            var search3 = {'groupOp': 'and', 'field': 'm.citizen_id', 'op': 'cn', 'data': $('#subCitizenId').val(), 'dataType': 'varchar'};
+            requestSearch.push(search3);
+        }
+        if ($('#subName').val().length != 0 && '' != $('#subName').val()) {
+            var search4 = {'groupOp': 'and', 'field': 'm.name', 'op': 'cn', 'data': $('#subName').val(), 'dataType': 'varchar'};
+            requestSearch.push(search4);
+        }
+        if ($('#subSurname').val().length != 0 && '' != $('#subSurname').val()) {
+            var search5 = {'groupOp': 'and', 'field': 'm.surname', 'op': 'cn', 'data': $('#subSurname').val(), 'dataType': 'varchar'};
+            requestSearch.push(search5);
+        }
+        if ($('#subDateBegin').val().length != 0 && $('#subDateEnd').val().length != 0) {
+            var search1 = {'groupOp': 'and', 'field': 'm.apply_date', 'op': 'bw', 'data': $('#subDateBegin').val() + "," + $('#subDateEnd').val(), 'dataType': 'date'};
             requestSearch.push(search1);
-        }else{
-            if ($('#date_begin').val().length != 0) {
-                var search1 = {'groupOp': '', 'field': 'apply_date', 'op': 'bw', 'data': $('#date_begin').val(), 'dataType': 'date' };
+        } else {
+            if ($('#subDateBegin').val().length != 0) {
+                var search1 = {'groupOp': 'and', 'field': 'm.apply_date', 'op': 'bw', 'data': $('#subDateBegin').val() + "," + $('#subDateBegin').val(), 'dataType': 'date'};
                 requestSearch.push(search1);
-            }else{
-                if ($('#date_end').val().length != 0) {
-                        $("#Dialog-Confirm").html("กรุณากรอกข้อมูลค้นหาวันที่สมัคร");
-                        $("#Dialog-Confirm").removeClass('hide').dialog({
-                            width: '300px',
-                            resizable: false,
-                            modal: true,
-                            title: "<div class='widget-header'><h4 class='smaller'> แจ้งเตือน</h4></div>",
-                            title_html: true,
-                            autoOpen: true,
-                            buttons: [
-                                {
-                                    html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
-                                    "class": "btn btn-xs",
-                                    click: function() {
-                                        $(this).dialog("close");
-                                    }
+            } else {
+                if ($('#subDateEnd').val().length != 0) {
+                    $("#Dialog-Confirm").html("กรุณากรอกข้อมูลค้นหาวันที่สมัคร");
+                    $("#Dialog-Confirm").removeClass('hide').dialog({
+                        width: '300px',
+                        resizable: false,
+                        modal: true,
+                        title: "<div class='widget-header'><h4 class='smaller'> แจ้งเตือน</h4></div>",
+                        title_html: true,
+                        autoOpen: true,
+                        buttons: [
+                            {
+                                html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
+                                "class": "btn btn-xs",
+                                click: function() {
+                                    $(this).dialog("close");
                                 }
-                            ]
-                        });
+                            }
+                        ]
+                    });
                 }
             }
         }
-        if ($('#subMemberCode').val().length != 0) {
-            var search2 = {'groupOp': '', 'field': 'member_code', 'op': 'eq', 'data': $('#subMemberCode').val(), 'dataType': 'varchar'};
-            requestSearch.push(search2);
-        }
-        if ($('#subCitizenId').val().length != 0) {
-            var search3 = {'groupOp': '', 'field': 'citizen_id', 'op': 'eq', 'data': $('#subCitizenId').val(), 'dataType': 'integer'};
-            requestSearch.push(search3);
-        }
-        if ($('#subName').val().length != 0) {
-            var search4 = {'groupOp': '', 'field': 'name', 'op': 'eq', 'data': $('#subName').val(), 'dataType': 'varchar'};
-            requestSearch.push(search4);
-        }
-        if ($('#subSurname').val().length != 0) {
-            var search5 = {'groupOp': '', 'field': 'surname', 'op': 'eq', 'data': $('#subSurname').val(), 'dataType': 'varchar'};
-            requestSearch.push(search5);
-        }
+
         if ($('#subMilitary').val().length != 0) {
-            var search6 = {'groupOp': '', 'field': 'military_id', 'op': 'eq', 'data': $('#subMilitary').val(), 'dataType': 'integer'};
+            var search6 = {'groupOp': 'and', 'field': 'm.military_id', 'op': 'eq', 'data': $('#subMilitary').val(), 'dataType': 'integer'};
             requestSearch.push(search6);
         }
         if ($('#subMemberTypeCode').val().length != 0) {
-            var search7 = {'groupOp': '', 'field': 'member_type_code', 'op': 'eq', 'data': $('#subMemberTypeCode').val(), 'dataType': 'integer'};
+            var search7 = {'groupOp': 'and', 'field': 'm.member_type_code', 'op': 'eq', 'data': $('#subMemberTypeCode').val(), 'dataType': 'integer'};
             requestSearch.push(search7);
         }
-        
+
         search.conditions = requestSearch;
-       
+
         $(gridNameAdd).jqGrid('setGridParam', {
             search: true,
             postData: {
@@ -103,16 +117,16 @@ $(function() {
         });
         $(gridNameAdd).trigger("reloadGrid", [{page: 1}]);
     };
-    
+
     $("#btnSubSearch").click(function(e) {
         e.preventDefault();
         onAddActionSearch();
     });
-    
+
     $("#btnSubReset").click(function(e) {
         e.preventDefault();
-        $("#date_begin").val("");
-        $("#date_end").val("");
+        $("#subDateBegin").val("");
+        $("#subDateEnd").val("");
         $("#subMemberCode").val("");
         $("#subCitizenId").val("");
         $("#subName").val("");
@@ -120,7 +134,7 @@ $(function() {
         $("#subMilitary").val("");
         $("#subMemberTypeCode").val("");
     });
-    
+
     $("#btnAdd").click(function(e) {
         $("#dialogFormAdd").dialog("open");
     });
@@ -150,19 +164,6 @@ $(function() {
         $("#Dialog-Confirm").dialog("open");
     });
 
-    $("#btnBack").click(function(e) {
-        
-        onClearGrid();
-        $('#gridData_APP031_2_Add_jqGrid_List').jqGrid("clearGridData", true).trigger("reloadGrid");
-        //onDialogNew(event);
-        var typeAction = 'GET';
-        var urlAction = rootPath + '/Plugins/Registration/APP031.htm';
-        var objDataAction = {};
-        var dataTypeAction = 'html';
-        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
-        e.preventDefault();
-    });
-
     onRefreshGrid = function() {
         $('#gridData_APP031_2jqGrid_List').setGridParam({
             datatype: 'jsonstring',
@@ -176,7 +177,7 @@ $(function() {
     };
 
     onDeleteRow = function(rowid) {
-        listAPP031.splice(rowid,1);
+        listAPP031.splice(rowid, 1);
         var tempJqGridData = {};
         tempJqGridData.total = 1;
         tempJqGridData.page = 1;
@@ -185,13 +186,13 @@ $(function() {
         myStringList = $.toJSON(tempJqGridData);
         onRefreshGrid();
     };
-    
+
 
     onSelectData = function() {
         var dialogForm = '#dialogFormAdd';
         var myGrid = $('#gridData_APP031_2_Add_jqGrid_List');
         var ids = myGrid.jqGrid('getGridParam', 'selarrrow');
-        //listAPP031 = [];
+        listAPP031 = [];
         if (ids.length > 0) {
             for (var i = 0, il = ids.length; i < il; i++) {
                 var rowObject = myGrid.getRowData(ids[i]);
@@ -230,7 +231,7 @@ $(function() {
                 $.fn.DialogMessage(msg);
                 if (msg.checkSuccess === true) {
                     $("#operationId").val(msg.id);
-                    onActionSearch();
+                    onBackAPP031();
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -244,7 +245,7 @@ $(function() {
     $("#btnSave").click(function(event) {
         event.preventDefault();
         var ids = {};
-        if($('#txtDocDate').val().length > 0 && $('#txtDocCode').val().length > 0){
+        if ($('#txtDocDate').val().length > 0 && $('#txtDocCode').val().length > 0) {
             if (listAPP031.length > 0) {
                 $("#Dialog-Confirm").html("คุณต้องการบันทึกข้อมูลนี้ใช่หรือไม่?");
                 $("#Dialog-Confirm").dialog({
@@ -259,7 +260,8 @@ $(function() {
                                     //alert("memberId : >>" + itemData.memberId + "<<");
                                     ids[i] = itemData.memberId;
                                     i++;
-                                    if(i >= listAPP031.length)break;
+                                    if (i >= listAPP031.length)
+                                        break;
                                 }
                                 var objData = {};
                                 objData.docDate = $('#txtDocDate').val();
@@ -281,21 +283,101 @@ $(function() {
                 $("#Dialog-Warning").html("กรุณาทำการเลือกสมาชิกใหม่");
                 $("#Dialog-Warning").dialog("open");
             }
-        }else{
+        } else {
             $("#Dialog-Warning").html("กรุณาทำการกรอกข้อมูลให้ครบถ้วน");
-                $("#Dialog-Warning").dialog("open");
+            $("#Dialog-Warning").dialog("open");
         }
     });
-    
+
     onActionSearch = function() {
         var search = {};
         var requestSearch = new Array();
-        
-        if ($('#operationId').val().length != 0) {
-            var search1 = {'groupOp': '', 'field': 'operationId', 'op': 'eq', 'data': $('#operationId').val(), 'dataType': 'integer'};
-            requestSearch.push(search1);
+
+
+        var search1 = {'groupOp': '', 'field': 'm.name', 'op': 'cn', 'data': $('#txtNameSearch').val(), 'dataType': 'varchar'};
+        requestSearch.push(search1);
+
+        if ($('#txtCitizenIdSearch').val().length !== 0) {
+            if ($('#txtCitizenIdSearch').val().length === 13) {
+                var search2 = {'groupOp': 'and', 'field': 'm.citizen_id', 'op': 'eq', 'data': $('#txtCitizenIdSearch').val(), 'dataType': 'varchar'};
+                requestSearch.push(search2);
+            } else {
+                $("#Dialog-Confirm").html("กรุณากรอกรหัสประชาชนเป็น 13 หลักเท่านั้น");
+                $("#Dialog-Confirm").removeClass('hide').dialog({
+                    width: '300px',
+                    resizable: false,
+                    modal: true,
+                    title: "<div class='widget-header'><h4 class='smaller'> แจ้งเตือน</h4></div>",
+                    title_html: true,
+                    autoOpen: true,
+                    buttons: [
+                        {
+                            html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
+                            "class": "btn btn-xs",
+                            click: function() {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ]
+                });
+                return;
+            }
         }
-        
+
+        var search3 = {'groupOp': 'and', 'field': 'm.surname', 'op': 'cn', 'data': $('#txtSurnameSearch').val(), 'dataType': 'varchar'};
+        requestSearch.push(search3);
+
+        if ($('#txtApplyDateFromSearch').val().length !== 0 && $('#txtApplyDateEndSearch').val().length !== 0) {
+            var search4 = {'groupOp': 'and', 'field': 'm.apply_date', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val() + "," + $('#txtApplyDateEndSearch').val(), 'dataType': 'date'};
+            requestSearch.push(search4);
+        } else {
+            if ($('#txtApplyDateFromSearch').val().length !== 0) {
+                var search5 = {'groupOp': 'and', 'field': 'm.apply_date', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val() + "," + $('#txtApplyDateFromSearch').val(), 'dataType': 'date'};
+                requestSearch.push(search5);
+            } else {
+                if ($('#txtApplyDateEndSearch').val().length !== 0) {
+                    $("#Dialog-Confirm").html("กรุณากรอกข้อมูลค้นหาวันที่สมัคร");
+                    $("#Dialog-Confirm").removeClass('hide').dialog({
+                        width: '300px',
+                        resizable: false,
+                        modal: true,
+                        title: "<div class='widget-header'><h4 class='smaller'> แจ้งเตือน</h4></div>",
+                        title_html: true,
+                        autoOpen: true,
+                        buttons: [
+                            {
+                                html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
+                                "class": "btn btn-xs",
+                                click: function() {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        ]
+                    });
+                }
+            }
+        }
+
+        if ('%' !== $('#slMilitaryDepartmentSearch').val()) {
+            var search6 = {'groupOp': 'and', 'field': 'm.military_id', 'op': 'eq', 'data': $('#slMilitaryDepartmentSearch').val(), 'dataType': 'integer'};
+            requestSearch.push(search6);
+        }
+
+        if ('%' !== $('#slApplyTypeSearch').val()) {
+            var search7 = {'groupOp': 'and', 'field': 'm.member_type_code', 'op': 'eq', 'data': $('#slApplyTypeSearch').val(), 'dataType': 'integer'};
+            requestSearch.push(search7);
+        }
+
+        if ('%' !== $('#slMemberTypeCodeSearch').val()) {
+            var search8 = {'groupOp': 'and', 'field': 'm.member_group_code', 'op': 'eq', 'data': $('#slMemberTypeCodeSearch').val(), 'dataType': 'integer'};
+            requestSearch.push(search8);
+        }
+
+        if ('%' !== $('#slMemberStatusCodeSearch').val()) {
+            var search9 = {'groupOp': 'and', 'field': 'm.member_status_code', 'op': 'eq', 'data': $('#slMemberStatusCodeSearch').val(), 'dataType': 'integer'};
+            requestSearch.push(search9);
+        }
+
         search.conditions = requestSearch;
         $(gridName).jqGrid('setGridParam', {
             search: true,
@@ -313,7 +395,7 @@ $(function() {
             dataType: 'json',
             async: true,
             success: function(msg) {
-                if (msg.checkSuccess === true && msg.obj!=null) {
+                if (msg.checkSuccess === true && msg.obj != null) {
                     var object = msg.obj;
                     $("#txtDocCode").val(object.docCode);
                     $("#txtDocDate").val(object.dateString);
@@ -322,7 +404,7 @@ $(function() {
                     $('#btnAdd').hide();
                     $('#btnSave').hide();
                     $('#btnCancel').hide();
-                    
+
                     $('#btnPrintRegister').show();
                     $('#btnPrintSummary').show();
                 }
@@ -332,7 +414,6 @@ $(function() {
             }
         });
     };
-    
 //    $("#subMilitary").select2({
 //        //placeholder: '-เลือก-',
 //        allowClear: true
@@ -344,7 +425,7 @@ $(function() {
 //        allowClear: true
 //        //minimumInputLength: 1
 //    });
-    
+
     onActionLoadMilitaryDepartment = function() {
         var objData = {};
         $.ajax({
@@ -368,7 +449,7 @@ $(function() {
     onActionClearNewMilitaryDepartment = function() {
         $('#subMilitary').empty();
     };
-    
+
     onActionClearNewMemberTypeCode = function() {
         $('#subMemberTypeCode').empty();
     };
@@ -381,15 +462,15 @@ $(function() {
             $('#subMilitary').append('<option value="' + itemData.militaryId + '">' + itemData.name + '</option>');
         }
     };
-    
+
     onInit = function() {
-        if($('#operationId').val()!=null && $('#operationId').val() !=""){
+        if ($('#operationId').val() != null && $('#operationId').val() != "") {
             document.getElementById("txtDocDate").disabled = true;
             document.getElementById("txtDocCode").disabled = true;
             $('#btnAdd').hide();
             $('#btnSave').hide();
             $('#btnCancel').hide();
-        }else{
+        } else {
             onActionLoadMilitaryDepartment();
             onActionLoadNewMilitaryDepartment();
             $('#btnPrintRegister').hide();

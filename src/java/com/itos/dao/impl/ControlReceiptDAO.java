@@ -39,9 +39,9 @@ public class ControlReceiptDAO implements IControlReceiptDAO {
         int iCountSuccessful = 0;
         List<ControlReceipt> list;
         ControlReceipt controlReceiptOriginal = null;
-        
+
         logger.info("id : >>" + id + "<<");
-       
+
         List<WhereField> listWhereField = new ArrayList<>();
         WhereField whereField = null;
 
@@ -55,11 +55,11 @@ public class ControlReceiptDAO implements IControlReceiptDAO {
         listWhereField.add(whereField);
         query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField);
 
-        if (!query.list().isEmpty()) {
-            list = query.list();
+        list = query.list();
+        if (!list.isEmpty()) {
             controlReceiptOriginal = list.get(0);
             System.out.println("running : >>" + controlReceiptOriginal.getRunningNo() + "<<");
-            controlReceiptOriginal.setRunningNo(controlReceiptOriginal.getRunningNo()+1);
+            controlReceiptOriginal.setRunningNo(controlReceiptOriginal.getRunningNo() + 1);
             System.out.println("new running : >>" + controlReceiptOriginal.getRunningNo() + "<<");
             if (CommandQuery.Update(sessionFactory, controlReceiptOriginal)) {
                 iCountSuccessful++;
@@ -67,14 +67,14 @@ public class ControlReceiptDAO implements IControlReceiptDAO {
         }
         if (iCountSuccessful > 0) {
             return controlReceiptOriginal;
-        } 
+        }
         return null;
     }
-    
+
     @Override
     public String getDocumentCode() {
         logger.info("ControlReceiptDAO : getDocumentCode");
-        
+
         List<ControlReceipt> list;
         List<WhereField> listWhereField = new ArrayList<>();
         WhereField field = new WhereField();
@@ -86,27 +86,28 @@ public class ControlReceiptDAO implements IControlReceiptDAO {
         listWhereField.add(field);
         Query query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField);
         String docCode = "";
-        if (!query.list().isEmpty()) {
-            list = query.list();
+        list = query.list();
+        if (!list.isEmpty()) {
             ControlReceipt controlReceipt = list.get(0);
-            docCode = "" + controlReceipt.getGroupCode() + (controlReceipt.getRunningNo()+1);
+            docCode = "" + controlReceipt.getGroupCode() + (controlReceipt.getRunningNo() + 1);
             logger.info("docCode : >>" + docCode + "<<");
             docCode = fullfillCode(docCode);
             logger.info("fullfillCode docCode : >>" + docCode + "<<");
-            
+
             //ControlReceipt receipt = updatedRunningNo(controlReceipt.getControlReceiptId());
             //System.out.println("new ID : >>" + receipt.getControlReceiptId() + "<< running : >>" + receipt.getRunningNo() + "<<");
             return docCode;
         }
         return null;
     }
-    
-    private String fullfillCode(String code){
-        if(code.isEmpty())
+
+    private String fullfillCode(String code) {
+        if (code.isEmpty()) {
             return "";
+        }
         String result = code.substring(0, 1);
         int length = code.length();
-        for(int i=0;i<LENGTH_CODE-length;i++){
+        for (int i = 0; i < LENGTH_CODE - length; i++) {
             result = result + "0";
         }
         result = result + code.substring(1);

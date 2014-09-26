@@ -119,6 +119,7 @@
 
         <li id="menuPayment" class="hover"> <a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-credit-card"></i> <span class="menu-text"> ชำระเงิน </span> <b class="arrow fa fa-angle-down"></b> </a> <b class="arrow"></b>
             <ul class="submenu" style="width: 290px;">
+                <li class="hover"> <a id="menuPAY021" href="#"> <i class="menu-icon fa fa-caret-right"></i> ชำระเงินค่าสมัครสมาชิก(สมัครผ่านหน่วย) </a> <b class="arrow"></b> </li>
                 <li class="hover"> <a id="menuPAY020" href="#"> <i class="menu-icon fa fa-caret-right"></i> รายการรับชำระเงินค่าสมัครสมาชิก </a> <b class="arrow"></b> </li>
                 <li class="hover"> <a id="menuPAY020_1" href="#"> <i class="menu-icon fa fa-caret-right"></i> บันทึกรับชำระเงินค่าสมัครสมาชิก </a> <b class="arrow"></b> </li>
                 <li class="hover"> <a id="menuPAY010" href="#"> <i class="menu-icon fa fa-caret-right"></i> รายการรับชำระเงินค่าบำรุงศพ </a> <b class="arrow"></b> </li>

@@ -22,6 +22,8 @@
     </definition>
     <definition name="/Plugins/MasterData/REGEXP:\[([^\]]*)\](.*)" template="/WEB-INF/jsp/Views/Plugins/MasterData/{1}.jsp">        
     </definition>
+    <definition name="/Plugins/ChangeData/REGEXP:\[([^\]]*)\](.*)" template="/WEB-INF/jsp/Views/Plugins/ChangeData/{1}.jsp">        
+    </definition>
     
     <definition name="/Pages/REGEXP:\[([^\]]*)\](.*)" template="/WEB-INF/jsp/Views/Pages/{1}.jsp">  
     </definition>

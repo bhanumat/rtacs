@@ -6,22 +6,22 @@
 var gridUrlNew = urlListAPP010_2_New_Select;
 var gridNameNew = '#gridData_APP010_2_New_Select_jqGrid_List';
 var gridPagerNew = '#gridPager_APP010_2_New_Select_jqGrid_List';
-var gridSortNameNew = 'citizenId';
+var gridSortNameNew = 'm.citizen_id';
 var gridSortOrderNew = 'asc';
 var gridCaptionNew = 'รายการผู้สมัครเป็นสมาชิก';
 var gridColNamesNew = ['', 'เลิอก', 'หน่วยต้นสังกัด', 'เลขทะเบียนสมาชิก' , 'เลขประจำตัวประชาชน', 'ยศ - คำนำหน้า', 'ชื่อ', 'สกุล', '', 'สถานะใช้งาน'];
 var gridColModelNew = [
-    {name: 'memberId', index: 'memberId', hidden: true, align: 'left'},
-    {name: 'myradio', index: 'memberId', align: 'center', width: 40, resizable: false, sortable: false, formatter: function(cellValue, option) {
+    {name: 'memberId', index: 'm.member_id', hidden: true, align: 'left'},
+    {name: 'myradio', index: 'm.member_id', align: 'center', width: 40, resizable: false, sortable: false, formatter: function(cellValue, option) {
             return '<input type="radio" name="rd_' + option.gid + '" />';
         }},
-    {name: 'militaryName', index: 'militaryName', align: 'left', sortable: true, width: 130},
-    {name: 'memberCode', index: 'memberCode', align: 'left', sortable: true, width: 130},
-    {name: 'citizenId', index: 'citizenId', align: 'left', sortable: true, width: 150},
-    {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: true, width: 110},
-    {name: 'name', index: 'name', align: 'left', sortable: true, width: 100},
-    {name: 'surname', index: 'surname', align: 'left', sortable: true, width: 100},
-    {name: 'memberStatusCode', index: 'memberStatusCode', hidden: true, align: 'left'},
+    {name: 'militaryName', index: 'm.military_name', align: 'left', sortable: true, width: 130},
+    {name: 'memberCode', index: 'm.member_code', align: 'left', sortable: true, width: 130},
+    {name: 'citizenId', index: 'm.citizen_id', align: 'left', sortable: true, width: 150},
+    {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: false, width: 110},
+    {name: 'name', index: 'm.name', align: 'left', sortable: true, width: 100},
+    {name: 'surname', index: 'm.surname', align: 'left', sortable: true, width: 100},
+    {name: 'memberStatusCode', index: 'm.member_status_code', hidden: true, align: 'left'},
     {name: 'status', index: 'status', align: 'center', sortable: false, width: 180}];
 var gridJsonReaderNew = {
     records: "records", //total number of records for the query

@@ -13,9 +13,9 @@ $(function() {
                         message: 'The title is required'
                     },
                     stringLength: {
-                        min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        min: 1,
+                        max: 2,
+                        message: 'The title must be less than 2 characters long'
                     }
                 }
             },
@@ -59,9 +59,9 @@ $(function() {
                         message: 'The title is required'
                     },
                     stringLength: {
-                        min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        min: 1,
+                        max: 2,
+                        message: 'The title must be less than 2 characters long'
                     }
                 }
             },

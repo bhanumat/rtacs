@@ -118,26 +118,9 @@
                                     <option value="20">กำหนดเลขทะเบียนสมาชิก</option>
                                     <option value="25">ดำเนินการขออนุมัติขึ้นทะเบียน</option>
                                     <option value="100">สมาชิกปกติ</option>
-                                    <option value="101">ค้างชำระ 1 เดือน</option>					
-                                    <option value="102">ค้างชำระ 2 เดือน</option>
-                                    <option value="103">ค้างชำระ 3 เดือน และได้ดำเนินการทวงถาม</option>
                                     <option value="105">อนุมัติขึ้นทะเบียนเป็นสมาชิก</option>
-                                    <option value="109">ดำเนินการถอนสภาพชั่วคราว</option>
-                                    <option value="110">ถูกถอนสภาพชั่วคราว</option>
-                                    <option value="115">บันทึำกขอคืนสภาพ</option>
-                                    <option value="116">ชำระเงินค้างชำระ</option>
-                                    <option value="119">ดำเนินการคืนสภาพ</option>
-                                    <option value="120">คืนสภาพเป็นสมาชิกปกติ</option>
-                                    <option value="130">คืนสภาพเป็นสมาชิกปกติกรณีพิเศษ</option>
-                                    <option value="199">ดำเนินการถอนสภาพถาวร</option>
-                                    <option value="200">ถูกถอนสภาพถาวร</option> 
-                                    <option value="205">บันทึกแจ้งถึงแก่กรรม</option>  
-                                    <option value="206">บันทึกการจ่ายค่าจัดการศพ</option>
-                                    <option value="207">ขออนุมัติจ่ายค่าจัดการศพ</option>
-                                    <option value="210">ถึงแก่กรรม</option>
-                                    <option value="220">ลาออก</option>
                                     <option value="231">เสียชีวิตก่อนขึ้นทะเบียน</option>
-                                    <option value="232">ไม่อนุมััติขอความเห็นชอบ</option>
+                                    <option value="232">ไม่อนุมัติขอความเห็นชอบ</option>
                                     <option value="234">ไม่อนุมัติขึ้นทะเบียน</option>
                                 </select>
                             </div>                                

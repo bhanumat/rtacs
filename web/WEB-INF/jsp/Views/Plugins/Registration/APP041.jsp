@@ -9,6 +9,7 @@
 <script type="text/javascript">
     var urlList = rootPath + '/Plugins/Registration/getListAPP041.json';
     var responseId = '#main-page-content-loading';
+    var urlActionView = rootPath + '/Plugins/Registration/APP041_1.htm';
 
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Registration/action.APP041.js"></script>
@@ -18,7 +19,7 @@
         รับสมัคร
         <small>
             <i class="ace-icon fa fa-angle-double-right"></i>
-            ขออนุมัติขึ้นทะเบียนสมาชิกใหม่ 
+            	ขออนุมัติขึ้นทะเบียนสมาชิกใหม่
         </small>
     </h1>
 </div><!-- /.page-header -->
@@ -33,7 +34,7 @@
                 <div class="row">
                     <form id="frmCriterionSearch" class="form-horizontal">                          
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> วันที่ขออนุมัติ</label>
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> วันที่ขออนุมัติขึ้นทะเบียนสมาชิกใหม่</label>
                             <div class="col-sm-5">
                                 <div class="row">
                                     <div class="col-xs-4">
@@ -51,7 +52,7 @@
                             </div>
                             <br>
                             <br>
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> เลขที่อ้างอิงขออนุมัติ  </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> เลขที่อ้างอิงขออนุมัติขึ้นทะเบียนสมาชิกใหม่  </label>
                             <div class="col-sm-6">
                                 <input type="text" id="docCode" class="col-xs-8 col-sm-3"/>    
                             </div>                                

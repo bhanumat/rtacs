@@ -5,17 +5,17 @@
 //================================== Parameter jqGrid ========================================
 var gridName = '#gridData_APP010_2_New_Grid_List';
 var gridPager = '#gridPager_APP010_2_New_jqGrid_List';
-var gridSortName = 'beneficiaryId';
+var gridSortName = 'beneficiary_id';
 var gridSortOrder = 'asc';
 var gridCaption = 'รายการผู้สมัครเป็นสมาชิก';
 var gridColNames = ['ลำดับที่', 'เลขประจำตัวประชาชน', 'ยศ', 'คำนำหน้า', 'ชื่อ', 'สกุล', 'ความเกี่ยวพันกับสมาชิก', ''];
 var gridColModel = [
     {name: 'id', index: 'id', sortable: false, hidden: true, align: 'left', width: 100},
-    {name: 'citizenId', index: 'citizenId', align: 'left', sortable: true, width: 200},
-    {name: 'rankName', index: 'rankName', align: 'left', sortable: true, width: 100},
-    {name: 'titleName', index: 'titleName', align: 'left', sortable: true, width: 100},
-    {name: 'name', index: 'name', align: 'left', sortable: true, width: 200},
-    {name: 'surname', index: 'surname', align: 'left', sortable: true, width: 200},
+    {name: 'citizenId', index: 'm.citizen_id', align: 'left', sortable: true, width: 200},
+    {name: 'rankName', index: 'r.rank_name', align: 'left', sortable: true, width: 100},
+    {name: 'titleName', index: 't.title_name', align: 'left', sortable: true, width: 100},
+    {name: 'name', index: 'm.name', align: 'left', sortable: true, width: 200},
+    {name: 'surname', index: 'm.surname', align: 'left', sortable: true, width: 200},
     {name: 'memberRelationship', index: 'memberRelationship', align: 'left', sortable: false, width: 200},
     {name: 'action', index: 'action', width: 80, align: 'center', search: false, sortable: false}];
 var gridJsonReader = {

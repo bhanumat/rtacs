@@ -8,6 +8,7 @@ package com.itos.model.json;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itos.model.Member;
 import com.itos.model.MemberBeneficiary;
+import com.itos.model.ext.MemberData;
 import com.itos.util.MiscUtil;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ import net.sf.json.JSONObject;
  */
 public class JsonMember {
 
-    public static Member JSONDeserializer(String json, String stringDateFormat) throws IOException {
-        Member member = new Member();
+    public static MemberData JSONDeserializer(String json, String stringDateFormat) throws IOException {
+        MemberData member = new MemberData();
         MemberBeneficiary memberBeneficiary;
         try {
             JSONObject jsonObject = new JSONObject();
@@ -301,6 +302,12 @@ public class JsonMember {
             jsonObject = JSONObject.fromObject(json);
             if (jsonObject.containsKey("memberId")) {
                 member.setMemberId(MiscUtil.getInt(jsonObject.getString("memberId")));
+            }
+            if (jsonObject.containsKey("citizenId")) {
+                member.setCitizenId(MiscUtil.getNull(jsonObject.getString("citizenId")));
+            }
+            if (jsonObject.containsKey("memberCode")) {
+                member.setMemberCode(MiscUtil.getNull(jsonObject.getString("memberCode")));
             }
         } catch (Exception ex) {
             //return null;

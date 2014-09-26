@@ -75,7 +75,7 @@
                                 <div class="col-md-3">
                                     <input type="hidden" name="hidMemberIdEdit" id="hidMemberIdEdit" value="${memberId}"/>
                                     <select name="slMemberGroupCodeEdit" id="slMemberGroupCodeEdit" class="form-control select2">
-                                        <option value="0">เลือกประเภทสมาชิก</option>
+                                        <option value="">เลือกประเภทสมาชิก</option>
                                         <option value="10">ข้าราชการ</option>
                                         <option value="20">ลูกจ้าง</option>
                                         <option value="30">ครอบครัว</option>
@@ -786,11 +786,16 @@
                             </div>                                                    
                             <div class="col-md-3">
                                 <select id="slMemberRelationshipCodeMemberBeneficiaryEdit" name="slMemberRelationshipCodeMemberBeneficiaryEdit" class="form-control select2">				  
-                                    <option value="1">คู่สมรส</option>
-                                    <option value="2">บุตร/ธิดา</option>
-                                    <option value="3">บิดา</option>
-                                    <option value="4">มารดา</option>
-                                    <option value="5">มารดาคู่สมรส</option>
+                                    <option value="">-เลือก-</option>
+                                    <option value="10">คู่สมรส</option>
+                                    <option value="20">บุตร/ธิดา</option>
+                                    <option value="30">บิดา</option>
+                                    <option value="31">มารดา</option>
+                                    <option value="40">บิดาคู่สมรส</option>
+                                    <option value="41">มารดาคู่สมรส</option>
+                                    <option value="70">บุตรเขย</option>
+                                    <option value="80">ญาติ</option>
+                                    <option value="90">เพื่อน</option>
                                 </select>
                             </div>
                         </div>

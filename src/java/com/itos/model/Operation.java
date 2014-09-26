@@ -194,6 +194,7 @@ public class Operation implements java.io.Serializable {
     /**
      * @return the memberNo
      */
+    @Transient
     @Formula("(SELECT COUNT(O.member_id) FROM OperationMember O WHERE O.operation_id=operation_id)")
     public Integer getMemberNo() {
         return memberNo;
@@ -220,5 +221,4 @@ public class Operation implements java.io.Serializable {
     public void setItemSelect(List<Integer> itemSelect) {
         this.itemSelect = itemSelect;
     }
-
 }

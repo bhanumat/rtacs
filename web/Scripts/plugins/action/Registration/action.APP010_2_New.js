@@ -7,7 +7,9 @@ $(function() {
     //$("#txtApplyDate").datepicker($.datepicker.regional["is"]); // Set ภาษาที่เรานิยามไว้ด้านบน
     //$("#txtApplyDate").datepicker("setDate", new Date()); //Set ค่าวันปัจจุบัน
     $('#txtApplyDateNew').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtApplyDateNew").datepicker("setDate", new Date());
     $('#txtBirthDateNew').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtBirthDateNew").datepicker("setDate", new Date());
 
 //    $("#slMemberGroupCodeNew").select2({
 //        allowClear: true
@@ -520,6 +522,7 @@ $(function() {
     };
 
     $("#btnSaveNew").click(function(event) {
+        event.preventDefault();
         onActionSaveNew();
     });
 
@@ -917,42 +920,28 @@ $(function() {
        //alert("onAddActionSearch");
         var search = {};
         var requestSearch = new Array();
-        var statussearch = false;
-        var condition = '';
+        var statussearch = true;
+        var condition = 'and';
         if ($('#memberCodeForNew').val().length !== 0) {
-            var search2 = {'groupOp': condition, 'field': 'member_code', 'op': 'eq', 'data': $('#memberCodeForNew').val(), 'dataType': 'varchar'};
+            var search2 = {'groupOp': condition, 'field': 'm.member_code', 'op': 'cn', 'data': $('#memberCodeForNew').val(), 'dataType': 'varchar'};
             requestSearch.push(search2);
-            condition = 'and';
-            statussearch = true;
         }
         if ($('#citizenIdForNew').val().length !== 0) {
-            var search3 = {'groupOp': condition, 'field': 'citizen_id', 'op': 'eq', 'data': $('#citizenIdForNew').val(), 'dataType': 'varchar'};
+            var search3 = {'groupOp': condition, 'field': 'm.citizen_id', 'op': 'cn', 'data': $('#citizenIdForNew').val(), 'dataType': 'varchar'};
             requestSearch.push(search3);
-            condition = 'and';
-            statussearch = true;
         }
         if ($('#memberNameForNew').val().length !== 0) {
-            var search4 = {'groupOp': condition, 'field': 'name', 'op': 'eq', 'data': $('#memberNameForNew').val(), 'dataType': 'varchar'};
+            var search4 = {'groupOp': condition, 'field': 'm.name', 'op': 'cn', 'data': $('#memberNameForNew').val(), 'dataType': 'varchar'};
             requestSearch.push(search4);
-            condition = 'and';
-            statussearch = true;
         }
         if ($('#memberSurnameForNew').val().length !== 0) {
-            var search5 = {'groupOp': condition, 'field': 'surname', 'op': 'eq', 'data': $('#memberSurnameForNew').val(), 'dataType': 'varchar'};
+            var search5 = {'groupOp': condition, 'field': 'm.surname', 'op': 'cn', 'data': $('#memberSurnameForNew').val(), 'dataType': 'varchar'};
             requestSearch.push(search5);
-            condition = 'and';
-            statussearch = true;
         }
         if ($('#militaryIdNew').val().length !== 0) {
-            var search6 = {'groupOp': condition, 'field': 'military_id', 'op': 'eq', 'data': $('#militaryIdNew').val(), 'dataType': 'integer'};
+            var search6 = {'groupOp': condition, 'field': 'm.military_id', 'op': 'eq', 'data': $('#militaryIdNew').val(), 'dataType': 'integer'};
             requestSearch.push(search6);
-            condition = 'and';
-            statussearch = true;
         }
-//        if ($('#subMemberTypeCode').val().length !== 0) {
-//            var search7 = {'groupOp': '', 'field': 'member_type_code', 'op': 'eq', 'data': $('#subMemberTypeCode').val(), 'dataType': 'integer'};
-//            requestSearch.push(search7);
-//        }
         
         search.conditions = requestSearch;
        

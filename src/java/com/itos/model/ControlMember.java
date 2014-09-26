@@ -1,5 +1,5 @@
 package com.itos.model;
-// Generated Aug 27, 2014 11:11:07 PM by Hibernate Tools 3.6.0
+// Generated Sep 21, 2014 6:09:06 PM by Hibernate Tools 4.3.1
 
 import java.math.BigDecimal;
 import java.util.Date;

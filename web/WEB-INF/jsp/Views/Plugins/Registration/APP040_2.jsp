@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <div class="col-md-1"></div>
                             <!--div class="col-md-2"-->
-                            <label for="lbApplyDateFromSearch" class="col-md-2 control-label no-padding-right">วันที่ขอถอนชื่อ ตั้งแต่
+                            <label for="lbApplyDateFromSearch" class="col-md-2 control-label no-padding-right">วันที่ขอความเห็นชอบ ตั้งแต่
                             </label>
                             <div class="col-md-2">
                                 <div class="input-group input-group-sm">

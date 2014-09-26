@@ -6,6 +6,7 @@
 package com.itos.util;
 
 import java.util.Date;
+import org.apache.commons.lang3.text.WordUtils;
 
 /**
  *
@@ -39,5 +40,20 @@ public class MiscUtil {
             return null;
         }
         return DateUtil.String2Date(value, stringFormat);
+    }
+
+    public static String getParameter(String value) {
+        String parameter = "";
+        value = value.trim();
+        int point = value.indexOf(".");
+        parameter = value.substring(point + 1, value.length());
+        if (value.contains("_")) {
+            String str = WordUtils.capitalizeFully(parameter, '_');
+            String str2 = str.replaceAll("_", "");
+            String str3 = str2.substring(0, 1).toLowerCase() + str2.substring(1, str2.length());
+            return str3;
+        } else {
+            return parameter;
+        }
     }
 }

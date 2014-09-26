@@ -19,12 +19,6 @@ public class JsonBank {
 
     public static Bank JSONDeserializer(String json, String stringDateFormat) throws IOException {
         Bank bank = new Bank();
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            bank = mapper.readValue(json, Bank.class);
-//        } catch (IOException ex) {
-//            throw ex;
-//        }
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject = JSONObject.fromObject(json);

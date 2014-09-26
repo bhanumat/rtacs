@@ -6,6 +6,7 @@
 package com.itos.util.Hibernate;
 
 import com.itos.util.DateUtil;
+import com.itos.util.MiscUtil;
 import com.itos.util.jqGrid.Condition;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.Paging;
@@ -15,8 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import javassist.bytecode.analysis.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -29,7 +32,8 @@ public class CommandQuery {
     private static final Locale ENG_LOCALE = new Locale("en", "EN");
     private static final SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", ENG_LOCALE);
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", ENG_LOCALE);
-    
+    private static final String stringDateFormat = "yyyy-MM-dd";
+
     /*
      * Command HQL query count rows. LoadDetailByObject
      * Set paging start and stop.
@@ -68,7 +72,101 @@ public class CommandQuery {
             query.setMaxResults(endIndex);
             if (!listWhereField.isEmpty()) {
                 for (WhereField whereField : listWhereField) {
-                    if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
+                    if (CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                        String[] tempDate = whereField.getSearchValue().toString().split(",");
+                        String beginDate = "";
+                        String endDate = "";
+                        if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate("");
+                        } else {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate(tempDate[1]);
+                        }
+                        if (!"".equals(beginDate)) {
+                            query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                        } else {
+                            query.setDate("beginDate", null);
+                        }
+                        if (!"".equals(endDate)) {
+                            query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                        } else {
+                            query.setDate("endDate", null);
+                        }
+                    } else if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
+                        if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            if (whereField.getSearchValue().toString().length() == 1) {
+                                query.setCharacter(whereField.getSearchField(), whereField.getSearchValue().toString().charAt(0));
+                            } else {
+                                query.setParameter(whereField.getSearchField(), whereField.getSearchValue());
+                            }
+                        } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            query.setInteger(whereField.getSearchField(), null == whereField.getSearchValue() ? 0 : Integer.valueOf(whereField.getSearchValue().toString()));
+                        } else {
+                            query.setParameter(whereField.getSearchField(), whereField.getSearchValue());
+                        }
+                    } else {
+                        if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            if (whereField.getSearchValue().toString().length() == 1) {
+                                if (whereField.getSearchValue().toString().length() == 1) {
+                                    query.setCharacter(whereField.getSearchField(), whereField.getSearchValue().toString().charAt(0));
+                                } else {
+                                    query.setParameter(whereField.getSearchField(), whereField.getSearchValue());
+                                }
+                            } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(whereField.getSearchDataType())) {
+                                query.setInteger(whereField.getSearchField(), null == whereField.getSearchValue() ? 0 : Integer.valueOf(whereField.getSearchValue().toString()));
+                            } else {
+                                query.setParameter(whereField.getSearchField(), whereField.getSearchValue());
+                            }
+                        } else {
+                            query.setParameter(whereField.getSearchField(), "%" + whereField.getSearchValue() + "%");
+                        }
+                    }
+                }
+            }
+        } catch (HibernateException exception) {
+            throw exception;
+        } finally {
+            hql = null;
+        }
+        return query;
+    }
+
+    /*
+     * Command HQL query count rows.
+     */
+    public static SQLQuery CreateQuery(SessionFactory sessionFactory, List<WhereField> listWhereField, int startIndex, int endIndex, StringBuilder hql) {
+        int iCount = 0;
+
+        SQLQuery query;
+        try {
+            query = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
+            query.setFirstResult(startIndex);
+            query.setMaxResults(endIndex);
+            if (!listWhereField.isEmpty()) {
+                for (WhereField whereField : listWhereField) {
+                    if (CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                        String[] tempDate = whereField.getSearchValue().toString().split(",");
+                        String beginDate = "";
+                        String endDate = "";
+                        if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate("");
+                        } else {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate(tempDate[1]);
+                        }
+                        if (!"".equals(beginDate)) {
+                            query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                        } else {
+                            query.setDate("beginDate", null);
+                        }
+                        if (!"".equals(endDate)) {
+                            query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                        } else {
+                            query.setDate("endDate", null);
+                        }
+                    } else if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
                         if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
                             if (whereField.getSearchValue().toString().length() == 1) {
                                 query.setCharacter(whereField.getSearchField(), whereField.getSearchValue().toString().charAt(0));
@@ -183,7 +281,28 @@ public class CommandQuery {
 //                        query.setParameter("endDate", endDate);
                         System.out.println("in search date ------------------------");
                     } else {
-                        if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
+                        if (CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                            String[] tempDate = whereField.getSearchValue().toString().split(",");
+                            String beginDate = "";
+                            String endDate = "";
+                            if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                                beginDate = formatDate(tempDate[0]);
+                                endDate = formatDate("");
+                            } else {
+                                beginDate = formatDate(tempDate[0]);
+                                endDate = formatDate(tempDate[1]);
+                            }
+                            if (!"".equals(beginDate)) {
+                                query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                            } else {
+                                query.setDate("beginDate", null);
+                            }
+                            if (!"".equals(endDate)) {
+                                query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                            } else {
+                                query.setDate("endDate", null);
+                            }
+                        } else if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
                             if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
                                 if (whereField.getSearchValue().toString().length() == 1) {
                                     query.setCharacter(whereField.getSearchField(), whereField.getSearchValue().toString().charAt(0));
@@ -278,41 +397,57 @@ public class CommandQuery {
                     for (Condition condition : search.getConditions()) {
                         if (null == condition.getJoinType() || condition.getJoinType().isEmpty()) {
                             if (CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
-                                
-                            }else{
-                                if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
-                                    if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
-                                        query.setParameter(condition.getField(), condition.getData());
-                                    } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
-                                        if (condition.getData().length() == 1) {
-                                            query.setCharacter(condition.getField(), condition.getData().charAt(0));
-                                        } else {
-                                            query.setParameter(condition.getField(), condition.getData());
-                                        }
-                                    } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
-                                        query.setInteger(condition.getField(), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
-                                    } else {
-                                        query.setParameter(condition.getField(), condition.getData());
-                                    }
+                                String[] tempDate = condition.getData().split(",");
+                                String beginDate = "";
+                                String endDate = "";
+                                if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate("");
                                 } else {
-                                    if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
-                                        query.setParameter(condition.getField(), "%" + condition.getData() + "%");
-                                    } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
-                                        if (condition.getData().length() == 1) {
-                                            query.setCharacter(condition.getField(), condition.getData().charAt(0));
-                                        } else {
-                                            query.setParameter(condition.getField(), condition.getData());
-                                        }
-                                    } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
-                                        query.setInteger(condition.getField(), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate(tempDate[1]);
+                                }
+                                if (!"".equals(beginDate)) {
+                                    query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                                } else {
+                                    query.setDate("beginDate", null);
+                                }
+                                if (!"".equals(endDate)) {
+                                    query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                                } else {
+                                    query.setDate("endDate", null);
+                                }
+                            } else if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
+                                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setParameter(condition.getField(), condition.getData());
+                                } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
+                                    if (condition.getData().length() == 1) {
+                                        query.setCharacter(condition.getField(), condition.getData().charAt(0));
                                     } else {
-                                        query.setParameter(condition.getField(), "%" + condition.getData() + "%");
+                                        query.setParameter(condition.getField(), condition.getData());
                                     }
+                                } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setInteger(condition.getField(), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                } else {
+                                    query.setParameter(condition.getField(), condition.getData());
+                                }
+                            } else {
+                                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setParameter(condition.getField(), "%" + condition.getData() + "%");
+                                } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
+                                    if (condition.getData().length() == 1) {
+                                        query.setCharacter(condition.getField(), condition.getData().charAt(0));
+                                    } else {
+                                        query.setParameter(condition.getField(), condition.getData());
+                                    }
+                                } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setInteger(condition.getField(), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                } else {
+                                    query.setParameter(condition.getField(), "%" + condition.getData() + "%");
                                 }
                             }
-                        } else {
-                            //query.
                         }
+                        //query.
                     }
                 }
             }
@@ -357,7 +492,7 @@ public class CommandQuery {
                 }
                 iCount++;
             }
-        }else{
+        } else {
             whereQueryControl = true;
         }
 
@@ -390,7 +525,28 @@ public class CommandQuery {
              }*/
             if (!listWhereField.isEmpty()) {
                 for (WhereField whereField : listWhereField) {
-                    if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
+                    if (CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                        String[] tempDate = whereField.getSearchValue().toString().split(",");
+                        String beginDate = "";
+                        String endDate = "";
+                        if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate("");
+                        } else {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate(tempDate[1]);
+                        }
+                        if (!"".equals(beginDate)) {
+                            query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                        } else {
+                            query.setDate("beginDate", null);
+                        }
+                        if (!"".equals(endDate)) {
+                            query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                        } else {
+                            query.setDate("endDate", null);
+                        }
+                    } else if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
                         if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
                             if (whereField.getSearchValue().toString().length() == 1) {
                                 query.setCharacter(whereField.getSearchField(), whereField.getSearchValue().toString().charAt(0));
@@ -439,7 +595,28 @@ public class CommandQuery {
                     search = Search.JSONDeserializer(req.getSearchCommand());
                     for (Condition condition : search.getConditions()) {
                         if (null == condition.getJoinType() || condition.getJoinType().isEmpty()) {
-                            if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
+                            if (CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                String[] tempDate = condition.getData().split(",");
+                                String beginDate = "";
+                                String endDate = "";
+                                if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate("");
+                                } else {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate(tempDate[1]);
+                                }
+                                if (!"".equals(beginDate)) {
+                                    query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                                } else {
+                                    query.setDate("beginDate", null);
+                                }
+                                if (!"".equals(endDate)) {
+                                    query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                                } else {
+                                    query.setDate("endDate", null);
+                                }
+                            } else if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
                                 if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
                                     query.setParameter(condition.getField(), condition.getData());
                                 } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
@@ -481,11 +658,173 @@ public class CommandQuery {
         }
         return query;
     }
+
+    /*
+     * Command HQL query Data. Jqgrid
+     * Set paging start and stop.
+     */
+    public static SQLQuery CreateQuery(SessionFactory sessionFactory, List<WhereField> listWhereField, String commandQuery, JqGridRequest req, Paging paging, StringBuilder hql) {
+        boolean isSearch = false;
+        String whereQuery = "";
+        Search search;
+        int iCount = 0;
+        Boolean whereQueryControl = false;
+
+        isSearch = req.isSearch();
+
+        SQLQuery query;
+        try {
+            query = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
+            query.setFirstResult(paging.getStartIndex());
+            query.setMaxResults(paging.getEndIndex());
+            /*
+             if (isSearch) {
+             if (CommandConstant.QueryEqual.equalsIgnoreCase(req.getSearchOper())) {
+             query.setParameter(req.getSearchField(), req.getSearchString());
+             } else {
+             query.setParameter(req.getSearchField(), "%" + req.getSearchString() + "%");
+             }
+             }*/
+            if (!listWhereField.isEmpty()) {
+                for (WhereField whereField : listWhereField) {
+                    if (CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                        String[] tempDate = whereField.getSearchValue().toString().split(",");
+                        String beginDate = "";
+                        String endDate = "";
+                        if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate("");
+                        } else {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate(tempDate[1]);
+                        }
+                        if (!"".equals(beginDate)) {
+                            query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                        } else {
+                            query.setDate("beginDate", null);
+                        }
+                        if (!"".equals(endDate)) {
+                            query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                        } else {
+                            query.setDate("endDate", null);
+                        }
+                    } else if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
+                        if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            if (whereField.getSearchValue().toString().length() == 1) {
+                                query.setCharacter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue().toString().charAt(0));
+                            } else {
+                                query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue());
+                            }
+                        } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            query.setInteger(MiscUtil.getParameter(whereField.getSearchField()), null == whereField.getSearchValue() ? 0 : Integer.valueOf(whereField.getSearchValue().toString()));
+                        } else {
+                            query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue());
+                        }
+                    } else {
+                        if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            if (whereField.getSearchValue().toString().length() == 1) {
+                                if (whereField.getSearchValue().toString().length() == 1) {
+                                    query.setCharacter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue().toString().charAt(0));
+                                } else {
+                                    query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue());
+                                }
+                            } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(whereField.getSearchDataType())) {
+                                query.setInteger(MiscUtil.getParameter(whereField.getSearchField()), null == whereField.getSearchValue() ? 0 : Integer.valueOf(whereField.getSearchValue().toString()));
+                            } else {
+                                query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue());
+                            }
+                        } else {
+                            query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), "%" + whereField.getSearchValue() + "%");
+                        }
+                    }
+                }
+            }
+
+            if (isSearch) {
+                if (null != req.getSearchField()
+                        && null != req.getSearchOper()
+                        && null != req.getSearchString()
+                        && !req.getSearchField().isEmpty()
+                        && !req.getSearchOper().isEmpty()
+                        && !req.getSearchString().isEmpty()) {
+                    if (CommandConstant.QueryEqual.equalsIgnoreCase(req.getSearchOper())) {
+                        query.setParameter(req.getSearchField(), req.getSearchString());
+                    } else {
+                        query.setParameter(req.getSearchField(), "%" + req.getSearchString() + "%");
+                    }
+                } else if (null != req.getSearchCommand() && !req.getSearchCommand().isEmpty()) {
+                    search = new Search();
+                    search = Search.JSONDeserializer(req.getSearchCommand());
+                    for (Condition condition : search.getConditions()) {
+                        if (null == condition.getJoinType() || condition.getJoinType().isEmpty()) {
+                            if (CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                String[] tempDate = condition.getData().split(",");
+                                String beginDate = "";
+                                String endDate = "";
+                                if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate("");
+                                } else {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate(tempDate[1]);
+                                }
+                                if (!"".equals(beginDate)) {
+                                    query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                                } else {
+                                    query.setDate("beginDate", null);
+                                }
+                                if (!"".equals(endDate)) {
+                                    query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                                } else {
+                                    query.setDate("endDate", null);
+                                }
+                            } else if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
+                                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setParameter(MiscUtil.getParameter(condition.getField()), condition.getData());
+                                } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
+                                    if (condition.getData().length() == 1) {
+                                        query.setCharacter(MiscUtil.getParameter(condition.getField()), condition.getData().charAt(0));
+                                    } else {
+                                        query.setParameter(MiscUtil.getParameter(condition.getField()), condition.getData());
+                                    }
+                                } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setInteger(MiscUtil.getParameter(condition.getField()), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                } else {
+                                    query.setParameter(MiscUtil.getParameter(condition.getField()), condition.getData());
+                                }
+                            } else {
+                                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setParameter(MiscUtil.getParameter(condition.getField()), "%" + condition.getData() + "%");
+                                } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
+                                    if (condition.getData().length() == 1) {
+                                        query.setCharacter(MiscUtil.getParameter(condition.getField()), condition.getData().charAt(0));
+                                    } else {
+                                        query.setParameter(MiscUtil.getParameter(condition.getField()), condition.getData());
+                                    }
+                                } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setInteger(MiscUtil.getParameter(condition.getField()), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                } else {
+                                    query.setParameter(MiscUtil.getParameter(condition.getField()), "%" + condition.getData() + "%");
+                                }
+                            }
+                        } else {
+                            //query.
+                        }
+                    }
+                }
+            }
+        } catch (HibernateException exception) {
+            throw exception;
+        } finally {
+            hql = null;
+        }
+        return query;
+    }
+
     /*
      * Command HQL query count rows. Jqgrid
      * Set paging start and stop.
      */
-
     public static Paging CountRows(SessionFactory sessionFactory, JqGridRequest req, String objectTable) {
         boolean isSearch = false;
         StringBuilder hql = new StringBuilder();
@@ -509,7 +848,7 @@ public class CommandQuery {
         Paging paging = new Paging();
         Query query;
         try {
-            System.out.print(hql.toString());
+            //System.out.print(hql.toString());
             query = sessionFactory.getCurrentSession().createQuery(hql.toString());
             if (isSearch) {
                 if (null != req.getSearchField()
@@ -529,36 +868,53 @@ public class CommandQuery {
                     for (Condition condition : search.getConditions()) {
                         if (null == condition.getJoinType() || condition.getJoinType().isEmpty()) {
                             if (CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
-                                
-                            }else{
-                                if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
-                                    if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
-                                        query.setParameter(condition.getField(), condition.getData());
-                                    } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
-                                        if (condition.getData().length() == 1) {
-                                            query.setCharacter(condition.getField(), condition.getData().charAt(0));
-                                        } else {
-                                            query.setParameter(condition.getField(), condition.getData());
-                                        }
-                                    } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
-                                        query.setInteger(condition.getField(), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
-                                    } else {
-                                        query.setParameter(condition.getField(), condition.getData());
-                                    }
+                                String[] tempDate = condition.getData().split(",");
+                                String beginDate = "";
+                                String endDate = "";
+                                if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate("");
                                 } else {
-                                    if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
-                                        query.setParameter(condition.getField(), "%" + condition.getData() + "%");
-                                    } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
-                                        if (condition.getData().length() == 1) {
-                                            query.setCharacter(condition.getField(), condition.getData().charAt(0));
-                                        } else {
-                                            query.setParameter(condition.getField(), condition.getData());
-                                        }
-                                    } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
-                                        query.setInteger(condition.getField(), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate(tempDate[1]);
+                                }
+                                if (!"".equals(beginDate)) {
+                                    query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                                } else {
+                                    query.setDate("beginDate", null);
+                                }
+                                if (!"".equals(endDate)) {
+                                    query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                                } else {
+                                    query.setDate("endDate", null);
+                                }
+                            } else if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
+                                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setParameter(condition.getField(), condition.getData());
+                                } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
+                                    if (condition.getData().length() == 1) {
+                                        query.setCharacter(condition.getField(), condition.getData().charAt(0));
                                     } else {
-                                        query.setParameter(condition.getField(), "%" + condition.getData() + "%");
+                                        query.setParameter(condition.getField(), condition.getData());
                                     }
+                                } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setInteger(condition.getField(), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                } else {
+                                    query.setParameter(condition.getField(), condition.getData());
+                                }
+                            } else {
+                                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setParameter(condition.getField(), "%" + condition.getData() + "%");
+                                } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
+                                    if (condition.getData().length() == 1) {
+                                        query.setCharacter(condition.getField(), condition.getData().charAt(0));
+                                    } else {
+                                        query.setParameter(condition.getField(), condition.getData());
+                                    }
+                                } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setInteger(condition.getField(), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                } else {
+                                    query.setParameter(condition.getField(), "%" + condition.getData() + "%");
                                 }
                             }
                         }
@@ -615,7 +971,7 @@ public class CommandQuery {
                 }
                 iCount++;
             }
-        }else{
+        } else {
             whereQueryControl = true;
         }
 
@@ -630,11 +986,32 @@ public class CommandQuery {
         Paging paging = new Paging();
         Query query;
         try {
-            System.out.print(hql.toString());
+            //System.out.print(hql.toString());
             query = sessionFactory.getCurrentSession().createQuery(hql.toString());
             if (!listWhereField.isEmpty()) {
                 for (WhereField whereField : listWhereField) {
-                    if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
+                    if (CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                        String[] tempDate = whereField.getSearchValue().toString().split(",");
+                        String beginDate = "";
+                        String endDate = "";
+                        if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate("");
+                        } else {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate(tempDate[1]);
+                        }
+                        if (!"".equals(beginDate)) {
+                            query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                        } else {
+                            query.setDate("beginDate", null);
+                        }
+                        if (!"".equals(endDate)) {
+                            query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                        } else {
+                            query.setDate("endDate", null);
+                        }
+                    } else if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
                         if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
                             if (whereField.getSearchValue().toString().length() == 1) {
                                 query.setCharacter(whereField.getSearchField(), whereField.getSearchValue().toString().charAt(0));
@@ -682,7 +1059,28 @@ public class CommandQuery {
                     search = Search.JSONDeserializer(req.getSearchCommand());
                     for (Condition condition : search.getConditions()) {
                         if (null == condition.getJoinType() || condition.getJoinType().isEmpty()) {
-                            if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
+                            if (CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                String[] tempDate = condition.getData().split(",");
+                                String beginDate = "";
+                                String endDate = "";
+                                if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate("");
+                                } else {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate(tempDate[1]);
+                                }
+                                if (!"".equals(beginDate)) {
+                                    query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                                } else {
+                                    query.setDate("beginDate", null);
+                                }
+                                if (!"".equals(endDate)) {
+                                    query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                                } else {
+                                    query.setDate("endDate", null);
+                                }
+                            } else if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
                                 if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
                                     query.setParameter(condition.getField(), condition.getData());
                                 } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
@@ -731,11 +1129,170 @@ public class CommandQuery {
     }
 
     /*
+     * Command HQL query count rows. Jqgrid
+     * Set paging start and stop.
+     */
+    public static Paging CountRows(SessionFactory sessionFactory, List<WhereField> listWhereField, String commandQuery, JqGridRequest req, StringBuilder hql) {
+        boolean isSearch = false;
+        String whereQuery = "";
+        Search search;
+        int iCount = 0;
+        Boolean whereQueryControl = false;
+
+        isSearch = req.isSearch();
+
+        Paging paging = new Paging();
+        SQLQuery query;
+        try {
+            //System.out.print(hql.toString());
+            query = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
+            if (!listWhereField.isEmpty()) {
+                for (WhereField whereField : listWhereField) {
+                    if (CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                        String[] tempDate = whereField.getSearchValue().toString().split(",");
+                        String beginDate = "";
+                        String endDate = "";
+                        if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(whereField.getSearchOper())) {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate("");
+                        } else {
+                            beginDate = formatDate(tempDate[0]);
+                            endDate = formatDate(tempDate[1]);
+                        }
+                        if (!"".equals(beginDate)) {
+                            query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                        } else {
+                            query.setDate("beginDate", null);
+                        }
+                        if (!"".equals(endDate)) {
+                            query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                        } else {
+                            query.setDate("endDate", null);
+                        }
+                    } else if (CommandConstant.QueryEqual.equalsIgnoreCase(whereField.getSearchOper())) {
+                        if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            if (whereField.getSearchValue().toString().length() == 1) {
+                                query.setCharacter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue().toString().charAt(0));
+                            } else {
+                                query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue());
+                            }
+                        } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            query.setInteger(MiscUtil.getParameter(whereField.getSearchField()), null == whereField.getSearchValue() ? 0 : Integer.valueOf(whereField.getSearchValue().toString()));
+                        } else {
+                            query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue());
+                        }
+                    } else {
+                        if (CommandConstant.DataTypeChar.equalsIgnoreCase(whereField.getSearchDataType())) {
+                            if (whereField.getSearchValue().toString().length() == 1) {
+                                if (whereField.getSearchValue().toString().length() == 1) {
+                                    query.setCharacter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue().toString().charAt(0));
+                                } else {
+                                    query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue());
+                                }
+                            } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(whereField.getSearchDataType())) {
+                                query.setInteger(MiscUtil.getParameter(whereField.getSearchField()), null == whereField.getSearchValue() ? 0 : Integer.valueOf(whereField.getSearchValue().toString()));
+                            } else {
+                                query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), whereField.getSearchValue());
+                            }
+                        } else {
+                            query.setParameter(MiscUtil.getParameter(whereField.getSearchField()), "%" + whereField.getSearchValue() + "%");
+                        }
+                    }
+                }
+            }
+            if (isSearch) {
+                if (null != req.getSearchField()
+                        && null != req.getSearchOper()
+                        && null != req.getSearchString()
+                        && !req.getSearchField().isEmpty()
+                        && !req.getSearchOper().isEmpty()
+                        && !req.getSearchString().isEmpty()) {
+                    if (CommandConstant.QueryEqual.equalsIgnoreCase(req.getSearchOper())) {
+                        query.setParameter(req.getSearchField(), req.getSearchString());
+                    } else {
+                        query.setParameter(req.getSearchField(), "%" + req.getSearchString() + "%");
+                    }
+                } else if (null != req.getSearchCommand() && !req.getSearchCommand().isEmpty()) {
+                    search = new Search();
+                    search = Search.JSONDeserializer(req.getSearchCommand());
+                    for (Condition condition : search.getConditions()) {
+                        if (null == condition.getJoinType() || condition.getJoinType().isEmpty()) {
+                            if (CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                String[] tempDate = condition.getData().split(",");
+                                String beginDate = "";
+                                String endDate = "";
+                                if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate("");
+                                } else {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate(tempDate[1]);
+                                }
+                                if (!"".equals(beginDate)) {
+                                    query.setDate("beginDate", DateUtil.String2Date(beginDate, stringDateFormat));
+                                } else {
+                                    query.setDate("beginDate", null);
+                                }
+                                if (!"".equals(endDate)) {
+                                    query.setDate("endDate", DateUtil.String2Date(endDate, stringDateFormat));
+                                } else {
+                                    query.setDate("endDate", null);
+                                }
+                            } else if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
+                                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setParameter(MiscUtil.getParameter(condition.getField()), condition.getData());
+                                } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
+                                    if (condition.getData().length() == 1) {
+                                        query.setCharacter(MiscUtil.getParameter(condition.getField()), condition.getData().charAt(0));
+                                    } else {
+                                        query.setParameter(MiscUtil.getParameter(condition.getField()), condition.getData());
+                                    }
+                                } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setInteger(MiscUtil.getParameter(condition.getField()), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                } else {
+                                    query.setParameter(MiscUtil.getParameter(condition.getField()), condition.getData());
+                                }
+                            } else {
+                                if (CommandConstant.DataTypeVarchar.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setParameter(MiscUtil.getParameter(condition.getField()), "%" + condition.getData() + "%");
+                                } else if (CommandConstant.DataTypeChar.equalsIgnoreCase(condition.getDataType())) {
+                                    if (condition.getData().length() == 1) {
+                                        query.setCharacter(MiscUtil.getParameter(condition.getField()), condition.getData().charAt(0));
+                                    } else {
+                                        query.setParameter(MiscUtil.getParameter(condition.getField()), condition.getData());
+                                    }
+                                } else if (CommandConstant.DataTypeInteger.equalsIgnoreCase(condition.getDataType())) {
+                                    query.setInteger(MiscUtil.getParameter(condition.getField()), null == condition.getData() ? 0 : Integer.valueOf(condition.getData().toString()));
+                                } else {
+                                    query.setParameter(MiscUtil.getParameter(condition.getField()), "%" + condition.getData() + "%");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Number iRecords = (Number) query.uniqueResult();
+            int startIndex = (req.getPage() - 1) * req.getRows();
+            int endIndex = Math.min(startIndex + req.getRows(), iRecords.intValue());
+            paging.setStartIndex(startIndex);
+            paging.setEndIndex(endIndex);
+            paging.setiRecords(iRecords.intValue());
+        } catch (HibernateException exception) {
+            throw exception;
+        } finally {
+            hql = null;
+        }
+        return paging;
+    }
+
+    /*
      * Where Query Data.
      */
-    private static String WhereQuery(JqGridRequest req, Boolean openWhere, String command) {
+    public static String WhereQuery(JqGridRequest req, Boolean openWhere, String command) {
         StringBuilder hql = new StringBuilder();
         Search search;
+        Boolean isFirst = true;
         if (req.isSearch()) {
             //System.out.print(req.getSearchCommand());
             if (null != req.getSearchField()
@@ -747,62 +1304,69 @@ public class CommandQuery {
                 hql.append(" ");
                 if (openWhere) {
                     hql.append(CommandConstant.QueryWhere);
-                } else {
-                    hql.append(command);
                 }
-                hql.append(" ");
                 if (CommandConstant.QueryBetween.equalsIgnoreCase(req.getSearchOper())) {
+                    hql.append(command);
+                    hql.append(" ");
                     hql.append(req.getSearchField()).append(" between ");
                     hql.append(":beginDate and :endDate");
                 } else {
+                    hql.append(command);
+                    hql.append(" ");
                     if (CommandConstant.QueryEqual.equalsIgnoreCase(req.getSearchOper())) {
-                        hql.append(req.getSearchField()).append(" = :").append(req.getSearchField());
+                        hql.append(req.getSearchField()).append(" = :").append(MiscUtil.getParameter(req.getSearchField()));
                     } else {
-                        hql.append(req.getSearchField()).append(" LIKE :").append(req.getSearchField());
+                        hql.append(req.getSearchField()).append(" LIKE :").append(MiscUtil.getParameter(req.getSearchField()));
                     }
                 }
             } else if (null != req.getSearchCommand() && !req.getSearchCommand().isEmpty()) {
                 search = new Search();
                 search = Search.JSONDeserializer(req.getSearchCommand());
-                hql.append(" ");
-                if (openWhere) {
-                    hql.append(CommandConstant.QueryWhere);
-                } else {
-                    hql.append(command);
-                }
-                hql.append(" ");
-                for (Condition condition : search.getConditions()) {
-                    if (null == condition.getJoinType() || condition.getJoinType().isEmpty()) {
-                        if (CommandConstant.QueryAND.equalsIgnoreCase(condition.getGroupOp())) {
-                            hql.append(" ");
-                            hql.append(CommandConstant.QueryAND);
-                        } else if (CommandConstant.QueryOR.equalsIgnoreCase(condition.getGroupOp())) {
-                            hql.append(" ");
-                            hql.append(CommandConstant.QueryOR);
-                        } else {
-                            hql.append("");
-                        }
-                        hql.append(" ");
-                        if (CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
-                            String[] tempDate = condition.getData().split(",");
-                            String beginDate  = "";
-                            String endDate    = "";
-                            if(tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())){
-                                beginDate = formatDate(tempDate[0]);
-                                endDate = formatDate("");
-                            }else{
-                                beginDate = formatDate(tempDate[0]);
-                                endDate = formatDate(tempDate[1]);
-                            }
-                            hql.append(condition.getField());
-                            hql.append(" between ");
-                            hql.append(" \'").append(beginDate).append("\' ");
-                            hql.append(" and \'").append(endDate).append("\' ");
-                        }else{
-                            if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
-                                hql.append(condition.getField()).append(" = :").append(condition.getField());
+                if (!search.getConditions().isEmpty() && 0 != search.getConditions().size()) {
+                    hql.append(" ");
+                    if (openWhere) {
+                        hql.append(CommandConstant.QueryWhere);
+                    } else {
+                        hql.append(command);
+                    }
+                    hql.append(" ");
+                    for (Condition condition : search.getConditions()) {
+                        if (null == condition.getJoinType() || condition.getJoinType().isEmpty()) {
+                            if (!isFirst) {
+                                if (CommandConstant.QueryAND.equalsIgnoreCase(condition.getGroupOp())) {
+                                    hql.append(" ");
+                                    hql.append(CommandConstant.QueryAND);
+                                } else if (CommandConstant.QueryOR.equalsIgnoreCase(condition.getGroupOp())) {
+                                    hql.append(" ");
+                                    hql.append(CommandConstant.QueryOR);
+                                } else {
+                                    hql.append("");
+                                }
+                                hql.append(" ");
                             } else {
-                                hql.append(condition.getField()).append(" LIKE :").append(condition.getField());
+                                isFirst = false;
+                            }
+                            if (CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                String[] tempDate = condition.getData().split(",");
+                                String beginDate = "";
+                                String endDate = "";
+                                if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate("");
+                                } else {
+                                    beginDate = formatDate(tempDate[0]);
+                                    endDate = formatDate(tempDate[1]);
+                                }
+                                hql.append(condition.getField());
+                                hql.append(" between :beginDate and :endDate");
+                                //hql.append(" \'").append(beginDate).append("\' ");
+                                //hql.append(" and \'").append(endDate).append("\' ");
+                            } else {
+                                if (CommandConstant.QueryEqual.equalsIgnoreCase(condition.getOp())) {
+                                    hql.append(condition.getField()).append(" = :").append(MiscUtil.getParameter(condition.getField()));
+                                } else {
+                                    hql.append(condition.getField()).append(" LIKE :").append(MiscUtil.getParameter(condition.getField()));
+                                }
                             }
                         }
                     }
@@ -951,7 +1515,7 @@ public class CommandQuery {
         Paging paging = new Paging();
         Query query;
         try {
-            System.out.print(hql.toString());
+            //System.out.print(hql.toString());
             query = sessionFactory.getCurrentSession().createQuery(hql.toString());
 
             Number iRecords = (Number) query.uniqueResult();
@@ -979,7 +1543,7 @@ public class CommandQuery {
 
         Query query;
         try {
-            System.out.print(hql.toString());
+            //System.out.print(hql.toString());
             query = sessionFactory.getCurrentSession().createQuery(hql.toString());
             query.setFirstResult(paging.getStartIndex());
             query.setMaxResults(paging.getEndIndex());
@@ -990,21 +1554,44 @@ public class CommandQuery {
         }
         return query;
     }
-    
-    private static String formatDate(String date){
-        
-        if(date.isEmpty()){
+
+    private static String formatDate(String date) {
+
+        if (date.isEmpty()) {
             Date currentDate = DateUtil.getCurrentDate();
             String result = format.format(currentDate);
             return result;
         }
         try {
-            Date tempDate =  sf.parse(date);
+            Date tempDate = sf.parse(date);
             String result = format.format(tempDate);
             return result;
         } catch (ParseException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
         return "";
     }
+    
+    public static boolean updateQuery(SessionFactory sessionFactory, StringBuilder hql,Integer approved,Date approvedDate,String approvedName,Integer titleameHistoryId) {
+        Session session = sessionFactory.getCurrentSession();
+        boolean chekSuccess = false;
+        try {
+            System.out.println("updateQuery");
+            Query query = session.createQuery(hql.toString());
+            System.out.println("createQuery");
+            query.setParameter("approved", approved);
+            query.setParameter("approvedDate", approvedDate);
+            query.setParameter("approvedBy", approvedName);
+            query.setParameter("titleameHistoryId", titleameHistoryId);
+            int result = query.executeUpdate();
+            System.out.println("executeUpdate");
+            if(result > 0){
+                chekSuccess = true;
+            }
+        } catch (HibernateException ex) {
+            throw ex;
+        }
+        return chekSuccess;
+    }
+    
 }

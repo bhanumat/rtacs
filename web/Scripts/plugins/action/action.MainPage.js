@@ -1,7 +1,7 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var responseId = '#main-page-content-loading';
-    var controlButton = function(element) {
-        $('ul li').each(function(i)
+    var controlButton = function (element) {
+        $('ul li').each(function (i)
         {
             $(this).removeClass();
             $(this).addClass('hover');
@@ -11,7 +11,7 @@ $(document).ready(function() {
     };
 
     /*==============================Security==================================*/
-    $("#menuGroups").click(function(e) {
+    $("#menuGroups").click(function (e) {
         controlButton('menuAdministrator');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Security/Groups.htm';
@@ -23,7 +23,7 @@ $(document).ready(function() {
 
     /*=============================/Security==================================*/
 
-    $("#menuMembershipCard").click(function(e) {
+    $("#menuMembershipCard").click(function (e) {
         var typeAction = 'GET';
         var urlAction = 'Home.html';
         var objDataAction = {};
@@ -32,7 +32,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuChangeName").click(function() {
+    $("#menuChangeName").click(function () {
         var typeAction = 'GET';
         var urlAction = '../Plugins/ChangeName.html';
         var objDataAction = {};
@@ -42,9 +42,32 @@ $(document).ready(function() {
     });
     /*=============================End /Security==================================*/
 
+
+    /*=============================/QRY==================================*/
+    $("#menuQRY010").click(function (e) {
+        controlButton('menuQueryData');
+        var typeAction = 'GET';
+        var urlAction = rootPath + '/Plugins/QueryData/QRY010.htm';
+        var objDataAction = {};
+        var dataTypeAction = 'html';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+        e.preventDefault();
+    });
+
+    $("#menuQRY020").click(function (e) {
+        controlButton('menuQueryData');
+        var typeAction = 'GET';
+        var urlAction = rootPath + '/Plugins/QueryData/QRY020.htm';
+        var objDataAction = {};
+        var dataTypeAction = 'html';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+        e.preventDefault();
+    });
+    /*=============================End /QRY==================================*/
+
     /*=============================/App==================================*/
 
-    $("#menuAPP010").click(function(e) {
+    $("#menuAPP010").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP010.htm';
@@ -54,7 +77,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP010_2").click(function(e) {
+    $("#menuAPP010_2").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP010_2_New.htm';
@@ -64,7 +87,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP031").click(function(e) {
+    $("#menuAPP031").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP031.htm';
@@ -74,7 +97,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP040").click(function(e) {
+    $("#menuAPP040").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP040.htm';
@@ -84,7 +107,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP041").click(function(e) {
+    $("#menuAPP041").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP041.htm';
@@ -94,7 +117,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP043").click(function(e) {
+    $("#menuAPP043").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP043.htm';
@@ -104,7 +127,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP044").click(function(e) {
+    $("#menuAPP044").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP044.htm';
@@ -114,7 +137,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP045").click(function(e) {
+    $("#menuAPP045").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP045.htm';
@@ -124,7 +147,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP051").click(function(e) {
+    $("#menuAPP051").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP051.htm';
@@ -134,7 +157,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP052").click(function(e) {
+    $("#menuAPP052").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP052.htm';
@@ -144,7 +167,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuAPP101").click(function(e) {
+    $("#menuAPP101").click(function (e) {
         controlButton('menuRegistration');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Registration/APP101.htm';
@@ -155,6 +178,7 @@ $(document).ready(function() {
     });
 
     /*=============================End /App==================================*/
+
     /*=============================/Pay==================================*/
     $("#menuPAY010").click(function(e) {
         controlButton('menuPayment');
@@ -177,7 +201,7 @@ $(document).ready(function() {
     });
 
 
-    $("#menuPAY020").click(function(e) {
+    $("#menuPAY020").click(function (e) {
         controlButton('menuPayment');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Payment/PAY020.htm';
@@ -187,7 +211,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuPAY020_1").click(function(e) {
+    $("#menuPAY020_1").click(function (e) {
         controlButton('menuPayment');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Payment/PAY020_1.htm';
@@ -196,11 +220,22 @@ $(document).ready(function() {
         $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
         e.preventDefault();
     });
+
+    $("#menuPAY021").click(function (e) {
+        controlButton('menuPayment');
+        var typeAction = 'GET';
+        var urlAction = rootPath + '/Plugins/Payment/PAY021.htm';
+        var objDataAction = {};
+        var dataTypeAction = 'html';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+        e.preventDefault();
+    });
+
     /*=============================End /Pay==================================*/
 
     /*=============================/MasterData==================================*/
 
-    $("#menuMAS010").click(function(e) {
+    $("#menuMAS010").click(function (e) {
         controlButton('menuMasterData');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/MasterData/MAS010.htm';
@@ -210,7 +245,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuMAS020").click(function(e) {
+    $("#menuMAS020").click(function (e) {
         controlButton('menuMasterData');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/MasterData/MAS020.htm';
@@ -220,7 +255,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuMAS030").click(function(e) {
+    $("#menuMAS030").click(function (e) {
         controlButton('menuMasterData');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/MasterData/MAS030.htm';
@@ -230,7 +265,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuMAS040").click(function(e) {
+    $("#menuMAS040").click(function (e) {
         controlButton('menuMasterData');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/MasterData/MAS040.htm';
@@ -240,7 +275,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuMAS050").click(function(e) {
+    $("#menuMAS050").click(function (e) {
         controlButton('menuMasterData');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/MasterData/MAS050.htm';
@@ -250,7 +285,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuMAS060").click(function(e) {
+    $("#menuMAS060").click(function (e) {
         controlButton('menuMasterData');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/MasterData/MAS060.htm';
@@ -260,7 +295,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $("#menuMAS080").click(function(e) {
+    $("#menuMAS080").click(function (e) {
         controlButton('menuMasterData');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/MasterData/MAS080.htm';
@@ -272,7 +307,31 @@ $(document).ready(function() {
 
     /*=============================End /MasterData==================================*/
 
-    $("#menufmViewUserMember").click(function(e) {
+    /*=============================/ChangeData==================================*/
+    
+    $("#menuCHT010").click(function (e) {
+        controlButton('menuChanges');
+        var typeAction = 'GET';
+        var urlAction = rootPath + '/Plugins/ChangeData/CHT010.htm';
+        var objDataAction = {};
+        var dataTypeAction = 'html';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+        e.preventDefault();
+    });
+    
+    $("#menuCHT030").click(function (e) {
+        controlButton('menuChanges');
+        var typeAction = 'GET';
+        var urlAction = rootPath + '/Plugins/ChangeData/CHT030.htm';
+        var objDataAction = {};
+        var dataTypeAction = 'html';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+        e.preventDefault();
+    });
+    
+    /*=============================End /ChangeData==================================*/
+    
+    $("#menufmViewUserMember").click(function (e) {
         var typeAction = 'GET';
         var urlAction = '../Plugins/fmViewUserMember.html';
         var objDataAction = {};
@@ -281,7 +340,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    var init = function() {
+    var init = function () {
         var typeAction = 'GET';
         var urlAction = 'Home.html';
         var objDataAction = {};

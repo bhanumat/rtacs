@@ -50,8 +50,8 @@ $(function() {
                     },
                     stringLength: {
                         min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        max: 100,
+                        message: 'The title must be less than 100 characters long'
                     }
                 }
             },
@@ -62,8 +62,8 @@ $(function() {
                     },
                     stringLength: {
                         min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        max: 100,
+                        message: 'The title must be less than 100 characters long'
                     }
                 }
             },
@@ -74,8 +74,8 @@ $(function() {
                     },
                     stringLength: {
                         min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        max: 100,
+                        message: 'The title must be less than 100 characters long'
                     }
                 }
             },
@@ -86,8 +86,8 @@ $(function() {
                     },
                     stringLength: {
                         min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        max: 100,
+                        message: 'The title must be less than 100 characters long'
                     }
                 }
             },
@@ -105,8 +105,8 @@ $(function() {
                     },
                     stringLength: {
                         min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        max: 10,
+                        message: 'The title must be less than 10 characters long'
                     }
                 }
             },
@@ -117,8 +117,8 @@ $(function() {
                     },
                     stringLength: {
                         min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        max: 100,
+                        message: 'The title must be less than 100 characters long'
                     }
                 }
             },
@@ -129,8 +129,8 @@ $(function() {
                     },
                     stringLength: {
                         min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
+                        max: 100,
+                        message: 'The title must be less than 100 characters long'
                     }
                 }
             },

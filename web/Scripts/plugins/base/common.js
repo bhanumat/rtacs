@@ -1,7 +1,7 @@
-﻿$(document).ready(function() {
+﻿$(document).ready(function () {
     //override dialog's title function to allow for HTML titles
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
-        _title: function(title) {
+        _title: function (title) {
             var $title = this.options.title || '&nbsp;';
             if (("title_html" in this.options) && this.options.title_html === true)
                 title.html($title);
@@ -10,7 +10,7 @@
         }
     }));
 
-    $.fn.MessageError = function(XMLHttpRequest, textStatus, errorThrown) {
+    $.fn.MessageError = function (XMLHttpRequest, textStatus, errorThrown) {
         if (XMLHttpRequest.status === 400) {
             $.fn.ValidateAjaxRequired(XMLHttpRequest.responseJSON);
         } else if (XMLHttpRequest.status === 500) {
@@ -19,19 +19,19 @@
             if (typeof (XMLHttpRequest.status) !== 'undefined' || typeof (XMLHttpRequest.statusText)) {
                 var msg = XMLHttpRequest.status + " : " + XMLHttpRequest.statusText;
                 $.fn.DialogDanger(msg);
-            }else{
+            } else {
                 $.fn.DialogDanger("Sorry, Not processing your request.");
             }
         }
     };
 
-    $.fn.ValidateAjaxRequired = function(message) {
+    $.fn.ValidateAjaxRequired = function (message) {
         var msg = "";
         var msgKey = "";
         var msgError = "";
-        $.each(message, function(index, object) {
+        $.each(message, function (index, object) {
             msgKey = object.key;
-            $.each(object.errors, function(index2, objectError) {
+            $.each(object.errors, function (index2, objectError) {
                 if (msgError === "") {
                     msgError += objectError;
                 } else {
@@ -45,31 +45,31 @@
         $.fn.DialogDanger(msg);
     };
 
-    $.fn.DialogDanger = function(msg) {
+    $.fn.DialogDanger = function (msg) {
         $("#Dialog-Danger").empty();
         $("#Dialog-Danger").html(msg);
         $("#Dialog-Danger").dialog("open");
     };
 
-    $.fn.DialogSuccess = function(msg) {
+    $.fn.DialogSuccess = function (msg) {
         $("#Dialog-Success").empty();
         $("#Dialog-Success").html(msg);
         $("#Dialog-Success").dialog("open");
     };
 
-    $.fn.DialogInfo = function(msg) {
+    $.fn.DialogInfo = function (msg) {
         $("#Dialog-Info").empty();
         $("#Dialog-Info").html(msg);
         $("#Dialog-Info").dialog("open");
     };
 
-    $.fn.DialogWarning = function(msg) {
+    $.fn.DialogWarning = function (msg) {
         $("#Dialog-Warning").empty();
         $("#Dialog-Warning").html(msg);
         $("#Dialog-Warning").dialog("open");
     };
 
-    $.fn.DialogMessage = function(msg) {
+    $.fn.DialogMessage = function (msg) {
         if (msg.checkSuccess) {
             $.fn.DialogSuccess(msg.message);
         } else {
@@ -77,7 +77,13 @@
         }
     };
 
-    $.fn.onGetTagHtml = function(typeAction, urlAction, objDataAction, dataTypeAction, responseId) {
+    $.fn.DialogMessageResponse = function (msg) {
+        if (!msg.checkSuccess) {
+            $.fn.DialogDanger(msg.message);
+        }
+    };
+
+    $.fn.onGetTagHtml = function (typeAction, urlAction, objDataAction, dataTypeAction, responseId) {
         $.ajax({
             type: typeAction,
             url: urlAction,
@@ -86,19 +92,19 @@
             cache: false,
             //timeout: 1000,
             async: false,
-            beforeSend: function(jqXHR) {
+            beforeSend: function (jqXHR) {
             },
-            success: function(response) {
+            success: function (response) {
                 $('[aria-describedby="dialogFormNew"]').remove();
                 $('[aria-describedby="dialogFormEdit"]').remove();
                 $(responseId).html(response);
             },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
         });
     };
 
-    $.fn.onRedirect = function(urlAction) {
+    $.fn.onRedirect = function (urlAction) {
         // similar behavior as clicking on a link
         window.location.href = urlAction;
     };
@@ -125,7 +131,7 @@
             {
                 html: "<i class='ace-icon glyphicon glyphicon-ok bigger-110'></i>&nbsp; Ok",
                 "class": "btn btn-xs",
-                click: function() {
+                click: function () {
                     $(this).dialog("close");
                 }
             }
@@ -144,7 +150,7 @@
             {
                 html: "<i class='ace-icon glyphicon glyphicon-ok bigger-110'></i>&nbsp; Ok",
                 "class": "btn btn-xs",
-                click: function() {
+                click: function () {
                     $(this).dialog("close");
                 }
             }
@@ -163,7 +169,7 @@
             {
                 html: "<i class='ace-icon glyphicon glyphicon-ok bigger-110'></i>&nbsp; Ok",
                 "class": "btn btn-xs",
-                click: function() {
+                click: function () {
                     $(this).dialog("close");
                 }
             }
@@ -182,7 +188,7 @@
             {
                 html: "<i class='ace-icon glyphicon glyphicon-ok bigger-110'></i>&nbsp; Ok",
                 "class": "btn btn-xs",
-                click: function() {
+                click: function () {
                     $(this).dialog("close");
                 }
             }

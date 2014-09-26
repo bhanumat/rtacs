@@ -295,7 +295,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 memberPaymentDto.setPaymentDate(mp.getPaymentDate());
                 memberPaymentDto.setReceiptNo(mp.getReferenceId() != null ? String.valueOf(mp.getReferenceId()) : StringPool.BLANK);
                 memberPaymentDto.setMemberCode(mp.getMember().getMemberCode());
-                memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryName());
+                memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryDepartment().getName());
                 memberPaymentDto.setCitizenId(mp.getMember().getCitizenId());
                 memberPaymentDto.setTitle(buildTitleOrRank(mp.getMember()));
                 memberPaymentDto.setName(mp.getMember().getName());
@@ -430,7 +430,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         }
         return titleOrRank;
     }
-    
+
     private String buildMemberPaymentDetail(String monthCode, Integer start, Integer end) {
         String strMm = StringUtils.substring(monthCode, 3, 5);  //  MM.
         String StrYyy = StringUtils.substring(monthCode, 0, 3); //  yyy.
@@ -443,12 +443,12 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         sb.append(StringPool.SPACE);
         sb.append(strBbuddhistYear);
         sb.append(StringPool.SPACE);
-        sb.append(START_SOP+start+StringPool.SLASH+StrYy);
+        sb.append(START_SOP + start + StringPool.SLASH + StrYy);
         sb.append(StringPool.SPACE);
-        sb.append(END_SOP+end+StringPool.SLASH+StrYy);
+        sb.append(END_SOP + end + StringPool.SLASH + StrYy);
         return sb.toString();
     }
-    
+
     private String formatMonth(int month, Locale locale) {
         DateFormatSymbols symbols = new DateFormatSymbols(locale);
         String[] monthNames = symbols.getShortMonths();

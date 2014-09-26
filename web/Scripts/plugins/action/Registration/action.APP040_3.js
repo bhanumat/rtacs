@@ -1,6 +1,8 @@
 $(function() {
     $('#txtApplyDateFromSearch').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtApplyDateFromSearch").datepicker("setDate", new Date());
     $('#txtApplyDateEndSearch').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtApplyDateEndSearch").datepicker("setDate", new Date());
 
     $("#btnBack").click(function(event) {
         event.preventDefault();
@@ -15,22 +17,22 @@ $(function() {
         var search = {};
         var statussearch = 0; //0 is not in condition, 1 is in condition
         var requestSearch = new Array();
-        var search1 = {'groupOp': '', 'field': 'citizenId', 'op': 'cn', 'data': $('#txtCitizenIdSearch').val(), 'dataType': 'varchar'};
+        var search1 = {'groupOp': '', 'field': 'm.citizen_id', 'op': 'cn', 'data': $('#txtCitizenIdSearch').val(), 'dataType': 'varchar'};
         requestSearch.push(search1);
 
-        var search2 = {'groupOp': 'and', 'field': 'name', 'op': 'cn', 'data': $('#txtNameSearch').val(), 'dataType': 'varchar'};
+        var search2 = {'groupOp': 'and', 'field': 'm.name', 'op': 'cn', 'data': $('#txtNameSearch').val(), 'dataType': 'varchar'};
         requestSearch.push(search2);
 
-        var search3 = {'groupOp': 'and', 'field': 'surname', 'op': 'cn', 'data': $('#txtSurnameSearch').val(), 'dataType': 'varchar'};
+        var search3 = {'groupOp': 'and', 'field': 'm.surname', 'op': 'cn', 'data': $('#txtSurnameSearch').val(), 'dataType': 'varchar'};
         requestSearch.push(search3);
 
         if ($('#txtApplyDateFromSearch').val().length !== 0 && $('#txtApplyDateEndSearch').val().length !== 0) {
-            var search4 = {'groupOp': 'and', 'field': 'applyDate', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val() + "," + $('#date_end').val(), 'dataType': 'date'};
+            var search4 = {'groupOp': 'and', 'field': 'm.apply_date', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val() + "," + $('#date_end').val(), 'dataType': 'date'};
             requestSearch.push(search1);
             statussearch = 1;
         } else {
             if ($('#txtApplyDateFromSearch').val().length !== 0) {
-                var search1 = {'groupOp': 'and', 'field': 'applyDate', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val(), 'dataType': 'date'};
+                var search1 = {'groupOp': 'and', 'field': 'm.apply_date', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val(), 'dataType': 'date'};
                 requestSearch.push(search1);
                 statussearch = 1;
             } else {
@@ -58,12 +60,12 @@ $(function() {
         }
 
         if ('%' !== $('#slMilitaryDepartmentSearch').val()) {
-            var search6 = {'groupOp': 'and', 'field': 'militaryId', 'op': 'cn', 'data': $('#slMilitaryDepartmentSearch').val(), 'dataType': 'integer'};
+            var search6 = {'groupOp': 'and', 'field': 'm.military_id', 'op': 'cn', 'data': $('#slMilitaryDepartmentSearch').val(), 'dataType': 'integer'};
             requestSearch.push(search6);
         }
 
         if ('%' !== $('#slApplyTypeSearch').val()) {
-            var search7 = {'groupOp': 'and', 'field': 'memberGroupCode', 'op': 'cn', 'data': $('#slApplyTypeSearch').val(), 'dataType': 'integer'};
+            var search7 = {'groupOp': 'and', 'field': 'm.member_group_code', 'op': 'cn', 'data': $('#slApplyTypeSearch').val(), 'dataType': 'integer'};
             requestSearch.push(search7);
         }
         search.conditions = requestSearch;

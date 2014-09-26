@@ -2,6 +2,7 @@ package com.itos.controller.payment;
 
 import com.itos.model.Member;
 import com.itos.model.MemberPayment;
+import com.itos.model.ext.MemberData;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.json.JsonMember;
 import com.itos.service.model.IMemberPaymentService;
@@ -72,7 +73,7 @@ public class PAY010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<Member> getListMember(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+    JqGridResponse<MemberData> getListMember(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         logger.info("search member >>" + req.getSearchCommand() + "<<");
         req.setSearch(Boolean.parseBoolean(search));
         return iMemberService.getListMember(req);
@@ -82,13 +83,14 @@ public class PAY010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Member getMember(@RequestParam(value = "data2Json") String data2Json, Model model, Principal principal) {
+    MemberData getMember(@RequestParam(value = "data2Json") String data2Json, Model model, Principal principal) {
         try {
-            Member member = JsonMember.JSONDeserializer(data2Json, stringDateFormat);
+            Member member = JsonMember.JSONDeserializerKey(data2Json, stringDateFormat);
             return iMemberService.getLoadMember(member);
         } catch (IOException ex) {
-            return null;
+            logger.equals(ex);
         }
+        return null;
     }
 
     @RequestMapping(value = "/Plugins/Payment/getMemberPayment.json", method = {RequestMethod.POST},

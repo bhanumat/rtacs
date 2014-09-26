@@ -6,20 +6,20 @@
 var gridUrl = urlList;
 var gridName = '#gridData_ExjqGrid_List';
 var gridPager = '#gridPager_ExjqGrid_List';
-var gridSortName = 'memberCode';
+var gridSortName = 'm.member_code';
 var gridSortOrder = 'asc';
 var gridCaption = 'รายการจัดพิมพ์ใบต้อนรับ';
 var gridColNames = ['', 'หน่วยต้นสังกัด', 'เลขทะเบียนสมาชิก', 'เลขประจำตัวประชาชน', 'ยส - คำนำหน้า', 'ชื่อ', 'สกุล', 'ประเภทการสมัคร', 'เริ่มชำระศพที่', ''];
 var gridColModel = [
-    {name: 'memberId', index: 'memberId', hidden: true, align: 'center'},
-    {name: 'militaryName', index: 'militaryName', align: 'left', sortable: true},
-    {name: 'memberCode', index: 'memberCode', align: 'left', sortable: true, width: 130},
-    {name: 'citizenId', index: 'citizenId', align: 'center', sortable: true, width: 150},
-    {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: true, width: 110},
-    {name: 'name', index: 'name', align: 'left', sortable: true, width: 105},
-    {name: 'surname', index: 'surname', align: 'left', sortable: true, width: 105},
-    {name: 'memberTypeCode', index: 'memberTypeCode', align: 'center', sortable: true, width: 140},
-    {name: 'memberStatusCode', index: 'memberStatusCode', align: 'center', sortable: true, width: 100},
+    {name: 'memberId', index: 'm.member_id', hidden: true, align: 'center'},
+    {name: 'militaryName', index: 'm.military_name', align: 'left', sortable: true},
+    {name: 'memberCode', index: 'm.member_code', align: 'left', sortable: true, width: 130},
+    {name: 'citizenId', index: 'm.citizen_id', align: 'center', sortable: true, width: 150},
+    {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: false, width: 110},
+    {name: 'name', index: 'm.name', align: 'left', sortable: true, width: 105},
+    {name: 'surname', index: 'm.surname', align: 'left', sortable: true, width: 105},
+    {name: 'memberTypeCode', index: 'm.member_type_code', align: 'center', sortable: true, width: 140},
+    {name: 'memberStatusCode', index: 'm.member_status_code', align: 'center', sortable: true, width: 100},
     {name: 'action', index: 'action', width: 70, align: 'center', search: false, sortable: false}];
 var gridJsonReader = {
     records: "records", //total number of records for the query
@@ -139,29 +139,6 @@ $(document).ready(function() {
                 closeAfterSearch: true
             }
     );
-
-
-    //---for Filter Member Status  Code 105---//
-    var search = {};
-    var requestSearch = new Array();
-    var searchFilter = {'groupOp': '', 'field': 'memberStatusCode', 'op': 'eq', 'data': 105, 'dataType': 'integer'};
-    requestSearch.push(searchFilter);
-
-    search.conditions = requestSearch;
-
-    $(gridName).jqGrid('setGridParam', {
-        search: true,
-        postData: {
-            /*searchField: "bankName",
-             searchOper: "cn",
-             searchString: $('#txtBankName').val(),*/
-
-            searchCommand: $.toJSON(search)
-        }
-    });
-
-    $(gridName).trigger("reloadGrid", [{page: 1}]);
-    //------//
     
     $("#btnSearch").click(function(event) {
         event.preventDefault();

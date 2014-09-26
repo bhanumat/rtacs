@@ -14,6 +14,7 @@ import com.itos.model.MilitaryDepartment;
 import com.itos.model.Province;
 import com.itos.model.Rank;
 import com.itos.model.Title;
+import com.itos.model.ext.MemberData;
 import com.itos.model.json.JsonMember;
 import com.itos.service.model.IMemberBeneficiaryService;
 import com.itos.service.model.IMemberService;
@@ -88,7 +89,7 @@ public class APP010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<Member> getListAPP010(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+    JqGridResponse<MemberData> getListAPP010(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         logger.info("APP010Controller : getListAPP010");
         req.setSearch(Boolean.parseBoolean(search));
         return iMemberService.getListMember(req);
@@ -98,7 +99,7 @@ public class APP010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<Member> getListAPP010ForRegister(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+    JqGridResponse<MemberData> getListAPP010ForRegister(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         req.setSearch(Boolean.parseBoolean(search));
         return iMemberService.getListMemberForRegister(req);
     }
@@ -107,7 +108,7 @@ public class APP010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Member getLoadAPP010(@RequestParam(value = "data2Json") String data2Json, Model model, Principal principal) {
+    MemberData getLoadAPP010(@RequestParam(value = "data2Json") String data2Json, Model model, Principal principal) {
         Member member = new Member();
         try {
             member = JsonMember.JSONDeserializerKey(data2Json, stringDateFormat);
@@ -126,7 +127,7 @@ public class APP010Controller {
         List<MemberBeneficiary> listMemberBeneficiaryInsert = new ArrayList<>();
         logger.info(data2Json);
         try {
-            Member memberDeserializer = JsonMember.JSONDeserializer(data2Json, stringDateFormat);
+            MemberData memberDeserializer = JsonMember.JSONDeserializer(data2Json, stringDateFormat);
 
             BankAccountType bankAccountType = new BankAccountType();
             if (null != memberDeserializer.getAccTypeId() && memberDeserializer.getAccTypeId() != 0) {
@@ -318,7 +319,7 @@ public class APP010Controller {
         List<MemberBeneficiary> listMemberBeneficiaryInsert = new ArrayList<>();
         logger.info(data2Json);
         try {
-            Member memberDeserializer = JsonMember.JSONDeserializer(data2Json, stringDateFormat);
+            MemberData memberDeserializer = JsonMember.JSONDeserializer(data2Json, stringDateFormat);
 
             BankAccountType bankAccountType = new BankAccountType();
             if (null != memberDeserializer.getAccTypeId() && memberDeserializer.getAccTypeId() != 0) {
@@ -508,32 +509,32 @@ public class APP010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<Member> getListAPP010_FOR_APP040_2(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+    JqGridResponse<MemberData> getListAPP010_FOR_APP040_2(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         req.setSearch(Boolean.parseBoolean(search));
-        int memberStatusCode = 13;//Set Status 0 = ALL
-        return iMemberService.getListMember(req, memberStatusCode);
+        int operationTypeCode = 13;//Set Status 0 = ALL
+        return iMemberService.getListMember(req, operationTypeCode);
     }
     
     @RequestMapping(value = "/Plugins/Registration/getListAPP010_FOR_APP040_3.json", method = {RequestMethod.POST},
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<Member> getListAPP010_FOR_APP040_3(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, @RequestParam(value = "id", defaultValue = "0") String id, Model model, Principal principal) {
+    JqGridResponse<MemberData> getListAPP010_FOR_APP040_3(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, @RequestParam(value = "id", defaultValue = "0") String id, Model model, Principal principal) {
         req.setSearch(Boolean.parseBoolean(search)); 
         int operationId = Integer.parseInt(id);
-        int memberStatusCode = 0;//Set Status 0 = ALL
-        return iMemberService.getListMember(req, memberStatusCode, operationId);
+        int operationTypeCode = 0;//Set Status 0 = ALL
+        return iMemberService.getListMember(req, operationTypeCode, operationId);
     }
     
     @RequestMapping(value = "/Plugins/Registration/getListAPP010_FOR_REFERRER.json", method = {RequestMethod.POST},
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<Member> getListAPP010_FOR_REFERRER(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, @RequestParam(value = "id", defaultValue = "0") String id, Model model, Principal principal) {
+    JqGridResponse<MemberData> getListAPP010_FOR_REFERRER(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, @RequestParam(value = "id", defaultValue = "0") String id, Model model, Principal principal) {
         logger.info("APP010Controller : getListAPP010_FOR_REFERRER : id >>" + id + "<<");
         req.setSearch(Boolean.parseBoolean(search)); 
         int operationId = Integer.parseInt(id);
-        int memberStatusCode = 105;//Set Status 0 = ALL
-        return iMemberService.getListMember(req, memberStatusCode, operationId);
+        int operationTypeCode = 105;//Set Status 0 = ALL
+        return iMemberService.getListMember(req, operationTypeCode, operationId);
     }
 }

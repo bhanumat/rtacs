@@ -1,18 +1,18 @@
 <%-- 
     Document   : APP041_2
     Created on : Aug 23, 2014, 5:33:40 PM
-    Author     : napat_k
+    Author     : ITOS
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <script type="text/javascript">
-    var urlLoad = rootPath + '/Plugins/Registration/getListAPP041_2.json';
-    var urlSearchOperationId = rootPath + '/Plugins/Registration/searchByOperationId.json';
+    var urlLoad041_2 = rootPath + '/Plugins/Registration/getListAPP041_2.json';
+    var urlSearchOperationId = rootPath + '/Plugins/Registration/APP040_searchByOperationId.json';
+    var urlAPP041 = rootPath + '/Plugins/Registration/APP041.htm';
     var myStringList = "";
     var listAPP041 = [];
-    var urlAddLoad = rootPath + '/Plugins/Registration/getAddListAPP041_2.json';
-    var urlListAPP041_2_Add = rootPath + '/Plugins/Registration/getListAPP010.json';
+    var urlListAPP041_2_Add = rootPath + '/Plugins/Registration/getAddListAPP041_2.json';
     var urlSaveNew = rootPath + '/Plugins/Registration/setSaveNewAPP041.json';
     var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
 </script>
@@ -25,7 +25,7 @@
         รับสมัคร
         <small>
             <i class="ace-icon fa fa-angle-double-right"></i>
-            ขออนุมัติขึ้นทะเบียนสมาชิกใหม่ 
+            ขออนุมัติขึ้นทะเบียนสมาชิกใหม่   
             <i class="ace-icon fa fa-angle-double-right"></i>
             บันทึกขออนุมัติขึ้นทะเบียนสมาชิกใหม่
         </small>
@@ -61,7 +61,7 @@
                 <div class="row">
                     <div>
                         <button type="button" id="btnAdd" name="btnAdd" class="btn btn-sm btn-success" style="font-size: 14px;"><i class="glyphicon glyphicon-plus"></i>&nbsp;เลือกสมาชิกใหม่</button>
-                        
+
                     </div>
                 </div>
                 <div id="jqGridContainer" class="row">
@@ -71,7 +71,7 @@
                     </div>
                 </div>  
                 &nbsp;
-                
+
                 <div class="col-md-offset-3 col-md-9" >
                     <button type="button" id="btnBack" name="btnBack" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-repeat"></i> กลับหน้าเดิม </button>
                     <button type="button" id="btnSave" name="btnSave" class="btn btn-sm btn-info"><i class="ace-icon fa fa-floppy-o bigger-110"></i> บันทึก </button>
@@ -82,7 +82,7 @@
             </div>
         </div>
 
-        <div id="dialogFormAdd" class="hide">
+        <div id="dialogFormAddAPP041_2" class="hide">
             <div class="bs-component">
                 <div class="row" >
                     <form class="form-horizontal">                          
@@ -92,14 +92,14 @@
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="input-group input-group-sm">
-                                            <input type="text" id="date_begin" name="date_begin" class="col-xs-10 col-sm-12"/>
+                                            <input type="text" id="subDateBegin" name="subDateBegin" class="col-xs-10 col-sm-12"/>
                                             <span class="input-group-addon"> <i class="ace-icon fa fa-calendar"></i></span> 
                                         </div>
                                     </div>
                                     <div class="col-xs-6" >
                                         <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> ถึง&nbsp;&nbsp;</label>
                                         <div class="input-group input-group-sm">
-                                            <input type="text" id="date_end" name="date_end" class="col-xs-12 col-sm-18" />
+                                            <input type="text" id="subDateEnd" name="subDateEnd" class="col-xs-12 col-sm-18" />
                                             <span class="input-group-addon"> <i class="ace-icon fa fa-calendar"></i></span> 
                                         </div>
                                     </div>
@@ -117,9 +117,9 @@
                             <br>
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> ชื่อ </label>
                             <div class="col-sm-9">
-                              <input type="text" id="subName" name="subName" class="col-xs-10 col-sm-4"/>
-                              <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> สกุล &nbsp;&nbsp;</label>
-                              <input type="text" id="subSurname" name="subSurname" class="col-xs-10 col-sm-4"/>
+                                <input type="text" id="subName" name="subName" class="col-xs-10 col-sm-4"/>
+                                <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> สกุล &nbsp;&nbsp;</label>
+                                <input type="text" id="subSurname" name="subSurname" class="col-xs-10 col-sm-4"/>
                             </div>
                             <br>
                             <br>

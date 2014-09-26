@@ -52,8 +52,8 @@ public class TitleDAO implements ITitleDAO {
         /*
          * Check array data if true set create object to array new.
          */
-        if (!query.list().isEmpty()) {
-            list = query.list();
+        list = query.list();
+        if (!list.isEmpty()) {
 
             /*
              * Start developer create object to array new.
@@ -181,8 +181,8 @@ public class TitleDAO implements ITitleDAO {
             /*
              * Check array data if true set create object to array new.
              */
-            if (!query.list().isEmpty()) {
-                list = query.list();
+            list = query.list();
+            if (!list.isEmpty()) {
 
                 /*
                  * Start developer create object to array new.
@@ -229,8 +229,8 @@ public class TitleDAO implements ITitleDAO {
             /*
              * Check array data if true set create object to array new.
              */
-            if (!query.list().isEmpty()) {
-                list = query.list();
+            list = query.list();
+            if (!list.isEmpty()) {
 
                 /*
                  * Start developer create object to array new.
@@ -298,8 +298,8 @@ public class TitleDAO implements ITitleDAO {
         /*
          * Check array data if true set create object to array new.
          */
-        if (!query.list().isEmpty()) {
-            list = query.list();
+        list = query.list();
+        if (!list.isEmpty()) {
 
             /*
              * Start developer create object to array new.

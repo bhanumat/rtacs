@@ -6,13 +6,13 @@
 var gridUrl = urlList;
 var gridName = '#gridData_ExjqGrid_List';
 var gridPager = '#gridPager_ExjqGrid_List';
-var gridSortName = 'memberCode';
+var gridSortName = 'm.member_code';
 var gridSortOrder = 'asc';
 var gridCaption = ' รายงานสรุปผู้สมัครสมาชิก';
 var gridColNames = ['', 'วันที่สมัคร', 'ชื่อผู้สมัคร', 'หน่วยต้นสังกัด', 'สถานะภาพ', 'อายุ', 'ความเกี่ยวพัน', 'หมายเหตุ'];
 var gridColModel = [
-    {name: 'memberId', index: 'memberId', hidden: true, align: 'center'},
-    {name: 'applyDate', index: 'applyDate', align: 'center', sortable: true, width: 90,
+    {name: 'memberId', index: 'm.member_id', hidden: true, align: 'center'},
+    {name: 'applyDate', index: 'm.apply_date', align: 'center', sortable: true, width: 90,
         formatoptions: {newformat: 'd/m/Y'},
         formatter: function(cellval, opts, rowObject, action) {
             return $.fn.fmatter.call(
@@ -23,14 +23,12 @@ var gridColModel = [
                     rowObject,
                     action);
         }},
-    {name: 'name', index: 'name', align: 'left', sortable: true, width: 110},
-    //{name: 'name', index: 'name', align: 'left', sortable: true, width: 105},
-    //{name: 'surname', index: 'surname', align: 'left', sortable: true, width: 105},
-    {name: 'militaryName', index: 'militaryName', align: 'left', sortable: true},
-    {name: 'memberStatusCode', index: 'memberStatusCode', align: 'center', sortable: true, width: 180},
+    {name: 'name', index: 'm.name', align: 'left', sortable: true, width: 110},
+    {name: 'militaryName', index: 'militaryName', align: 'left', sortable: false},
+    {name: 'memberStatusCode', index: 'm.member_status_code', align: 'center', sortable: true, width: 180},
     {name: '40', index: '40', align: 'center', sortable: true, width: 60},
-    {name: 'referrerRelationshipCode', index: 'referrerRelationshipCode', align: 'center', sortable: true, width: 120},
-    {name: 'remark', index: 'remark', align: 'left', sortable: true}];
+    {name: 'referrerRelationshipCode', index: 'm.referrer_relationship_code', align: 'center', sortable: true, width: 120},
+    {name: 'remark', index: 'm.remark', align: 'left', sortable: true}];
 var gridJsonReader = {
     records: "records", //total number of records for the query
     repeatitems: false,

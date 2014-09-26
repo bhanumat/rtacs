@@ -12,8 +12,8 @@ var gridCaption = 'ข้อมูลคำนำหน้า';
 var gridColNames = ['ลำดับ', 'ชื่อคำนำหน้า', 'คำอธิบาย', 'สถานะใช้งาน', ''];
 var gridColModel = [
     {name: 'titleId', index: 'titleId', hidden: true, align: 'left'},
-    {name: 'titleDesc', index: 'titleDesc', align: 'left', sortable: true, width: 250},
     {name: 'title', index: 'title', align: 'left', sortable: true, width: 250},
+    {name: 'titleDesc', index: 'titleDesc', align: 'left', sortable: true, width: 250},
     {name: 'status', index: 'status', align: 'center', sortable: true, width: 150},
     {name: 'action', index: 'action', width: 150, align: 'center', search: false, sortable: false}];
 var gridJsonReader = {

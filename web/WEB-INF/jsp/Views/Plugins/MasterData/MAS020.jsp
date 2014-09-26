@@ -96,13 +96,13 @@
                         <div class="form-group">
                             <label for="lbTitleDescNew" class="col-lg-3 control-label">ชื่อคำนำหน้า *</label>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" id="txtTitleDescNew" name="txtTitleDescNew">
+                                <input type="text" class="form-control" id="txtTitleNew" name="txtTitleNew">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lbTitleNew" class="col-lg-3 control-label">คำอธิบาย </label>
                             <div class="col-lg-5">
-                                <input type="text"  class="form-control" id="txtTitleNew" name="txtTitleNew">
+                                <input type="text"  class="form-control" id="txtTitleDescNew" name="txtTitleDescNew">
                             </div>
                         </div>
                         <div class="form-group">
@@ -127,13 +127,13 @@
                             <label for="lbTitleDescEdit" class="col-lg-3 control-label">ชื่อคำนำหน้า *</label>
                             <div class="col-lg-4">
                                 <input type="hidden" id="hidTitleIdEdit" name="hidTitleIdEdit">
-                                <input type="text" class="form-control" id="txtTitleDescEdit" name="txtTitleDescEdit">
+                                <input type="text" class="form-control" id="txtTitleEdit" name="txtTitleEdit">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lbTitleEdit" class="col-lg-3 control-label">คำอธิบาย </label>
                             <div class="col-lg-5">
-                                <input type="text"  class="form-control" id="txtTitleEdit" name="txtTitleEdit">
+                                <input type="text"  class="form-control" id="txtTitleDescEdit" name="txtTitleDescEdit">
                             </div>
                         </div>
                         <div class="form-group">

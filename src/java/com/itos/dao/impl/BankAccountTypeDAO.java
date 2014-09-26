@@ -59,8 +59,8 @@ public class BankAccountTypeDAO implements IBankAccountTypeDAO {
         /*
          * Check array data if true set create object to array new.
          */
-        if (!query.list().isEmpty()) {
-            list = query.list();
+        list = query.list();
+        if (!list.isEmpty()) {
             /*
              * Start developer create object to array new.
              */
@@ -123,7 +123,7 @@ public class BankAccountTypeDAO implements IBankAccountTypeDAO {
     @Override
     public MessageResponse setSaveNewBankAccountType(BankAccountType bankAccountType) {
         MessageResponse response = new MessageResponse();
-        boolean chekSuccess = false;        
+        boolean chekSuccess = false;
         chekSuccess = CommandQuery.Insert(sessionFactory, bankAccountType);
         response.setCheckSuccess(chekSuccess);
         if (chekSuccess) {
@@ -198,8 +198,8 @@ public class BankAccountTypeDAO implements IBankAccountTypeDAO {
             /*
              * Check array data if true set create object to array new.
              */
-            if (!query.list().isEmpty()) {
-                list = query.list();
+            list = query.list();
+            if (!list.isEmpty()) {
 
                 /*
                  * Start developer create object to array new.
@@ -246,8 +246,8 @@ public class BankAccountTypeDAO implements IBankAccountTypeDAO {
             /*
              * Check array data if true set create object to array new.
              */
-            if (!query.list().isEmpty()) {
-                list = query.list();
+            list = query.list();
+            if (!list.isEmpty()) {
 
                 /*
                  * Start developer create object to array new.
@@ -302,8 +302,8 @@ public class BankAccountTypeDAO implements IBankAccountTypeDAO {
         /*
          * Check array data if true set create object to array new.
          */
-        if (!query.list().isEmpty()) {
-            list = query.list();
+        list = query.list();
+        if (!list.isEmpty()) {
 
             /*
              * Start developer create object to array new.

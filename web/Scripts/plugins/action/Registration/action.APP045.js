@@ -5,7 +5,7 @@ $(function() {
 //    $(tabMainName).tabs("option", "active", 0);
 //    
 
-    
+
 
     $("#btnPrint").click(function(event) {
         var selRowIds = $(gridName).jqGrid('getGridParam', 'selarrrow');
@@ -87,26 +87,22 @@ $(function() {
     onActionSearch = function() {
         var search = {};
         var requestSearch = new Array();
-        var search1 = {'groupOp': '', 'field': 'memberCode', 'op': 'cn', 'data': $('#txtNumberMember').val(), 'dataType': 'varchar'};
+        var search1 = {'groupOp': '', 'field': 'm.member_code', 'op': 'cn', 'data': $('#txtNumberMember').val(), 'dataType': 'varchar'};
         requestSearch.push(search1);
-        var search2 = {'groupOp': 'and', 'field': 'citizenId', 'op': 'cn', 'data': $('#txtCardID').val(), 'dataType': 'varchar'};
+        var search2 = {'groupOp': 'and', 'field': 'm.citizen_id', 'op': 'cn', 'data': $('#txtCardID').val(), 'dataType': 'varchar'};
         requestSearch.push(search2);
-        var search3 = {'groupOp': 'and', 'field': 'name', 'op': 'cn', 'data': $('#txtFirstName').val(), 'dataType': 'varchar'};
+        var search3 = {'groupOp': 'and', 'field': 'm.name', 'op': 'cn', 'data': $('#txtFirstName').val(), 'dataType': 'varchar'};
         requestSearch.push(search3);
-        var search4 = {'groupOp': 'and', 'field': 'surname', 'op': 'cn', 'data': $('#txtLastName').val(), 'dataType': 'varchar'};
+        var search4 = {'groupOp': 'and', 'field': 'm.surname', 'op': 'cn', 'data': $('#txtLastName').val(), 'dataType': 'varchar'};
         requestSearch.push(search4);
         if ('%' != $('#slMilitaryIdSearch').val()) {
-            var search5 = {'groupOp': 'and', 'field': 'militaryId', 'op': 'cn', 'data': $('#slMilitaryIdSearch').val(), 'dataType': 'integer'};
+            var search5 = {'groupOp': 'and', 'field': 'm.military_id', 'op': 'cn', 'data': $('#slMilitaryIdSearch').val(), 'dataType': 'integer'};
             requestSearch.push(search5);
         }
         if ('%' != $('#slTypeApplySearch').val()) {
-            var search6 = {'groupOp': 'and', 'field': 'memberTypeCode', 'op': 'cn', 'data': $('#slTypeApplySearch').val(), 'dataType': 'integer'};
+            var search6 = {'groupOp': 'and', 'field': 'm.member_type_code', 'op': 'cn', 'data': $('#slTypeApplySearch').val(), 'dataType': 'integer'};
             requestSearch.push(search6);
         }
-
-        var search7 = {'groupOp': 'and', 'field': 'memberStatusCode', 'op': 'eq', 'data': 105, 'dataType': 'integer'};
-        requestSearch.push(search7);
-
         search.conditions = requestSearch;
         $(gridName).jqGrid('setGridParam', {
             search: true,
@@ -122,8 +118,9 @@ $(function() {
     };
 
     $('#txtStartDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtStartDate").datepicker("setDate", new Date());
     $('#txtEndDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
-
+    $("#txtEndDate").datepicker("setDate", new Date());
 //    $("#slTypeApplySearch").select2({
 //        allowClear: true
 //    });

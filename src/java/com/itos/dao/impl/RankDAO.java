@@ -52,8 +52,8 @@ public class RankDAO implements IRankDAO {
         /*
          * Check array data if true set create object to array new.
          */
-        if (!query.list().isEmpty()) {
-            list = query.list();
+        list = query.list();
+        if (!list.isEmpty()) {
 
             /*
              * Start developer create object to array new.
@@ -186,8 +186,8 @@ public class RankDAO implements IRankDAO {
             /*
              * Check array data if true set create object to array new.
              */
-            if (!query.list().isEmpty()) {
-                list = query.list();
+            list = query.list();
+            if (!list.isEmpty()) {
 
                 /*
                  * Start developer create object to array new.
@@ -236,8 +236,8 @@ public class RankDAO implements IRankDAO {
             /*
              * Check array data if true set create object to array new.
              */
-            if (!query.list().isEmpty()) {
-                list = query.list();
+            list = query.list();
+            if (!list.isEmpty()) {
 
                 /*
                  * Start developer create object to array new.
@@ -249,7 +249,7 @@ public class RankDAO implements IRankDAO {
                     rankResponse.setRankFullname(rankObjectList.getRankFullname());
                     rankResponse.setRankName(rankObjectList.getRankName());
                     rankResponse.setRankOrder(rankObjectList.getRankOrder());
-                    rankResponse.setStatus(rankObjectList.getStatus());                    
+                    rankResponse.setStatus(rankObjectList.getStatus());
                     rankResponse.setCreateBy(rankObjectList.getCreateBy());
                     rankResponse.setCreateDate(rankObjectList.getCreateDate());
                     rankResponse.setUpdateBy(rankObjectList.getUpdateBy());
@@ -265,7 +265,7 @@ public class RankDAO implements IRankDAO {
             throw new RuntimeException(ex.getMessage());
         }
     }
-    
+
     @Override
     public List<Rank> getListInJSONRank(char status) {
         List<Rank> listResponse = new ArrayList<>();
@@ -307,8 +307,8 @@ public class RankDAO implements IRankDAO {
         /*
          * Check array data if true set create object to array new.
          */
-        if (!query.list().isEmpty()) {
-            list = query.list();
+        list = query.list();
+        if (!list.isEmpty()) {
 
             /*
              * Start developer create object to array new.

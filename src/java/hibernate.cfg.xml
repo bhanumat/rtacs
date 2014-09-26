@@ -27,7 +27,20 @@
     <mapping class="com.itos.model.Bank"/>
     <mapping class="com.itos.model.ControlReceipt"/>
     <mapping class="com.itos.model.Member"/>
+    <mapping class="com.itos.model.ext.MemberData"/>
+    <mapping class="com.itos.model.ext.PaymentView"/>
+    <mapping class="com.itos.model.ext.MemberStatusView"/>
+    <mapping class="com.itos.model.DeptPayment"/>
+    <mapping class="com.itos.model.Receipt"/>
     <mapping class="com.itos.model.MemberPayment"/>
     <mapping class="com.itos.model.MemberPaymentHead"/>
+    <mapping class="com.itos.model.MemberTitleNameHistory"/>
+    <mapping class="com.itos.model.MemberDeptHistory"/>
+    <mapping class="com.itos.model.Officer"/>
+    <mapping class="com.itos.model.MemberPaymentTypeHistory"/>
+    <mapping class="com.itos.model.ext.MemberDeptHistoryView"/>
+    <mapping class="com.itos.model.ext.MemberPaymentTypeHistoryView"/>
+    <mapping class="com.itos.model.ext.OperationView"/>
+    <mapping class="com.itos.model.ext.MemberTitleNameHistoryView"/>
   </session-factory>
 </hibernate-configuration>

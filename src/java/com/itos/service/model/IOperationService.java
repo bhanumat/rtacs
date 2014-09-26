@@ -7,6 +7,7 @@ package com.itos.service.model;
 
 import com.itos.model.Member;
 import com.itos.model.Operation;
+import com.itos.model.ext.OperationView;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jsonObject.MessageRequest;
@@ -35,9 +36,9 @@ public interface IOperationService {
 
     public MessageResponse setSaveNewOperationList(Operation operation);
 
-    public JqGridResponse<Operation> getListOperationAPP041(JqGridRequest req);
+    public JqGridResponse<OperationView> getListOperationAPP041(JqGridRequest req);
 
-    public JqGridResponse<Operation> getListOperationAPP031(JqGridRequest req);
+    public JqGridResponse<OperationView> getListOperationAPP031(JqGridRequest req);
 
     public JqGridResponse<Operation> getListOperation(JqGridRequest req, int operationTypeCode);
 

@@ -58,7 +58,7 @@ $(function() {
     onActionSearch = function() {
         var search = {};
         var requestSearch = new Array();
-        var search1 = {'groupOp': '', 'field': 'memberCode', 'op': 'cn', 'data': $('#txtNumberMemberStart').val(), 'dataType': 'varchar'};
+        var search1 = {'groupOp': 'and', 'field': 'memberCode', 'op': 'cn', 'data': $('#txtNumberMemberStart').val(), 'dataType': 'varchar'};
         requestSearch.push(search1);
         var search2 = {'groupOp': 'and', 'field': 'memberCode', 'op': 'cn', 'data': $('#txtNumberMemberEnd').val(), 'dataType': 'varchar'};
         requestSearch.push(search2);

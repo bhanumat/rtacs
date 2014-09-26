@@ -50,7 +50,7 @@ import org.springframework.stereotype.Repository;
 public class ControlMemberDAO implements IControlMemberDAO {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    
+
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -59,17 +59,17 @@ public class ControlMemberDAO implements IControlMemberDAO {
     @Override
     public BigDecimal getLastApplyFee() {
         logger.info("ControlMemberDAO : getLastApplyFee");
-        
+
         List<ControlMember> list;
         BigDecimal amount = new BigDecimal(BigInteger.ZERO);
         List<WhereField> listWhereField = new ArrayList<>();
-        
+
         Query query;
         query = CommandQuery.CreateQuery(sessionFactory, objectTable, listWhereField);
-       
-        if (!query.list().isEmpty()) {
-            list = query.list();
-            amount = list.get(list.size()-1).getApplyFee();
+
+        list = query.list();
+        if (!list.isEmpty()) {
+            amount = list.get(list.size() - 1).getApplyFee();
             logger.info("amount : >>" + amount + "<<");
             return amount;
         }

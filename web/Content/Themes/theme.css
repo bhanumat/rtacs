@@ -5,6 +5,10 @@
     padding: 0px 12px 0px 12px;
 }
 
+.jqGridContainer {
+    padding: 0px 12px 0px 12px;
+}
+
 .ui-jqgrid .ui-jqgrid-btable { cursor : pointer; }
 
 /*==========End jqGrid============*/

@@ -7,18 +7,6 @@ $(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            txtTitleDescNew: {
-                validators: {
-                    notEmpty: {
-                        message: 'The title is required'
-                    },
-                    stringLength: {
-                        min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
-                    }
-                }
-            },
             txtTitleNew: {
                 validators: {
                     notEmpty: {
@@ -53,18 +41,6 @@ $(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            txtTitleDescEdit: {
-                validators: {
-                    notEmpty: {
-                        message: 'The title is required'
-                    },
-                    stringLength: {
-                        min: 3,
-                        max: 256,
-                        message: 'The title must be less than 256 characters long'
-                    }
-                }
-            },
             txtTitleEdit: {
                 validators: {
                     notEmpty: {

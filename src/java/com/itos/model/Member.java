@@ -87,28 +87,20 @@ public class Member implements java.io.Serializable {
     private Date updateDate;
     private Set<OperationMember> operationMembers = new HashSet<OperationMember>(0);
     private Set<MemberBeneficiary> memberBeneficiaries = new HashSet<MemberBeneficiary>(0);
-    private Integer bankBranchId;
-    private String branchCode;
-    private String branchName;
-    private String branchShort;
-    private Integer accTypeId;
-    private String accTypeName;
-    private Integer militaryId;
-    private String militaryName;
-    private Integer rankId;
-    private String rankName;
-    private Integer titleId;
-    private String titleName;
-    private String bankCode;
-    private String bankName;
-    private String permanentProvinceCode;
-    private String permanentProvinceName;
-    private String provinceCode;
-    private String provinceName;
-    private String rankOrTitleName;
-    private List<MemberBeneficiary> listMemberBeneficiary;
     private List<String> deleteBeneficiaryId;
-    private Integer operationIdBy20;
+    private List<MemberBeneficiary> listMemberBeneficiary;
+    private String memberCodeOld;
+    private Integer mildeptId;
+    private Integer officerTypeCode;
+    private String position;
+    private Integer payerId;
+    private Integer microfilmStatusCode;
+    private Date approvedDate;
+    private Date memberDate;
+    private String startMonthCode;
+    private String beginSop;
+    private Integer stationId;
+    private Integer officerId;
 
     public Member() {
     }
@@ -117,7 +109,7 @@ public class Member implements java.io.Serializable {
         this.memberId = memberId;
     }
 
-    public Member(int memberId, Province provinceByPermanentProvinceCode, Rank rank, BankAccountType bankAccountType, Title title, Province provinceByProvinceCode, MilitaryDepartment militaryDepartment, Bank bank, BankBranch bankBranch, Integer memberGroupCode, String memberCode, Date applyDate, String citizenId, String name, String surname, Character gender, Date birthDate, Integer memberTypeCode, Integer paymentType, Integer referrerId, Integer referrerRelationshipCode, Integer marryStatusCode, String wifehusbandFullname, String remark, String paymentTypeCode, String paymentRemark, String bankAccName, String bankAccNo, String permanentAddress, String permanentMoo, String permanentRoad, String permanentSoi, String permanentSubdistrict, String permanentDistrict, String permanentZipcode, String permanentTel, String permanentFax, String permanentMobile, String address, String moo, String road, String soi, String subdistrict, String district, String zipcode, String tel, String fax, String mobile, Character addressPrimary, Integer memberStatusCode, String createBy, Date createDate, String updateBy, Date updateDate, Set operationMembers, Set memberBeneficiaries) {
+    public Member(int memberId, Province provinceByPermanentProvinceCode, Rank rank, BankAccountType bankAccountType, Title title, Province provinceByProvinceCode, MilitaryDepartment militaryDepartment, Bank bank, BankBranch bankBranch, Integer memberGroupCode, String memberCode, String memberCodeOld, Date applyDate, Date approvedDate, Date memberDate, String startMonthCode, String citizenId, String name, String surname, Character gender, Date birthDate, Integer mildeptId, Integer officerTypeCode, String position, Integer memberTypeCode, Integer paymentType, Integer referrerId, Integer referrerRelationshipCode, String beginSop, Integer stationId, Integer officerId, Integer marryStatusCode, String wifehusbandFullname, String remark, String paymentTypeCode, Integer payerId, Integer microfilmStatusCode, String paymentRemark, String bankAccName, String bankAccNo, String permanentAddress, String permanentMoo, String permanentRoad, String permanentSoi, String permanentSubdistrict, String permanentDistrict, String permanentZipcode, String permanentTel, String permanentFax, String permanentMobile, String address, String moo, String road, String soi, String subdistrict, String district, String zipcode, String tel, String fax, String mobile, Character addressPrimary, Integer memberStatusCode, String createBy, Date createDate, String updateBy, Date updateDate, Set operationMembers, Set memberBeneficiaries) {
         this.memberId = memberId;
         this.provinceByPermanentProvinceCode = provinceByPermanentProvinceCode;
         this.rank = rank;
@@ -129,20 +121,31 @@ public class Member implements java.io.Serializable {
         this.bankBranch = bankBranch;
         this.memberGroupCode = memberGroupCode;
         this.memberCode = memberCode;
+        this.memberCodeOld = memberCodeOld;
         this.applyDate = applyDate;
+        this.memberDate = memberDate;
+        this.startMonthCode = startMonthCode;
         this.citizenId = citizenId;
         this.name = name;
         this.surname = surname;
         this.gender = gender;
         this.birthDate = birthDate;
+        this.mildeptId = mildeptId;
+        this.officerTypeCode = officerTypeCode;
+        this.position = position;
         this.memberTypeCode = memberTypeCode;
         this.paymentType = paymentType;
         this.referrerId = referrerId;
         this.referrerRelationshipCode = referrerRelationshipCode;
+        this.beginSop = beginSop;
+        this.stationId = stationId;
+        this.officerId = officerId;
         this.marryStatusCode = marryStatusCode;
         this.wifehusbandFullname = wifehusbandFullname;
         this.remark = remark;
         this.paymentTypeCode = paymentTypeCode;
+        this.payerId = payerId;
+        this.microfilmStatusCode = microfilmStatusCode;
         this.paymentRemark = paymentRemark;
         this.bankAccName = bankAccName;
         this.bankAccNo = bankAccNo;
@@ -706,296 +709,18 @@ public class Member implements java.io.Serializable {
     }
 
     /**
-     * @return the branchId
-     */
-    //@Formula("(SELECT B.branch_id FROM BankBranch B WHERE B.branch_id=bank_branch_id)")
-    @Formula("(SELECT bank_branch_id)")
-    public Integer getBankBranchId() {
-        return bankBranchId;
-    }
-
-    /**
-     * @param bankBranchId the bankBranchId to set
-     */
-    public void setBankBranchId(Integer bankBranchId) {
-        this.bankBranchId = bankBranchId;
-    }
-
-    /**
-     * @return the accTypeIid
-     */
-    //@Formula("(SELECT B.acc_type_id FROM BankAccountType B WHERE B.acc_type_id=acc_type_id)")
-    @Formula("(SELECT acc_type_id)")
-    public Integer getAccTypeId() {
-        return accTypeId;
-    }
-
-    /**
-     * @param accTypeId the accTypeId to set
-     */
-    public void setAccTypeId(Integer accTypeId) {
-        this.accTypeId = accTypeId;
-    }
-
-    /**
-     * @return the militaryId
-     */
-    //@Formula("(SELECT M.military_id FROM MilitaryDepartment M WHERE M.military_id=military_id)")
-    @Formula("(SELECT military_id)")
-    public Integer getMilitaryId() {
-        return militaryId;
-    }
-
-    /**
-     * @param militaryId the militaryId to set
-     */
-    public void setMilitaryId(Integer militaryId) {
-        this.militaryId = militaryId;
-    }
-
-    /**
-     * @return the rankId
-     */
-    //@Formula("(SELECT R.rank_id FROM Rank R WHERE R.rank_id=rank_id)")
-    @Formula("(SELECT rank_id)")
-    public Integer getRankId() {
-        return rankId;
-    }
-
-    /**
-     * @param rankId the rankId to set
-     */
-    public void setRankId(Integer rankId) {
-        this.rankId = rankId;
-    }
-
-    /**
-     * @return the titleId
-     */
-    //@Formula("(SELECT T.title_id FROM Title T WHERE T.title_id=title_id)")
-    @Formula("(SELECT title_id)")
-    public Integer getTitleId() {
-        return titleId;
-    }
-
-    /**
-     * @param titleId the titleId to set
-     */
-    public void setTitleId(Integer titleId) {
-        this.titleId = titleId;
-    }
-
-    /**
-     * @return the bankCode
-     */
-    //@Formula("(SELECT B.bank_code FROM Bank B WHERE B.bank_code=bank_code)")
-    @Formula("(SELECT bank_code)")
-    public String getBankCode() {
-        return bankCode;
-    }
-
-    /**
-     * @param bankCode the bankCode to set
-     */
-    public void setBankCode(String bankCode) {
-        this.bankCode = bankCode;
-    }
-
-    /**
-     * @return the permanentProvinceCode
-     */
-    //@Formula("(SELECT P.province_code FROM Province P WHERE P.province_code=permanent_province_code)")
-    @Formula("(SELECT permanent_province_code)")
-    public String getPermanentProvinceCode() {
-        return permanentProvinceCode;
-    }
-
-    /**
-     * @param permanentProvinceCode the permanentProvinceCode to set
-     */
-    public void setPermanentProvinceCode(String permanentProvinceCode) {
-        this.permanentProvinceCode = permanentProvinceCode;
-    }
-
-    /**
-     * @return the provinceCode
-     */
-    //@Formula("(SELECT P.province_code FROM Province P WHERE P.province_code=province_code)")
-    @Formula("(SELECT province_code)")
-    public String getProvinceCode() {
-        return provinceCode;
-    }
-
-    /**
-     * @param provinceCode the provinceCode to set
-     */
-    public void setProvinceCode(String provinceCode) {
-        this.provinceCode = provinceCode;
-    }
-
-    /**
-     * @return the militaryName
-     */
-    @Formula("(SELECT M.name FROM MilitaryDepartment M WHERE M.military_id=military_id)")
-    public String getMilitaryName() {
-        return militaryName;
-    }
-
-    /**
-     * @param militaryName the militaryName to set
-     */
-    public void setMilitaryName(String militaryName) {
-        this.militaryName = militaryName;
-    }
-
-    /**
-     * @return the branchCode
-     */
-    @Formula("(SELECT B.branch_code FROM BankBranch B WHERE B.branch_id=bank_branch_id)")
-    public String getBranchCode() {
-        return branchCode;
-    }
-
-    /**
-     * @param branchCode the branchCode to set
-     */
-    public void setBranchCode(String branchCode) {
-        this.branchCode = branchCode;
-    }
-
-    /**
-     * @return the branchName
-     */
-    @Formula("(SELECT B.branch_name FROM BankBranch B WHERE B.branch_id=bank_branch_id)")
-    public String getBranchName() {
-        return branchName;
-    }
-
-    /**
-     * @param branchName the branchName to set
-     */
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
-    }
-
-    /**
-     * @return the branchShort
-     */
-    @Formula("(SELECT B.branch_short FROM BankBranch B WHERE B.branch_id=bank_branch_id)")
-    public String getBranchShort() {
-        return branchShort;
-    }
-
-    /**
-     * @param branchShort the branchShort to set
-     */
-    public void setBranchShort(String branchShort) {
-        this.branchShort = branchShort;
-    }
-
-    /**
-     * @return the accTypeName
-     */
-    @Formula("(SELECT B.acc_type_name FROM BankAccountType B WHERE B.acc_type_id=acc_type_id)")
-    public String getAccTypeName() {
-        return accTypeName;
-    }
-
-    /**
-     * @param accTypeName the accTypeName to set
-     */
-    public void setAccTypeName(String accTypeName) {
-        this.accTypeName = accTypeName;
-    }
-
-    /**
-     * @return the rankName
-     */
-    @Formula("(SELECT R.rank_name FROM Rank R WHERE R.rank_id=rank_id)")
-    public String getRankName() {
-        return rankName;
-    }
-
-    /**
-     * @param rankName the rankName to set
-     */
-    public void setRankName(String rankName) {
-        this.rankName = rankName;
-    }
-
-    /**
-     * @return the titleName
-     */
-    @Formula("(SELECT T.title FROM Title T WHERE T.title_id=title_id)")
-    public String getTitleName() {
-        return titleName;
-    }
-
-    /**
-     * @param titleName the titleName to set
-     */
-    public void setTitleName(String titleName) {
-        this.titleName = titleName;
-    }
-
-    /**
-     * @return the bankName
-     */
-    @Formula("(SELECT B.bank_name FROM Bank B WHERE B.bank_code=bank_code)")
-    public String getBankName() {
-        return bankName;
-    }
-
-    /**
-     * @param bankName the bankName to set
-     */
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    /**
-     * @return the permanentProvinceName
-     */
-    @Formula("(SELECT P.province_name FROM Province P WHERE P.province_code=permanent_province_code)")
-    public String getPermanentProvinceName() {
-        return permanentProvinceName;
-    }
-
-    /**
-     * @param permanentProvinceName the permanentProvinceName to set
-     */
-    public void setPermanentProvinceName(String permanentProvinceName) {
-        this.permanentProvinceName = permanentProvinceName;
-    }
-
-    /**
-     * @return the provinceName
-     */
-    @Formula("(SELECT P.province_name FROM Province P WHERE P.province_code=province_code)")
-    public String getProvinceName() {
-        return provinceName;
-    }
-
-    /**
-     * @param provinceName the provinceName to set
-     */
-    public void setProvinceName(String provinceName) {
-        this.provinceName = provinceName;
-    }
-
-    /**
-     * @return the rankOrTitleName
+     * @return the deleteBeneficiaryId
      */
     @Transient
-    public String getRankOrTitleName() {
-        return rankOrTitleName;
+    public List<String> getDeleteBeneficiaryId() {
+        return deleteBeneficiaryId;
     }
 
     /**
-     * @param rankOrTitleName the rankOrTitleName to set
+     * @param deleteBeneficiaryId the deleteBeneficiaryId to set
      */
-    public void setRankOrTitleName(String rankOrTitleName) {
-        this.rankOrTitleName = rankOrTitleName;
+    public void setDeleteBeneficiaryId(List<String> deleteBeneficiaryId) {
+        this.deleteBeneficiaryId = deleteBeneficiaryId;
     }
 
     /**
@@ -1014,33 +739,184 @@ public class Member implements java.io.Serializable {
     }
 
     /**
-     * @return the deleteBeneficiaryId
+     * @return the memberCodeOld
      */
-    @Transient
-    public List<String> getDeleteBeneficiaryId() {
-        return deleteBeneficiaryId;
+    @Column(name = "member_code_old", length = 20)
+    public String getMemberCodeOld() {
+        return memberCodeOld;
     }
 
     /**
-     * @param deleteBeneficiaryId the deleteBeneficiaryId to set
+     * @param memberCodeOld the memberCodeOld to set
      */
-    public void setDeleteBeneficiaryId(List<String> deleteBeneficiaryId) {
-        this.deleteBeneficiaryId = deleteBeneficiaryId;
+    public void setMemberCodeOld(String memberCodeOld) {
+        this.memberCodeOld = memberCodeOld;
     }
 
     /**
-     * @return the operationIdBy20
+     * @return the mildeptId
      */
-    @Formula("(SELECT TOP(1) O.operation_id FROM Operation O INNER JOIN OperationMember OM ON O.operation_id = OM.operation_id WHERE OM.member_id=member_id and O.operation_type_code = 20 ORDER BY O.operation_id, OM.operation_member_id DESC)")
-    public Integer getOperationIdBy20() {
-        return operationIdBy20;
+    @Column(name = "mildept_id")
+    public Integer getMildeptId() {
+        return mildeptId;
     }
 
     /**
-     * @param operationIdBy20 the operationId to set
+     * @param mildeptId the mildeptId to set
      */
-    public void setOperationIdBy20(Integer operationIdBy20) {
-        this.operationIdBy20 = operationIdBy20;
+    public void setMildeptId(Integer mildeptId) {
+        this.mildeptId = mildeptId;
     }
 
+    /**
+     * @return the officerTypeCode
+     */
+    @Column(name = "officer_type_code")
+    public Integer getOfficerTypeCode() {
+        return officerTypeCode;
+    }
+
+    /**
+     * @param officerTypeCode the officerTypeCode to set
+     */
+    public void setOfficerTypeCode(Integer officerTypeCode) {
+        this.officerTypeCode = officerTypeCode;
+    }
+
+    /**
+     * @return the position
+     */
+    @Column(name = "position", length = 256)
+    public String getPosition() {
+        return position;
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    /**
+     * @return the payerId
+     */
+    @Column(name = "payer_id")
+    public Integer getPayerId() {
+        return payerId;
+    }
+
+    /**
+     * @param payerId the payerId to set
+     */
+    public void setPayerId(Integer payerId) {
+        this.payerId = payerId;
+    }
+
+    /**
+     * @return the microfilmStatusCode
+     */
+    @Column(name = "microfilm_status_code")
+    public Integer getMicrofilmStatusCode() {
+        return microfilmStatusCode;
+    }
+
+    /**
+     * @param microfilmStatusCode the microfilmStatusCode to set
+     */
+    public void setMicrofilmStatusCode(Integer microfilmStatusCode) {
+        this.microfilmStatusCode = microfilmStatusCode;
+    }
+
+    /**
+     * @return the approvedDate
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "approved_date", length = 23)
+    public Date getApprovedDate() {
+        return approvedDate;
+    }
+
+    /**
+     * @param approvedDate the approvedDate to set
+     */
+    public void setApprovedDate(Date approvedDate) {
+        this.approvedDate = approvedDate;
+    }
+
+    /**
+     * @return the memberDate
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "member_date", length = 23)
+    public Date getMemberDate() {
+        return memberDate;
+    }
+
+    /**
+     * @param memberDate the memberDate to set
+     */
+    public void setMemberDate(Date memberDate) {
+        this.memberDate = memberDate;
+    }
+
+    /**
+     * @return the startMonthCode
+     */
+    @Column(name = "start_month_code", length = 5)
+    public String getStartMonthCode() {
+        return startMonthCode;
+    }
+
+    /**
+     * @param startMonthCode the startMonthCode to set
+     */
+    public void setStartMonthCode(String startMonthCode) {
+        this.startMonthCode = startMonthCode;
+    }
+
+    /**
+     * @return the beginSop
+     */
+    @Column(name = "begin_sop", length = 15)
+    public String getBeginSop() {
+        return beginSop;
+    }
+
+    /**
+     * @param beginSop the beginSop to set
+     */
+    public void setBeginSop(String beginSop) {
+        this.beginSop = beginSop;
+    }
+
+    /**
+     * @return the stationId
+     */
+    @Column(name = "station_id")
+    public Integer getStationId() {
+        return stationId;
+    }
+
+    /**
+     * @param stationId the stationId to set
+     */
+    public void setStationId(Integer stationId) {
+        this.stationId = stationId;
+    }
+
+    /**
+     * @return the officerId
+     */
+    @Column(name = "officer_id")
+    public Integer getOfficerId() {
+        return officerId;
+    }
+
+    /**
+     * @param officerId the officerId to set
+     */
+    public void setOfficerId(Integer officerId) {
+        this.officerId = officerId;
+    }
 }

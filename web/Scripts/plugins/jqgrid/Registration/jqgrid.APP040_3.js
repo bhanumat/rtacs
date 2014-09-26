@@ -6,21 +6,21 @@
 var gridUrl = urlList + '?id=' + $('#hidOperationId').val();
 var gridName = '#gridData_APP040_3_Grid_List';
 var gridPager = '#gridPager_APP040_3_Grid_List';
-var gridSortName = 'memberId';
+var gridSortName = 'm.member_id';
 var gridSortOrder = 'asc';
 var gridCaption = 'หน้าแสดงกำหนดเลขทะเบียนสมาชิก';
 var gridColNames = ['ลำดับ', 'เลขทะเบียนสมาชิก', 'รหัสหน่วย', 'หน่วยต้นสังกัด', 'เลขประจำตัวประชาชน', 'ยศ-คำนำหน้า', 'ชื่อ', 'สกุล', 'ผู้นำเข้า', 'เลขอ้างอิง'];
 var gridColModel = [
-    {name: 'memberId', index: 'memberId', hidden: true, align: 'left'},
-    {name: 'memberCode', index: 'memberCode', align: 'left', sortable: true, width: 150},
-    {name: 'militaryId', index: 'militaryId', align: 'left', sortable: true, width: 100},
-    {name: 'militaryName;', index: 'militaryName;', align: 'left', sortable: true, width: 100},
-    {name: 'citizenId', index: 'citizenId', align: 'left', sortable: true, width: 150},
-    {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: true, width: 100},
-    {name: 'name', index: 'name', align: 'left', sortable: true, width: 100},
-    {name: 'surname', index: 'surname', align: 'left', sortable: true, width: 150},
-    {name: 'createBy', index: 'createBy', align: 'center', sortable: false, width: 100},
-    {name: 'referrerId', index: 'referrerId', align: 'center', sortable: false, width: 100}];
+    {name: 'memberId', index: 'm.member_id', hidden: true, align: 'left'},
+    {name: 'memberCode', index: 'm.member_code', align: 'left', sortable: true, width: 150},
+    {name: 'militaryId', index: 'm.military_id', align: 'left', sortable: true, width: 100},
+    {name: 'militaryName;', index: 'militaryName;', align: 'left', sortable: false, width: 100},
+    {name: 'citizenId', index: 'm.citizen_id', align: 'left', sortable: true, width: 150},
+    {name: 'rankOrTitleName', index: 'rankOrTitleName', align: 'left', sortable: false, width: 100},
+    {name: 'name', index: 'm.name', align: 'left', sortable: true, width: 100},
+    {name: 'surname', index: 'm.surname', align: 'left', sortable: true, width: 150},
+    {name: 'createBy', index: 'm.create_by', align: 'center', sortable: false, width: 100},
+    {name: 'referrerId', index: 'm.referrer_id', align: 'center', sortable: false, width: 100}];
 var gridJsonReader = {
     records: "records", //total number of records for the query
     repeatitems: false,

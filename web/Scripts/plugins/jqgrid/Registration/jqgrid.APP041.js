@@ -7,13 +7,13 @@
 var gridUrl = urlList;
 var gridName = '#gridData_APP041jqGrid_List';
 var gridPager = '#gridPager_APP041jqGrid_List';
-var gridSortName = 'operationId'; //***
+var gridSortName = 'operation_id'; //***
 var gridSortOrder = 'asc';
 var gridCaption = 'รายการขออนุมัติขึ้นทะเบียนสมาชิกใหม่ ';
 var gridColNames = ['ลำดับที่', 'วันที่ขออนุมัติ', 'เลขที่อ้างอิงขออนุมัติ', 'จำนวนสมาชิก', ''];
 var gridColModel = [
-    {name: 'operationId', index: 'operationId', hidden: true, align: 'center', sortable: true},
-    {name: 'docDate', index: 'docDate', align: 'left', sortable: true, width: 200,
+    {name: 'operationId', index: 'operation_id', hidden: true, align: 'center', sortable: true},
+    {name: 'docDate', index: 'doc_date', align: 'left', sortable: true, width: 200,
         formatoptions: {newformat: 'd/m/Y'},
         formatter: function(cellval, opts, rowObject, action) {
             return $.fn.fmatter.call(
@@ -24,8 +24,8 @@ var gridColModel = [
                     rowObject,
                     action);
         }},
-    {name: 'docCode', index: 'docCode', align: 'left', sortable: true, width: 200},
-    {name: 'memberNo', index: 'memberNo', align: 'left', sortable: true, width: 200},
+    {name: 'docCode', index: 'doc_code', align: 'left', sortable: true, width: 200},
+    {name: 'memberNo', index: 'member_no', align: 'left', sortable: false, width: 200},
     {name: 'action', index: 'action', width: 150, align: 'center', search: false, sortable: false}];
 var gridJsonReader = {
     records: "records", //total number of records for the query

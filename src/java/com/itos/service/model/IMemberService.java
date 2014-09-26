@@ -6,9 +6,14 @@
 package com.itos.service.model;
 
 import com.itos.model.Member;
+import com.itos.model.ext.ChangeMemberData;
+import com.itos.model.ext.MemberData;
+import com.itos.model.ext.MemberTotalDetail;
 import com.itos.model.ext.PaymentDetail;
+import com.itos.model.ext.PaymentMilitary;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
+import com.itos.util.jsonObject.CHT010Request;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 
@@ -18,9 +23,9 @@ import com.itos.util.jsonObject.MessageResponse;
  */
 public interface IMemberService {
 
-    public JqGridResponse<Member> getListMember(JqGridRequest req);
+    public JqGridResponse<MemberData> getListMember(JqGridRequest req);
 
-    public JqGridResponse<Member> getListMemberForRegister(JqGridRequest req);
+    public JqGridResponse<MemberData> getListMemberForRegister(JqGridRequest req);
 
     public MessageResponse setDeleteMember(MessageRequest req);
 
@@ -28,7 +33,7 @@ public interface IMemberService {
 
     public MessageResponse setSaveEditMember(Member member);
 
-    public Member getLoadMember(Member member);
+    public MemberData getLoadMember(Member member);
 
     public MessageResponse setSaveUpdateMemberOperation(Member member);
 
@@ -36,20 +41,22 @@ public interface IMemberService {
 
     public Member updateMemberStatus(String citizenId);
 
-    public JqGridResponse<Member> getListMemberAPP041_2(JqGridRequest req);
+    public JqGridResponse<MemberData> getListMember(JqGridRequest req, int operationTypeCode);
+    
+    public JqGridResponse<MemberData> getListMemberStatus(JqGridRequest req, int memberStatusCode);
 
-    public JqGridResponse<Member> getAddListMemberAPP041_2(JqGridRequest req);
-
-    public JqGridResponse<Member> getListMemberAPP031_2(JqGridRequest req);
-
-    public JqGridResponse<Member> getAddListMemberAPP031_2(JqGridRequest req);
-
-    public JqGridResponse<Member> getListMember(JqGridRequest req, int memberStatusCode);
-
-    public JqGridResponse<Member> getListMember(JqGridRequest req, int memberStatusCode, int operationId);
+    public JqGridResponse<MemberData> getListMember(JqGridRequest req, int operationTypeCode, int operationId);
 
     public Member updateMemberStatusAPP041(Integer memberId);
 
     public Member updateMemberStatusAPP031(Integer memberId);
-
+    
+    public JqGridResponse<PaymentMilitary> getPaymentMilitaryList(JqGridRequest req);
+    
+    public Member updatedMemberPAY021_1(String memberId);
+    
+    public JqGridResponse<ChangeMemberData> getChangeMemberList(JqGridRequest req);
+    
+    public MessageResponse updatedCHT010(CHT010Request request);
+    public MemberTotalDetail searchCHT030(MessageRequest req);
 }

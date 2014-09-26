@@ -8,6 +8,7 @@ package com.itos.service.impl;
 import com.itos.dao.model.IOperationDAO;
 import com.itos.model.Member;
 import com.itos.model.Operation;
+import com.itos.model.ext.OperationView;
 import com.itos.service.model.IOperationService;
 import com.itos.util.DateUtil;
 import com.itos.util.jqGrid.JqGridRequest;
@@ -47,16 +48,16 @@ public class OperationService implements IOperationService {
 
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Operation> getListOperationAPP041(JqGridRequest req) {
-        JqGridResponse<Operation> response = new JqGridResponse<>();
+    public JqGridResponse<OperationView> getListOperationAPP041(JqGridRequest req) {
+        JqGridResponse<OperationView> response = new JqGridResponse<>();
         response = iOperationDAO.getListAPP041(req);
         return response;
     }
 
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Operation> getListOperationAPP031(JqGridRequest req) {
-        JqGridResponse<Operation> response = new JqGridResponse<>();
+    public JqGridResponse<OperationView> getListOperationAPP031(JqGridRequest req) {
+        JqGridResponse<OperationView> response = new JqGridResponse<>();
         response = iOperationDAO.getListAPP031(req);
         return response;
     }

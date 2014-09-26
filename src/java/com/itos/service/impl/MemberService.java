@@ -7,11 +7,16 @@ package com.itos.service.impl;
 
 import com.itos.dao.model.IMemberDAO;
 import com.itos.model.Member;
+import com.itos.model.ext.ChangeMemberData;
+import com.itos.model.ext.MemberData;
+import com.itos.model.ext.MemberTotalDetail;
 import com.itos.model.ext.PaymentDetail;
+import com.itos.model.ext.PaymentMilitary;
 import com.itos.service.model.IMemberService;
 import com.itos.util.DateUtil;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
+import com.itos.util.jsonObject.CHT010Request;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import org.apache.commons.logging.Log;
@@ -40,46 +45,14 @@ public class MemberService implements IMemberService {
 
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Member> getListMember(JqGridRequest req) {
-        JqGridResponse<Member> response = new JqGridResponse<>();
+    public JqGridResponse<MemberData> getListMember(JqGridRequest req) {
+        JqGridResponse<MemberData> response = new JqGridResponse<>();
         response = iMemberDAO.getList(req);
         return response;
     }
 
-    @Override
-    @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Member> getListMemberAPP041_2(JqGridRequest req) {
-        JqGridResponse<Member> response = new JqGridResponse<>();
-        response = iMemberDAO.getListAPP041_2(req);
-        return response;
-    }
-
-    @Override
-    @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Member> getAddListMemberAPP041_2(JqGridRequest req) {
-        JqGridResponse<Member> response = new JqGridResponse<>();
-        response = iMemberDAO.getAddListAPP041_2(req);
-        return response;
-    }
-
-    @Override
-    @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Member> getListMemberAPP031_2(JqGridRequest req) {
-        JqGridResponse<Member> response = new JqGridResponse<>();
-        response = iMemberDAO.getListAPP031_2(req);
-        return response;
-    }
-
-    @Override
-    @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Member> getAddListMemberAPP031_2(JqGridRequest req) {
-        JqGridResponse<Member> response = new JqGridResponse<>();
-        response = iMemberDAO.getAddListAPP031_2(req);
-        return response;
-    }
-
-    public JqGridResponse<Member> getListMemberForRegister(JqGridRequest req) {
-        JqGridResponse<Member> response = new JqGridResponse<>();
+    public JqGridResponse<MemberData> getListMemberForRegister(JqGridRequest req) {
+        JqGridResponse<MemberData> response = new JqGridResponse<>();
         response = iMemberDAO.getListForRegister(req);
         return response;
     }
@@ -117,8 +90,8 @@ public class MemberService implements IMemberService {
 
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public Member getLoadMember(Member member) {
-        Member response = new Member();
+    public MemberData getLoadMember(Member member) {
+        MemberData response = new MemberData();
         response = iMemberDAO.getLoadMember(member);
         return response;
     }
@@ -150,6 +123,14 @@ public class MemberService implements IMemberService {
         response = iMemberDAO.updatedStatus(citizenId);
         return response;
     }
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public Member updatedMemberPAY021_1(String memberId) {
+        Member response = new Member();
+        response = iMemberDAO.updatedStatusPAY021_1(memberId);
+        return response;
+    }
 
     @Override
     @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
@@ -169,9 +150,17 @@ public class MemberService implements IMemberService {
 
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Member> getListMember(JqGridRequest req, int memberStatusCode) {
-        JqGridResponse<Member> response = new JqGridResponse<>();
-        response = iMemberDAO.getList(req, memberStatusCode);
+    public JqGridResponse<MemberData> getListMember(JqGridRequest req, int operationTypeCode) {
+        JqGridResponse<MemberData> response = new JqGridResponse<>();
+        response = iMemberDAO.getList(req, operationTypeCode);
+        return response;
+    }
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<MemberData> getListMemberStatus(JqGridRequest req, int memberStatusCode) {
+        JqGridResponse<MemberData> response = new JqGridResponse<>();
+        response = iMemberDAO.getListMemberStatus(req, memberStatusCode);
         return response;
     }
 
@@ -182,9 +171,43 @@ public class MemberService implements IMemberService {
      */
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
-    public JqGridResponse<Member> getListMember(JqGridRequest req, int memberStatusCode, int operationId) {
-        JqGridResponse<Member> response = new JqGridResponse<>();
-        response = iMemberDAO.getList(req, memberStatusCode, operationId);
+    public JqGridResponse<MemberData> getListMember(JqGridRequest req, int operationTypeCode, int operationId) {
+        JqGridResponse<MemberData> response = new JqGridResponse<>();
+        response = iMemberDAO.getList(req, operationTypeCode, operationId);
         return response;
     }
+    
+    /*
+     JqGridRequest req,
+     int memberStatusCode, // 0=ALL
+     int operationId
+     */
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<PaymentMilitary> getPaymentMilitaryList(JqGridRequest req) {
+        JqGridResponse<PaymentMilitary> response = iMemberDAO.getPaymentMilitaryList(req);
+        return response;
+    }    
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<ChangeMemberData> getChangeMemberList(JqGridRequest req) {
+        JqGridResponse<ChangeMemberData> response = iMemberDAO.getChangeMemberList(req);
+        return response;
+    }  
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public MessageResponse updatedCHT010(CHT010Request request) {
+        MessageResponse response = new MessageResponse();
+        response = iMemberDAO.updatedCHT010(request);
+        return response;
+    }
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public MemberTotalDetail searchCHT030(MessageRequest req) {
+        MemberTotalDetail response = iMemberDAO.searchCHT030(req);
+        return response;
+    }  
 }

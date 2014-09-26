@@ -6,6 +6,7 @@
 package com.itos.controller.registration;
 
 import com.itos.model.Member;
+import com.itos.model.ext.MemberData;
 import com.itos.service.model.IMemberService;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
@@ -50,9 +51,10 @@ public class APP051Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<Member> getListAPP051(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+    JqGridResponse<MemberData> getListAPP051(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
         req.setSearch(Boolean.parseBoolean(search));
-        return iMemberService.getListMember(req);
+        int operationTypeCode = 105;//Set Status 0 = ALL
+        return iMemberService.getListMember(req, operationTypeCode);
     }
 
 

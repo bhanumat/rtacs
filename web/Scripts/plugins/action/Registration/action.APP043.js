@@ -4,16 +4,20 @@ $(function() {
 //    $('.ui-tabs-panel').removeClass();
 //    $(tabMainName).tabs("option", "active", 0);
 //    
+
+    $('#txDocDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txDocDate").datepicker("setDate", new Date());
+    
     $("#btnCummit").click(function(event) {
         var selRowIds = $(gridName).jqGrid('getGridParam', 'selarrrow');
         //var myGrid = $('#gridData_ExjqGrid_List');
         //var $selRadio = $('input[name=jqg_gridData_ExjqGrid_List_' + myGrid[0].id + ']:radio:checked'), $tr;
         if (selRowIds.length > 0) {   //alert(selRowIds[0].toString());         
-            onDialogNew(event);            
+            onDialogNew(event);
         } else {
             $("#Dialog-Warning").html("กรุณาทำการเลือกข้อมูล");
             $("#Dialog-Warning").dialog("open");
-        } 
+        }
     });
 
     $("#dialogFormNew").removeClass('hide').dialog({
@@ -30,14 +34,14 @@ $(function() {
                 click: function() {
                     var setData = {};
                     var listData = new Array();
-                    selId = $(gridName).jqGrid('getGridParam','selarrrow');
-                    for(var i = 0; i < selId.length; i++){
+                    selId = $(gridName).jqGrid('getGridParam', 'selarrrow');
+                    for (var i = 0; i < selId.length; i++) {
                         setData = {};
-                        var data = $(gridName).jqGrid('getRowData',selId[i]);
+                        var data = $(gridName).jqGrid('getRowData', selId[i]);
                         setData.operationId = data.operationId;
                         setData.memberId = data.memberId;
                         listData.push(setData);
-                    }                    
+                    }
                     //alert("Status ->"+operId);
                     onActionSaveNew(listData);
                 }
@@ -92,16 +96,24 @@ $(function() {
     onActionSearch = function() {
         var search = {};
         var requestSearch = new Array();
-        var search1 = {'groupOp': '', 'field': 'docCode', 'op': 'cn', 'data': $('#txtReferNumber').val(), 'dataType': 'varchar'};
+        var search1 = {'groupOp': 'and', 'field': 'docCode', 'op': 'cn', 'data': $('#txtReferNumber').val(), 'dataType': 'varchar'};
         requestSearch.push(search1);
-        var search2 = {'groupOp': 'and', 'field': 'memberCode', 'op': 'cn', 'data': $('#txtNumberMember').val(), 'dataType': 'varchar'};
-        requestSearch.push(search2);
-        var search3 = {'groupOp': 'and', 'field': 'citizenId', 'op': 'cn', 'data': $('#txtCardID').val(), 'dataType': 'varchar'};
-        requestSearch.push(search3);
-        var search4 = {'groupOp': 'and', 'field': 'name', 'op': 'cn', 'data': $('#txtFirstName').val(), 'dataType': 'varchar'};
-        requestSearch.push(search4);
-        var search5 = {'groupOp': 'and', 'field': 'surname', 'op': 'cn', 'data': $('#txtLastName').val(), 'dataType': 'varchar'};
-        requestSearch.push(search5);
+        if (0 != $('#txtNumberMember').val().length) {
+            var search2 = {'groupOp': 'and', 'field': 'memberCode', 'op': 'cn', 'data': $('#txtNumberMember').val(), 'dataType': 'varchar'};
+            requestSearch.push(search2);
+        }
+        if (0 != $('#txtCardID').val().length) {
+            var search3 = {'groupOp': 'and', 'field': 'citizenId', 'op': 'cn', 'data': $('#txtCardID').val(), 'dataType': 'varchar'};
+            requestSearch.push(search3);
+        }
+        if (0 != $('#txtFirstName').val().length) {
+            var search4 = {'groupOp': 'and', 'field': 'name', 'op': 'cn', 'data': $('#txtFirstName').val(), 'dataType': 'varchar'};
+            requestSearch.push(search4);
+        }
+        if (0 != $('#txtLastName').val().length) {
+            var search5 = {'groupOp': 'and', 'field': 'surname', 'op': 'cn', 'data': $('#txtLastName').val(), 'dataType': 'varchar'};
+            requestSearch.push(search5);
+        }
         if ('%' != $('#slMilitaryIdSearch').val()) {
             var search6 = {'groupOp': 'and', 'field': 'militaryId', 'op': 'cn', 'data': $('#slMilitaryIdSearch').val(), 'dataType': 'integer'};
             requestSearch.push(search6);
@@ -110,10 +122,10 @@ $(function() {
             var search7 = {'groupOp': 'and', 'field': 'memberTypeCode', 'op': 'cn', 'data': $('#slTypeApplySearch').val(), 'dataType': 'integer'};
             requestSearch.push(search7);
         }
-        /*
+
         var search8 = {'groupOp': 'and', 'field': 'operationTypeCode', 'op': 'eq', 'data': 25, 'dataType': 'integer'};
         requestSearch.push(search8);
-        */
+
         search.conditions = requestSearch;
         $(gridName).jqGrid('setGridParam', {
             search: true,
@@ -127,7 +139,7 @@ $(function() {
         });
         $(gridName).trigger("reloadGrid", [{page: 1}]);
     };
-    
+
     onActionSaveNew = function(listData) {
         var formId = '#frmNew';
         var formName = $(formId);
@@ -135,7 +147,7 @@ $(function() {
         var objData = {};
         var objId = {};
         //var ids = $(gridName).jqGrid('getGridParam', 'selarrrow');
-                        
+
         if ($(formId).validationEngine('validate'))
         {
             $.map(inputToMergeEdit, function(inputData) {
@@ -181,13 +193,16 @@ $(function() {
                     $.fn.MessageError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
-            $(gridName).trigger("reloadGrid", [{page: 1}]);
+            onActionSearch();
         }
     };
 
     $('#txtStartDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtStartDate").datepicker("setDate", new Date());
     $('#txtEndDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtEndDate").datepicker("setDate", new Date());
     $('#txDocDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txDocDate").datepicker("setDate", new Date());
 
 //    $("#slTypeApplySearch").select2({
 //        allowClear: true

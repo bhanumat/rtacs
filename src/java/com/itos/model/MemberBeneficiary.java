@@ -62,6 +62,16 @@ public class MemberBeneficiary implements java.io.Serializable {
     private Date createDate;
     private String updateBy;
     private Date updateDate;
+    private String militaryId;
+    private Character gender;
+    private String bankAccName;
+    private String bankCode;
+    private Integer bankBranchId;
+    private String bankAccNo;
+    private Integer accTypeId;
+    private Integer approvedStatus;
+    private Date approvedDate;
+    private String beneficiaryStatus;
 
     private Integer rankId;
     private String rankName;
@@ -83,7 +93,7 @@ public class MemberBeneficiary implements java.io.Serializable {
         this.member = member;
     }
 
-    public MemberBeneficiary(int beneficiaryId, Province provinceByPermanentProvinceCode, Rank rank, Title title, Province provinceByProvinceCode, Member member, String citizenId, String name, String surname, Integer memberRelationshipCode, String permanentAddress, String permanentMoo, String permanentRoad, String permanentSoi, String permanentSubdistrict, String permanentDistrict, String permanentZipcode, String permanentTel, String permanentFax, String permanentMobile, String address, String moo, String road, String soi, String subdistrict, String district, String zipcode, String tel, String fax, String mobile, Character aliveFlage, Character isManager, String createBy, Date createDate, String updateBy, Date updateDate) {
+    public MemberBeneficiary(int beneficiaryId, Province provinceByPermanentProvinceCode, Rank rank, Title title, Province provinceByProvinceCode, Member member, String citizenId, String militaryId, String name, String surname, Character gender, Integer memberRelationshipCode, String bankAccName, String bankCode, Integer bankBranchId, String bankAccNo, Integer accTypeId, String permanentAddress, String permanentMoo, String permanentRoad, String permanentSoi, String permanentSubdistrict, String permanentDistrict, String permanentZipcode, String permanentTel, String permanentFax, String permanentMobile, String address, String moo, String road, String soi, String subdistrict, String district, String zipcode, String tel, String fax, String mobile, Character aliveFlage, Character isManager, Integer approvedStatus, Date approvedDate, Character beneficiaryStatus, String createBy, Date createDate, String updateBy, Date updateDate) {
         this.beneficiaryId = beneficiaryId;
         this.provinceByPermanentProvinceCode = provinceByPermanentProvinceCode;
         this.rank = rank;
@@ -91,9 +101,16 @@ public class MemberBeneficiary implements java.io.Serializable {
         this.provinceByProvinceCode = provinceByProvinceCode;
         this.member = member;
         this.citizenId = citizenId;
+        this.militaryId = militaryId;
         this.name = name;
         this.surname = surname;
+        this.gender = gender;
         this.memberRelationshipCode = memberRelationshipCode;
+        this.bankAccName = bankAccName;
+        this.bankCode = bankCode;
+        this.bankBranchId = bankBranchId;
+        this.bankAccNo = bankAccNo;
+        this.accTypeId = accTypeId;
         this.permanentAddress = permanentAddress;
         this.permanentMoo = permanentMoo;
         this.permanentRoad = permanentRoad;
@@ -459,6 +476,157 @@ public class MemberBeneficiary implements java.io.Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    /**
+     * @return the militaryId
+     */
+    @Column(name = "military_id")
+    public String getMilitaryId() {
+        return militaryId;
+    }
+
+    /**
+     * @param militaryId the militaryId to set
+     */
+    public void setMilitaryId(String militaryId) {
+        this.militaryId = militaryId;
+    }
+
+    /**
+     * @return the gender
+     */
+    @Column(name = "gender", length = 1)
+    public Character getGender() {
+        return gender;
+    }
+
+    /**
+     * @param gender the gender to set
+     */
+    public void setGender(Character gender) {
+        this.gender = gender;
+    }
+
+    /**
+     * @return the bankAccName
+     */
+    @Column(name = "bank_acc_name", length = 256)
+    public String getBankAccName() {
+        return bankAccName;
+    }
+
+    /**
+     * @param bankAccName the bankAccName to set
+     */
+    public void setBankAccName(String bankAccName) {
+        this.bankAccName = bankAccName;
+    }
+
+    /**
+     * @return the bankCode
+     */
+    @Column(name = "bank_code", length = 5)
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * @param bankCode the bankCode to set
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
+
+    /**
+     * @return the bankBranchId
+     */
+    @Column(name = "bank_branch_id")
+    public Integer getBankBranchId() {
+        return bankBranchId;
+    }
+
+    /**
+     * @param bankBranchId the bankBranchId to set
+     */
+    public void setBankBranchId(Integer bankBranchId) {
+        this.bankBranchId = bankBranchId;
+    }
+
+    /**
+     * @return the bankAccNo
+     */
+    @Column(name = "bank_acc_no", length = 15)
+    public String getBankAccNo() {
+        return bankAccNo;
+    }
+
+    /**
+     * @param bankAccNo the bankAccNo to set
+     */
+    public void setBankAccNo(String bankAccNo) {
+        this.bankAccNo = bankAccNo;
+    }
+
+    /**
+     * @return the accTypeId
+     */
+    @Column(name = "acc_type_id")
+    public Integer getAccTypeId() {
+        return accTypeId;
+    }
+
+    /**
+     * @param accTypeId the accTypeId to set
+     */
+    public void setAccTypeId(Integer accTypeId) {
+        this.accTypeId = accTypeId;
+    }
+
+    /**
+     * @return the approvedStatus
+     */
+    @Column(name = "approved_status")
+    public Integer getApprovedStatus() {
+        return approvedStatus;
+    }
+
+    /**
+     * @param approvedStatus the approvedStatus to set
+     */
+    public void setApprovedStatus(Integer approvedStatus) {
+        this.approvedStatus = approvedStatus;
+    }
+
+    /**
+     * @return the approvedDate
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "approved_date", length = 23)
+    public Date getApprovedDate() {
+        return approvedDate;
+    }
+
+    /**
+     * @param approvedDate the approvedDate to set
+     */
+    public void setApprovedDate(Date approvedDate) {
+        this.approvedDate = approvedDate;
+    }
+
+    /**
+     * @return the beneficiaryStatus
+     */
+    @Column(name = "beneficiary_status", length = 1)
+    public String getBeneficiaryStatus() {
+        return beneficiaryStatus;
+    }
+
+    /**
+     * @param beneficiaryStatus the beneficiaryStatus to set
+     */
+    public void setBeneficiaryStatus(String beneficiaryStatus) {
+        this.beneficiaryStatus = beneficiaryStatus;
     }
 
     /**

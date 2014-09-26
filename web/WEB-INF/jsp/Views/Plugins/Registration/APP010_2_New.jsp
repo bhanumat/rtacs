@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <select name="slMemberGroupCodeNew" id="slMemberGroupCodeNew" class="form-control select2">
-                                        <option value="0">เลือกประเภทสมาชิก</option>
+                                        <option value="">เลือกประเภทสมาชิก</option>
                                         <option value="10">ข้าราชการ</option>
                                         <option value="20">ลูกจ้าง</option>
                                         <option value="30">ครอบครัว</option>
@@ -102,13 +102,13 @@
                     <div class="row">
                         <div id="tabMainMember">
                             <ul>
-                                <li> <a data-toggle="tab" href="#tabMember">ข้อมูลสมาชิก</a> </li>
-                                <li> <a data-toggle="tab" href="#tabAddress">ที่อยู่</a> </li>
-                                <li> <a data-toggle="tab" href="#tabMemberBeneficiary">ผู้รับเงินสงเคราห์</a> </li>
-                                <li> <a data-toggle="tab" href="#tabPayment">ประเภทการชำระเงิน</a> </li>
+                                <li class="active"> <a data-toggle="tab" href="#tabMember">ข้อมูลสมาชิก<i class="fa"></i></a> </li>
+                                <li> <a href="#tabAddress" data-toggle="tab">ที่อยู่<i class="fa"></i></a> </li>
+                                <li> <a href="#tabMemberBeneficiary" data-toggle="tab">ผู้รับเงินสงเคราห์<i class="fa"></i></a> </li>
+                                <li> <a href="#tabPayment" data-toggle="tab">ประเภทการชำระเงิน<i class="fa"></i></a> </li>
                             </ul>
                             <div class="tab-content">
-                                <div id="tabMember">
+                                <div id="tabMember" class="tab-panel active">
                                     <div class="row">
                                         <div class="col-xs-10">
                                             <div class="form-horizontal">
@@ -315,7 +315,7 @@
                                     </div>
                                 </div>
 
-                                <div id="tabAddress">
+                                <div id="tabAddress" class="tab-panel">
                                     <div class="row">
                                         <div class="col-xs-10">
                                             <div class="form-horizontal">
@@ -559,7 +559,7 @@
                                     </div>
                                 </div>
 
-                                <div id="tabMemberBeneficiary">
+                                <div id="tabMemberBeneficiary" class="tab-panel">
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="row">
@@ -579,7 +579,7 @@
                                     </div>
                                 </div>
 
-                                <div id="tabPayment">
+                                <div id="tabPayment" class="tab-panel">
                                     <div class="row">
                                         <div class="col-xs-10">
                                             <div class="form-horizontal">
@@ -783,11 +783,16 @@
                             </div>                                                    
                             <div class="col-md-3">
                                 <select id="slMemberRelationshipCodeMemberBeneficiaryNew" name="slMemberRelationshipCodeMemberBeneficiaryNew" class="form-control select2">				  
-                                    <option value="1">คู่สมรส</option>
-                                    <option value="2">บุตร/ธิดา</option>
-                                    <option value="3">บิดา</option>
-                                    <option value="4">มารดา</option>
-                                    <option value="5">มารดาคู่สมรส</option>
+                                    <option value="">-เลือก-</option>
+                                    <option value="10">คู่สมรส</option>
+                                    <option value="20">บุตร/ธิดา</option>
+                                    <option value="30">บิดา</option>
+                                    <option value="31">มารดา</option>
+                                    <option value="40">บิดาคู่สมรส</option>
+                                    <option value="41">มารดาคู่สมรส</option>
+                                    <option value="70">บุตรเขย</option>
+                                    <option value="80">ญาติ</option>
+                                    <option value="90">เพื่อน</option>
                                 </select>
                             </div>
                         </div>

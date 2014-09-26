@@ -9,6 +9,7 @@
 <script type="text/javascript">
     var urlList = rootPath + '/Plugins/Registration/getListAPP031.json';
     var responseId = '#main-page-content-loading';
+    var urlActionView = rootPath + '/Plugins/Registration/APP031_1.htm';
 
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Registration/action.APP031.js"></script>

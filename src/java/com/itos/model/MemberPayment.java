@@ -1,5 +1,5 @@
 package com.itos.model;
-// Generated Sep 13, 2014 5:40:42 PM by Hibernate Tools 3.6.0
+// Generated Sep 21, 2014 6:09:06 PM by Hibernate Tools 4.3.1
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.math.BigDecimal;
@@ -40,12 +40,17 @@ public class MemberPayment implements java.io.Serializable {
     private BigDecimal overAmount;
     private Integer cancelFlag;
     private String remark;
+    private Integer stationId;
+    private Integer officerId;
+    private Integer paidStationId;
+    private Integer paidOfficerId;
     private Date createdDate;
     private String createdBy;
     private Date updatedDate;
     private String updatedBy;
     private Member member;
     private ControlPayment controlPayment;
+    private String deductSentCode;
 
     public MemberPayment() {
     }
@@ -55,7 +60,7 @@ public class MemberPayment implements java.io.Serializable {
         this.memberId = memberId;
     }
 
-    public MemberPayment(int paymentId, int memberId, Date paymentDate, String monthCode, Integer paymentTypeCode, Integer referenceId, String bankCode, String bankAccNo, Integer bankOperationId, BigDecimal bankPayAmount, BigDecimal payAmount, BigDecimal amount, BigDecimal overAmount, Integer cancelFlag, String remark, Date createdDate, String createdBy, String updatedBy, Member member, ControlPayment controlPayment) {
+    public MemberPayment(int paymentId, int memberId, Date paymentDate, String monthCode, Integer paymentTypeCode, Integer referenceId, String bankCode, String bankAccNo, Integer bankOperationId, BigDecimal bankPayAmount, BigDecimal payAmount, BigDecimal amount, BigDecimal overAmount, Integer cancelFlag, String remark, Integer stationId, Integer officerId, Integer paidStationId, Integer paidOfficerId, Date createdDate, String createdBy, Date updatedDate, String updatedBy, String deductSentCode, Member member, ControlPayment controlPayment) {
         this.paymentId = paymentId;
         this.memberId = memberId;
         this.paymentDate = paymentDate;
@@ -71,11 +76,17 @@ public class MemberPayment implements java.io.Serializable {
         this.overAmount = overAmount;
         this.cancelFlag = cancelFlag;
         this.remark = remark;
+        this.stationId = stationId;
+        this.officerId = officerId;
+        this.paidStationId = paidStationId;
+        this.paidOfficerId = paidOfficerId;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
+        this.updatedDate = updatedDate;
         this.updatedBy = updatedBy;
         this.member = member;
         this.controlPayment = controlPayment;
+        this.deductSentCode = deductSentCode;
     }
 
     @Id
@@ -217,6 +228,42 @@ public class MemberPayment implements java.io.Serializable {
         this.remark = remark;
     }
 
+    @Column(name = "station_id")
+    public Integer getStationId() {
+        return this.stationId;
+    }
+
+    public void setStationId(Integer stationId) {
+        this.stationId = stationId;
+    }
+
+    @Column(name = "officer_id")
+    public Integer getOfficerId() {
+        return this.officerId;
+    }
+
+    public void setOfficerId(Integer officerId) {
+        this.officerId = officerId;
+    }
+
+    @Column(name = "paid_station_id")
+    public Integer getPaidStationId() {
+        return this.paidStationId;
+    }
+
+    public void setPaidStationId(Integer paidStationId) {
+        this.paidStationId = paidStationId;
+    }
+
+    @Column(name = "paid_officer_id")
+    public Integer getPaidOfficerId() {
+        return this.paidOfficerId;
+    }
+
+    public void setPaidOfficerId(Integer paidOfficerId) {
+        this.paidOfficerId = paidOfficerId;
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date", length = 23)
     public Date getCreatedDate() {
@@ -227,7 +274,7 @@ public class MemberPayment implements java.io.Serializable {
         this.createdDate = createdDate;
     }
 
-    @Column(name = "created_by")
+    @Column(name = "created_by", length = 50)
     public String getCreatedBy() {
         return this.createdBy;
     }
@@ -246,7 +293,7 @@ public class MemberPayment implements java.io.Serializable {
         this.updatedDate = updatedDate;
     }
 
-    @Column(name = "updated_by")
+    @Column(name = "updated_by", length = 50)
     public String getUpdatedBy() {
         return this.updatedBy;
     }
@@ -254,7 +301,7 @@ public class MemberPayment implements java.io.Serializable {
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = true, insertable = false, updatable = false)
     @JsonBackReference
@@ -276,7 +323,14 @@ public class MemberPayment implements java.io.Serializable {
     public void setControlPayment(ControlPayment controlPayment) {
         this.controlPayment = controlPayment;
     }
-    
-    
+
+    @Column(name = "DeductSentCode", length = 38)
+    public String getDeductSentCode() {
+        return this.deductSentCode;
+    }
+
+    public void setDeductSentCode(String deductSentCode) {
+        this.deductSentCode = deductSentCode;
+    }
 
 }

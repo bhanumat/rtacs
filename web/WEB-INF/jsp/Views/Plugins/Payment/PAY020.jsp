@@ -7,19 +7,19 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <script type="text/javascript">
-    var urlList     = rootPath + '/Plugins/Payment/getListPAY020.json';
-    var urlDelete   = rootPath + '/Plugins/Payment/setDeletePAY020.json';
-    var urlCancel   = rootPath + '/Plugins/Payment/cancelPAY020.json';
-    
+    var urlList = rootPath + '/Plugins/Payment/getListPAY020.json';
+    var urlDelete = rootPath + '/Plugins/Payment/setDeletePAY020.json';
+    var urlCancel = rootPath + '/Plugins/Payment/cancelPAY020.json';
+
     var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
-    
+
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY020.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY020.js"></script>
 <div class="page-header">
     <h1>
         รายการรับชำระเงินค่าสมัครสมาชิก
-        
+
     </h1>
 </div><!-- /.page-header -->
 
@@ -72,7 +72,7 @@
                                 <select id="military" name="military" class="select2 col-xs-10 col-sm-4">
                                     <option value="">ทั้งหมด</option>
                                 </select>
-                             
+
                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> ประเภทการสมัคร &nbsp;&nbsp;</label>
                                 <select name="memberTypeCode" id="memberTypeCode" class="select2 col-xs-10 col-sm-4">
                                     <option value="">ทั้งหมด</option>
@@ -124,29 +124,29 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="dialogFormReason" class="hide">
-            <div class="bs-component">
-                <form class="form-horizontal" name="frmReason" id="frmReason">
-                    <fieldset>
-                        <div class="form-group" style="height: 40px;">
-                        </div>
-                        <div style="margin-bottom:5px" class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="lbMildeptIdNew"> เหตุผลในการยกเลิก </label>
-                            <div class="col-sm-9">
-                                <input type="text" class="col-xs-10 col-sm-5" id="cancelReason" name="cancelReason">
+                <div class="bs-component">
+                    <form class="form-horizontal" name="frmReason" id="frmReason">
+                        <fieldset>
+                            <div class="form-group" style="height: 40px;">
                             </div>
-                        </div>
-                        
-                    </fieldset>
-                </form>
+                            <div style="margin-bottom:5px" class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="lbMildeptIdNew"> เหตุผลในการยกเลิก </label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="col-xs-10 col-sm-5" id="cancelReason" name="cancelReason">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
             </div>
-        </div>
-        <!-- PAGE CONTENT ENDS -->
+            <!-- PAGE CONTENT ENDS -->
         </div><!-- /.col -->
     </div><!-- /.row -->
 
-<!-- basic scripts -->
+    <!-- basic scripts -->
 
-<!-- inline scripts related to this page -->
+    <!-- inline scripts related to this page -->
 </div>

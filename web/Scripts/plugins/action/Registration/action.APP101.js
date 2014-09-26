@@ -5,7 +5,7 @@ $(function() {
 //    $(tabMainName).tabs("option", "active", 0);
 //    
 
-    
+
 
     $("#btnPrint").click(function(event) {
         var selRowIds = $(gridName).jqGrid('getGridParam', 'selarrrow');
@@ -91,7 +91,9 @@ $(function() {
     };
 
     $('#txtStartDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtStartDate").datepicker("setDate", new Date());
     $('#txtEndDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtEndDate").datepicker("setDate", new Date());
 
 //    $("#slTypeApplySearch").select2({
 //        allowClear: true

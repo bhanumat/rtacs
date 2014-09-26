@@ -1,7 +1,8 @@
 $(function() {
     $('#txtApplyDateFromSearch').datepicker({language: 'th', format: 'dd/mm/yyyy'});
+    $("#txtApplyDateFromSearch").datepicker("setDate", new Date());
     $('#txtApplyDateEndSearch').datepicker({language: 'th', format: 'dd/mm/yyyy'});
-    
+    $("#txtApplyDateEndSearch").datepicker("setDate", new Date());
     $("#btnAdd").click(function(event) {
         event.preventDefault();
         var typeAction = 'GET';
@@ -26,11 +27,11 @@ $(function() {
         var search = {};
         var requestSearch = new Array();
         if ($('#txtApplyDateFromSearch').val().length !== 0 && $('#txtApplyDateFromSearch').val().length !== 0) {
-            var search1 = {'groupOp': '', 'field': 'docDate', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val() + "," + $('#txtApplyDateEndSearch').val(), 'dataType': 'date'};
+            var search1 = {'groupOp': 'and', 'field': 'docDate', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val() + "," + $('#txtApplyDateEndSearch').val(), 'dataType': 'date'};
             requestSearch.push(search1);
         } else {
             if ($('#txtApplyDateFromSearch').val().length !== 0) {
-                var search1 = {'groupOp': '', 'field': 'docDate', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val(), 'dataType': 'date'};
+                var search1 = {'groupOp': 'and', 'field': 'docDate', 'op': 'bw', 'data': $('#txtApplyDateFromSearch').val(), 'dataType': 'date'};
                 requestSearch.push(search1);
             } else {
                 if ($('#txtApplyDateEndSearch').val().length !== 0) {
