@@ -295,7 +295,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 memberPaymentDto.setPaymentDate(mp.getPaymentDate());
                 memberPaymentDto.setReceiptNo(mp.getReferenceId() != null ? String.valueOf(mp.getReferenceId()) : StringPool.BLANK);
                 memberPaymentDto.setMemberCode(mp.getMember().getMemberCode());
-                memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryDepartment().getName());
+                memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryDepartment() != null ? mp.getMember().getMilitaryDepartment().getName() : "");
                 memberPaymentDto.setCitizenId(mp.getMember().getCitizenId());
                 memberPaymentDto.setTitle(buildTitleOrRank(mp.getMember()));
                 memberPaymentDto.setName(mp.getMember().getName());
