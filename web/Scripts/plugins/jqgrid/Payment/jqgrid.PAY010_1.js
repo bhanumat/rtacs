@@ -1,12 +1,12 @@
 var gridUrl = urlListMember;
 var gridName = '#gridData_MemberPaymentGrid_List';
 var gridPager = '#gridPager_MemberPaymentGrid_List';
-var gridSortName = 'memberId';
+var gridSortName = 'm.member_id';
 var gridSortOrder = 'asc';
 var gridCaption = 'ข้อมูลสมาชิก';
 var gridColNames = ['', 'หน่วยต้นสังกัด', 'เลขทะเบียนสมาชิก', 'เลขประจำตัวประชาชน', 'ยศ - คำนำหน้า', 'ชื่อ', 'สกุล', 'สถานะ'];
 var gridColModel = [
-    {name: 'memberId', index: 'memberId', align: 'center', sortable: false, width: 40,
+    {name: 'memberId', index: 'm.member_id', align: 'center', sortable: false, width: 40,
         formatter: function (cellVal, opts, rowObject, action) {
             return '<input type="radio" class="ace" name="selectMember" id="member_' + cellVal + '" value="' + cellVal + '"><span class="lbl"></span>';
         }
