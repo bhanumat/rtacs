@@ -15,7 +15,6 @@ import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -130,8 +130,8 @@ public class PAY010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    MessageResponse updateMemberPayment(MemberPaymentRequest req, Model model, Principal principal) {
-
+    MessageResponse updateMemberPayment( @RequestBody MemberPaymentRequest req, Model model, Principal principal) {
+        logger.info("updateMemberPayment req >>" + req + "<<");
 //        logger.info("Data to save Member Payment >>" + data2Json + "<<");
 //        MemberPaymentDto memberDeserializer = JsonUtil.parse(data2Json, MemberPaymentHeadDto.class);
 //        return iMemberPaymentService.updateMemberPayment(req);

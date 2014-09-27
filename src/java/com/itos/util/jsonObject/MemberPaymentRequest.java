@@ -9,20 +9,11 @@ import java.util.List;
  */
 public class MemberPaymentRequest {
 
-    private int paymentId;
     private int memberId;
     private String postNo;
     private int paymentTypeCode;
     private String paymentDate;
-    private List<MemberPaymentHeadDto> memberPaymentHeadDtos;
-
-    public int getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
-    }
+    private MemberPaymentHeadDto [] memberPaymentHeadDtos;
 
     public int getMemberId() {
         return memberId;
@@ -56,17 +47,17 @@ public class MemberPaymentRequest {
         this.paymentDate = paymentDate;
     }
 
-    public List<MemberPaymentHeadDto> getMemberPaymentHeadDtos() {
+    public MemberPaymentHeadDto[] getMemberPaymentHeadDtos() {
         return memberPaymentHeadDtos;
     }
 
-    public void setMemberPaymentHeadDtos(List<MemberPaymentHeadDto> memberPaymentHeadDtos) {
+    public void setMemberPaymentHeadDtos(MemberPaymentHeadDto [] memberPaymentHeadDtos) {
         this.memberPaymentHeadDtos = memberPaymentHeadDtos;
     }
 
     @Override
     public String toString() {
-        return "MemberPaymentRequest{" + "paymentId=" + paymentId + ", memberId=" + memberId + ", postNo=" + postNo + ", paymentTypeCode=" + paymentTypeCode + ", paymentDate=" + paymentDate + ", memberPaymentHeadDtos=" + memberPaymentHeadDtos + '}';
+        return "MemberPaymentRequest{" + "memberId=" + memberId + ", postNo=" + postNo + ", paymentTypeCode=" + paymentTypeCode + ", paymentDate=" + paymentDate + ", memberPaymentHeadDtos=" + memberPaymentHeadDtos + '}';
     }
 
 }
