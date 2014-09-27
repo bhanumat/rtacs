@@ -358,8 +358,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
             }
         }
 
-        if (hqlCount.toString()
-                .isEmpty()) {
+        if (hqlCount.toString().isEmpty()) {
             hqlCount.append("select count(mp)");
             hql.append("  from " + TB_NAME + " mp");
             hql.append(" where");
