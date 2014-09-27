@@ -182,7 +182,7 @@ $(function() {
     loadMemberPaymentGridByMemberCode = function(memberId) {
         if (memberId) {
             var requestSearch = new Array();
-            requestSearch.push({'groupOp': '', 'field': 'member_id', 'op': 'eq', 'data': memberId, 'dataType': 'varchar'});
+            requestSearch.push({'groupOp': '', 'field': 'memberId', 'op': 'eq', 'data': memberId, 'dataType': 'varchar'});
             var search = {};
             search.conditions = requestSearch;
             

@@ -36,14 +36,14 @@ var gridPaymentColModel = [
     {name: 'paymentDetail', index: 'paymentDetail', sortable: false, width: 500},
     {name: 'sopAmount', index: 'sopAmount', align: 'right', sortable: false, width: 150, formatter:'integer'},
     {name: 'amount', index: 'amount', align: 'right', sortable: false, width: 150, formatter:'number'},
-    {name: 'isPay', index: 'isPay', align: 'center', sortable: false, width: 60,
+    {name: 'paymentId', index: 'paymentId', align: 'center', sortable: false, width: 60,
         formatter: function (cellVal, opts, rowObject, action) {
-            return '<input type="checkbox" class="ace" name="isPay[]"/><span class="lbl"></span>';
+            return '<input type="checkbox" class="ace" name="isPay[]" id="isPay_' + cellVal + '" checked="checked" value="' + cellVal + '"/><span class="lbl"></span>';
         }
     },
-    {name: 'remark', index: 'remark', sortable: false, width: 240,
+    {name: 'paymentId', index: 'paymentId', sortable: false, width: 240,
         formatter: function (cellVal, opts, rowObject, action) {
-            return '<input type="text" class="ace" name="isPay[]"/><span class="lbl"></span>';
+            return '<input type="text" class="ace" name="remark[]" id="remark_' + cellVal + '"/><span class="lbl"></span>';
         }
     }
 ];
@@ -55,12 +55,12 @@ var gridPaymentJsonReader = {
 
 var updatePagerIcons = function(table) {
     var replacement =
-            {
-                'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
-                'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
-                'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
-                'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
-            };
+        {
+            'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+            'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+            'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+            'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+        };
     $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function() {
         var icon = $(this);
         var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
@@ -114,29 +114,12 @@ $(document).ready(function() {
         rownumbers: true,
         gridview: true,
         hidegrid: false,
-        onCellSelect: function (rowid, iCol, cellcontent, e) {
-            var cm = $(gridName).jqGrid("getGridParam", "colModel");
-            if ("cb" !== cm[iCol].name && "action" !== cm[iCol].name) {
-
-            }
-        },
+        onCellSelect: function (rowid, iCol, cellcontent, e) {},
         onSelectRow: function (id, event) {
-            // TODO: Checked not yet work
-            $("#member_"+id).prop("checked");
-        },
-        ondblClickRow: function (id, rowid, colid, e) {
+            $("#member_"+id).attr("checked", "checked");
         },
         loadComplete: function () {
-
-            var ids = $(gridName).jqGrid('getDataIDs');
-            for (var i = 0; i < ids.length; i++) {
-                var id = ids[i];
-                var buttonStatus = '';
-                var buttonDelete = '<button type="button" class="btn btn-xs btn-danger" alt="Delete" onclick="onDialogDelete(\'' + id + '\');"><i class="ace-icon fa fa-trash-o bigger-120"></i> </button>';
-                $(gridName).setRowData(id, {action: buttonDelete, printedStatus: buttonStatus});
-            }
             enableTooltips(this);
-            //styleCheckbox(this);
             updatePagerIcons(this);
         }
     });
@@ -173,8 +156,10 @@ $(document).ready(function() {
         hidegrid: false,
         onCellSelect: function (rowid, iCol, cellcontent, e) {},
         onSelectRow: function (id, event) {},
-        ondblClickRow: function (id, rowid, colid, e) {},
-        loadComplete: function () {}
+        loadComplete: function () {
+            enableTooltips(this);
+            updatePagerIcons(this);
+        }
     });
     $(gridPaymentName).jqGrid('navGrid', gridPaymentPagerName, {edit: false, add: false, del: false, search: false, refresh: false});
 });
