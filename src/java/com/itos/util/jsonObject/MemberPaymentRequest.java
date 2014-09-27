@@ -13,7 +13,7 @@ public class MemberPaymentRequest {
     private String postNo;
     private int paymentTypeCode;
     private String paymentDate;
-    private MemberPaymentHeadDto [] memberPaymentHeadDtos;
+    private List<MemberPaymentHeadDto> memberPaymentHeadDtos;
 
     public int getMemberId() {
         return memberId;
@@ -47,11 +47,11 @@ public class MemberPaymentRequest {
         this.paymentDate = paymentDate;
     }
 
-    public MemberPaymentHeadDto[] getMemberPaymentHeadDtos() {
+    public List<MemberPaymentHeadDto> getMemberPaymentHeadDtos() {
         return memberPaymentHeadDtos;
     }
 
-    public void setMemberPaymentHeadDtos(MemberPaymentHeadDto [] memberPaymentHeadDtos) {
+    public void setMemberPaymentHeadDtos(List<MemberPaymentHeadDto> memberPaymentHeadDtos) {
         this.memberPaymentHeadDtos = memberPaymentHeadDtos;
     }
 

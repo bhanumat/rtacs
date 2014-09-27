@@ -11,6 +11,7 @@
     var urlListMember = rootPath + '/Plugins/Payment/getMembers.json';
     var urlListMemberPayment = rootPath + '/Plugins/Payment/getListMemberPAY010_1.json';
     var urlMember = rootPath + '/Plugins/Payment/getMemberPAY010_1.json';
+    var urlUpdateMemberPayment = rootPath + '/Plugins/Payment/updateMemberPayment.json';
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY010_1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY010_1.js"></script>
@@ -75,7 +76,7 @@
 
         <form role="form" class="form-horizontal">
             <div class="profile-user-info profile-user-info-striped">
-                <input type="hidden" id="memberId"/>
+                <input type="hidden" id="hdnMemberId"/>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;">เลขทะเบียนสมาชิก</div>
                     <div class="profile-info-value"> <span id="lblMemberCode" class="memberCode"></span> </div>
@@ -106,7 +107,7 @@
                     <div class="profile-info-name" style="width:170px;">หมายเลขธนาณัติ </div>
                     <div class="profile-info-value">
                         <span id="username" class="editable">
-                            <input name="paymentTypeCode21No" id="paymentTypeCode21No" type="text"/>
+                            <input name="postNo" id="postNo" type="text"/>
                         </span>
                     </div>
                 </div>
@@ -274,27 +275,25 @@
     <div class="col-xs-12">
         <div class="clearfix form-actions">
             <div class="col-md-offset-3 col-md-9">
-                <button type="button" id="bootbox-submit" class="btn btn-info">
+                <button type="button" id="btnSubmit" class="btn btn-info">
                     <i class="ace-icon fa fa-floppy-o bigger-110"></i>
                     รับชำระ
                 </button>
                 &nbsp; &nbsp; &nbsp;
-                <button type="reset" class="btn">
+                <button type="reset" id="btnCancel" class="btn">
                     <i class="ace-icon fa fa-undo bigger-110"></i>
                     ยกเลิก
                 </button>
                 &nbsp; &nbsp; &nbsp;
-                <button type="button" id="bootbox-submit" class="btn btn-success">
+                <button type="button" id="btnPrintReceipt" class="btn btn-success">
                     <i class="ace-icon fa fa-print bigger-110"></i>
                     พิมพ์ใบเสร็จ
                 </button>
                 &nbsp; &nbsp; &nbsp;
-                <a href="#modal-form-cancel" role="button" class="blue" data-toggle="modal">
-                    <button type="button" id="bootbox-submit" class="btn btn-danger">
-                        <i class="ace-icon fa fa-times bigger-110"></i>
-                        ยกเลิกใบเสร็จ
-                    </button>
-                </a>								
+                <button type="button" id="btnCancelReceipt" class="btn btn-danger">
+                    <i class="ace-icon fa fa-times bigger-110"></i>
+                    ยกเลิกใบเสร็จ
+                </button>
             </div>
         </div>
     </div>
