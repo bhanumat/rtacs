@@ -1,6 +1,6 @@
-var gridUrl = urlListMembers;
-var gridName = '#gridData_MemberPaymentGrid_List';
-var gridPager = '#gridPager_MemberPaymentGrid_List';
+var gridUrl = urlListMember;
+var gridName = '#gridData_MemberGrid_List';
+var gridPager = '#gridPager_MemberGrid_List';
 var gridSortName = 'm.member_id';
 var gridSortOrder = 'asc';
 var gridCaption = 'ข้อมูลสมาชิก';
@@ -11,20 +11,48 @@ var gridColModel = [
             return '<input type="radio" class="ace" name="selectMember" id="member_' + cellVal + '" value="' + cellVal + '"><span class="lbl"></span>';
         }
     },
-    {name: 'militaryName', index: 'militaryName', sortable: false, width: 150},
-    {name: 'memberCode', index: 'memberCode', align: 'center', sortable: false, width: 100},
-    {name: 'citizenId', index: 'citizenId', align: 'center', sortable: false, width: 150},
+    {name: 'militaryName', index: 'md.military_name', sortable: false, width: 150},
+    {name: 'memberCode', index: 'm.member_code', align: 'center', sortable: false, width: 100},
+    {name: 'citizenId', index: 'm.citizen_id', align: 'center', sortable: false, width: 150},
     {name: 'rankOrTitleName', index: 'rankOrTitleName', sortable: false, width: 120},
     {name: 'name', index: 'name', sortable: false, width: 100},
     {name: 'surname', index: 'surname', sortable: false, width: 100},
     {name: 'memberStatusCode', index: 'memberStatusCode', sortable: false, width: 145}
 ];
-
 var gridJsonReader = {
     records: "records", //total number of records for the query
     repeatitems: false,
     id: "memberId"           //the unique id of the row
 };
+
+var gridPaymentUrl = urlListMemberPayment;
+var gridPaymentName = '#gridData_MemberPaymentGrid_List';
+var gridPaymentPagerName = '#gridPager_MemberPaymentGrid_List';
+var gridPaymentSortName = 'member_id';
+var gridPaymentSortOrder = 'asc';
+var gridPaymentCaption = 'ข้อมูลสมาชิก';
+var gridPaymentColNames = ['รายการ', 'จำนวนศพ', 'จำนวนเงิน', 'ชำระ ?', 'หมายเหตุ'];
+var gridPaymentColModel = [
+    {name: 'paymentDetail', index: 'paymentDetail', sortable: false, width: 500},
+    {name: 'sopAmount', index: 'sopAmount', align: 'right', sortable: false, width: 150, formatter:'integer'},
+    {name: 'amount', index: 'amount', align: 'right', sortable: false, width: 150, formatter:'number'},
+    {name: 'isPay', index: 'isPay', align: 'center', sortable: false, width: 60,
+        formatter: function (cellVal, opts, rowObject, action) {
+            return '<input type="checkbox" class="ace" name="isPay[]"/><span class="lbl"></span>';
+        }
+    },
+    {name: 'remark', index: 'remark', sortable: false, width: 240,
+        formatter: function (cellVal, opts, rowObject, action) {
+            return '<input type="text" class="ace" name="isPay[]"/><span class="lbl"></span>';
+        }
+    }
+];
+var gridPaymentJsonReader = {
+    records: "records", //total number of records for the query
+    repeatitems: false,
+    id: "paymentId"           //the unique id of the row
+};
+
 var updatePagerIcons = function(table) {
     var replacement =
             {
@@ -83,7 +111,7 @@ $(document).ready(function() {
         sortorder: gridSortOrder,
         viewrecords: true,
         multiselect: false,
-        rownumbers: false,
+        rownumbers: true,
         gridview: true,
         hidegrid: false,
         onCellSelect: function (rowid, iCol, cellcontent, e) {
@@ -93,7 +121,8 @@ $(document).ready(function() {
             }
         },
         onSelectRow: function (id, event) {
-
+            // TODO: Checked not yet work
+            $("#member_"+id).prop("checked");
         },
         ondblClickRow: function (id, rowid, colid, e) {
         },
@@ -113,12 +142,39 @@ $(document).ready(function() {
     });
     $(gridName).jqGrid('navGrid', gridPager, {edit: false, add: false, del: false, search: false, refresh: false},
     {}, // edit options  
-            {}, // add options  
-            {}, //del options  
-            {
-                closeOnEscape: true,
-                multipleSearch: true,
-                closeAfterSearch: true
-            }
-    );
+    {}, // add options  
+    {}, //del options  
+    {
+        closeOnEscape: true,
+        multipleSearch: true,
+        closeAfterSearch: true
+    });
+    
+    $(gridPaymentName).jqGrid({
+        url: '',
+        datatype: 'json',
+        mtype: 'POST',
+        caption: gridPaymentCaption,
+        colNames: gridPaymentColNames,
+        colModel: gridPaymentColModel,
+        jsonReader: gridPaymentJsonReader,
+        autowidth: true,
+        shrinkToFit: false,
+        pager: gridPaymentPagerName,
+        height: 'auto',
+        width: 'auto',
+        rowNum: 10,
+        sortname: gridPaymentSortName,
+        sortorder: gridPaymentSortOrder,
+        viewrecords: true,
+        multiselect: false,
+        rownumbers: true,
+        gridview: true,
+        hidegrid: false,
+        onCellSelect: function (rowid, iCol, cellcontent, e) {},
+        onSelectRow: function (id, event) {},
+        ondblClickRow: function (id, rowid, colid, e) {},
+        loadComplete: function () {}
+    });
+    $(gridPaymentName).jqGrid('navGrid', gridPaymentPagerName, {edit: false, add: false, del: false, search: false, refresh: false});
 });

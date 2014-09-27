@@ -5,7 +5,7 @@
  */
 package com.itos.service;
 
-import com.itos.model.Member;
+import com.itos.model.ext.MemberData;
 import com.itos.service.model.IMemberService;
 import com.itos.util.jqGrid.JqGridRequest;
 import com.itos.util.jqGrid.JqGridResponse;
@@ -53,7 +53,7 @@ public class MemberServiceTest {
         req.setFilters(null);	
         req.setSearch (true);
         req.setSearchCommand("{\"conditions\":[{\"groupOp\":\"\",\"field\":\"memberId\",\"op\":\"eq\",\"data\":8,\"dataType\":\"String\"}]}");
-        JqGridResponse<Member> response = iMemberService.getListMember(req);
+        JqGridResponse<MemberData> response = iMemberService.getListMember(req);
         
         if (response != null) {
             assertNotNull(response.getRows());

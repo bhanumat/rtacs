@@ -8,42 +8,42 @@ $(function() {
         
         var memberCode = $('#memberCode').val();
         if (memberCode) {
-            requestSearch.push({'groupOp': condition, 'field': 'memberCode', 'op': 'eq', 'data': memberCode, 'dataType': 'varchar'});
+            requestSearch.push({'groupOp': condition, 'field': 'm.member_code', 'op': 'eq', 'data': memberCode, 'dataType': 'varchar'});
             condition = 'and';
             statusSearch = true;
         }
         
         var idCard = $('#idCard').val();
         if (idCard) {
-            requestSearch.push({'groupOp': condition, 'field': 'citizenId', 'op': 'eq', 'data': idCard, 'dataType': 'varchar'});
+            requestSearch.push({'groupOp': condition, 'field': 'm.citizen_id', 'op': 'eq', 'data': idCard, 'dataType': 'varchar'});
             condition = 'and';
             statusSearch = true;
         }
         
         var name = $('#name').val();
         if (name) {
-            requestSearch.push({'groupOp': condition, 'field': 'name', 'op': 'eq', 'data': name, 'dataType': 'varchar'});
+            requestSearch.push({'groupOp': condition, 'field': 'm.name', 'op': 'eq', 'data': name, 'dataType': 'varchar'});
             condition = 'and';
             statusSearch = true;
         }
         
         var surname = $('#surname').val();
         if (surname) {
-            requestSearch.push({'groupOp': condition, 'field': 'surname', 'op': 'eq', 'data': surname, 'dataType': 'varchar'});
+            requestSearch.push({'groupOp': condition, 'field': 'm.surname', 'op': 'eq', 'data': surname, 'dataType': 'varchar'});
             condition = 'and';
             statusSearch = true;
         }
         
         var militaryDeptId = $('#militaryDeptId').val();
         if (militaryDeptId) {
-            requestSearch.push({'groupOp': condition, 'field': 'militaryId', 'op': 'eq', 'data': militaryDeptId, 'dataType': 'integer'});
+            requestSearch.push({'groupOp': condition, 'field': 'm.military_id', 'op': 'eq', 'data': militaryDeptId, 'dataType': 'integer'});
             condition = 'and';
             statusSearch = true;
         }
         
         var status = $('#status').val();
         if (status) {
-            requestSearch.push({'groupOp': condition, 'field': 'memberStatusCode', 'op': 'eq', 'data': status, 'dataType': 'integer'});
+            requestSearch.push({'groupOp': condition, 'field': 'm.member_status_code', 'op': 'eq', 'data': status, 'dataType': 'integer'});
             condition = 'and';
             statusSearch = true;
         }
@@ -98,10 +98,10 @@ $(function() {
             var txtSearch = $("#txtSearch").val();
             if (txtSearch) {
                 var field;
-                if ($("#searchTypeCitizenid").prop("checked", true)) {
+                if ($("#searchTypeCitizenid").is(":checked")) {
                     field = "citizenId";
                 }
-                if ($("#searchTypeMemberCode").prop("checked", true)) {
+                if ($("#searchTypeMemberCode").is(":checked")) {
                     field = "memberCode";
                 }
 
@@ -162,10 +162,15 @@ $(function() {
                         ]
                     });
                 } else {
+                    $("#hdnMemberId").val(object.memberId);
                     $("#lblMemberCode").text(object.memberCode);
                     $("#lblCitizenId").text(object.citizenId);
                     $("#lblName").text(object.rankOrTitleName + object.name + "  " + object.surname);
                     $("#lblMilitaryName").text(object.militaryName);
+                    $("#lblMilitaryName").text(object.militaryName);
+                    $("#paymentTypeCode20").attr("checked", "checked");
+                    changePaymentTypeCode(20);
+                    loadMemberPaymentGridByMemberCode(object.memberId);
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -173,6 +178,70 @@ $(function() {
             }
         });
     };
+    
+    loadMemberPaymentGridByMemberCode = function(memberId) {
+        if (memberId) {
+            var requestSearch = new Array();
+            requestSearch.push({'groupOp': '', 'field': 'member_id', 'op': 'eq', 'data': memberId, 'dataType': 'varchar'});
+            var search = {};
+            search.conditions = requestSearch;
+            
+            $(gridPaymentName).jqGrid('setGridParam', {
+                search: true,
+                postData: {
+                    searchCommand: $.toJSON(search)
+                },
+                url: gridPaymentUrl,
+                page:1
+            }).trigger("reloadGrid");
+        }
+    };
+    
+    changePaymentTypeCode = function(code) {
+        if(code === "21") {
+            $("#paymentTypeCode21No").removeAttr("disabled");
+            $("#paymentTypeCode21No").focus();
+        } else {
+            $("#paymentTypeCode21No").val("");
+            $("#paymentTypeCode21No").attr("disabled", "disabled");
+        }
+    };
+    
+    savePayment = function() {
+        var memberId = $("#hdnMemberId").val();
+        if(memberId){
+            var req = {};
+            req.memberId=8;
+            req.paymentDate = '09/27/2014';
+            req.paymentTypeCode=20;
+            req.postNo='';
+            var memberPaymentHeadDtos = {};
+            req.memberPaymentHeadDtos = [{paymentId:2, remark:'ทดสอบ1'}, {paymentId:3, remark:'ทดสอบ1'}];
+        
+            $.ajax({
+                type: 'POST',
+                url: urlListJsonMilitaryDepartment,
+                cache: false,
+                //timeout: 1000,
+                async: false,
+                data: objData,
+                dataType: 'json',
+                success: function (listMilitaryDepartment) {
+                    $('#militaryDeptId').empty();
+                    $('#militaryDeptId').append('<option value="">ทั้งหมด</option>');
+                    for (var item in listMilitaryDepartment) {
+                        var itemData = listMilitaryDepartment[item];
+                        $('#militaryDeptId').append('<option value="' + itemData.militaryId + '">' + itemData.name + '</option>');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.fn.MessageError(XMLHttpRequest, textStatus, errorThrown);
+                },
+                beforeSend: function (jqXHR) {
+                }
+            });
+        }
+    }
 
     $("#btnSearch").click(function(event) {
         event.preventDefault();
@@ -186,12 +255,16 @@ $(function() {
 
     $("#btnSearchAdvanceSelect").click(function(event) {
         event.preventDefault();
-        onClickSearch($("input:radio[name=selectMember]:checked").val());
+        onClickSearch($("input:radio[name=selectMember]").val());
     });
   
     $("#btnClearAdvance").click(function(event) {
         event.preventDefault();
-        $('#paymentDate').val("");
+        //$('#paymentDate').val("");
+    });
+  
+    $("input:radio[name=paymentTypeCode]").change(function(event) {
+        changePaymentTypeCode($(this).val());
     });
 
     init = function() {

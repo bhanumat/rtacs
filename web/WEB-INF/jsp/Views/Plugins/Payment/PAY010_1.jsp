@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <script type="text/javascript">
     var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
-    var urlListMembers = rootPath + '/Plugins/Payment/getListMembers.json';
+    var urlListMember = rootPath + '/Plugins/Payment/getMembers.json';
     var urlListMemberPayment = rootPath + '/Plugins/Payment/getListMemberPAY010_1.json';
     var urlMember = rootPath + '/Plugins/Payment/getMemberPAY010_1.json';
 </script>
@@ -75,6 +75,7 @@
 
         <form role="form" class="form-horizontal">
             <div class="profile-user-info profile-user-info-striped">
+                <input type="hidden" id="memberId"/>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;">เลขทะเบียนสมาชิก</div>
                     <div class="profile-info-value"> <span id="lblMemberCode" class="memberCode"></span> </div>
@@ -92,25 +93,28 @@
                     <div class="profile-info-value">
                         <span id="username" class="editable">
                             <label>
-                                <input type="radio" name="form-field-radio" class="ace">
+                                <input type="radio" name="paymentTypeCode" id="paymentTypeCode20" class="ace" value="20"/>
                                 <span class="lbl"> เงินสด</span>
                             </label>
                             <span class="middle"></span>
                             <label>
-                                <input type="radio" name="form-field-radio" class="ace">
+                                <input type="radio" name="paymentTypeCode" id="paymentTypeCode21" class="ace" value="21"/>
                                 <span style="padding-left:10px;" class="lbl"> ธนาณัติ</span>
                             </label>
                         </span> 
                     </div>
                     <div class="profile-info-name" style="width:170px;">หมายเลขธนาณัติ </div>
-                    <div class="profile-info-value"> <span id="username" class="editable">
-                            <input name="postalNo" id="postalNo" type="text"></span> </div>
+                    <div class="profile-info-value">
+                        <span id="username" class="editable">
+                            <input name="paymentTypeCode21No" id="paymentTypeCode21No" type="text"/>
+                        </span>
+                    </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> วันที่ชำระ</div>
                     <div class="input-group input-group-sm" style="width:170px;">
                         <input type="text" class="form-control" name="paymentDate" id="paymentDate">
-                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"/></span>
                     </div>
                     <div class="profile-info-name" style="width:170px;"> สถานะสมาชิก</div>
                     <div class="profile-info-value">
@@ -204,8 +208,8 @@
                             
                             <div id="jqGridContainer" class="col-xs-12">
                                 <div>
-                                    <table id="gridData_MemberPaymentGrid_List"></table>
-                                    <div id="gridPager_MemberPaymentGrid_List"></div>
+                                    <table id="gridData_MemberGrid_List"></table>
+                                    <div id="gridPager_MemberGrid_List"></div>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +228,15 @@
 <div class="row">
     <div class="col-xs-12">
         <div style="padding:1px"></div>
-        <div class="table-header">ข้อมูลสมาชิก</div>
+                            
+        <div id="jqGridContainer" class="col-xs-12">
+            <div>
+                <table id="gridData_MemberPaymentGrid_List"></table>
+                <div id="gridPager_MemberPaymentGrid_List"></div>
+            </div>
+        </div>
+        
+<!--        <div class="table-header">ข้อมูลสมาชิก</div>
         <table id="sample-table-1" class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
@@ -254,7 +266,7 @@
                     <td><input type="text" name="checkbox2" id="checkbox2"></td>
                 </tr>
             </tbody>
-        </table>
+        </table>-->
     </div>
 </div>
 
