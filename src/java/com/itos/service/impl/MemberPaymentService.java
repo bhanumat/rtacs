@@ -130,7 +130,7 @@ public class MemberPaymentService implements IMemberPaymentService {
             MemberPaymentHead memberPaymentHeadToAdd;
             MessageResponse resp = null;
             for (MemberPaymentHeadDto dto : req.getMemberPaymentHeadDtos()) {
-                memberPaymentToUpdate = new MemberPayment(memberId, dto.getPaymentId());
+                memberPaymentToUpdate = new MemberPayment(dto.getPaymentId(), memberId);
                 memberPaymentToUpdate.setPaymentDate(paymentDate);
                 memberPaymentToUpdate.setPaymentTypeCode(paymentTypeCode);
                 memberPaymentToUpdate.setUpdatedBy(performedBy);
@@ -138,7 +138,8 @@ public class MemberPaymentService implements IMemberPaymentService {
                 resp = iMemberPaymentDAO.update(memberPaymentToUpdate);
                 memberPaymentUpdated = (MemberPayment) resp.getObj();
                 
-                memberPaymentHeadToAdd = new MemberPaymentHead(memberId);
+                memberPaymentHeadToAdd = new MemberPaymentHead(dto.getPaymentId());
+                memberPaymentHeadToAdd.setMemberId(memberId);
                 memberPaymentHeadToAdd.setAmount(memberPaymentUpdated.getAmount());
                 memberPaymentHeadToAdd.setPaymentDate(paymentDate);
                 memberPaymentHeadToAdd.setPaymentTypeCode(paymentTypeCode);

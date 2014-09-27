@@ -48,7 +48,7 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
     @Override
     public MessageResponse add(MemberPaymentHead memberPaymentHead) {
         MessageResponse response = new MessageResponse();
-        memberPaymentHead.setUpdatedDate(new Date());
+        memberPaymentHead.setCreatedDate(new Date());
         boolean success = CommandQuery.Insert(sessionFactory, memberPaymentHead);
         response.setCheckSuccess(success);
         if (success) {
