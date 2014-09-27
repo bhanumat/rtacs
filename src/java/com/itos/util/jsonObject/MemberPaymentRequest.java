@@ -48,7 +48,7 @@ public class MemberPaymentRequest {
         this.paymentDate = paymentDate;
     }
 
-    public List<MemberPaymentHeadDto> getMemberPaymentHeadDtos() {
+    public MemberPaymentHeadDto[] getMemberPaymentHeadDtos() {
         return memberPaymentHeadDtos;
     }
 
