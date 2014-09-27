@@ -93,7 +93,7 @@ $(function() {
         if(memberId !== null) {
             // get memberId from search advance
             var objData = {};
-            objData["memberId"] = memberId;
+            objData["memberId"] = parseInt(memberId);
             var req = {};
             req.data2Json = $.toJSON(objData);
 
@@ -187,7 +187,7 @@ $(function() {
     loadMemberPaymentGridByMemberId = function(memberId) {
         if (memberId) {
             var requestSearch = new Array();
-            requestSearch.push({'groupOp': '', 'field': 'memberId', 'op': 'eq', 'data': memberId, 'dataType': 'varchar'});
+            requestSearch.push({'groupOp': '', 'field': 'memberId', 'op': 'eq', 'data': parseInt(memberId), 'dataType': 'varchar'});
             var search = {};
             search.conditions = requestSearch;
             
@@ -242,7 +242,7 @@ $(function() {
         var memberId = $("#hdnMemberId").val();
         if(memberId){
             var req = {};
-            req.memberId = memberId;
+            req.memberId = parseInt(memberId);
             req.paymentDate = $('#paymentDate').val();//'09/27/2014';
             req.paymentTypeCode = $("input:radio[name=paymentTypeCode]").val();
             req.postNo = $('#postNo').val();
@@ -259,12 +259,11 @@ $(function() {
             $.ajax({
                 type: 'POST',
                 url: urlUpdateMemberPayment,
-                cache: false,
-                //timeout: 1000,
-                async: false,
-                data: $.toJSON(req),
+                data: JSON.stringify(req),
                 dataType: 'json',
-                success: function () {
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                success: function (msg) {
                     $("#Dialog-Confirm").html("บันทึกข้อมูลเรียบร้อยแล้ว");
                     $("#Dialog-Confirm").removeClass('hide').dialog({
                         width: '300px',
@@ -279,13 +278,7 @@ $(function() {
                                 "class": "btn btn-xs",
                                 click: function() {
                                     $(this).dialog("close");
-                                    
-                                    var typeAction = 'GET';
-                                    var urlAction = urlAddMemberPayment;
-                                    var objDataAction = {};
-                                    var dataTypeAction = 'html';
-                                    var responseId = '#main-page-content-loading';
-                                    $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+                                    reloadPage();
                                 }
                             }
                         ]
@@ -293,11 +286,18 @@ $(function() {
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $.fn.MessageError(XMLHttpRequest, textStatus, errorThrown);
-                },
-                beforeSend: function (jqXHR) {
                 }
             });
         }
+    };
+    
+    reloadPage = function() {
+        var typeAction = 'GET';
+        var urlAction = urlAddMemberPayment;
+        var objDataAction = {};
+        var dataTypeAction = 'html';
+        var responseId = '#main-page-content-loading';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
     };
 
     $("#btnSearch").click(function(event) {
@@ -317,7 +317,12 @@ $(function() {
   
     $("#btnClearAdvance").click(function(event) {
         event.preventDefault();
-        //$('#paymentDate').val("");
+        $('#memberCode').val("");
+        $('#idCard').val("");
+        $('#name').val("");
+        $('#surname').val("");
+        $('#militaryDeptId').val("");
+        $('#status').val("");
     });
   
     $("input:radio[name=paymentTypeCode]").change(function(event) {
