@@ -332,11 +332,14 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
             search = Search.JSONDeserializer(req.getSearchCommand());
             String memberCode = null;
             String citizenId = null;
+            String memberId = null;
             for (Condition condition : search.getConditions()) {
                 if (condition.getField().equalsIgnoreCase("citizenId")) {
                     citizenId = condition.getData();
                 } else if (condition.getField().equalsIgnoreCase("memberCode")) {
                     memberCode = condition.getData();
+                } else if (condition.getField().equalsIgnoreCase("memberId")) {
+                    memberId = condition.getData();
                 }//search member
             }
 
@@ -346,12 +349,17 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
             } else if (memberCode != null) {
                 hqlCondition.append(" and mp.member.memberCode=");
                 hqlCondition.append(memberCode);
+            } else if (memberId != null) {
+                hqlCondition.append(" and mp.member.memberId=");
+                hqlCondition.append(memberId);
             } else {
                 logger.error("citizenId and memberCode is null");
                 throw new NullPointerException("citizenId and memberCode parameter is null");
             }
         }
-        if (hqlCount.toString().isEmpty()) {
+
+        if (hqlCount.toString()
+                .isEmpty()) {
             hqlCount.append("select count(mp)");
             hql.append("  from " + TB_NAME + " mp");
             hql.append(" where");
@@ -361,12 +369,15 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         }
         Paging paging = CommandQuery.queryCountRows(sessionFactory, req, hqlCount);
 
-        if (!hqlCount.toString().isEmpty()) {
+        if (!hqlCount.toString()
+                .isEmpty()) {
             hql.replace(0, 1, "select mp");
         }
 
         Query queryMemberPayment = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
-        if (!queryMemberPayment.list().isEmpty()) {
+
+        if (!queryMemberPayment.list()
+                .isEmpty()) {
             memberPaymentList = queryMemberPayment.list();
             MemberPaymentHeadDto mph;
             for (MemberPayment mp : memberPaymentList) {
