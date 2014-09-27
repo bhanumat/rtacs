@@ -12,6 +12,7 @@ import com.itos.util.jqGrid.JqGridResponse;
 import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
     static {
         //Ignore null converting 
         ConvertUtils.register(new DateConverter(null), Date.class);
+        ConvertUtils.register(new org.apache.commons.beanutils.converters.BigDecimalConverter(null), BigDecimal.class);
     }
 
     @Autowired
@@ -46,6 +48,7 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
     @Override
     public MessageResponse add(MemberPaymentHead memberPaymentHead) {
         MessageResponse response = new MessageResponse();
+        memberPaymentHead.setUpdatedDate(new Date());
         boolean success = CommandQuery.Insert(sessionFactory, memberPaymentHead);
         response.setCheckSuccess(success);
         if (success) {
@@ -128,7 +131,7 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
         }
 
         memberPaymentHeadOrigin.setUpdatedBy(memberPaymentHead.getUpdatedBy());
-        memberPaymentHeadOrigin.setUpdatedDate(memberPaymentHead.getUpdatedDate());
+        memberPaymentHeadOrigin.setUpdatedDate(new Date());
 
         if (CommandQuery.Update(sessionFactory, memberPaymentHeadOrigin)) {
             response.setCheckSuccess(true);

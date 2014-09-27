@@ -54,6 +54,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     static {
         //Ignore null converting 
         ConvertUtils.register(new DateConverter(null), Date.class);
+        ConvertUtils.register(new org.apache.commons.beanutils.converters.BigDecimalConverter(null), BigDecimal.class);
     }
 
     protected final Log logger = LogFactory.getLog(getClass());
@@ -73,6 +74,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     @Override
     public MessageResponse add(MemberPayment memberPayment) {
         MessageResponse response = new MessageResponse();
+        memberPayment.setUpdatedDate(new Date());
         boolean success = CommandQuery.Insert(sessionFactory, memberPayment);
         response.setCheckSuccess(success);
         if (success) {
@@ -150,7 +152,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         }
 
         memberPaymentOrigin.setUpdatedBy(memberPayment.getUpdatedBy());
-        memberPaymentOrigin.setUpdatedDate(memberPayment.getUpdatedDate());
+        memberPaymentOrigin.setUpdatedDate(new Date());
 
         if (CommandQuery.Update(sessionFactory, memberPaymentOrigin)) {
             response.setCheckSuccess(true);
@@ -236,11 +238,11 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                             hql.append(StringPool.SPACE);
                             hql.append("Between");
                             hql.append(StringPool.SPACE);
-                            hql.append(StringPool.APOSTROPHE + beginDate + StringPool.APOSTROPHE);  // 'yyyy-MM-dd'
+                            hql.append(StringPool.APOSTROPHE).append(beginDate).append(StringPool.APOSTROPHE);  // 'yyyy-MM-dd'
                             hql.append(StringPool.SPACE);
                             hql.append(CommandConstant.QueryAND);
                             hql.append(StringPool.SPACE);
-                            hql.append(StringPool.APOSTROPHE + endDate + StringPool.APOSTROPHE); // 'yyyy-MM-dd'
+                            hql.append(StringPool.APOSTROPHE).append(endDate).append(StringPool.APOSTROPHE); // 'yyyy-MM-dd'
                         }
                     }
                     if (condition.getField().equalsIgnoreCase("printedStatus")) {
@@ -453,9 +455,9 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         sb.append(StringPool.SPACE);
         sb.append(strBbuddhistYear);
         sb.append(StringPool.SPACE);
-        sb.append(START_SOP + start + StringPool.SLASH + StrYy);
+        sb.append(START_SOP).append(start).append(StringPool.SLASH).append(StrYy);
         sb.append(StringPool.SPACE);
-        sb.append(END_SOP + end + StringPool.SLASH + StrYy);
+        sb.append(END_SOP).append(end).append(StringPool.SLASH).append(StrYy);
         return sb.toString();
     }
 

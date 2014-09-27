@@ -120,7 +120,7 @@ public class PAY010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    MessageResponse removeMemberPayment(MessageRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+    MessageResponse removeMemberPayment(MessageRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) throws Exception {
         logger.info("Ids selected >>" + req.getItemSelect() + "<<");
         req.setUserProfileId("");
         return iMemberPaymentService.removeMemberPayment(req);
@@ -130,11 +130,9 @@ public class PAY010Controller {
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    MessageResponse updateMemberPayment( @RequestBody MemberPaymentRequest req, Model model, Principal principal) {
+    MessageResponse updateMemberPayment(@RequestBody MemberPaymentRequest req, Model model, Principal principal) throws Exception {
         logger.info("updateMemberPayment req >>" + req + "<<");
-//        logger.info("Data to save Member Payment >>" + data2Json + "<<");
-//        MemberPaymentDto memberDeserializer = JsonUtil.parse(data2Json, MemberPaymentHeadDto.class);
-//        return iMemberPaymentService.updateMemberPayment(req);
-        return null;
+        req.setPerformedBy(principal.getName());
+        return iMemberPaymentService.updateMemberPayment(req);
     }
 }

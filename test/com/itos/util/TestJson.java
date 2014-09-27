@@ -49,7 +49,7 @@ public class TestJson {
         
         MemberPaymentRequest req = new MemberPaymentRequest();
         req.setMemberId(1);
-        req.setMemberPaymentHeadDtos(dtos);
+//        req.setMemberPaymentHeadDtos(dtos);
         req.setPaymentDate("27/09/2014");
         req.setPaymentTypeCode(20);
         

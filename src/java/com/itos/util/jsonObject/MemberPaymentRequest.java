@@ -1,7 +1,7 @@
 package com.itos.util.jsonObject;
 
 import com.itos.model.ext.MemberPaymentHeadDto;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  *
@@ -13,7 +13,8 @@ public class MemberPaymentRequest {
     private String postNo;
     private int paymentTypeCode;
     private String paymentDate;
-    private MemberPaymentHeadDto [] memberPaymentHeadDtos;
+    private MemberPaymentHeadDto[] memberPaymentHeadDtos;
+    private String performedBy;
 
     public int getMemberId() {
         return memberId;
@@ -51,13 +52,21 @@ public class MemberPaymentRequest {
         return memberPaymentHeadDtos;
     }
 
-    public void setMemberPaymentHeadDtos(MemberPaymentHeadDto [] memberPaymentHeadDtos) {
+    public void setMemberPaymentHeadDtos(MemberPaymentHeadDto[] memberPaymentHeadDtos) {
         this.memberPaymentHeadDtos = memberPaymentHeadDtos;
+    }
+
+    public String getPerformedBy() {
+        return performedBy;
+    }
+
+    public void setPerformedBy(String performedBy) {
+        this.performedBy = performedBy;
     }
 
     @Override
     public String toString() {
-        return "MemberPaymentRequest{" + "memberId=" + memberId + ", postNo=" + postNo + ", paymentTypeCode=" + paymentTypeCode + ", paymentDate=" + paymentDate + ", memberPaymentHeadDtos=" + memberPaymentHeadDtos + '}';
+        return "MemberPaymentRequest{" + "memberId=" + memberId + ", postNo=" + postNo + ", paymentTypeCode=" + paymentTypeCode + ", paymentDate=" + paymentDate + ", memberPaymentHeadDtos=" + Arrays.toString(memberPaymentHeadDtos) + ", updateBy=" + performedBy + '}';
     }
 
 }
