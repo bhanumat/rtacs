@@ -1,0 +1,36 @@
+{
+    "paymentId": 3,
+    "memberId": 1,
+    "postNo": null,
+    "paymentTypeCode": 20,
+    "paymentDate": "27/09/2014",
+    "memberPaymentHeadDtos": [{
+            "paymentId": 2,
+            "memberId": 5,
+            "paymentDate": null,
+            "receiptNo": "xxxxxx",
+            "paymentTypeCode": 20,
+            "amount": 200,
+            "paymentDetail": null,
+            "sopAmount": null,
+            "paymentFlag": false,
+            "remark": "",
+            "monthCode": "5570927",
+            "startSopNo": 1,
+            "endSopNo": 2
+        }, {
+            "paymentId": 3,
+            "memberId": 5,
+            "paymentDate": null,
+            "receiptNo": "xxxxxx",
+            "paymentTypeCode": 20,
+            "amount": 200,
+            "paymentDetail": null,
+            "sopAmount": null,
+            "paymentFlag": false,
+            "remark": "",
+            "monthCode": "5570927",
+            "startSopNo": 6,
+            "endSopNo": 7
+        }]
+}
