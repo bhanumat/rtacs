@@ -12,6 +12,7 @@
     var urlListMemberPayment = rootPath + '/Plugins/Payment/getListMemberPAY010_1.json';
     var urlMember = rootPath + '/Plugins/Payment/getMemberPAY010_1.json';
     var urlUpdateMemberPayment = rootPath + '/Plugins/Payment/updateMemberPayment.json';
+    var urlAddMemberPayment = rootPath + '/Plugins/Payment/PAY010_1.htm';
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PAY010_1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PAY010_1.js"></script>

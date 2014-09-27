@@ -278,8 +278,14 @@ $(function() {
                                 html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
                                 "class": "btn btn-xs",
                                 click: function() {
-                                    loadMemberPaymentGridByMemberId(memberId);
                                     $(this).dialog("close");
+                                    
+                                    var typeAction = 'GET';
+                                    var urlAction = urlAddMemberPayment;
+                                    var objDataAction = {};
+                                    var dataTypeAction = 'html';
+                                    var responseId = '#main-page-content-loading';
+                                    $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
                                 }
                             }
                         ]
