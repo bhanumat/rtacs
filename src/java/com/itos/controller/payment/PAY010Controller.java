@@ -5,6 +5,7 @@ import com.itos.model.MemberPayment;
 import com.itos.model.ext.MemberData;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
+import com.itos.util.jsonObject.MemberPaymentRequest;
 import com.itos.model.json.JsonMember;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.service.model.IMemberService;
@@ -14,6 +15,7 @@ import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,5 +124,17 @@ public class PAY010Controller {
         logger.info("Ids selected >>" + req.getItemSelect() + "<<");
         req.setUserProfileId("");
         return iMemberPaymentService.removeMemberPayment(req);
+    }
+
+    @RequestMapping(value = "/Plugins/Payment/updateMemberPayment.json", method = RequestMethod.POST,
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    MessageResponse updateMemberPayment(MemberPaymentRequest req, Model model, Principal principal) {
+
+//        logger.info("Data to save Member Payment >>" + data2Json + "<<");
+//        MemberPaymentDto memberDeserializer = JsonUtil.parse(data2Json, MemberPaymentHeadDto.class);
+//        return iMemberPaymentService.updateMemberPayment(req);
+        return null;
     }
 }
