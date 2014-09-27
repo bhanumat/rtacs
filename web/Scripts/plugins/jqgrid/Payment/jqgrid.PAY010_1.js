@@ -1,4 +1,4 @@
-var gridUrl = urlListMember;
+var gridUrl = urlListMembers;
 var gridName = '#gridData_MemberPaymentGrid_List';
 var gridPager = '#gridPager_MemberPaymentGrid_List';
 var gridSortName = 'm.member_id';

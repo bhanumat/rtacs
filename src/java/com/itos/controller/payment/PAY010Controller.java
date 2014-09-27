@@ -4,6 +4,7 @@ import com.itos.model.Member;
 import com.itos.model.MemberPayment;
 import com.itos.model.ext.MemberData;
 import com.itos.model.ext.MemberPaymentDto;
+import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.model.json.JsonMember;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.service.model.IMemberService;
@@ -69,14 +70,25 @@ public class PAY010Controller {
         return resMemberPayments;
     }
 
+    @RequestMapping(value = "/Plugins/Payment/getMembers.json", method = {RequestMethod.POST},
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    JqGridResponse<MemberData> getMembers(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+        logger.info("search member >>" + req.getSearchCommand() + "<<");
+        req.setSearch(Boolean.parseBoolean(search));
+        return iMemberService.getListMember(req);
+    }
+
     @RequestMapping(value = "/Plugins/Payment/getListMemberPAY010_1.json", method = {RequestMethod.POST},
             produces = "application/json; charset=utf-8")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JqGridResponse<MemberData> getListMember(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
-        logger.info("search member >>" + req.getSearchCommand() + "<<");
+    JqGridResponse<MemberPaymentHeadDto> getListMemberPayment010_1(JqGridRequest req, @RequestParam(value = "_search", defaultValue = "false") String search, Model model, Principal principal) {
+        logger.info("search Member Payment 010_1>>" + req.getSearchCommand() + "<<");
         req.setSearch(Boolean.parseBoolean(search));
-        return iMemberService.getListMember(req);
+        JqGridResponse<MemberPaymentHeadDto> resMemberPayments = iMemberPaymentService.getMemberPaymentByCode(req);
+        return resMemberPayments;
     }
 
     @RequestMapping(value = "/Plugins/Payment/getMemberPAY010_1.json", method = RequestMethod.POST,
