@@ -296,12 +296,14 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 memberPaymentDto.setPaymentId(mp.getPaymentId());
                 memberPaymentDto.setPaymentDate(mp.getPaymentDate());
                 memberPaymentDto.setReceiptNo(mp.getReferenceId() != null ? String.valueOf(mp.getReferenceId()) : StringPool.BLANK);
-                memberPaymentDto.setMemberCode(mp.getMember().getMemberCode());
-                memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryDepartment() != null ? mp.getMember().getMilitaryDepartment().getName() : "");
-                memberPaymentDto.setCitizenId(mp.getMember().getCitizenId());
-                memberPaymentDto.setTitle(buildTitleOrRank(mp.getMember()));
-                memberPaymentDto.setName(mp.getMember().getName());
-                memberPaymentDto.setSurname(mp.getMember().getSurname());
+                if (mp.getMember() != null) {
+                    memberPaymentDto.setMemberCode(mp.getMember().getMemberCode());
+                    memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryDepartment() != null ? mp.getMember().getMilitaryDepartment().getName() : null);
+                    memberPaymentDto.setCitizenId(mp.getMember().getCitizenId());
+                    memberPaymentDto.setTitle(buildTitleOrRank(mp.getMember()));
+                    memberPaymentDto.setName(mp.getMember().getName());
+                    memberPaymentDto.setSurname(mp.getMember().getSurname());
+                }
                 memberPaymentDto.setAmount(mp.getAmount() != null ? mp.getAmount() : BigDecimal.ZERO);
                 memberPaymentDto.setPaymentStatus("N");
                 listResponse.add(memberPaymentDto);
