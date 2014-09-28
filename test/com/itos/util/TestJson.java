@@ -1,12 +1,12 @@
 package com.itos.util;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.util.jsonObject.MemberPaymentRequest;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.map.JsonMappingException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
