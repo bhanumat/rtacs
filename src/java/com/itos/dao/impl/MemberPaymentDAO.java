@@ -169,14 +169,14 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     public JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req) {
         List<MemberPaymentDto> listResponse = new ArrayList<>();
         JqGridResponse<MemberPaymentDto> jqGrid = new JqGridResponse<>();
-        List<MemberPayment> memberPaymentList = new ArrayList<>();
-        List<Member> listMember = null;
+        List<MemberPayment> memberPaymentList;
+        List<Member> listMember;
 
         /*
          * Command HQL query Data.
          */
         Search tempSearch = new Search();
-        tempSearch.setConditions(new ArrayList<Condition>());
+        tempSearch.setConditions(new ArrayList<>());
 
         StringBuilder hqlSearch = new StringBuilder();
         StringBuilder hql = new StringBuilder();
@@ -192,8 +192,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         hql.append("paymentDate is not null");
 
         if (req.isSearch()) {
-            Search search = new Search();
-            search = Search.JSONDeserializer(req.getSearchCommand());
+            Search search = Search.JSONDeserializer(req.getSearchCommand());
             List<WhereField> memberWhereFieldList = new ArrayList<>();
             boolean memberFlag = false;
             for (Condition condition : search.getConditions()) {
@@ -203,7 +202,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                         || condition.getField().equalsIgnoreCase("memberCode")
                         || condition.getField().equalsIgnoreCase("memberGroupCode")
                         || condition.getField().equalsIgnoreCase("memberTypeCode")
-                        || condition.getField().equalsIgnoreCase("militaryId")) {
+                        || condition.getField().equalsIgnoreCase("mildeptId")) {
                     WhereField whereField = new WhereField();
                     whereField.setSearchField(condition.getField());
                     whereField.setSearchValue(condition.getData());
@@ -220,14 +219,22 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                     logger.info("1 setSearchValue : >>" + condition.getData() + "<<");
                     if (CommandConstant.DataTypeDate.equalsIgnoreCase(condition.getDataType())) {
                         String[] tempDate = condition.getData().split(",");
-                        String beginDate = "";
-                        String endDate = "";
+                        String beginDate = null;
+                        String endDate = null;
                         if (tempDate.length < 2 && CommandConstant.QueryBetween.equalsIgnoreCase(condition.getOp())) {
-                            beginDate = formatDate(tempDate[0]);
-                            endDate = formatDate("");
+                            try {
+                                beginDate = formatDate(tempDate[0]);
+                                endDate = formatDate("");
+                            } catch (ParseException ex) {
+                                Logger.getLogger(MemberPaymentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         } else {
-                            beginDate = formatDate(tempDate[0]);
-                            endDate = formatDate(tempDate[1]);
+                            try {
+                                beginDate = formatDate(tempDate[0]);
+                                endDate = formatDate(tempDate[1]);
+                            } catch (ParseException ex) {
+                                Logger.getLogger(MemberPaymentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
 
                         if (!hql.toString().isEmpty()) {
@@ -326,14 +333,13 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
         JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
         List<MemberPaymentHeadDto> listResponse = new ArrayList<>();
-        List<MemberPayment> memberPaymentList = new ArrayList<>();
+        List<MemberPayment> memberPaymentList;
         StringBuilder hqlCount = new StringBuilder();
         StringBuilder hqlCondition = new StringBuilder();
         StringBuilder hql = new StringBuilder();
 
         if (req.isSearch()) {
-            Search search = new Search();
-            search = Search.JSONDeserializer(req.getSearchCommand());
+            Search search = Search.JSONDeserializer(req.getSearchCommand());
             String memberCode = null;
             String citizenId = null;
             String memberId = null;
@@ -411,22 +417,17 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         return jqGrid;
     }
 
-    private String formatDate(String date) {
+    private String formatDate(String date) throws ParseException {
 
         if (date.isEmpty()) {
             Date currentDate = DateUtil.getCurrentDate();
             String result = FORMAT.format(currentDate);
             return result;
         }
-        try {
-            Date tempDate = SF.parse(date);
-            String result = FORMAT.format(tempDate);
-            return result;
+        Date tempDate = SF.parse(date);
+        String result = FORMAT.format(tempDate);
+        return result;
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     private String buildTitleOrRank(Member member) {
