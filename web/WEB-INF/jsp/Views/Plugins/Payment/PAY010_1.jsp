@@ -34,38 +34,38 @@
                         <div class="widget-body">
                             <div class="widget-main">
                                 <form class="form-horizontal">
-                                    <div class="row" style="margin-bottom:5px">
-                                        <div class="col-xs-12 col-sm-3" align="right">
-                                            <div class="bigger-110" >
+                                    <div class="form-group">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-2">
+                                            <div class="input-group input-group-sm">
                                                 <label class="position-relative">
                                                     <input type="radio" class="ace" name="searchType" id="searchTypeCitizenid" checked="checked">
                                                     <span class="lbl"></span> เลขประจำตัวประชาชน 
                                                 </label>
-                                                &nbsp;&nbsp;
-                                                <label class="position-relative">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group input-group-sm">
+                                               <label class="position-relative">
                                                     <input type="radio" class="ace" name="searchType" id="searchTypeMemberCode">
                                                     <span class="lbl"></span> เลขทะเบียนสมาชิก
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-2">
+                                        <div class="col-md-3">
                                             <div class="input-group">
                                                 <input id="txtSearch" type="text" class="form-control search-query" placeholder="">
                                                 <span class="input-group-btn">
                                                     <button id="btnSearch" type="button" class="btn btn-info btn-sm"> แสดง <i class="ace-icon fa fa-check icon-on-right bigger-110"></i> </button>
-                                                </span> </div>
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-2">
+                                        <div class="col-md-3">
                                             <a href="#modal-form" role="button" class="blue" data-toggle="modal">
                                                 <button type="button" class="btn btn-purple btn-sm"> ค้นหา <i class="ace-icon fa fa-search icon-on-right bigger-110"></i> </button>
                                             </a>
                                         </div>
                                     </div>
-                                </form>
-                                <form class="form-horizontal" role="form">
-                                    <!-- #section:elements.form -->
-
-                                    <!-- /section:elements.form -->
                                 </form>
                             </div>
                         </div>
@@ -207,7 +207,7 @@
                                 </div>
                                 <!-- /section:elements.form -->
                             </form>
-                            
+
                             <div id="jqGridContainer" class="col-xs-12">
                                 <div>
                                     <table id="gridData_MemberGrid_List"></table>
@@ -230,45 +230,45 @@
 <div class="row">
     <div class="col-xs-12">
         <div style="padding:1px"></div>
-                            
+
         <div id="jqGridContainer" class="col-xs-12">
             <div>
                 <table id="gridData_MemberPaymentGrid_List"></table>
                 <div id="gridPager_MemberPaymentGrid_List"></div>
             </div>
         </div>
-        
-<!--        <div class="table-header">ข้อมูลสมาชิก</div>
-        <table id="sample-table-1" class="table table-striped table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th> ลำดับ</th>
-                    <th>รายการ </th>
-                    <th>จำนวนศพ </th>
-                    <th> จำนวนเงิน</th>
-                    <th>ชำระ ?</th>
-                    <th> หมายเหตุ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="center">1</td>
-                    <td>ค่าบำรุงศพประจำเดือน พ.ค. 2557 ตั้งแต่ศพที่ 1,321/57 ถึงศพที่ 1,720/57 </td>
-                    <td>400</td>
-                    <td>200.00</td>
-                    <td class="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
-                    <td><input type="text" name="checkbox2" id="checkbox2"></td>
-                </tr>
-                <tr>
-                    <td class="center">2</td>
-                    <td>ค่าบำรุงศพประจำเดือน มิ. ย. 2557 ตั้งแต่ศพที่ 1,321/57 ถึงศพที่ 1,720/57 </td>
-                    <td>440</td>
-                    <td>220.00</td>
-                    <td class="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
-                    <td><input type="text" name="checkbox2" id="checkbox2"></td>
-                </tr>
-            </tbody>
-        </table>-->
+
+        <!--        <div class="table-header">ข้อมูลสมาชิก</div>
+                <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th> ลำดับ</th>
+                            <th>รายการ </th>
+                            <th>จำนวนศพ </th>
+                            <th> จำนวนเงิน</th>
+                            <th>ชำระ ?</th>
+                            <th> หมายเหตุ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="center">1</td>
+                            <td>ค่าบำรุงศพประจำเดือน พ.ค. 2557 ตั้งแต่ศพที่ 1,321/57 ถึงศพที่ 1,720/57 </td>
+                            <td>400</td>
+                            <td>200.00</td>
+                            <td class="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
+                            <td><input type="text" name="checkbox2" id="checkbox2"></td>
+                        </tr>
+                        <tr>
+                            <td class="center">2</td>
+                            <td>ค่าบำรุงศพประจำเดือน มิ. ย. 2557 ตั้งแต่ศพที่ 1,321/57 ถึงศพที่ 1,720/57 </td>
+                            <td>440</td>
+                            <td>220.00</td>
+                            <td class="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
+                            <td><input type="text" name="checkbox2" id="checkbox2"></td>
+                        </tr>
+                    </tbody>
+                </table>-->
     </div>
 </div>
 
