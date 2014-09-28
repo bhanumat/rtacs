@@ -62,7 +62,7 @@ $(function () {
         }
 
         if (militaryId) {
-            requestSearch.push({'groupOp': condition, 'field': 'mildeptId', 'op': 'eq', 'data': militaryId, 'dataType': 'integer'});
+            requestSearch.push({'groupOp': condition, 'field': 'militaryId', 'op': 'eq', 'data': militaryId, 'dataType': 'integer'});
             condition = 'and';
             statusSearch = true;
         }

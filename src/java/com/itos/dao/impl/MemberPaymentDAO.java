@@ -202,7 +202,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                         || condition.getField().equalsIgnoreCase("memberCode")
                         || condition.getField().equalsIgnoreCase("memberGroupCode")
                         || condition.getField().equalsIgnoreCase("memberTypeCode")
-                        || condition.getField().equalsIgnoreCase("mildeptId")) {
+                        || condition.getField().equalsIgnoreCase("militaryId")) {
                     WhereField whereField = new WhereField();
                     whereField.setSearchField(condition.getField());
                     whereField.setSearchValue(condition.getData());
