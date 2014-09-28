@@ -22,6 +22,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.hibernate.HibernateException;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
     @Override
     public MessageResponse add(MemberPaymentHead memberPaymentHead) {
         MessageResponse response = new MessageResponse();
-        memberPaymentHead.setUpdatedDate(new Date());
+        memberPaymentHead.setCreatedDate(new Date());
         boolean success = CommandQuery.Insert(sessionFactory, memberPaymentHead);
         response.setCheckSuccess(success);
         if (success) {
@@ -104,7 +105,11 @@ public class MemberPaymentHeadDAO implements IMemberPaymentHeadDAO {
 
         for (String id : req.getItemSelect()) {
             memberPaymentHead = (MemberPaymentHead) CommandQuery.LoadDetail(sessionFactory, MemberPaymentHead.class, Integer.valueOf(id));
-            if (CommandQuery.Delete(sessionFactory, memberPaymentHead)) {
+            try {
+                if (CommandQuery.Delete(sessionFactory, memberPaymentHead)) {
+                    iCountSuccessful++;
+                }
+            } catch (ObjectNotFoundException e) {
                 iCountSuccessful++;
             }
         }
