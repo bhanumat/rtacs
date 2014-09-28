@@ -312,7 +312,7 @@ $(function() {
 
     $("#btnSearchAdvanceSelect").click(function(event) {
         event.preventDefault();
-        onClickSearch($("input:radio[name=selectMember]").val());
+        onClickSearch($("input:radio[name=selectMember]:checked").val());
     });
   
     $("#btnClearAdvance").click(function(event) {
