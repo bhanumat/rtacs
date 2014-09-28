@@ -20,7 +20,7 @@ $(function () {
         var paymentStatusCode = $('#paymentStatusCode').val();
 
         if (memberCode) {
-            requestSearch.push({'groupOp': condition, 'field': 'memberCode', 'op': 'eq', 'data': memberCode, 'dataType': 'integer'});
+            requestSearch.push({'groupOp': condition, 'field': 'memberCode', 'op': 'eq', 'data': memberCode, 'dataType': 'varchar'});
             condition = 'and';
             statusSearch = true;
         }
