@@ -124,7 +124,6 @@ public class MemberPaymentService implements IMemberPaymentService {
             int paymentTypeCode = req.getPaymentTypeCode();
             String performedBy = req.getPerformedBy();
             String postNo = req.getPostNo();
-            //TODO: where to save postNo
             MemberPayment memberPaymentToUpdate;
             MemberPayment memberPaymentUpdated;
             MemberPaymentHead memberPaymentHeadToAdd;
@@ -143,6 +142,7 @@ public class MemberPaymentService implements IMemberPaymentService {
                 memberPaymentHeadToAdd.setAmount(memberPaymentUpdated.getAmount());
                 memberPaymentHeadToAdd.setPaymentDate(paymentDate);
                 memberPaymentHeadToAdd.setPaymentTypeCode(paymentTypeCode);
+                memberPaymentHeadToAdd.setPaymentPostNo(postNo);
                 memberPaymentHeadToAdd.setCreatedBy(performedBy);
                 resp = iMemberPaymentHeadDAO.add(memberPaymentHeadToAdd);
             }

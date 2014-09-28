@@ -24,6 +24,7 @@ public class MemberPaymentHead implements java.io.Serializable {
     private Date paymentDate;
     private String receiptNo;
     private Integer paymentTypeCode;
+    private String paymentPostNo;
     private BigDecimal amount;
     private Integer cancelFlag;
     private Date createdDate;
@@ -38,12 +39,15 @@ public class MemberPaymentHead implements java.io.Serializable {
         this.paymentId = paymentId;
     }
 
-    public MemberPaymentHead(int paymentId, Integer memberId, Date paymentDate, String receiptNo, Integer paymentTypeCode, BigDecimal amount, Integer cancelFlag, Date createdDate, String createdBy, Date updatedDate, String updatedBy) {
+    public MemberPaymentHead(int paymentId, Integer memberId, Date paymentDate, String receiptNo, Integer paymentTypeCode,
+            String paymentPostNo, BigDecimal amount, Integer cancelFlag, Date createdDate, String createdBy,
+            Date updatedDate, String updatedBy) {
         this.paymentId = paymentId;
         this.memberId = memberId;
         this.paymentDate = paymentDate;
         this.receiptNo = receiptNo;
         this.paymentTypeCode = paymentTypeCode;
+        this.paymentPostNo = paymentPostNo;
         this.amount = amount;
         this.cancelFlag = cancelFlag;
         this.createdDate = createdDate;
@@ -98,6 +102,15 @@ public class MemberPaymentHead implements java.io.Serializable {
 
     public void setPaymentTypeCode(Integer paymentTypeCode) {
         this.paymentTypeCode = paymentTypeCode;
+    }
+
+    @Column(name = "payment_post_no")
+    public String getPaymentPostNo() {
+        return this.paymentPostNo;
+    }
+
+    public void setPaymentPostNo(String paymentPostNo) {
+        this.paymentPostNo = paymentPostNo;
     }
 
     @Column(name = "amount", precision = 14, scale = 4)
