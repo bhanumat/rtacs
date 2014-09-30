@@ -119,22 +119,7 @@ $(function() {
                     searchMember(req);
                 }
             } else {
-                $("#Dialog-Confirm").html("กรุณากรอกข้อมูลการค้นหา");
-                $("#Dialog-Confirm").removeClass('hide').dialog({
-                    width: '300px',
-                    resizable: false,
-                    modal: true,
-                    title: "<div class='widget-header'><h4 class='smaller'> แจ้งเตือน</h4></div>",
-                    title_html: true,
-                    autoOpen: true,
-                    buttons: [{
-                        html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
-                        "class": "btn btn-xs",
-                        click: function() {
-                            $(this).dialog("close");
-                        }
-                    }]
-                });
+                $.fn.DialogWarning('กรุณากรอกข้อมูลการค้นหา');
             }
         }
     };
@@ -148,24 +133,7 @@ $(function() {
             async: false,
             success: function(object) {
                 if (object.memberId === 0) {
-                    $("#Dialog-Confirm").html("ไม่พบข้อมูล");
-                    $("#Dialog-Confirm").removeClass('hide').dialog({
-                        width: '300px',
-                        resizable: false,
-                        modal: true,
-                        title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon glyphicon glyphicon-search'></i> สถานะ</h4></div>",
-                        title_html: true,
-                        autoOpen: true,
-                        buttons: [
-                            {
-                                html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; ปิด",
-                                "class": "btn btn-xs",
-                                click: function() {
-                                    $(this).dialog("close");
-                                }
-                            }
-                        ]
-                    });
+                    $.fn.DialogWarning('ไม่พบข้อมูล');
                 } else {
                     $("#hdnMemberId").val(object.memberId);
                     $("#lblMemberCode").text(object.memberCode);
@@ -210,6 +178,33 @@ $(function() {
             $("#postNo").val("");
             $("#postNo").attr("disabled", "disabled");
         }
+    };
+    
+    isSearchFormValide = function() {
+        var selectedPayment = false;
+        $("input:checkbox[name='isPay[]']").each( function () {
+            if($(this).is(":checked")) {
+                selectedPayment = true;
+                return; // exit loop each
+            }
+        });
+        if (!$("#hdnMemberId").val()) {
+            $.fn.DialogWarning('กรุณาค้นหาข้อมูลสมาชิก');
+            return false;
+        } else if (!selectedPayment) {
+            $.fn.DialogWarning('กรุณาเลือกรายการที่จะชำระ');
+            return false;
+        }
+        
+        return true;
+    };
+    
+    isSearchAdvanceFormValide = function() {
+        if($("input:radio[name=selectMember]:checked").val() === undefined) {
+            $.fn.DialogWarning('กรุณาเลือกข้อมูลสมาชิก');
+            return false;
+        }
+        return true;
     };
 
     openConfirmDialogUpdate = function () {
@@ -312,7 +307,9 @@ $(function() {
 
     $("#btnSearchAdvanceSelect").click(function(event) {
         event.preventDefault();
-        onClickSearch($("input:radio[name=selectMember]:checked").val());
+        if(isSearchAdvanceFormValide()) {
+            onClickSearch($("input:radio[name=selectMember]:checked").val());
+        }
     });
   
     $("#btnClearAdvance").click(function(event) {
@@ -331,7 +328,9 @@ $(function() {
     
     $("#btnSubmit").click(function(event) {
         event.preventDefault();
-        openConfirmDialogUpdate();
+        if(isSearchFormValide()) {
+            openConfirmDialogUpdate();
+        }
     });
 
     init = function() {
