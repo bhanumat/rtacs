@@ -21,4 +21,8 @@
             reportDateKey: the name of the datasource. This is passed by the controller
     -->
     <!-- Start NOCBatch -->
+<!--    <bean id="bill0101"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView"
+          p:url="/WEB-INF/Reports/Payments/PAY010_1_bill.jrxml"
+          p:reportDataKey="dataSourceRTACSDB" />-->
 </beans>

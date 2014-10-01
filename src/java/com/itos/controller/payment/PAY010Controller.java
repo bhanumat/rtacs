@@ -15,6 +15,11 @@ import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +27,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -134,5 +141,32 @@ public class PAY010Controller {
         logger.info("updateMemberPayment req >>" + req + "<<");
         req.setPerformedBy(principal.getName());
         return iMemberPaymentService.updateMemberPayment(req);
+    }
+
+    /**
+     * Handles multi-format report requests
+     *
+     * @param type the format of the report, i.e pdf
+     * @param modelAndView
+     * @param model
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/Plugins/Payment/010-1/download", method = RequestMethod.GET)
+    public ModelAndView downloadBillMultiReport(@RequestParam("type") String type,
+            ModelAndView modelAndView, ModelMap model) {
+        logger.debug("Received request to download multi report");
+
+        Map<String,Object> parameterMap = new HashMap<>();
+ 
+        List<MemberPaymentHeadDto> usersList = null;//getMemberPaymentHeadDtos();//TODO:
+ 
+        JRDataSource JRdataSource = new JRBeanCollectionDataSource(usersList);
+ 
+        parameterMap.put("datasource", JRdataSource);
+
+        // Add the report format
+        model.addAttribute("format", type);
+        modelAndView = new ModelAndView("multiReport", model);
+        return modelAndView;
     }
 }
