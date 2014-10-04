@@ -180,7 +180,7 @@ $(document).ready(function () {
     /*=============================End /App==================================*/
 
     /*=============================/Pay==================================*/
-    $("#menuPAY010").click(function(e) {
+    $("#menuPAY010").click(function (e) {
         controlButton('menuPayment');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Payment/PAY010.htm';
@@ -190,7 +190,7 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-    $("#menuPAY010_1").click(function(e) {
+    $("#menuPAY010_1").click(function (e) {
         controlButton('menuPayment');
         var typeAction = 'GET';
         var urlAction = rootPath + '/Plugins/Payment/PAY010_1.htm';
@@ -230,6 +230,17 @@ $(document).ready(function () {
         $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
         e.preventDefault();
     });
+
+    $("#menuPYC101").click(function (e) {
+        controlButton('menuPayment');
+        var typeAction = 'GET';
+        var urlAction = rootPath + '/Plugins/Payment/PYC101.htm';
+        var objDataAction = {};
+        var dataTypeAction = 'html';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+        e.preventDefault();
+    });
+
 
     /*=============================End /Pay==================================*/
 
@@ -308,7 +319,7 @@ $(document).ready(function () {
     /*=============================End /MasterData==================================*/
 
     /*=============================/ChangeData==================================*/
-    
+
     $("#menuCHT010").click(function (e) {
         controlButton('menuChanges');
         var typeAction = 'GET';
@@ -318,7 +329,7 @@ $(document).ready(function () {
         $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
         e.preventDefault();
     });
-    
+
     $("#menuCHT030").click(function (e) {
         controlButton('menuChanges');
         var typeAction = 'GET';
@@ -328,9 +339,9 @@ $(document).ready(function () {
         $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
         e.preventDefault();
     });
-    
+
     /*=============================End /ChangeData==================================*/
-    
+
     $("#menufmViewUserMember").click(function (e) {
         var typeAction = 'GET';
         var urlAction = '../Plugins/fmViewUserMember.html';
