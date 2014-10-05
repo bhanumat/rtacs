@@ -70,8 +70,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     private static final String START_SOP = "ตั้งแต่ศพที่ ";
     private static final String END_SOP = "ถึงศพที่ ";
     private static final String SQL_TB_NAME = "from MemberPayment mp ";
-    private static final String SQL_JOIN_MEMBER = "left outer join Member m on mp.member_id = m.member_id left outer join MilitaryDepartment md on m.military_id = md.military_id left outer join Title t on t.title_id = m.title_id left outer join Rank r on r.rank_id = m.rank_id left outer join OperationMember om on m.member_id = om.member_id left outer join Operation o on o.operation_id = om.operation_id ";
-//    private static final String SQL_JOIN_OPERATION = "left outer join operation o on mp.member_id = m.member_id left outer join MilitaryDepartment md on m.military_id = md.military_id ";
+    private static final String SQL_JOIN_MEMBER = "left outer join Member m on mp.member_id = m.member_id left outer join MilitaryDepartment md on m.military_id = md.military_id left outer join Title t on t.title_id = m.title_id left outer join Rank r on r.rank_id = m.rank_id ";
+    private static final String SQL_JOIN_OPERATION = "left outer join OperationMember om on m.member_id = om.member_id left outer join Operation o on o.operation_id = om.operation_id ";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -184,13 +184,13 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hql = new StringBuilder();
         StringBuilder hqlConditions = new StringBuilder();
         StringBuilder hqlMemberConditions = new StringBuilder();
+        StringBuilder hqlOperConditions = new StringBuilder();
 
         Map<String, Comparable> props = new HashMap<String, Comparable>();
         if (req.isSearch()) {
             Search search = Search.JSONDeserializer(req.getSearchCommand());
             for (Condition condition : search.getConditions()) {
-                if (condition.getField().equalsIgnoreCase("paymentDate")
-                        || condition.getField().equalsIgnoreCase("printedStatus")) {
+                if (condition.getField().equalsIgnoreCase("paymentDate")) {
                     logger.info("1 setSearchValue : >>" + condition.getData() + "<<");
                     if (CommandConstant.DataTypeDate.equalsIgnoreCase(condition.getDataType())) {
                         String[] tempDate = condition.getData().split(",");
@@ -262,8 +262,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                     props.put("militaryId", condition.getData());
                 }
                 if (condition.getField().equalsIgnoreCase("printedStatus")) {
-                    hqlMemberConditions.append(" and");
-                    hqlMemberConditions.append(" o.printed_status=:printedStatus");
+                    hqlOperConditions.append(" and");
+                    hqlOperConditions.append(" o.printed_status=:printedStatus");
                     props.put("printedStatus", condition.getData());
                 }
             }
@@ -285,18 +285,19 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         
         hql.append(SQL_TB_NAME);
         hql.append(SQL_JOIN_MEMBER);
+        hql.append(SQL_JOIN_OPERATION);
         hql.append(hqlDefaultCondition);
         hql.append(hqlConditions);
         hql.append(hqlMemberConditions);
+        hql.append(hqlOperConditions);
         hqlCount.append(hql);
-        
-        hql.append(" ");
-        hql.append(CommandConstant.OrderBy);
-        hql.append(" ");
-        hql.append(SortingMapping.fromParameter(req.getSidx()).getField());
-        hql.append(" ");
-        hql.append(req.getSord());
         hqlQuery.append(hql);
+        
+        if(req.getSidx() != null && req.getSord()!= null && SortingMapping.fromParameter(req.getSidx()) != null){
+            hqlQuery.append(StringPool.SPACE).append(CommandConstant.OrderBy);
+            hqlQuery.append(StringPool.SPACE).append(SortingMapping.fromParameter(req.getSidx()).getField());
+            hqlQuery.append(StringPool.SPACE).append(req.getSord());
+        }
 
         Paging paging = CommandQuery.CountRows(sessionFactory, listWhereField, CommandConstant.QueryAND, req, hqlCount);
         SQLQuery query = CommandQuery.CreateQuery(sessionFactory, listWhereField, CommandConstant.QueryAND, req, paging, hqlQuery);
@@ -343,61 +344,73 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
         JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
         List<MemberPaymentHeadDto> listResponse = new ArrayList<>();
-        List<MemberPayment> memberPaymentList;
-        StringBuilder hqlCount = new StringBuilder();
-        StringBuilder hqlCondition = new StringBuilder();
-        StringBuilder hql = new StringBuilder();
+        List<MemberPayment> memberPaymentList = new ArrayList<>();
+        /*
+         * Command HQL query Data.
+         */
+        Search tempSearch = new Search();
+        tempSearch.setConditions(new ArrayList<>());
 
+        StringBuilder hql = new StringBuilder();
+        StringBuilder hqlMemberConditions = new StringBuilder();
+
+        Map<String, Comparable> props = new HashMap<String, Comparable>();
         if (req.isSearch()) {
             Search search = Search.JSONDeserializer(req.getSearchCommand());
-            String memberCode = null;
-            String citizenId = null;
-            String memberId = null;
             for (Condition condition : search.getConditions()) {
-                if (condition.getField().equalsIgnoreCase("citizenId")) {
-                    citizenId = condition.getData();
-                } else if (condition.getField().equalsIgnoreCase("memberCode")) {
-                    memberCode = condition.getData();
-                } else if (condition.getField().equalsIgnoreCase("memberId")) {
-                    memberId = condition.getData();
-                }//search member
-            }
-
-            if (citizenId != null) {
-                hqlCondition.append(" and mp.member.citizenId=");
-                hqlCondition.append(citizenId);
-            } else if (memberCode != null) {
-                hqlCondition.append(" and mp.member.memberCode=");
-                hqlCondition.append(memberCode);
-            } else if (memberId != null) {
-                hqlCondition.append(" and mp.member.memberId=");
-                hqlCondition.append(memberId);
-            } else {
-                logger.error("citizenId and memberCode is null");
-                throw new NullPointerException("citizenId and memberCode parameter is null");
+                if(condition.getField().equalsIgnoreCase("memberId")){
+                    hqlMemberConditions.append(" and");
+                    hqlMemberConditions.append(" m.member_id=:memberId");
+                    props.put("memberId", condition.getData());
+                }
+                else if(condition.getField().equalsIgnoreCase("citizenId")){
+                    hqlMemberConditions.append(" and");
+                    hqlMemberConditions.append(" m.citizen_id=:citizenId");
+                    props.put("citizenId", condition.getData());
+                }
+                else if(condition.getField().equalsIgnoreCase("memberCode")){
+                    hqlMemberConditions.append(" and");
+                    hqlMemberConditions.append(" m.member_code=:memberCode");
+                    props.put("memberCode", condition.getData());
+                }
             }
         }
-
-        if (hqlCount.toString().isEmpty()) {
-            hqlCount.append("select count(mp)");
-            hql.append("  from " + TB_NAME + " mp");
-            hql.append(" where");
-            hql.append(" paymentDate is null");
-            hql.append(hqlCondition);
-            hqlCount.append(hql);
+        /*
+         * Command HQL query Data.
+         */
+        List<WhereField> listWhereField = new ArrayList<>();
+        StringBuilder hqlDefaultCondition = new StringBuilder();
+        
+        hqlDefaultCondition.append(CommandConstant.QueryWhere);
+        hqlDefaultCondition.append(" mp.payment_date is null");
+        
+        StringBuilder hqlCount = new StringBuilder();
+        StringBuilder hqlQuery = new StringBuilder();
+        
+        hqlCount.append("select count(*) ");
+        hqlQuery.append("select * ");
+        
+        hql.append(SQL_TB_NAME);
+        hql.append(SQL_JOIN_MEMBER);
+        hql.append(hqlDefaultCondition);
+        hql.append(hqlMemberConditions);
+        hqlCount.append(hql);
+        hqlQuery.append(hql);
+        
+        if(req.getSidx() != null && req.getSord()!= null && SortingMapping.fromParameter(req.getSidx()) != null){
+            hqlQuery.append(StringPool.SPACE).append(CommandConstant.OrderBy);
+            hqlQuery.append(StringPool.SPACE).append(SortingMapping.fromParameter(req.getSidx()).getField());
+            hqlQuery.append(StringPool.SPACE).append(req.getSord());
         }
-        Paging paging = CommandQuery.queryCountRows(sessionFactory, req, hqlCount);
 
-        if (!hqlCount.toString()
+        Paging paging = CommandQuery.CountRows(sessionFactory, listWhereField, CommandConstant.QueryAND, req, hqlCount);
+        SQLQuery query = CommandQuery.CreateQuery(sessionFactory, listWhereField, CommandConstant.QueryAND, req, paging, hqlQuery);
+        query.setProperties(props);
+        query.addEntity(MemberPayment.class);
+
+        if (!query.list()
                 .isEmpty()) {
-            hql.replace(0, 1, "select mp");
-        }
-
-        Query queryMemberPayment = CommandQuery.CreateQuery(sessionFactory, req, paging, hql);
-
-        if (!queryMemberPayment.list()
-                .isEmpty()) {
-            memberPaymentList = queryMemberPayment.list();
+            memberPaymentList = query.list();
             MemberPaymentHeadDto mph;
             for (MemberPayment mp : memberPaymentList) {
                 mph = new MemberPaymentHeadDto();
@@ -480,7 +493,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         return monthNames[month - 1];
     }
     
-    public enum SortingMapping {
+    private enum SortingMapping {
         PAYMENT_ID("paymentId", "mp.payment_id"),
 	MEMBER_ID("memberId", "m.member_id"),
         PAYMENT_DATE("paymentDate", "mp.payment_date"),
@@ -492,7 +505,10 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         SURNAME("surname", "m.surname"),
         TITLE("title", "coalesce (t.title, r.rank_name)"),
         AMOUNT("amount", "mp.amount"),
-        PRINTED_STATUS("printedStatus", "o.printed_status");
+        PAYMENT_STATUS("paymentStatus", "o.printed_status"),
+        PRINTED_STATUS("printedStatus", "o.printed_status"),
+        //  Support sorting PAY010-1
+        PAYMENT_DETAIL("paymentDetail", "mp.month_code");
  
 	private String parameter;
         private String field;

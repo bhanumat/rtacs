@@ -305,15 +305,20 @@ public class MemberPaymentServiceIntegrationTest {
         req.setNd("1411189121948");	
         req.setRows(10);	
         req.setPage(1);	
-        req.setSidx("mp.controlPayment.monthCode");	
+        req.setSidx("paymentDetail");	
         req.setSord("asc");	
         req.setSearchField(null);	
         req.setSearchString(null);	
         req.setSearchOper(null);	
         req.setFilters(null);	
         req.setSearch (true);
-        req.setSearchCommand("{\"conditions\":[{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"}]}");
-        //req.setSearchCommand("{\"conditions\":[{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"}]}");
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"conditions\":[");
+            sb.append("{\"groupOp\":\"\",\"field\":\"memberId\",\"op\":\"eq\",\"data\":\"8\",\"dataType\":\"integer\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"},");
+        sb.append("]}");
+        req.setSearchCommand(sb.toString());
         JqGridResponse<MemberPaymentHeadDto> memberPaymentHeadDto = iMemberPaymentService.getMemberPaymentByCode(req);
         if (memberPaymentHeadDto != null && memberPaymentHeadDto.getRows() != null) {
             System.out.println("getMemberPaymentByCode result : "+memberPaymentHeadDto.getRows().toString());
