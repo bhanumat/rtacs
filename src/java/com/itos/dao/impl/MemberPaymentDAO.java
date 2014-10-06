@@ -72,6 +72,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     private static final String SQL_TB_NAME = "from MemberPayment mp ";
     private static final String SQL_JOIN_MEMBER = "left outer join Member m on mp.member_id = m.member_id left outer join MilitaryDepartment md on m.military_id = md.military_id left outer join Title t on t.title_id = m.title_id left outer join Rank r on r.rank_id = m.rank_id ";
     private static final String SQL_JOIN_OPERATION = "left outer join OperationMember om on m.member_id = om.member_id left outer join Operation o on o.operation_id = om.operation_id ";
+    private static final String SQL_JOIN_CONTROL_PAYMENT = "left outer join ControlPayment cp on mp.month_code = cp.month_code ";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -280,8 +281,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hqlCount = new StringBuilder();
         StringBuilder hqlQuery = new StringBuilder();
         
-        hqlCount.append("select count(*) ");
-        hqlQuery.append("select * ");
+        hqlCount.append("select count(mp.payment_id) ");
+        hqlQuery.append("select mp.* ");
         
         hql.append(SQL_TB_NAME);
         hql.append(SQL_JOIN_MEMBER);
@@ -387,11 +388,12 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hqlCount = new StringBuilder();
         StringBuilder hqlQuery = new StringBuilder();
         
-        hqlCount.append("select count(*) ");
-        hqlQuery.append("select * ");
+        hqlCount.append("select count(mp.payment_id) ");
+        hqlQuery.append("select mp.*, (cp.end_sop_no - cp.start_sop_no) as sop_amount ");
         
         hql.append(SQL_TB_NAME);
         hql.append(SQL_JOIN_MEMBER);
+        hql.append(SQL_JOIN_CONTROL_PAYMENT);
         hql.append(hqlDefaultCondition);
         hql.append(hqlMemberConditions);
         hqlCount.append(hql);
@@ -508,7 +510,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         PAYMENT_STATUS("paymentStatus", "o.printed_status"),
         PRINTED_STATUS("printedStatus", "o.printed_status"),
         //  Support sorting PAY010-1
-        PAYMENT_DETAIL("paymentDetail", "mp.month_code");
+        PAYMENT_DETAIL("paymentDetail", "mp.month_code"),
+        SOP_AMOUNT("sopAmount", "sop_amount");
  
 	private String parameter;
         private String field;
