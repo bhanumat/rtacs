@@ -299,6 +299,13 @@ $(function() {
         event.preventDefault();
         onClickSearch(null);
     });
+    
+    $("#txtSearch").keypress(function(event) {
+        if(event.which === 13) {
+            event.preventDefault();
+            onClickSearch(null);
+        }
+    });
 
     $("#btnSearchAdvance").click(function(event) {
         event.preventDefault();
