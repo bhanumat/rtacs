@@ -33,9 +33,9 @@ var gridPaymentSortOrder = 'asc';
 var gridPaymentCaption = 'ข้อมูลสมาชิก';
 var gridPaymentColNames = ['รายการ', 'จำนวนศพ', 'จำนวนเงิน', 'ชำระ ?', 'หมายเหตุ'];
 var gridPaymentColModel = [
-    {name: 'paymentDetail', index: 'paymentDetail', sortable: false, width: 500},
+    {name: 'paymentDetail', index: 'paymentDetail', sortable: true, width: 500},
     {name: 'sopAmount', index: 'sopAmount', align: 'right', sortable: false, width: 150, formatter:'integer'},
-    {name: 'amount', index: 'amount', align: 'right', sortable: false, width: 150, formatter:'number'},
+    {name: 'amount', index: 'amount', align: 'right', sortable: true, width: 150, formatter:'number'},
     {name: 'paymentId', index: 'paymentId', align: 'center', sortable: false, width: 60,
         formatter: function (cellVal, opts, rowObject, action) {
             return '<input type="checkbox" class="ace" name="isPay[]" id="isPay_' + cellVal + '" value="' + cellVal + '"/><span class="lbl"></span>';

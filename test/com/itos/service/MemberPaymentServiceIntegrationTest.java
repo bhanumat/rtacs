@@ -6,6 +6,7 @@ package com.itos.service;
  * and open the template in the editor.
  */
 import com.itos.model.MemberPayment;
+import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.util.ConstantsMessage;
@@ -22,7 +23,9 @@ import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
@@ -302,18 +305,60 @@ public class MemberPaymentServiceIntegrationTest {
         req.setNd("1411189121948");	
         req.setRows(10);	
         req.setPage(1);	
-        req.setSidx("mp.controlPayment.monthCode");	
+        req.setSidx("paymentDetail");	
         req.setSord("asc");	
         req.setSearchField(null);	
         req.setSearchString(null);	
         req.setSearchOper(null);	
         req.setFilters(null);	
         req.setSearch (true);
-        req.setSearchCommand("{\"conditions\":[{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"}]}");
-        //req.setSearchCommand("{\"conditions\":[{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"}]}");
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"conditions\":[");
+            sb.append("{\"groupOp\":\"\",\"field\":\"memberId\",\"op\":\"eq\",\"data\":\"8\",\"dataType\":\"integer\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"},");
+        sb.append("]}");
+        req.setSearchCommand(sb.toString());
         JqGridResponse<MemberPaymentHeadDto> memberPaymentHeadDto = iMemberPaymentService.getMemberPaymentByCode(req);
         if (memberPaymentHeadDto != null && memberPaymentHeadDto.getRows() != null) {
             System.out.println("getMemberPaymentByCode result : "+memberPaymentHeadDto.getRows().toString());
+        }else {
+            fail("response is null");
+        }
+        
+    }
+    
+    @Test
+    public void searchMemberPayment() {
+        
+        JqGridRequest req = new JqGridRequest();
+        req.setNd("1411189121948");	
+        req.setRows(10);	
+        req.setPage(1);	
+        req.setSidx("printedStatus");	
+        req.setSord("asc");	
+        req.setSearchField(null);	
+        req.setSearchString(null);	
+        req.setSearchOper(null);	
+        req.setFilters(null);	
+        req.setSearch (false);
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"conditions\":[");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"paymentId\",\"op\":\"eq\",\"data\":\"1\",\"dataType\":\"varchar\"},");
+            sb.append("{\"groupOp\":\"\",\"field\":\"paymentDate\",\"op\":\"bw\",\"data\":\"01/01/2013,31/12/2013\",\"dataType\":\"date\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"name\",\"op\":\"eq\",\"data\":\"เฉลิม\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"surname\",\"op\":\"eq\",\"data\":\"ศรีสว่าง\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"memberGroupCode\",\"op\":\"eq\",\"data\":\"10\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"memberTypeCode\",\"op\":\"eq\",\"data\":\"20\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"militaryId\",\"op\":\"eq\",\"data\":\"10\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"printedStatus\",\"op\":\"eq\",\"data\":\"N\",\"dataType\":\"char\"},");
+        sb.append("]}");
+        req.setSearchCommand(sb.toString());
+        JqGridResponse<MemberPaymentDto> memberPaymentDtos = iMemberPaymentService.searchMemberPayment(req);
+        if (memberPaymentDtos != null && memberPaymentDtos.getRows() != null) {
+            System.out.println("getMemberPaymentByCode result : "+memberPaymentDtos.getRows().toString());
         }else {
             fail("response is null");
         }

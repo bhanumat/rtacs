@@ -8,7 +8,7 @@ var gridCaption = 'รายชื่อสมาชิก';
 var gridColNames = ['ลำดับที่', 'วันที่ขำระเงิน', 'เลขที่ใบเสร็จ', 'หน่วยต้นสังกัด', 'เลขทะเบียนสมาชิก', 'เลขประจำตัวประชาชน', 'ยศ-คำนำหน้า', 'ชื่อ', 'นามสกุล', 'จำนวนเงิน', 'สถานะ', ''];
 var gridColModel = [
     {name: 'paymentId', index: 'paymentId', hidden: true, align: 'left'},
-    {name: 'paymentDate', index: 'paymentDate', align: 'center', sortable: false, width: 86,
+    {name: 'paymentDate', index: 'paymentDate', align: 'center', sortable: true, width: 86,
         formatoptions: {newformat: 'd/m/Y'},
         formatter: function (cellVal, opts, rowObject, action) {
             if (!cellVal) {
@@ -23,18 +23,18 @@ var gridColModel = [
                         action);
             }
         }},
-    {name: 'receiptNo', index: 'receiptNo', align: 'center', sortable: false, width: 100},
-    {name: 'militaryName', index: 'militaryName', align: 'left', sortable: false, width: 150},
-    {name: 'memberCode', index: 'memberCode', align: 'center', sortable: false, width: 116},
-    {name: 'citizenId', index: 'citizenId', align: 'center', sortable: false, width: 140},
-    {name: 'title', index: 'title', align: 'right', sortable: false, width: 80},
-    {name: 'name', index: 'name', align: 'left', sortable: false, width: 150},
-    {name: 'surname', index: 'surname', align: 'left', sortable: false, width: 150},
-    {name: 'amount', index: 'amount', align: 'right', sortable: false, width: 100,
+    {name: 'receiptNo', index: 'receiptNo', align: 'center', sortable: true, width: 100},
+    {name: 'militaryName', index: 'militaryName', align: 'left', sortable: true, width: 150},
+    {name: 'memberCode', index: 'memberCode', align: 'center', sortable: true, width: 116},
+    {name: 'citizenId', index: 'citizenId', align: 'center', sortable: true, width: 140},
+    {name: 'title', index: 'title', align: 'right', sortable: true, width: 80},
+    {name: 'name', index: 'name', align: 'left', sortable: true, width: 150},
+    {name: 'surname', index: 'surname', align: 'left', sortable: true, width: 150},
+    {name: 'amount', index: 'amount', align: 'right', sortable: true, width: 100,
         formatter: 'currency',
         formatoptions: {prefix: '฿', suffix: '', thousandsSeparator: ','}
     },
-    {name: 'paymentStatus', index: 'paymentStatus', align: 'center', sortable: false, width: 145,
+    {name: 'paymentStatus', index: 'paymentStatus', align: 'center', sortable: true, width: 145,
         formatter: function (cellVal, opts, rowObject, action) {
             var strToReturn;
             switch (cellVal) {
