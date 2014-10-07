@@ -133,4 +133,12 @@ public class MasterDataController {
         return listMilitaryDepartment;
     }
 
+    @RequestMapping(value = "/Plugins/MasterData/getMilitaryDepartments.json", method = {RequestMethod.GET, RequestMethod.POST},
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<MilitaryDepartment> getMilitaryDepartments(Model model, Principal principal) {
+        return iMilitaryDepartmentService.getMilitaryDepartments('E');
+    }
+
 }

@@ -8,7 +8,7 @@
 <html>
     <head>
         <script type="text/javascript">
-            var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
+            var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getMilitaryDepartments.json';
             var urlListMemberPayment = rootPath + '/Plugins/Payment/getListMemberPayment.json';
             var urlDeleteMemberPayment = rootPath + '/Plugins/Payment/deleteMemberPayment.json';
             var urlAddMemberPayment = rootPath + '/Plugins/Payment/PAY010_1.htm';

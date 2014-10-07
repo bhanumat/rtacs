@@ -18,9 +18,13 @@ import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -308,6 +312,7 @@ public class MilitaryDepartmentDAO implements IMilitaryDepartmentDAO {
 
     @Override
     public List<MilitaryDepartment> getListInJSONMilitaryDepartment(char status) {
+        long start = System.currentTimeMillis();
         List<MilitaryDepartment> listResponse = new ArrayList<>();
         List<MilitaryDepartment> list;
         MilitaryDepartment militaryDepartmentObject;
@@ -384,5 +389,22 @@ public class MilitaryDepartmentDAO implements IMilitaryDepartmentDAO {
 
         }
         return listResponse;
+    }
+
+    @Override
+    public List<MilitaryDepartment> getMilitaryDepartments(char status) {
+        long start = System.currentTimeMillis();
+        Criteria cr = sessionFactory.getCurrentSession().createCriteria(MilitaryDepartment.class)
+                .setProjection(Projections.projectionList()
+                        .add(Projections.property("militaryId"), "militaryId")
+                        .add(Projections.property("mildeptId"), "mildeptId")
+                        .add(Projections.property("name"), "name")
+                        .add(Projections.property("fullname"), "fullname"))
+                .setResultTransformer(Transformers.aliasToBean(MilitaryDepartment.class));
+        if (status > 0) {
+            cr.add(Restrictions.eq("status", status));
+        }
+        System.out.println("Time used " + ((System.currentTimeMillis() - start) / 1000) + " ms.");
+        return cr.list();
     }
 }

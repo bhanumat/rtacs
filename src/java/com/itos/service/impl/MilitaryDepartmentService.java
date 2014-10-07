@@ -59,7 +59,6 @@ public class MilitaryDepartmentService implements IMilitaryDepartmentService {
 
         //MilitaryDepartment.setCreateDate(DateUtil.getCurrentDate());
         //MilitaryDepartment.setUpdateDate(DateUtil.getCurrentDate());
-
         response = iMilitaryDepartmentDAO.setSaveNewMilitaryDepartment(militaryDepartment);
         return response;
     }
@@ -70,7 +69,6 @@ public class MilitaryDepartmentService implements IMilitaryDepartmentService {
         MessageResponse response = new MessageResponse();
 
         //MilitaryDepartment.setUpdateDate(DateUtil.getCurrentDate());
-
         response = iMilitaryDepartmentDAO.setSaveEditMilitaryDepartment(militaryDepartment);
         return response;
     }
@@ -82,13 +80,19 @@ public class MilitaryDepartmentService implements IMilitaryDepartmentService {
         response = iMilitaryDepartmentDAO.getLoadMilitaryDepartment(militaryDepartment);
         return response;
     }
-    
+
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
     public List<MilitaryDepartment> getListInJSONMilitaryDepartment(char status) {
         List<MilitaryDepartment> response = new ArrayList<>();
         response = iMilitaryDepartmentDAO.getListInJSONMilitaryDepartment(status);
         return response;
+    }
+
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public List<MilitaryDepartment> getMilitaryDepartments(char status) {
+        return iMilitaryDepartmentDAO.getMilitaryDepartments(status);
     }
 
 }

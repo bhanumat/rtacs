@@ -30,4 +30,11 @@ public interface IMilitaryDepartmentService {
 
     public List<MilitaryDepartment> getListInJSONMilitaryDepartment(char status);
 
+    /**
+     * Get military departments lightweight version
+     * @param status
+     * @return a collection of military departments
+     */
+    public List<MilitaryDepartment> getMilitaryDepartments(char status);
+
 }

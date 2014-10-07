@@ -29,4 +29,11 @@ public interface IMilitaryDepartmentDAO {
     public MilitaryDepartment getLoadMilitaryDepartment(MilitaryDepartment militaryDepartment);
     
     public List<MilitaryDepartment> getListInJSONMilitaryDepartment(char status);
+    
+    /**
+     * Lightweight get list of military departments.
+     * @param status the active status
+     * @return a collection of military departments if any; otherwise return empty collection
+     */
+    public List<MilitaryDepartment> getMilitaryDepartments(char status);
 }
