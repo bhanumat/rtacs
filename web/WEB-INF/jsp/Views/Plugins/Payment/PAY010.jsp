@@ -99,9 +99,9 @@
                                 <option value="40">พลทหารกองประจำการ</option>
                             </select>
                         </div>
-                        <label class="col-md-2 control-label no-padding-right" for="memberStatusCode">สถานะ</label>
+                        <label class="col-md-2 control-label no-padding-right" for="printStatus">สถานะ</label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="memberStatusCode" id="memberStatusCode">
+                            <select class="form-control select2" name="printStatus" id="printStatus">
                                 <option value="">ทั้งหมด</option>
                                 <option value="Y">พิมพ์ใบเสร็จแล้ว</option>
                                 <option value="N">ยังไม่พิมพ์ใบเสร็จ</option>

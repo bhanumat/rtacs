@@ -17,7 +17,7 @@ $(function () {
         var militaryId = $('#militaryId').val();
         var memberTypeCode = $('#memberTypeCode').val();
         var memberGroupCode = $('#memberGroupCode').val();
-        var paymentStatusCode = $('#paymentStatusCode').val();
+        var paymentStatusCode = $('#printStatus').val();
 
         if (memberCode) {
             requestSearch.push({'groupOp': condition, 'field': 'memberCode', 'op': 'eq', 'data': memberCode, 'dataType': 'varchar'});
@@ -79,8 +79,8 @@ $(function () {
             statusSearch = true;
         }
 
-        if (paymentStatusCode) {
-            requestSearch.push({'groupOp': condition, 'field': 'memberStatusCode', 'op': 'eq', 'data': paymentStatusCode, 'dataType': 'integer'});
+        if (printStatus) {
+            requestSearch.push({'groupOp': condition, 'field': 'printedStatus', 'op': 'eq', 'data': printStatus, 'dataType': 'integer'});
             condition = 'and';
             statusSearch = true;
         }
