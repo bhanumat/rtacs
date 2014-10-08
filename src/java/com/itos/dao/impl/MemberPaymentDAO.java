@@ -40,10 +40,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -70,9 +73,12 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     private static final String START_SOP = "ตั้งแต่ศพที่ ";
     private static final String END_SOP = "ถึงศพที่ ";
     private static final String SQL_TB_NAME = "from MemberPayment mp ";
-    private static final String SQL_JOIN_MEMBER = "left outer join Member m on mp.member_id = m.member_id left outer join MilitaryDepartment md on m.military_id = md.military_id left outer join Title t on t.title_id = m.title_id left outer join Rank r on r.rank_id = m.rank_id ";
+    private static final String SQL_JOIN_MEMBER = "left outer join Member m on mp.member_id = m.member_id left outer join MilitaryDepartment md on m.mildept_id = md.mildept_id left outer join Title t on t.title_id = m.title_id left outer join Rank r on r.rank_id = m.rank_id ";
     private static final String SQL_JOIN_OPERATION = "left outer join OperationMember om on m.member_id = om.member_id left outer join Operation o on o.operation_id = om.operation_id ";
     private static final String SQL_JOIN_CONTROL_PAYMENT = "left outer join ControlPayment cp on mp.month_code = cp.month_code ";
+    private static final String SQL_MEMBER_PAYMENT_ALIAS = "mp.payment_id as paymentId, mp.payment_date as paymentDate, mp.reference_id as receiptNo, m.member_code as memberCode"
+                            + ", md.name as militaryName, m.citizen_id as citizenId, isnull(r.rank_name,'') + isnull(t.title_desc,'') as title, m.name as name, m.surname as surname, mp.amount as amount"
+                            + ", o.printed_status as printedStatus ";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -175,12 +181,9 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     public JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req) {
         List<MemberPaymentDto> listResponse = new ArrayList<>();
         JqGridResponse<MemberPaymentDto> jqGrid = new JqGridResponse<>();
-        List<MemberPayment> memberPaymentList = new ArrayList<>();
         /*
          * Command HQL query Data.
          */
-        Search tempSearch = new Search();
-        tempSearch.setConditions(new ArrayList<>());
 
         StringBuilder hql = new StringBuilder();
         StringBuilder hqlConditions = new StringBuilder();
@@ -257,10 +260,10 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                     hqlMemberConditions.append(" m.member_type_code=:memberTypeCode");
                     props.put("memberTypeCode", condition.getData());
                 }
-                if(condition.getField().equalsIgnoreCase("militaryId")){
+                if(condition.getField().equalsIgnoreCase("mildeptId")){
                     hqlMemberConditions.append(" and");
-                    hqlMemberConditions.append(" m.military_id=:militaryId");
-                    props.put("militaryId", condition.getData());
+                    hqlMemberConditions.append(" m.mildept_id=:mildeptId");
+                    props.put("mildeptId", condition.getData());
                 }
                 if (condition.getField().equalsIgnoreCase("printedStatus")) {
                     hqlOperConditions.append(" and");
@@ -282,51 +285,31 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hqlQuery = new StringBuilder();
         
         hqlCount.append("select count(mp.payment_id) ");
-        hqlQuery.append("select mp.* ");
+        hqlQuery.append("select ").append(SQL_MEMBER_PAYMENT_ALIAS);
         
-        hql.append(SQL_TB_NAME);
-        hql.append(SQL_JOIN_MEMBER);
-        hql.append(SQL_JOIN_OPERATION);
-        hql.append(hqlDefaultCondition);
-        hql.append(hqlConditions);
-        hql.append(hqlMemberConditions);
-        hql.append(hqlOperConditions);
+        hql.append(SQL_TB_NAME).append(SQL_JOIN_MEMBER).append(SQL_JOIN_OPERATION);
+        hql.append(hqlDefaultCondition).append(hqlConditions).append(hqlMemberConditions).append(hqlOperConditions);
+        
         hqlCount.append(hql);
         hqlQuery.append(hql);
         
-        if(req.getSidx() != null && req.getSord()!= null && SortingMapping.fromParameter(req.getSidx()) != null){
+        if(req.getSidx() != null){
             hqlQuery.append(StringPool.SPACE).append(CommandConstant.OrderBy);
-            hqlQuery.append(StringPool.SPACE).append(SortingMapping.fromParameter(req.getSidx()).getField());
+            hqlQuery.append(StringPool.SPACE).append(req.getSidx());
             hqlQuery.append(StringPool.SPACE).append(req.getSord());
         }
 
         Paging paging = CommandQuery.CountRows(sessionFactory, listWhereField, CommandConstant.QueryAND, req, hqlCount);
         SQLQuery query = CommandQuery.CreateQuery(sessionFactory, listWhereField, CommandConstant.QueryAND, req, paging, hqlQuery);
         query.setProperties(props);
-        query.addEntity(MemberPayment.class);
+        query.addScalar("paymentId").addScalar("paymentDate").addScalar("receiptNo", StandardBasicTypes.STRING).addScalar("memberCode").addScalar("militaryName")
+                .addScalar("citizenId").addScalar("title").addScalar("name").addScalar("surname").addScalar("amount").addScalar("printedStatus")
+                .setResultTransformer(Transformers.aliasToBean(MemberPaymentDto.class));
         /*
          * Check array data if true set create object to array new.
          */
         if (!query.list().isEmpty()) {
-            memberPaymentList = query.list();
-            MemberPaymentDto memberPaymentDto;
-            for (MemberPayment mp : memberPaymentList) {
-                memberPaymentDto = new MemberPaymentDto();
-                memberPaymentDto.setPaymentId(mp.getPaymentId());
-                memberPaymentDto.setPaymentDate(mp.getPaymentDate());
-                memberPaymentDto.setReceiptNo(mp.getReferenceId() != null ? String.valueOf(mp.getReferenceId()) : StringPool.BLANK);
-                if (mp.getMember() != null) {
-                    memberPaymentDto.setMemberCode(mp.getMember().getMemberCode());
-                    memberPaymentDto.setMilitaryName(mp.getMember().getMilitaryDepartment() != null ? mp.getMember().getMilitaryDepartment().getName() : null);
-                    memberPaymentDto.setCitizenId(mp.getMember().getCitizenId());
-                    memberPaymentDto.setTitle(buildTitleOrRank(mp.getMember()));
-                    memberPaymentDto.setName(mp.getMember().getName());
-                    memberPaymentDto.setSurname(mp.getMember().getSurname());
-                }
-                memberPaymentDto.setAmount(mp.getAmount() != null ? mp.getAmount() : BigDecimal.ZERO);
-                memberPaymentDto.setPaymentStatus("N");
-                listResponse.add(memberPaymentDto);
-            }
+            listResponse = query.list();
             jqGrid.setPage(req.getPage());
             jqGrid.setRecords(paging.getiRecords());
             jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
@@ -408,6 +391,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         Paging paging = CommandQuery.CountRows(sessionFactory, listWhereField, CommandConstant.QueryAND, req, hqlCount);
         SQLQuery query = CommandQuery.CreateQuery(sessionFactory, listWhereField, CommandConstant.QueryAND, req, paging, hqlQuery);
         query.setProperties(props);
+        query.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         query.addEntity(MemberPayment.class);
 
         if (!query.list()
