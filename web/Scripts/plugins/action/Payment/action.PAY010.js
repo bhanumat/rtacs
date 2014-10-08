@@ -17,7 +17,7 @@ $(function () {
         var militaryId = $('#militaryId').val();
         var memberTypeCode = $('#memberTypeCode').val();
         var memberGroupCode = $('#memberGroupCode').val();
-        var paymentStatusCode = $('#printStatus').val();
+        var printStatus = $('#printStatus').val();
 
         if (memberCode) {
             requestSearch.push({'groupOp': condition, 'field': 'memberCode', 'op': 'eq', 'data': memberCode, 'dataType': 'varchar'});
