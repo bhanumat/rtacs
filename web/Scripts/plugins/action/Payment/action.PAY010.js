@@ -80,7 +80,7 @@ $(function () {
         }
 
         if (printStatus) {
-            requestSearch.push({'groupOp': condition, 'field': 'printedStatus', 'op': 'eq', 'data': printStatus, 'dataType': 'integer'});
+            requestSearch.push({'groupOp': condition, 'field': 'printedStatus', 'op': 'eq', 'data': printStatus, 'dataType': 'char'});
             condition = 'and';
             statusSearch = true;
         }
