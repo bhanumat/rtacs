@@ -191,6 +191,9 @@ $(function() {
         if (!$("#hdnMemberId").val()) {
             $.fn.DialogWarning('กรุณาค้นหาข้อมูลสมาชิก');
             return false;
+        } else if (!$("#paymentDate").val()) {
+            $.fn.DialogWarning('กรุณาเลือกวันที่ชำระ');
+            return false;
         } else if (!selectedPayment) {
             $.fn.DialogWarning('กรุณาเลือกรายการที่จะชำระ');
             return false;
@@ -340,11 +343,12 @@ $(function() {
         }
     });
 
-    init = function() {
-        $('#paymentDate').datepicker({language: 'th', format: 'dd/mm/yyyy'});
-        $("#paymentDate").datepicker("setDate", new Date());
+    //immediately-invoked
+    (function () {
+        $.fn.datepicker.defaults.format = "dd/mm/yyyy";
+        $.fn.datepicker.defaults.language = 'th';
+        $.fn.datepicker.defaults.todayHighlight = true;
+        $('#paymentDate').datepicker({endDate: new Date()});
         onLoadMilitaryDepartment();
-    };
-
-    init();
+    }());
 });
