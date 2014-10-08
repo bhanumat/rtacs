@@ -34,7 +34,7 @@ var gridColModel = [
         formatter: 'currency',
         formatoptions: {prefix: '฿', suffix: '', thousandsSeparator: ','}
     },
-    {name: 'paymentStatus', index: 'paymentStatus', align: 'center', sortable: true, width: 145,
+    {name: 'printedStatus', index: 'printedStatus', align: 'center', sortable: true, width: 145,
         formatter: function (cellVal, opts, rowObject, action) {
             var strToReturn;
             switch (cellVal) {
