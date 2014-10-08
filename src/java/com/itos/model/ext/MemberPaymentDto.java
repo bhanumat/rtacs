@@ -26,12 +26,12 @@ public class MemberPaymentDto {
     private String surname;
     private BigDecimal amount;
     private int paymentTypeCode;
-    private String paymentStatus;
+    private Character printedStatus;
 
     public MemberPaymentDto() {
     }
 
-    public MemberPaymentDto(int paymentId, Date paymentDate, String receiptNo, String memberCode, String militaryName, String citizenId, String title, String name, String surname, BigDecimal amount, int paymentTypeCode, String paymentStatus) {
+    public MemberPaymentDto(int paymentId, Date paymentDate, String receiptNo, String memberCode, String militaryName, String citizenId, String title, String name, String surname, BigDecimal amount, int paymentTypeCode, Character printedStatus) {
         this.paymentId = paymentId;
         this.paymentDate = paymentDate;
         this.receiptNo = receiptNo;
@@ -43,7 +43,7 @@ public class MemberPaymentDto {
         this.surname = surname;
         this.amount = amount;
         this.paymentTypeCode = paymentTypeCode;
-        this.paymentStatus = paymentStatus;
+        this.printedStatus = printedStatus;
     }
 
     /**
@@ -72,20 +72,6 @@ public class MemberPaymentDto {
      */
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
-    }
-
-    /**
-     * @return the receiptNo
-     */
-    public String getReceiptNo() {
-        return receiptNo;
-    }
-
-    /**
-     * @param receiptNo the receiptNo to set
-     */
-    public void setReceiptNo(String receiptNo) {
-        this.receiptNo = receiptNo;
     }
 
     /**
@@ -201,22 +187,36 @@ public class MemberPaymentDto {
     }
 
     /**
-     * @return the paymentStatus
+     * @return the receiptNo
      */
-    public String getPaymentStatus() {
-        return paymentStatus;
+    public String getReceiptNo() {
+        return receiptNo;
     }
 
     /**
-     * @param paymentStatus the paymentStatus to set
+     * @param receiptNo the receiptNo to set
      */
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setReceiptNo(String receiptNo) {
+        this.receiptNo = receiptNo;
+    }
+    
+    /**
+     * @return the printedStatus
+     */
+    public Character getPrintedStatus() {
+        return printedStatus;
+    }
+
+    /**
+     * @param printedStatus the printedStatus to set
+     */
+    public void setPrintedStatus(Character printedStatus) {
+        this.printedStatus = printedStatus;
     }
 
     @Override
     public String toString() {
-        return "MemberPaymentDto{" + "paymentId=" + paymentId + ", paymentDate=" + paymentDate + ", receiptNo=" + receiptNo + ", memberCode=" + memberCode + ", militaryName=" + militaryName + ", citizenId=" + citizenId + ", title=" + title + ", name=" + name + ", surname=" + surname + ", amount=" + amount + ", paymentTypeCode=" + paymentTypeCode + ", paymentStatus=" + paymentStatus + '}';
+        return "MemberPaymentDto{" + "paymentId=" + paymentId + ", paymentDate=" + paymentDate + ", receiptNo=" + receiptNo + ", memberCode=" + memberCode + ", militaryName=" + militaryName + ", citizenId=" + citizenId + ", title=" + title + ", name=" + name + ", surname=" + surname + ", amount=" + amount + ", paymentTypeCode=" + paymentTypeCode + ", printedStatus=" + getPrintedStatus() + '}';
     }
     
 }
