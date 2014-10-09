@@ -40,7 +40,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -69,16 +68,15 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd", ENG_LOCALE);
     private static final String TB_NAME = "MemberPayment";
     private static final String ATT_PAYMENT_ID = "paymentId";
-    private static final String MONTHLY_FEE = "ค่าบำรุงศพประจำเดือน ";
-    private static final String START_SOP = "ตั้งแต่ศพที่ ";
-    private static final String END_SOP = "ถึงศพที่ ";
     private static final String SQL_TB_NAME = "from MemberPayment mp ";
     private static final String SQL_JOIN_MEMBER = "left outer join Member m on mp.member_id = m.member_id left outer join MilitaryDepartment md on m.mildept_id = md.mildept_id left outer join Title t on t.title_id = m.title_id left outer join Rank r on r.rank_id = m.rank_id ";
     private static final String SQL_JOIN_OPERATION = "left outer join OperationMember om on m.member_id = om.member_id left outer join Operation o on o.operation_id = om.operation_id ";
     private static final String SQL_JOIN_CONTROL_PAYMENT = "left outer join ControlPayment cp on mp.month_code = cp.month_code ";
-    private static final String SQL_MEMBER_PAYMENT_ALIAS = "mp.payment_id as paymentId, mp.payment_date as paymentDate, mp.reference_id as receiptNo, m.member_code as memberCode"
+    private static final String SQL_ALIAS_MEMBER_PAYMENT = "mp.payment_id as paymentId, mp.payment_date as paymentDate, mp.reference_id as receiptNo, m.member_code as memberCode"
                             + ", md.name as militaryName, m.citizen_id as citizenId, isnull(r.rank_name,'') + isnull(t.title_desc,'') as title, m.name as name, m.surname as surname, mp.amount as amount"
                             + ", o.printed_status as printedStatus ";
+    private static final String SQL_ALIAS_MEMBER_PAYMENT_HEAD = "mp.payment_id as paymentId, mp.member_id as memberId, cp.month_code as monthCode, cp.start_sop_no as startSopNo"
+                            +", cp.end_sop_no as endSopNo, (cp.end_sop_no - cp.start_sop_no) as sopAmount, cp.amount as amount ";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -285,7 +283,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hqlQuery = new StringBuilder();
         
         hqlCount.append("select count(mp.payment_id) ");
-        hqlQuery.append("select ").append(SQL_MEMBER_PAYMENT_ALIAS);
+        hqlQuery.append("select ").append(SQL_ALIAS_MEMBER_PAYMENT);
         
         hql.append(SQL_TB_NAME).append(SQL_JOIN_MEMBER).append(SQL_JOIN_OPERATION);
         hql.append(hqlDefaultCondition).append(hqlConditions).append(hqlMemberConditions).append(hqlOperConditions);
@@ -293,7 +291,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         hqlCount.append(hql);
         hqlQuery.append(hql);
         
-        if(req.getSidx() != null){
+        if(StringUtils.isNotBlank(req.getSidx())){
             hqlQuery.append(StringPool.SPACE).append(CommandConstant.OrderBy);
             hqlQuery.append(StringPool.SPACE).append(req.getSidx());
             hqlQuery.append(StringPool.SPACE).append(req.getSord());
@@ -328,13 +326,9 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     public JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req) {
         JqGridResponse<MemberPaymentHeadDto> jqGrid = new JqGridResponse<>();
         List<MemberPaymentHeadDto> listResponse = new ArrayList<>();
-        List<MemberPayment> memberPaymentList = new ArrayList<>();
         /*
          * Command HQL query Data.
          */
-        Search tempSearch = new Search();
-        tempSearch.setConditions(new ArrayList<>());
-
         StringBuilder hql = new StringBuilder();
         StringBuilder hqlMemberConditions = new StringBuilder();
 
@@ -345,7 +339,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 if(condition.getField().equalsIgnoreCase("memberId")){
                     hqlMemberConditions.append(" and");
                     hqlMemberConditions.append(" m.member_id=:memberId");
-                    props.put("memberId", condition.getData());
+                    props.put("memberId", Integer.valueOf(condition.getData()));
                 }
                 else if(condition.getField().equalsIgnoreCase("citizenId")){
                     hqlMemberConditions.append(" and");
@@ -372,7 +366,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hqlQuery = new StringBuilder();
         
         hqlCount.append("select count(mp.payment_id) ");
-        hqlQuery.append("select mp.*, (cp.end_sop_no - cp.start_sop_no) as sop_amount ");
+        hqlQuery.append("select ").append(SQL_ALIAS_MEMBER_PAYMENT_HEAD);
         
         hql.append(SQL_TB_NAME);
         hql.append(SQL_JOIN_MEMBER);
@@ -382,21 +376,23 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         hqlCount.append(hql);
         hqlQuery.append(hql);
         
-        if(req.getSidx() != null && req.getSord()!= null && SortingMapping.fromParameter(req.getSidx()) != null){
+        if(StringUtils.isNotBlank(req.getSidx())){
             hqlQuery.append(StringPool.SPACE).append(CommandConstant.OrderBy);
-            hqlQuery.append(StringPool.SPACE).append(SortingMapping.fromParameter(req.getSidx()).getField());
+            hqlQuery.append(StringPool.SPACE)
+                    .append(SortingMapping.fromParameter(req.getSidx()) != null ? SortingMapping.fromParameter(req.getSidx()).field : req.getSidx());
             hqlQuery.append(StringPool.SPACE).append(req.getSord());
         }
 
         Paging paging = CommandQuery.CountRows(sessionFactory, listWhereField, CommandConstant.QueryAND, req, hqlCount);
         SQLQuery query = CommandQuery.CreateQuery(sessionFactory, listWhereField, CommandConstant.QueryAND, req, paging, hqlQuery);
         query.setProperties(props);
-        query.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        query.addEntity(MemberPayment.class);
+        query.addScalar("paymentId").addScalar("memberId").addScalar("monthCode")
+                .addScalar("startSopNo").addScalar("endSopNo").addScalar("sopAmount").addScalar("amount")
+                .setResultTransformer(Transformers.aliasToBean(MemberPaymentHeadDto.class));
 
-        if (!query.list()
-                .isEmpty()) {
-            memberPaymentList = query.list();
+        if (!query.list().isEmpty()) {
+            listResponse = query.list();
+            /*
             MemberPaymentHeadDto mph;
             for (MemberPayment mp : memberPaymentList) {
                 mph = new MemberPaymentHeadDto();
@@ -412,6 +408,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 mph.setRemark(StringPool.BLANK);
                 listResponse.add(mph);
             }
+            */
             jqGrid.setPage(req.getPage());
             jqGrid.setRecords(paging.getiRecords());
             jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
@@ -438,64 +435,9 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         return result;
 
     }
-
-    private String buildTitleOrRank(Member member) {
-        String titleOrRank = "";
-        if (member != null) {
-            Rank rank = member.getRank();
-            Title title = member.getTitle();
-
-            if (rank != null && rank.getRankName() != null) {
-                titleOrRank = titleOrRank + rank.getRankName() + " ";
-            }
-            if (title != null && title.getTitleDesc() != null) {
-                titleOrRank = titleOrRank + title.getTitleDesc() + " ";
-            }
-        }
-        return titleOrRank;
-    }
-
-    private String buildMemberPaymentDetail(String monthCode, Integer start, Integer end) {
-        String strMm = StringUtils.substring(monthCode, 3, 5);  //  MM.
-        String StrYyy = StringUtils.substring(monthCode, 0, 3); //  yyy.
-        String StrYy = StringUtils.substring(monthCode, 1, 3);  //  yy.
-        String strBbuddhistYear = StringUtils.rightPad("2", 4, StrYyy); //  '2' + yyy.
-        String shortMonth = formatMonth(NumberUtils.toInt(strMm), new Locale("th", "TH"));  //  ม.ค. etc.
-        StringBuilder sb = new StringBuilder();
-        sb.append(MONTHLY_FEE);
-        sb.append(shortMonth);
-        sb.append(StringPool.SPACE);
-        sb.append(strBbuddhistYear);
-        sb.append(StringPool.SPACE);
-        sb.append(START_SOP).append(start).append(StringPool.SLASH).append(StrYy);
-        sb.append(StringPool.SPACE);
-        sb.append(END_SOP).append(end).append(StringPool.SLASH).append(StrYy);
-        return sb.toString();
-    }
-
-    private String formatMonth(int month, Locale locale) {
-        DateFormatSymbols symbols = new DateFormatSymbols(locale);
-        String[] monthNames = symbols.getShortMonths();
-        return monthNames[month - 1];
-    }
     
     private enum SortingMapping {
-        PAYMENT_ID("paymentId", "mp.payment_id"),
-	MEMBER_ID("memberId", "m.member_id"),
-        PAYMENT_DATE("paymentDate", "mp.payment_date"),
-        RECIVE_NO("receiptNo", "mp.reference_id"),
-        MEMBER_CODE("memberCode", "m.member_code"),
-        MILDEPT_ID("militaryName", "md.name"),
-        CITIZEN_ID("citizenId", "m.citizen_id"),
-        NAME("name", "m.name"),
-        SURNAME("surname", "m.surname"),
-        TITLE("title", "coalesce (t.title, r.rank_name)"),
-        AMOUNT("amount", "mp.amount"),
-        PAYMENT_STATUS("paymentStatus", "o.printed_status"),
-        PRINTED_STATUS("printedStatus", "o.printed_status"),
-        //  Support sorting PAY010-1
-        PAYMENT_DETAIL("paymentDetail", "mp.month_code"),
-        SOP_AMOUNT("sopAmount", "sop_amount");
+        PAYMENT_DETAIL("paymentDetail", "mp.month_code");
  
 	private String parameter;
         private String field;

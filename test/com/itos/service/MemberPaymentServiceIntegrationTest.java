@@ -305,7 +305,7 @@ public class MemberPaymentServiceIntegrationTest {
         req.setNd("1411189121948");	
         req.setRows(10);	
         req.setPage(1);	
-        req.setSidx("paymentDetail");	
+        req.setSidx("paymentId");	
         req.setSord("asc");	
         req.setSearchField(null);	
         req.setSearchString(null);	
@@ -314,7 +314,7 @@ public class MemberPaymentServiceIntegrationTest {
         req.setSearch (true);
         StringBuilder sb = new StringBuilder();
         sb.append("{\"conditions\":[");
-            sb.append("{\"groupOp\":\"\",\"field\":\"memberId\",\"op\":\"eq\",\"data\":\"8\",\"dataType\":\"integer\"},");
+            sb.append("{\"groupOp\":\"\",\"field\":\"memberId\",\"op\":\"eq\",\"data\":568362,\"dataType\":\"varchar\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"},");
         sb.append("]}");
@@ -345,14 +345,14 @@ public class MemberPaymentServiceIntegrationTest {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"conditions\":[");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"paymentId\",\"op\":\"eq\",\"data\":\"1\",\"dataType\":\"varchar\"},");
-            sb.append("{\"groupOp\":\"\",\"field\":\"paymentDate\",\"op\":\"bw\",\"data\":\"01/01/2013,31/12/2013\",\"dataType\":\"date\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"paymentDate\",\"op\":\"bw\",\"data\":\"01/01/2013,31/12/2013\",\"dataType\":\"date\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"name\",\"op\":\"eq\",\"data\":\"เฉลิม\",\"dataType\":\"varchar\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"surname\",\"op\":\"eq\",\"data\":\"ศรีสว่าง\",\"dataType\":\"varchar\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"memberGroupCode\",\"op\":\"eq\",\"data\":\"10\",\"dataType\":\"varchar\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"memberTypeCode\",\"op\":\"eq\",\"data\":\"20\",\"dataType\":\"varchar\"},");
-//            sb.append("{\"groupOp\":\"\",\"field\":\"militaryId\",\"op\":\"eq\",\"data\":\"10\",\"dataType\":\"varchar\"},");
+            sb.append("{\"groupOp\":\"\",\"field\":\"mildeptId\",\"op\":\"eq\",\"data\":\"13307\",\"dataType\":\"integer\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"printedStatus\",\"op\":\"eq\",\"data\":\"N\",\"dataType\":\"char\"},");
         sb.append("]}");
         req.setSearchCommand(sb.toString());
