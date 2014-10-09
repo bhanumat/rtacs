@@ -88,6 +88,31 @@ $(function() {
             }
         });
     };
+    
+    onLoadMemberStatusCode = function () {
+        var objData = {};
+        $.ajax({
+            type: 'POST',
+            url: urlListJsonMemberStatusCode,
+            cache: false,
+            //timeout: 1000,
+            async: false,
+            data: objData,
+            dataType: 'json',
+            success: function (list) {
+                $('#status').empty();
+                $('#status').append('<option value="">ทั้งหมด</option>');
+                $.each(list, function( index, value ) {
+                    $('#status').append('<option value="' + value.code + '">' + value.name + '</option>');
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.fn.MessageError(XMLHttpRequest, textStatus, errorThrown);
+            },
+            beforeSend: function (jqXHR) {
+            }
+        });
+    };
 
     onClickSearch = function(memberId) {
         if(memberId !== null) {
@@ -140,7 +165,7 @@ $(function() {
                     $("#lblCitizenId").text(object.citizenId);
                     $("#lblName").text(object.rankOrTitleName + object.name + "  " + object.surname);
                     $("#lblMilitaryName").text(object.militaryName);
-                    $("#lblMilitaryName").text(object.militaryName);
+                    $("#lblMemberStatus").html(getHtmlMemberStatus(object.memberStatusName));
                     $("#paymentTypeCode20").attr("checked", "checked");
                     changePaymentTypeCode(20);
                     loadMemberPaymentGridByMemberId(object.memberId);
@@ -297,6 +322,13 @@ $(function() {
         var responseId = '#main-page-content-loading';
         $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
     };
+    
+    getHtmlMemberStatus = function(statusName) {
+        if(statusName) {
+            return '<span class="label label-xlg label-yellow arrowed arrowed-right">' + statusName + '</span>';
+        }
+        return '';
+    };
 
     $("#btnSearch").click(function(event) {
         event.preventDefault();
@@ -350,5 +382,6 @@ $(function() {
         $.fn.datepicker.defaults.todayHighlight = true;
         $('#paymentDate').datepicker({endDate: new Date()});
         onLoadMilitaryDepartment();
+        onLoadMemberStatusCode();
     }());
 });

@@ -7,7 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <script type="text/javascript">
-    var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getListInJSONMilitaryDepartment.json';
+    var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getMilitaryDepartments.json';
+    var urlListJsonMemberStatusCode = rootPath + '/Plugins/MasterData/getMemberStatusCodes.json';
     var urlListMember = rootPath + '/Plugins/Payment/getMembers.json';
     var urlListMemberPayment = rootPath + '/Plugins/Payment/getListMemberPAY010_1.json';
     var urlMember = rootPath + '/Plugins/Payment/getMemberPAY010_1.json';
@@ -120,9 +121,7 @@
                     </div>
                     <div class="profile-info-name" style="width:170px;"> สถานะสมาชิก</div>
                     <div class="profile-info-value">
-                        <span id="username" class="editable">
-                            <span class="label label-xlg label-yellow arrowed arrowed-right">ค้างชำระ 1 เดือน</span>
-                        </span>
+                        <span id="lblMemberStatus" class="editable"/>
                     </div>
                 </div>		
             </div>									
@@ -158,7 +157,7 @@
         </div><!-- PAGE CONTENT ENDS -->
 
         <div aria-hidden="true" style="display: none;" id="modal-form" class="modal" tabindex="-1">
-            <div class="modal-dialog" style="width: 1000px;">
+            <div class="modal-dialog" style="width: 1060px;">
                 <div class="modal-content">
                     <div class="modal-header" style="padding:5px">
                         <button type="button" class="close" data-dismiss="modal">×</button>
@@ -237,38 +236,6 @@
                 <div id="gridPager_MemberPaymentGrid_List"></div>
             </div>
         </div>
-
-        <!--        <div class="table-header">ข้อมูลสมาชิก</div>
-                <table id="sample-table-1" class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th> ลำดับ</th>
-                            <th>รายการ </th>
-                            <th>จำนวนศพ </th>
-                            <th> จำนวนเงิน</th>
-                            <th>ชำระ ?</th>
-                            <th> หมายเหตุ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="center">1</td>
-                            <td>ค่าบำรุงศพประจำเดือน พ.ค. 2557 ตั้งแต่ศพที่ 1,321/57 ถึงศพที่ 1,720/57 </td>
-                            <td>400</td>
-                            <td>200.00</td>
-                            <td class="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
-                            <td><input type="text" name="checkbox2" id="checkbox2"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">2</td>
-                            <td>ค่าบำรุงศพประจำเดือน มิ. ย. 2557 ตั้งแต่ศพที่ 1,321/57 ถึงศพที่ 1,720/57 </td>
-                            <td>440</td>
-                            <td>220.00</td>
-                            <td class="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
-                            <td><input type="text" name="checkbox2" id="checkbox2"></td>
-                        </tr>
-                    </tbody>
-                </table>-->
     </div>
 </div>
 

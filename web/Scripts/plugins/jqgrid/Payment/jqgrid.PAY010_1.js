@@ -12,12 +12,16 @@ var gridColModel = [
         }
     },
     {name: 'militaryName', index: 'md.military_name', sortable: false, width: 150},
-    {name: 'memberCode', index: 'm.member_code', align: 'center', sortable: false, width: 100},
+    {name: 'memberCode', index: 'm.member_code', align: 'center', sortable: false, width: 110},
     {name: 'citizenId', index: 'm.citizen_id', align: 'center', sortable: false, width: 150},
     {name: 'rankOrTitleName', index: 'rankOrTitleName', sortable: false, width: 120},
     {name: 'name', index: 'name', sortable: false, width: 100},
     {name: 'surname', index: 'surname', sortable: false, width: 100},
-    {name: 'memberStatusCode', index: 'memberStatusCode', sortable: false, width: 145}
+    {name: 'memberStatusName', index: 'memberStatusCode', sortable: false, width: 220,
+        formatter: function (cellVal, opts, rowObject, action) {
+            return getHtmlMemberStatus(cellVal);
+        }
+    }
 ];
 var gridJsonReader = {
     records: "records", //total number of records for the query
@@ -28,12 +32,12 @@ var gridJsonReader = {
 var gridPaymentUrl = urlListMemberPayment;
 var gridPaymentName = '#gridData_MemberPaymentGrid_List';
 var gridPaymentPagerName = '#gridPager_MemberPaymentGrid_List';
-var gridPaymentSortName = 'member_id';
+var gridPaymentSortName = 'monthCode';
 var gridPaymentSortOrder = 'asc';
 var gridPaymentCaption = 'ข้อมูลสมาชิก';
 var gridPaymentColNames = ['รายการ', 'จำนวนศพ', 'จำนวนเงิน', 'ชำระ ?', 'หมายเหตุ'];
 var gridPaymentColModel = [
-    {name: 'paymentDetail', index: 'paymentDetail', sortable: true, width: 500},
+    {name: 'paymentDetail', index: 'monthCode', sortable: true, width: 500},
     {name: 'sopAmount', index: 'sopAmount', align: 'right', sortable: true, width: 150, formatter:'integer'},
     {name: 'amount', index: 'amount', align: 'right', sortable: true, width: 150, formatter:'number'},
     {name: 'paymentId', index: 'paymentId', align: 'center', sortable: false, width: 60,

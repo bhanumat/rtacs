@@ -4,6 +4,7 @@ package com.itos.model.ext;
 import com.itos.model.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.itos.enums.MemberStatusEnum;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -597,6 +598,12 @@ public class MemberData implements java.io.Serializable {
 
     public void setMemberStatusCode(Integer memberStatusCode) {
         this.memberStatusCode = memberStatusCode;
+    }
+    
+    @Transient
+    public String getMemberStatusName() {
+        MemberStatusEnum memberStatus = MemberStatusEnum.valueOf(memberStatusCode);
+        return memberStatus == null ? null : memberStatus.getName();
     }
 
     @Column(name = "create_by", length = 50)
