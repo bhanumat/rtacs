@@ -127,7 +127,7 @@ $(function () {
         $('#militaryId').append('<option value="">ทั้งหมด</option>');
         for (var item in listMilitaryDepartment) {
             var itemData = listMilitaryDepartment[item];
-            $('#militaryId').append('<option value="' + itemData.militaryId + '">' + itemData.name + '</option>');
+            $('#militaryId').append('<option value="' + itemData.mildeptId + '">' + itemData.name + '</option>');
         }
     };
 
