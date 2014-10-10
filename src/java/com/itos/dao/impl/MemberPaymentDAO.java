@@ -392,23 +392,6 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
 
         if (!query.list().isEmpty()) {
             listResponse = query.list();
-            /*
-            MemberPaymentHeadDto mph;
-            for (MemberPayment mp : memberPaymentList) {
-                mph = new MemberPaymentHeadDto();
-                mph.setPaymentId(mp.getPaymentId());
-                mph.setMemberId(mp.getMember().getMemberId());
-                mph.setMonthCode(mp.getMonthCode());
-                mph.setStartSopNo(mp.getControlPayment().getStartSopNo());
-                mph.setEndSopNo(mp.getControlPayment().getEndSopNo());
-                mph.setPaymentDetail(buildMemberPaymentDetail(mp.getMonthCode(), mp.getControlPayment().getStartSopNo(), mp.getControlPayment().getEndSopNo()));
-                mph.setSopAmount(mp.getControlPayment().getEndSopNo() - mp.getControlPayment().getStartSopNo());
-                mph.setAmount(mp.getControlPayment().getAmount());
-                mph.setPaymentFlag(false);
-                mph.setRemark(StringPool.BLANK);
-                listResponse.add(mph);
-            }
-            */
             jqGrid.setPage(req.getPage());
             jqGrid.setRecords(paging.getiRecords());
             jqGrid.setTotalPages((paging.getiRecords() + req.getRows() - 1) / req.getRows());
@@ -437,7 +420,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
     }
     
     private enum SortingMapping {
-        PAYMENT_DETAIL("paymentDetail", "mp.month_code");
+        PAYMENT_DETAIL("paymentDetail", "monthCode");
  
 	private String parameter;
         private String field;
