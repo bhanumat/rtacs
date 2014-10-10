@@ -1,10 +1,7 @@
 package com.itos.dao.impl;
 
 import com.itos.dao.model.IMemberPaymentDAO;
-import com.itos.model.Member;
 import com.itos.model.MemberPayment;
-import com.itos.model.Rank;
-import com.itos.model.Title;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.util.ConstantsMessage;
@@ -22,7 +19,6 @@ import com.itos.util.jsonObject.MessageRequest;
 import com.itos.util.jsonObject.MessageResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +33,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -282,8 +277,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hqlCount = new StringBuilder();
         StringBuilder hqlQuery = new StringBuilder();
         
-        hqlCount.append("select count(mp.payment_id) ");
-        hqlQuery.append("select ").append(SQL_ALIAS_MEMBER_PAYMENT);
+        hqlCount.append("select count(distinct mp.payment_id) ");
+        hqlQuery.append("select distinct ").append(SQL_ALIAS_MEMBER_PAYMENT);
         
         hql.append(SQL_TB_NAME).append(SQL_JOIN_MEMBER).append(SQL_JOIN_OPERATION);
         hql.append(hqlDefaultCondition).append(hqlConditions).append(hqlMemberConditions).append(hqlOperConditions);
