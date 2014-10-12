@@ -9,21 +9,23 @@ import com.itos.enums.MemberStatusEnum;
 import com.itos.model.Bank;
 import com.itos.model.BankAccountType;
 import com.itos.model.BankBranch;
+import com.itos.model.ControlPayment;
 import com.itos.model.MilitaryDepartment;
 import com.itos.model.Province;
 import com.itos.model.Rank;
 import com.itos.model.Title;
 import com.itos.model.ext.MemberStatusCode;
+import com.itos.model.ext.PaymentMonthCode;
 import com.itos.service.model.IBankAccountTypeService;
 import com.itos.service.model.IBankBranchService;
 import com.itos.service.model.IBankService;
+import com.itos.service.model.IControlPaymentService;
 import com.itos.service.model.IMilitaryDepartmentService;
 import com.itos.service.model.IProvinceService;
 import com.itos.service.model.IRankService;
 import com.itos.service.model.ITitleService;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,6 +64,9 @@ public class MasterDataController {
 
     @Autowired
     ITitleService iTitleService;
+
+    @Autowired
+    IControlPaymentService iControlPaymentService;
 
     @Autowired
     IMilitaryDepartmentService iMilitaryDepartmentService;
@@ -154,6 +159,14 @@ public class MasterDataController {
             list.add(new MemberStatusCode(col.getCode(), col.getName()));
         }
         return list;
+    }
+
+    @RequestMapping(value = "/Plugins/MasterData/getControlPaymentMonthCodes.json", method = {RequestMethod.GET, RequestMethod.POST},
+            produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<ControlPayment> getControlPaymentMonthCodes(Model model, Principal principal) {
+        return iControlPaymentService.getMonthCodes();
     }
 
 }

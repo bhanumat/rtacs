@@ -5,6 +5,13 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<script type="text/javascript">
+    var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getMilitaryDepartments.json';
+    var urlListJsonControlPaymentMonthCodes = rootPath + '/Plugins/MasterData/getControlPaymentMonthCodes.json';
+    var urlListMilitaryPayment = rootPath + '/Plugins/Payment/getListMilitaryPayment.json';
+</script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PYC101.js"></script>
+<!--<script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PYC101.js"></script>-->
 <div class="page-header">
     <h1>ชำระเงิน
         <small><i class="ace-icon fa fa-angle-double-right"></i>แสดงรายการการชำระเงินของหน่วย</small>
@@ -39,20 +46,14 @@
         <!-- PAGE CONTENT BEGINS -->						
         <form role="form" class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> งวดเดือน </label>
+                <label class="col-sm-3 control-label no-padding-right" for="monthCode"> งวดเดือน </label>
                 <div class="col-sm-6">
-                    <select name="xx3" id="form-field-4" class="col-xs-10 col-sm-4">
+                    <select name="monthCode" id="monthCode" class="col-xs-10 col-sm-4">
                         <option>ทั้งหมด</option>
-                        <option value="1">มิ.ย. 2557</option>
-                        <option value="2">พ.ค. 2557</option>
-                        <option value="3">เม.ย. 2557</option>
                     </select>
-                    <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> หน่วยต้นสังกัด &nbsp;&nbsp;</label>
-                    <select name="xx3" id="form-field-4" class="col-xs-10 col-sm-4">
+                    <label class="col-sm-3 control-label no-padding-right" for="militaryId"> หน่วยต้นสังกัด &nbsp;&nbsp;</label>
+                    <select name="militaryId" id="militaryId" class="col-xs-10 col-sm-4">
                         <option>ทั้งหมด</option>
-                        <option value="1">กกส.กห.</option>
-                        <option value="2">กคช.กช</option>
-                        <option value="3">กง.กห.</option>
                     </select>
                 </div>
             </div>
