@@ -9,6 +9,7 @@
     var urlListJsonMilitaryDepartment = rootPath + '/Plugins/MasterData/getMilitaryDepartments.json';
     var urlListJsonControlPaymentMonthCodes = rootPath + '/Plugins/MasterData/getControlPaymentMonthCodes.json';
     var urlListMilitaryPayment = rootPath + '/Plugins/Payment/getListMilitaryPayment.json';
+    var urlMilitaryPayment = rootPath + '/Plugins/Payment/PYC101_1.htm';
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PYC101.js"></script>
 <!--<script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PYC101.js"></script>-->
@@ -169,9 +170,12 @@
                     <td>2</td>
                     <td>21 มิ.ย 2557</td>
                     <td>ผู้ดูแลระบบ</td>
-                    <td class="center"><div class="hidden-sm hidden-xs btn-group"> <a href="PYC101-1.html" role="button" class="blue">
+                    <td class="center">
+                        <div class="hidden-sm hidden-xs btn-group">
+                            <a role="button" class="blue" onclick="gotoPayment(1)">
                                 <button class="btn btn-xs btn-search" id="btnDialog"><i class="ace-icon fa fa-search bigger-120"></i></button>
-                            </a> </div>
+                            </a>
+                        </div>
                     </td>	
                 </tr>
                 <tr>
@@ -187,7 +191,7 @@
                     <td>ผู้ดูแลระบบ</td>
                     <td class="center">
                         <div class="hidden-sm hidden-xs btn-group">
-                            <a href="PYC101-1.html" role="button" class="blue">
+                            <a role="button" class="blue" onclick="gotoPayment(2)">
                                 <button class="btn btn-xs btn-search" id="btnDialog"><i class="ace-icon fa fa-search bigger-120"></i></button>
                             </a>
                         </div>
@@ -206,7 +210,7 @@
                     <td>ผู้ดูแลระบบ</td>
                     <td class="center">
                         <div class="hidden-sm hidden-xs btn-group"> 
-                            <a href="PYC101-1.html" role="button" class="blue">
+                            <a role="button" class="blue" onclick="gotoPayment(3)">
                                 <button class="btn btn-xs btn-search" id="btnDialog"><i class="ace-icon fa fa-search bigger-120"></i></button>
                             </a>
                         </div>

@@ -95,6 +95,15 @@ $(function () {
         $(gridName).trigger("reloadGrid", [{page: 1}]);
 
     };
+    
+    gotoPayment = function(id) {
+        var typeAction = 'GET';
+        var urlAction = urlMilitaryPayment;
+        var objDataAction = {'id':id};
+        var dataTypeAction = 'html';
+        var responseId = '#main-page-content-loading';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+    };
 
     onActionLoadMilitaryDepartment = function () {
         var objData = {};
