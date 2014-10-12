@@ -6,8 +6,9 @@ package com.itos.service;
  * and open the template in the editor.
  */
 import com.itos.model.MemberPayment;
+import com.itos.model.ext.DeptMemberPaymentDto;
+import com.itos.model.ext.DeptPaymentDto;
 import com.itos.model.ext.MemberPaymentDto;
-import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.service.model.IMemberPaymentService;
 import com.itos.util.ConstantsMessage;
 import com.itos.util.jqGrid.JqGridRequest;
@@ -23,9 +24,7 @@ import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
@@ -300,7 +299,6 @@ public class MemberPaymentServiceIntegrationTest {
     
     @Test
     public void getMemberPaymentByCode() {
-        
         JqGridRequest req = new JqGridRequest();
         req.setNd("1411189121948");	
         req.setRows(10);	
@@ -314,33 +312,27 @@ public class MemberPaymentServiceIntegrationTest {
         req.setSearch (true);
         StringBuilder sb = new StringBuilder();
         sb.append("{\"conditions\":[");
-            sb.append("{\"groupOp\":\"\",\"field\":\"memberId\",\"op\":\"eq\",\"data\":568362,\"dataType\":\"varchar\"},");
-//            sb.append("{\"groupOp\":\"\",\"field\":\"citizenId\",\"op\":\"eq\",\"data\":\"3160100142129\",\"dataType\":\"varchar\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"memberId\",\"op\":\"eq\",\"data\":568362,\"dataType\":\"varchar\"},");
+            sb.append("{\"groupOp\":\"\",\"field\":\"citizenID\",\"op\":\"eq\",\"data\":\"55612\",\"dataType\":\"varchar\"},");
 //            sb.append("{\"groupOp\":\"\",\"field\":\"memberCode\",\"op\":\"eq\",\"data\":\"4001000042\",\"dataType\":\"varchar\"},");
         sb.append("]}");
         req.setSearchCommand(sb.toString());
-        JqGridResponse<MemberPaymentHeadDto> memberPaymentHeadDto = iMemberPaymentService.getMemberPaymentByCode(req);
+        JqGridResponse<DeptPaymentDto> memberPaymentHeadDto = iMemberPaymentService.searchDeptPayment(req);
         if (memberPaymentHeadDto != null && memberPaymentHeadDto.getRows() != null) {
             System.out.println("getMemberPaymentByCode result : "+memberPaymentHeadDto.getRows().toString());
         }else {
             fail("response is null");
         }
-        
     }
     
     @Test
     public void searchMemberPayment() {
-        
         JqGridRequest req = new JqGridRequest();
         req.setNd("1411189121948");	
         req.setRows(10);	
         req.setPage(1);	
         req.setSidx("printedStatus");	
         req.setSord("asc");	
-        req.setSearchField(null);	
-        req.setSearchString(null);	
-        req.setSearchOper(null);	
-        req.setFilters(null);	
         req.setSearch (false);
         StringBuilder sb = new StringBuilder();
         sb.append("{\"conditions\":[");
@@ -359,6 +351,50 @@ public class MemberPaymentServiceIntegrationTest {
         JqGridResponse<MemberPaymentDto> memberPaymentDtos = iMemberPaymentService.searchMemberPayment(req);
         if (memberPaymentDtos != null && memberPaymentDtos.getRows() != null) {
             System.out.println("getMemberPaymentByCode result : "+memberPaymentDtos.getRows().toString());
+        }else {
+            fail("response is null");
+        }
+    }
+    
+    @Test
+    public void searchDeptPayment() {
+        JqGridRequest req = new JqGridRequest();
+        req.setNd("1411189121948");	
+        req.setRows(10);	
+        req.setPage(1);	
+        req.setSidx("deptpaymentId");	
+        req.setSord("asc");	
+        req.setSearch (true);
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"conditions\":[");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"mildeptId\",\"op\":\"eq\",\"data\":22109,\"dataType\":\"integer\"},");
+            sb.append("{\"groupOp\":\"\",\"field\":\"monthCode\",\"op\":\"eq\",\"data\":\"55612\",\"dataType\":\"varchar\"},");
+        sb.append("]}");
+        req.setSearchCommand(sb.toString());
+        JqGridResponse<DeptPaymentDto> deptPaymentDto = iMemberPaymentService.searchDeptPayment(req);
+        if (deptPaymentDto != null && deptPaymentDto.getRows() != null) {
+            System.out.println("searchDeptPayment result : "+deptPaymentDto.getRows().toString());
+        }else {
+            fail("response is null");
+        }
+    }
+    
+    @Test
+    public void getDeptMemberPayment() {
+        JqGridRequest req = new JqGridRequest();
+        req.setNd("1411189121948");	
+        req.setRows(10);	
+        req.setPage(1);	
+        req.setSidx("memberId");	
+        req.setSord("asc");
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"conditions\":[");
+            sb.append("{\"groupOp\":\"\",\"field\":\"deptpaymentId\",\"op\":\"eq\",\"data\":99483,\"dataType\":\"integer\"}");
+        sb.append("]}");
+        req.setSearchCommand(sb.toString());
+        JqGridResponse<DeptMemberPaymentDto> deptMemberPaymentDto = iMemberPaymentService.getListDeptMemberPayment(req);
+        if (deptMemberPaymentDto != null && deptMemberPaymentDto.getRows() != null) {
+            System.out.println("getDeptMemberPayment result : "+deptMemberPaymentDto.getRows().toString());
         }else {
             fail("response is null");
         }

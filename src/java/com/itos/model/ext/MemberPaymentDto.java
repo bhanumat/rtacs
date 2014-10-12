@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author Aui
  */
-public class MemberPaymentDto {
+public class MemberPaymentDto implements java.io.Serializable {
     
     private int paymentId;
     private Date paymentDate;

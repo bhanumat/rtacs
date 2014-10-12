@@ -2,6 +2,8 @@ package com.itos.dao.impl;
 
 import com.itos.dao.model.IMemberPaymentDAO;
 import com.itos.model.MemberPayment;
+import com.itos.model.ext.DeptMemberPaymentDto;
+import com.itos.model.ext.DeptPaymentDto;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.util.ConstantsMessage;
@@ -72,6 +74,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                             + ", o.printed_status as printedStatus ";
     private static final String SQL_ALIAS_MEMBER_PAYMENT_HEAD = "mp.payment_id as paymentId, mp.member_id as memberId, cp.month_code as monthCode, cp.start_sop_no as startSopNo"
                             +", cp.end_sop_no as endSopNo, (cp.end_sop_no - cp.start_sop_no) as sopAmount, cp.amount as amount ";
+    private static final String EXEC_QUERY_DEPT_PAYMENT = "EXEC QueryDeptPayment :month_code, :control_line, :cancel, :mildept_id";
+    private static final String EXEC_QUERY_DEPT_MEMBER_PAYMENT = "EXEC QueryDeptMemberPayment :deptpayment_id";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -439,5 +443,93 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         public String getField() {
 		return this.field;
 	}
+    }
+    
+    @Override
+    public JqGridResponse<DeptPaymentDto> searchDeptPayment(JqGridRequest req) {
+        JqGridResponse<DeptPaymentDto> jqGrid = new JqGridResponse<>();
+        List<DeptPaymentDto> listResponse = new ArrayList<>();
+        Map<String, Comparable> props = new HashMap<String, Comparable>();
+        if (req.isSearch()) {
+            Search search = Search.JSONDeserializer(req.getSearchCommand());
+            props.put("month_code", "");
+            props.put("control_line", 0);
+            props.put("cancel", 0);
+            props.put("mildept_id", 0);
+            for (Condition condition : search.getConditions()) {
+                if(condition.getField().equalsIgnoreCase("monthCode")){
+                    props.put("month_code", condition.getData());
+                } else if(condition.getField().equalsIgnoreCase("mildeptId")){
+                    props.put("mildept_id", condition.getData());
+                }
+            }
+        }
+        StringBuilder hqlCount = new StringBuilder();
+        hqlCount.append(EXEC_QUERY_DEPT_PAYMENT);        
+//        hqlQuery.append(EXEC_QUERY_DEPT_PAYMENT);
+        //  Implement for replace paging 
+        SQLQuery queryCount = sessionFactory.getCurrentSession().createSQLQuery(hqlCount.toString());
+        queryCount.setProperties(props);
+        listResponse = queryCount.addScalar("deptpaymentId").addScalar("paymentDate").addScalar("budgetMonth", StandardBasicTypes.STRING).addScalar("mildeptName").addScalar("numMember")
+                .addScalar("totalAmount").addScalar("numMemberIn").addScalar("numMemberOut").addScalar("createdDate").addScalar("username")
+                .setResultTransformer(Transformers.aliasToBean(DeptPaymentDto.class)).list();
+        
+        Number iRecords = (Number) listResponse.size();
+        /*
+        int startIndex = (req.getPage() - 1) * req.getRows();
+        int endIndex = Math.min(startIndex + req.getRows(), iRecords.intValue());
+        SQLQuery query = sessionFactory.getCurrentSession().getNamedQuery(hqlCount.toString());
+        query.setFirstResult(startIndex);
+        query.setMaxResults(endIndex);
+        query.setProperties(props);
+        */
+        if (!listResponse.isEmpty()) {
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(iRecords.intValue());
+            jqGrid.setTotalPages((iRecords.intValue() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        } else {
+            jqGrid.setPage(0);
+            jqGrid.setRecords(0);
+            jqGrid.setTotalPages(0);
+            jqGrid.setRows(listResponse);
+            return jqGrid;
+        }
+        return jqGrid;
+    }
+    
+    @Override
+    public JqGridResponse<DeptMemberPaymentDto> getListDeptMemberPayment (JqGridRequest req) {
+        JqGridResponse<DeptMemberPaymentDto> jqGrid = new JqGridResponse<>();
+        List<DeptMemberPaymentDto> listResponse = new ArrayList<>();
+        Map<String, Comparable> props = new HashMap<String, Comparable>();
+        Search search = Search.JSONDeserializer(req.getSearchCommand());
+        for (Condition condition : search.getConditions()) {
+            if(condition.getField().equalsIgnoreCase("deptpaymentId")){
+                props.put("deptpayment_id", condition.getData());
+            }
+        }
+        StringBuilder hql = new StringBuilder();
+        hql.append(EXEC_QUERY_DEPT_MEMBER_PAYMENT);
+        SQLQuery queryCount = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
+        queryCount.setProperties(props);
+        listResponse = queryCount.addScalar("memberId").addScalar("paymentAmount").addScalar("description").addScalar("typeCode")
+                .addScalar("remark").addScalar("mildeptNameIn").addScalar("mildeptNameOut")
+                .addScalar("memberCode").addScalar("name").addScalar("surname").addScalar("citizenId").addScalar("title")
+                .setResultTransformer(Transformers.aliasToBean(DeptMemberPaymentDto.class)).list();
+        Number iRecords = (Number) listResponse.size();
+        if (!listResponse.isEmpty()) {
+            jqGrid.setPage(req.getPage());
+            jqGrid.setRecords(iRecords.intValue());
+            jqGrid.setTotalPages((iRecords.intValue() + req.getRows() - 1) / req.getRows());
+            jqGrid.setRows(listResponse);
+        } else {
+            jqGrid.setPage(0);
+            jqGrid.setRecords(0);
+            jqGrid.setTotalPages(0);
+            jqGrid.setRows(listResponse);
+            return jqGrid;
+        }
+        return jqGrid;
     }
 }

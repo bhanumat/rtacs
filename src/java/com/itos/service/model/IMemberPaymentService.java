@@ -1,6 +1,8 @@
 package com.itos.service.model;
 
 import com.itos.model.MemberPayment;
+import com.itos.model.ext.DeptMemberPaymentDto;
+import com.itos.model.ext.DeptPaymentDto;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.util.jqGrid.JqGridRequest;
@@ -28,5 +30,9 @@ public interface IMemberPaymentService {
     JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req);
 
     public MessageResponse updateMemberPayment(MemberPaymentRequest req) throws Exception;
+    
+    JqGridResponse<DeptPaymentDto> searchDeptPayment(JqGridRequest req);
+    
+    JqGridResponse<DeptMemberPaymentDto> getListDeptMemberPayment (JqGridRequest req);
 
 }

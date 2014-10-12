@@ -1,6 +1,8 @@
 package com.itos.dao.model;
 
 import com.itos.model.MemberPayment;
+import com.itos.model.ext.DeptMemberPaymentDto;
+import com.itos.model.ext.DeptPaymentDto;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.util.jqGrid.JqGridRequest;
@@ -26,4 +28,8 @@ public interface IMemberPaymentDAO {
     JqGridResponse<MemberPaymentDto> searchMemberPayment(JqGridRequest req);
     
     JqGridResponse<MemberPaymentHeadDto> getMemberPaymentByCode(JqGridRequest req);
+    
+    JqGridResponse<DeptPaymentDto> searchDeptPayment(JqGridRequest req);
+    
+    JqGridResponse<DeptMemberPaymentDto> getListDeptMemberPayment (JqGridRequest req);
 }

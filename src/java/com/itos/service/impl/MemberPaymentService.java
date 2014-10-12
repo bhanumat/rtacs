@@ -9,6 +9,8 @@ import com.itos.dao.model.IMemberPaymentDAO;
 import com.itos.dao.model.IMemberPaymentHeadDAO;
 import com.itos.model.MemberPayment;
 import com.itos.model.MemberPaymentHead;
+import com.itos.model.ext.DeptMemberPaymentDto;
+import com.itos.model.ext.DeptPaymentDto;
 import com.itos.model.ext.MemberPaymentDto;
 import com.itos.model.ext.MemberPaymentHeadDto;
 import com.itos.service.model.IMemberPaymentService;
@@ -162,6 +164,28 @@ public class MemberPaymentService implements IMemberPaymentService {
         } else {
             logger.error("Passing MemberPaymentRequest req with null");
             throw new NullPointerException("Passing MemberPaymentRequest req with null or  req.getMemberPaymentHeadDtos() is null or empty");
+        }
+    }
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<DeptPaymentDto> searchDeptPayment(JqGridRequest req) {
+        if (req != null) {
+            return iMemberPaymentDAO.searchDeptPayment(req);
+        } else {
+            logger.error("Passing req=null");
+            throw new NullPointerException("MessageReqquest req is null");
+        }
+    }
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public JqGridResponse<DeptMemberPaymentDto> getListDeptMemberPayment (JqGridRequest req) {
+        if (req != null) {
+            return iMemberPaymentDAO.getListDeptMemberPayment(req);
+        } else {
+            logger.error("Passing req=null");
+            throw new NullPointerException("MessageReqquest req is null");
         }
     }
     
