@@ -17,7 +17,7 @@ import java.util.Date;
 public class DeptPaymentDto implements java.io.Serializable {
     private int deptpaymentId;
     private Date paymentDate;
-    private String budgetMonth;
+    private Date budgetMonth;
     private String mildeptName;
     private Integer numMember;
     private BigDecimal totalAmount;
@@ -29,10 +29,11 @@ public class DeptPaymentDto implements java.io.Serializable {
     public DeptPaymentDto() {
     }
 
-    public DeptPaymentDto(int deptpaymentId, Date paymentDate, String budgetMonth, Integer numMember, BigDecimal totalAmount, Integer numMemberIn, Integer numMemberOut, Date createdDate, String username) {
+    public DeptPaymentDto(int deptpaymentId, Date paymentDate, Date budgetMonth, String mildeptName, Integer numMember, BigDecimal totalAmount, Integer numMemberIn, Integer numMemberOut, Date createdDate, String username) {
         this.deptpaymentId = deptpaymentId;
         this.paymentDate = paymentDate;
         this.budgetMonth = budgetMonth;
+        this.mildeptName = mildeptName;
         this.numMember = numMember;
         this.totalAmount = totalAmount;
         this.numMemberIn = numMemberIn;
@@ -72,14 +73,14 @@ public class DeptPaymentDto implements java.io.Serializable {
     /**
      * @return the budgetMonth
      */
-    public String getBudgetMonth() {
+    public Date getBudgetMonth() {
         return budgetMonth;
     }
 
     /**
      * @param budgetMonth the budgetMonth to set
      */
-    public void setBudgetMonth(String budgetMonth) {
+    public void setBudgetMonth(Date budgetMonth) {
         this.budgetMonth = budgetMonth;
     }
 
@@ -180,9 +181,9 @@ public class DeptPaymentDto implements java.io.Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
     @Override
     public String toString() {
-        return "DeptPaymentDto{" + "deptpaymentId=" + deptpaymentId + ", paymentDate=" + paymentDate + ", budgetMonth=" + budgetMonth + ", mildeptName=" + mildeptName + ", numMember=" + numMember + ", totalAmount=" + totalAmount + ", numMemberIn=" + numMemberIn + ", numMemberOut=" + numMemberOut + ", createdDate=" + createdDate + ", username=" + username + '}';
+        return "DeptPaymentDto{" + "deptpaymentId=" + getDeptpaymentId() + ", paymentDate=" + getPaymentDate() + ", budgetMonth=" + getBudgetMonth() + ", mildeptName=" + getMildeptName() + ", numMember=" + getNumMember() + ", totalAmount=" + getTotalAmount() + ", numMemberIn=" + getNumMemberIn() + ", numMemberOut=" + getNumMemberOut() + ", createdDate=" + getCreatedDate() + ", username=" + getUsername() + '}';
     }
 }

@@ -74,8 +74,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                             + ", o.printed_status as printedStatus ";
     private static final String SQL_ALIAS_MEMBER_PAYMENT_HEAD = "mp.payment_id as paymentId, mp.member_id as memberId, cp.month_code as monthCode, cp.start_sop_no as startSopNo"
                             +", cp.end_sop_no as endSopNo, (cp.end_sop_no - cp.start_sop_no) as sopAmount, cp.amount as amount ";
-    private static final String EXEC_QUERY_DEPT_PAYMENT = "EXEC QueryDeptPayment :month_code, :control_line, :cancel, :mildept_id";
-    private static final String EXEC_QUERY_DEPT_MEMBER_PAYMENT = "EXEC QueryDeptMemberPayment :deptpayment_id";
+    private static final String EXEC_QUERY_DEPT_PAYMENT = "EXEC QueryDeptPayment :month_code, :control_line, :cancel, :mildept_id, :pageIndex, :pageSize, :sortColumn, :sortDirection";
+    private static final String EXEC_QUERY_DEPT_MEMBER_PAYMENT = "EXEC QueryDeptMemberPayment :deptpayment_id, :pageIndex, :pageSize, :sortColumn, :sortDirection";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -450,12 +450,17 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         JqGridResponse<DeptPaymentDto> jqGrid = new JqGridResponse<>();
         List<DeptPaymentDto> listResponse = new ArrayList<>();
         Map<String, Comparable> props = new HashMap<String, Comparable>();
+        props.put("month_code", "");
+        props.put("control_line", 0);
+        props.put("cancel", 0);
+        props.put("mildept_id", 0);
+
+        props.put("pageIndex", req.getPage());
+        props.put("pageSize", req.getRows());
+        props.put("sortColumn", req.getSidx());
+        props.put("sortDirection", req.getSord());
         if (req.isSearch()) {
             Search search = Search.JSONDeserializer(req.getSearchCommand());
-            props.put("month_code", "");
-            props.put("control_line", 0);
-            props.put("cancel", 0);
-            props.put("mildept_id", 0);
             for (Condition condition : search.getConditions()) {
                 if(condition.getField().equalsIgnoreCase("monthCode")){
                     props.put("month_code", condition.getData());
@@ -464,25 +469,15 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                 }
             }
         }
-        StringBuilder hqlCount = new StringBuilder();
-        hqlCount.append(EXEC_QUERY_DEPT_PAYMENT);        
-//        hqlQuery.append(EXEC_QUERY_DEPT_PAYMENT);
+        StringBuilder hql = new StringBuilder();
+        hql.append(EXEC_QUERY_DEPT_PAYMENT);
         //  Implement for replace paging 
-        SQLQuery queryCount = sessionFactory.getCurrentSession().createSQLQuery(hqlCount.toString());
+        SQLQuery queryCount = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
         queryCount.setProperties(props);
-        listResponse = queryCount.addScalar("deptpaymentId").addScalar("paymentDate").addScalar("budgetMonth", StandardBasicTypes.STRING).addScalar("mildeptName").addScalar("numMember")
+        listResponse = queryCount.addScalar("deptpaymentId").addScalar("paymentDate").addScalar("budgetMonth").addScalar("mildeptName").addScalar("numMember")
                 .addScalar("totalAmount").addScalar("numMemberIn").addScalar("numMemberOut").addScalar("createdDate").addScalar("username")
                 .setResultTransformer(Transformers.aliasToBean(DeptPaymentDto.class)).list();
-        
         Number iRecords = (Number) listResponse.size();
-        /*
-        int startIndex = (req.getPage() - 1) * req.getRows();
-        int endIndex = Math.min(startIndex + req.getRows(), iRecords.intValue());
-        SQLQuery query = sessionFactory.getCurrentSession().getNamedQuery(hqlCount.toString());
-        query.setFirstResult(startIndex);
-        query.setMaxResults(endIndex);
-        query.setProperties(props);
-        */
         if (!listResponse.isEmpty()) {
             jqGrid.setPage(req.getPage());
             jqGrid.setRecords(iRecords.intValue());
@@ -504,6 +499,10 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         List<DeptMemberPaymentDto> listResponse = new ArrayList<>();
         Map<String, Comparable> props = new HashMap<String, Comparable>();
         Search search = Search.JSONDeserializer(req.getSearchCommand());
+        props.put("pageIndex", req.getPage());
+        props.put("pageSize", req.getRows());
+        props.put("sortColumn", req.getSidx());
+        props.put("sortDirection", req.getSord());
         for (Condition condition : search.getConditions()) {
             if(condition.getField().equalsIgnoreCase("deptpaymentId")){
                 props.put("deptpayment_id", condition.getData());
