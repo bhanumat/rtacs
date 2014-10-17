@@ -454,9 +454,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         props.put("control_line", 0);
         props.put("cancel", 0);
         props.put("mildept_id", 0);
-
         props.put("pageIndex", req.getPage());
-        props.put("pageSize", req.getRows());
         props.put("sortColumn", req.getSidx());
         props.put("sortDirection", req.getSord());
         if (req.isSearch()) {
@@ -472,12 +470,17 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         StringBuilder hql = new StringBuilder();
         hql.append(EXEC_QUERY_DEPT_PAYMENT);
         //  Implement for replace paging 
-        SQLQuery queryCount = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
-        queryCount.setProperties(props);
-        listResponse = queryCount.addScalar("deptpaymentId").addScalar("paymentDate").addScalar("budgetMonth").addScalar("mildeptName").addScalar("numMember")
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
+        props.put("pageSize", 0);   //Set default for query total page.   
+        query.setProperties(props);
+        Number iRecords = (Number) query.list().get(0);
+        
+        props.put("pageSize", req.getRows());
+        query.setProperties(props);
+        listResponse = query.addScalar("deptpaymentId").addScalar("paymentDate").addScalar("budgetMonth").addScalar("mildeptName").addScalar("numMember")
                 .addScalar("totalAmount").addScalar("numMemberIn").addScalar("numMemberOut").addScalar("createdDate").addScalar("username")
                 .setResultTransformer(Transformers.aliasToBean(DeptPaymentDto.class)).list();
-        Number iRecords = (Number) listResponse.size();
+        
         if (!listResponse.isEmpty()) {
             jqGrid.setPage(req.getPage());
             jqGrid.setRecords(iRecords.intValue());
@@ -500,7 +503,6 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         Map<String, Comparable> props = new HashMap<String, Comparable>();
         Search search = Search.JSONDeserializer(req.getSearchCommand());
         props.put("pageIndex", req.getPage());
-        props.put("pageSize", req.getRows());
         props.put("sortColumn", req.getSidx());
         props.put("sortDirection", req.getSord());
         for (Condition condition : search.getConditions()) {
@@ -510,13 +512,17 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         }
         StringBuilder hql = new StringBuilder();
         hql.append(EXEC_QUERY_DEPT_MEMBER_PAYMENT);
-        SQLQuery queryCount = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
-        queryCount.setProperties(props);
-        listResponse = queryCount.addScalar("memberId").addScalar("paymentAmount").addScalar("description").addScalar("typeCode")
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
+        props.put("pageSize", 0);   //Set default for query total page.   
+        query.setProperties(props);
+        Number iRecords = (Number) query.list().get(0);
+        
+        props.put("pageSize", req.getRows());
+        query.setProperties(props);
+        listResponse = query.addScalar("memberId").addScalar("paymentAmount").addScalar("description").addScalar("typeCode")
                 .addScalar("remark").addScalar("mildeptNameIn").addScalar("mildeptNameOut")
                 .addScalar("memberCode").addScalar("name").addScalar("surname").addScalar("citizenId").addScalar("title")
                 .setResultTransformer(Transformers.aliasToBean(DeptMemberPaymentDto.class)).list();
-        Number iRecords = (Number) listResponse.size();
         if (!listResponse.isEmpty()) {
             jqGrid.setPage(req.getPage());
             jqGrid.setRecords(iRecords.intValue());
