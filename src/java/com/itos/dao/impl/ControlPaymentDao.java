@@ -30,7 +30,7 @@ public class ControlPaymentDao implements IControlPaymentDAO {
                         .add(Projections.property("monthCode"), "monthCode")
                         .add(Projections.property("budgetMonth"), "budgetMonth"))
                 .setResultTransformer(Transformers.aliasToBean(ControlPayment.class));
-         cr.addOrder(Order.asc("monthCode"));
+         cr.addOrder(Order.desc("monthCode"));
         return cr.list();
     }
 

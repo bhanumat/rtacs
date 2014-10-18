@@ -8,55 +8,11 @@ $(function () {
         var statusSearch = false; //0 is not in condition, 1 is in condition
         var requestSearch = new Array();
         var condition = '';
-        var paymentDateStart = $('#paymentDateStart').val();
-        var paymentDateEnd = $('#paymentDateEnd').val();
-        var memberCode = $('#memberCode').val();
-        var citizenId = $('#citizenId').val();
-        var name = $('#name').val();
-        var surname = $('#surname').val();
+        var monthCode = $('#monthCode').val();
         var militaryId = $('#militaryId').val();
-        var memberTypeCode = $('#memberTypeCode').val();
-        var memberGroupCode = $('#memberGroupCode').val();
-        var printStatus = $('#printStatus').val();
 
-        if (memberCode) {
-            requestSearch.push({'groupOp': condition, 'field': 'memberCode', 'op': 'eq', 'data': memberCode, 'dataType': 'varchar'});
-            condition = 'and';
-            statusSearch = true;
-        }
-
-        if (paymentDateStart && paymentDateEnd) {
-            requestSearch.push({'groupOp': condition, 'field': 'paymentDate', 'op': 'bw', 'data': paymentDateStart + ',' + paymentDateEnd, 'dataType': 'date'});
-            statusSearch = true;
-            condition = 'and';
-        } else if (paymentDateStart) {
-            requestSearch.push({'groupOp': condition, 'field': 'paymentDate', 'op': 'bw', 'data': paymentDateStart, 'dataType': 'date'});
-            statusSearch = true;
-            condition = 'and';
-        } else if (paymentDateEnd) {
-            $.fn.DialogWarning('กรุณากรอกข้อมูล วันที่ชำระเงิน');
-            return;
-        }
-
-        if (citizenId) {
-            if (citizenId.length === 13) {
-                requestSearch.push({'groupOp': condition, 'field': 'citizenId', 'op': 'eq', 'data': citizenId, 'dataType': 'varchar'});
-                condition = 'and';
-                statusSearch = true;
-            } else {
-                $.fn.DialogWarning('กรุณากรอกรหัสประชาชนเป็น 13 หลักเท่านั้น');
-                return;
-            }
-        }
-
-        if (name) {
-            requestSearch.push({'groupOp': condition, 'field': 'name', 'op': 'cn', 'data': name, 'dataType': 'varchar'});
-            condition = 'and';
-            statusSearch = true;
-        }
-
-        if (surname) {
-            requestSearch.push({'groupOp': condition, 'field': 'surname', 'op': 'cn', 'data': surname, 'dataType': 'varchar'});
+        if (monthCode) {
+            requestSearch.push({'groupOp': condition, 'field': 'monthCode', 'op': 'eq', 'data': monthCode, 'dataType': 'varchar'});
             condition = 'and';
             statusSearch = true;
         }
@@ -67,42 +23,15 @@ $(function () {
             statusSearch = true;
         }
 
-        if (memberTypeCode) {
-            requestSearch.push({'groupOp': condition, 'field': 'memberTypeCode', 'op': 'eq', 'data': memberTypeCode, 'dataType': 'integer'});
-            condition = 'and';
-            statusSearch = true;
-        }
-
-        if (memberGroupCode) {
-            requestSearch.push({'groupOp': condition, 'field': 'memberGroupCode', 'op': 'eq', 'data': memberGroupCode, 'dataType': 'integer'});
-            condition = 'and';
-            statusSearch = true;
-        }
-
-        if (printStatus) {
-            requestSearch.push({'groupOp': condition, 'field': 'printedStatus', 'op': 'eq', 'data': printStatus, 'dataType': 'char'});
-            condition = 'and';
-            statusSearch = true;
-        }
-
         search.conditions = requestSearch;
-        $(gridName).jqGrid('setGridParam', {
+        $(pyc101GridName).jqGrid('setGridParam', {
             search: statusSearch,
             postData: {
                 searchCommand: $.toJSON(search)
             }
         });
-        $(gridName).trigger("reloadGrid", [{page: 1}]);
+        $(pyc101GridName).trigger("reloadGrid", [{page: 1}]);
 
-    };
-    
-    gotoPayment = function(id) {
-        var typeAction = 'GET';
-        var urlAction = urlMilitaryPayment;
-        var objDataAction = {'id':id};
-        var dataTypeAction = 'html';
-        var responseId = '#main-page-content-loading';
-        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
     };
 
     onActionLoadMilitaryDepartment = function () {
@@ -147,14 +76,16 @@ $(function () {
                 var $monthCode = $('#monthCode');
                 $monthCode.empty();
                 $monthCode.append('<option value="">ทั้งหมด</option>');
-                debugger;
+
+
                 for (var item in listControlPaymentMonthCodes) {
                     var itemData = listControlPaymentMonthCodes[item];
-                    if( itemData ) {
-                        if( itemData.monthCode && itemData.budgetMonth) {
-                            $monthCode.append('<option value="' + itemData.monthCode + '">' + itemData.budgetMonth + '</option>');
+                    if (itemData) {
+                        if (itemData.monthCode && itemData.budgetMonth) {
+                            var budgetMonthDisplay = moment(new Date(itemData.budgetMonth)).add(543, 'years').format('MMM YYYY');
+                            $monthCode.append('<option value="' + itemData.monthCode + '">' + budgetMonthDisplay + '</option>');
                         } else {
-                            console.log("Item Data is invalid monthCode:" + itemData+", budgetMonth:"+ itemData.budgetMonth);
+                            console.log("Item Data is invalid monthCode:" + itemData + ", budgetMonth:" + itemData.budgetMonth);
                         }
                     } else {
                         console.log("Item Data is invalid" + itemData);

@@ -367,8 +367,8 @@ public class MemberPaymentServiceIntegrationTest {
         req.setSearch (true);
         StringBuilder sb = new StringBuilder();
         sb.append("{\"conditions\":[");
-            sb.append("{\"groupOp\":\"\",\"field\":\"mildeptId\",\"op\":\"eq\",\"data\":22109,\"dataType\":\"integer\"},");
-            sb.append("{\"groupOp\":\"\",\"field\":\"monthCode\",\"op\":\"eq\",\"data\":\"55612\",\"dataType\":\"varchar\"}");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"mildeptId\",\"op\":\"eq\",\"data\":22109,\"dataType\":\"integer\"},");
+//            sb.append("{\"groupOp\":\"\",\"field\":\"monthCode\",\"op\":\"eq\",\"data\":\"55612\",\"dataType\":\"varchar\"}");
         sb.append("]}");
         req.setSearchCommand(sb.toString());
         JqGridResponse<DeptPaymentDto> deptPaymentDto = iMemberPaymentService.searchDeptPayment(req);

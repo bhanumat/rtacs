@@ -3,13 +3,13 @@ var gridUrl = urlListMemberPayment;
 var gridName = '#gridData_MemberPaymentGrid_List';
 var gridPager = '#gridPager_MemberPaymentGrid_List';
 var gridSortName = 'paymentId';
-var gridSortOrder = 'asc';
-var gridCaption = 'รายชื่อสมาชิก';
+var gridSortOrder = 'desc';
+var gridCaption = 'รายการรับชำระเงินค่าบำรุงศพ';
 var gridColNames = ['ลำดับที่', 'วันที่ขำระเงิน', 'เลขที่ใบเสร็จ', 'หน่วยต้นสังกัด', 'เลขทะเบียนสมาชิก', 'เลขประจำตัวประชาชน', 'ยศ-คำนำหน้า', 'ชื่อ', 'นามสกุล', 'จำนวนเงิน', 'สถานะ', ''];
 var gridColModel = [
     {name: 'paymentId', index: 'paymentId', hidden: true, align: 'left'},
     {name: 'paymentDate', index: 'paymentDate', align: 'center', sortable: true, width: 86,
-        formatoptions: {newformat: 'd/m/Y'},
+        formatoptions: {newformat: 'd M Y'},
         formatter: function (cellVal, opts, rowObject, action) {
             if (!cellVal) {
                 return '';

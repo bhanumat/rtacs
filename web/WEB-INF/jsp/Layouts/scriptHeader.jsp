@@ -78,6 +78,7 @@ window.jQuery || document.write("<script type='text/javascript' src='${pageConte
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/date-time/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/date-time/moment.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/date-time/moment.lang.th.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/date-time/bootstrap-timepicker.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/date-time/daterangepicker.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
@@ -94,7 +95,7 @@ window.jQuery || document.write("<script type='text/javascript' src='${pageConte
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/bootstrap-tag.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Content/assets/js/jqGrid/i18n/grid.locale-th.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/jquery.external/jquery.json-2.4.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/jquery.external/jquery.validationEngine.js"></script>
