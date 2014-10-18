@@ -466,7 +466,17 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                     props.put("mildept_id", condition.getData());
                 }
             }
+        } else if(StringUtils.isNotBlank(req.getSearchCommand())) {
+            Search search = Search.JSONDeserializer(req.getSearchCommand());
+            for (Condition condition : search.getConditions()) {
+                if(condition.getField().equalsIgnoreCase("monthCode")){
+                    props.put("month_code", condition.getData());
+                } else if(condition.getField().equalsIgnoreCase("mildeptId")){
+                    props.put("mildept_id", condition.getData());
+                }
+            }
         }
+        
         StringBuilder hql = new StringBuilder();
         hql.append(EXEC_QUERY_DEPT_PAYMENT);
         //  Implement for replace paging 
