@@ -25,11 +25,12 @@ public class DeptPaymentDto implements java.io.Serializable {
     private Integer numMemberOut;
     private Date createdDate;
     private String username;
+    private String remark;
 
     public DeptPaymentDto() {
     }
 
-    public DeptPaymentDto(int deptpaymentId, Date paymentDate, Date budgetMonth, String mildeptName, Integer numMember, BigDecimal totalAmount, Integer numMemberIn, Integer numMemberOut, Date createdDate, String username) {
+    public DeptPaymentDto(int deptpaymentId, Date paymentDate, Date budgetMonth, String mildeptName, Integer numMember, BigDecimal totalAmount, Integer numMemberIn, Integer numMemberOut, Date createdDate, String username, String remark) {
         this.deptpaymentId = deptpaymentId;
         this.paymentDate = paymentDate;
         this.budgetMonth = budgetMonth;
@@ -40,6 +41,7 @@ public class DeptPaymentDto implements java.io.Serializable {
         this.numMemberOut = numMemberOut;
         this.createdDate = createdDate;
         this.username = username;
+        this.remark = remark;
     }
 
     /**
@@ -181,9 +183,23 @@ public class DeptPaymentDto implements java.io.Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    /**
+     * @return the remark
+     */
+    public String getRemark() {
+        return remark;
+    }
+
+    /**
+     * @param remark the remark to set
+     */
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
     
     @Override
     public String toString() {
-        return "DeptPaymentDto{" + "deptpaymentId=" + getDeptpaymentId() + ", paymentDate=" + getPaymentDate() + ", budgetMonth=" + getBudgetMonth() + ", mildeptName=" + getMildeptName() + ", numMember=" + getNumMember() + ", totalAmount=" + getTotalAmount() + ", numMemberIn=" + getNumMemberIn() + ", numMemberOut=" + getNumMemberOut() + ", createdDate=" + getCreatedDate() + ", username=" + getUsername() + '}';
+        return "DeptPaymentDto{" + "deptpaymentId=" + getDeptpaymentId() + ", paymentDate=" + getPaymentDate() + ", budgetMonth=" + getBudgetMonth() + ", mildeptName=" + getMildeptName() + ", numMember=" + getNumMember() + ", totalAmount=" + getTotalAmount() + ", numMemberIn=" + getNumMemberIn() + ", numMemberOut=" + getNumMemberOut() + ", createdDate=" + getCreatedDate() + ", username=" + getUsername() + ", remark=" + getRemark() + '}';
     }
 }

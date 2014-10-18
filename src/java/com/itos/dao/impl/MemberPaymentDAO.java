@@ -478,7 +478,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         props.put("pageSize", req.getRows());
         query.setProperties(props);
         listResponse = query.addScalar("deptpaymentId").addScalar("paymentDate").addScalar("budgetMonth").addScalar("mildeptName").addScalar("numMember")
-                .addScalar("totalAmount").addScalar("numMemberIn").addScalar("numMemberOut").addScalar("createdDate").addScalar("username")
+                .addScalar("totalAmount").addScalar("numMemberIn").addScalar("numMemberOut").addScalar("createdDate").addScalar("username").addScalar("remark")
                 .setResultTransformer(Transformers.aliasToBean(DeptPaymentDto.class)).list();
         
         if (!listResponse.isEmpty()) {
