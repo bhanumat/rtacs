@@ -74,7 +74,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                             + ", o.printed_status as printedStatus ";
     private static final String SQL_ALIAS_MEMBER_PAYMENT_HEAD = "mp.payment_id as paymentId, mp.member_id as memberId, cp.month_code as monthCode, cp.start_sop_no as startSopNo"
                             +", cp.end_sop_no as endSopNo, (cp.end_sop_no - cp.start_sop_no) as sopAmount, cp.amount as amount ";
-    private static final String EXEC_QUERY_DEPT_PAYMENT = "EXEC QueryDeptPayment :month_code, :control_line, :cancel, :mildept_id, :pageIndex, :pageSize, :sortColumn, :sortDirection";
+    private static final String EXEC_QUERY_DEPT_PAYMENT = "EXEC QueryDeptPayment :month_code, :control_line, :cancel, :mildept_id, :pageIndex, :pageSize, :sortColumn, :sortDirection, :deptpaymentId";
     private static final String EXEC_QUERY_DEPT_MEMBER_PAYMENT = "EXEC QueryDeptMemberPayment :deptpayment_id, :pageIndex, :pageSize, :sortColumn, :sortDirection";
 
     @Autowired
@@ -457,6 +457,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         props.put("pageIndex", req.getPage());
         props.put("sortColumn", req.getSidx());
         props.put("sortDirection", req.getSord());
+        props.put("deptpaymentId", -1);
         if (req.isSearch()) {
             Search search = Search.JSONDeserializer(req.getSearchCommand());
             for (Condition condition : search.getConditions()) {
@@ -473,6 +474,8 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
                     props.put("month_code", condition.getData());
                 } else if(condition.getField().equalsIgnoreCase("mildeptId")){
                     props.put("mildept_id", condition.getData());
+                } else if (condition.getField().equalsIgnoreCase("deptpaymentId")) {
+                    props.put("deptpaymentId", condition.getData());
                 }
             }
         }
@@ -481,7 +484,7 @@ public class MemberPaymentDAO implements IMemberPaymentDAO {
         hql.append(EXEC_QUERY_DEPT_PAYMENT);
         //  Implement for replace paging 
         SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(hql.toString());
-        props.put("pageSize", 0);   //Set default for query total page.   
+        props.put("pageSize", -1);   //Set default for query total page.   
         query.setProperties(props);
         Number iRecords = (Number) query.list().get(0);
         
