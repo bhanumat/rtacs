@@ -10,7 +10,7 @@
     var urlListJsonControlPaymentMonthCodes = rootPath + '/Plugins/MasterData/getControlPaymentMonthCodes.json';
     var urlListMilitaryPayment = rootPath + '/Plugins/Payment/getListMilitaryPayment.json';
     var urlMilitaryPayment = rootPath + '/Plugins/Payment/PYC101_1.htm';
-    var urlListDeptMemberPayment = rootPath + '/Plugins/Payment/getListDeptMemberPayment.json';
+    var urlSearchDeptPayment = rootPath + '/Plugins/Payment/searchDeptPayment.json';
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PYC101.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PYC101.js"></script>

@@ -180,6 +180,21 @@ public class MemberPaymentService implements IMemberPaymentService {
     
     @Override
     @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    public DeptPaymentDto getDeptPayment(JqGridRequest req) {
+        if (req != null) {
+            JqGridResponse<DeptPaymentDto> list = iMemberPaymentDAO.searchDeptPayment(req);
+            if(list != null && list.getRecords() == 1) {
+                return list.getRows().iterator().next();
+            }
+            return null;
+        } else {
+            logger.error("Passing req=null");
+            throw new NullPointerException("MessageReqquest req is null");
+        }
+    }
+    
+    @Override
+    @Transactional(value = "hibernateTransactionManager", readOnly = true)
     public JqGridResponse<DeptMemberPaymentDto> getListDeptMemberPayment (JqGridRequest req) {
         if (req != null) {
             return iMemberPaymentDAO.getListDeptMemberPayment(req);

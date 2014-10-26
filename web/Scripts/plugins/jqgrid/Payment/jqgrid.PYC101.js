@@ -1,4 +1,4 @@
-var pyc101GridUrl = urlListDeptMemberPayment;
+var pyc101GridUrl = urlSearchDeptPayment;
 var pyc101GridName = '#gridData_PYC101';
 var pyc101GridPagerName = '#gridPager_PYC101';
 var pyc101GridSortName = 'paymentDate';
@@ -66,7 +66,12 @@ var pyc101GridColModel = [
             }
         }},
     {name: 'username', index: 'username', sortable: true, width: 100},
-    {name: '', index: '', sortable: true, width: 100}
+    {name: 'deptpaymentId', index: 'deptpaymentId', align: 'center', sortable: false, width: 100,
+        formatter: function (cellVal, opts, rowObject, action) {
+            return '<a role="button" class="blue" onclick="gotoPayment(' + cellVal + ')">' +
+                   '<button class="btn btn-xs btn-search" id="btnDialog"><i class="ace-icon fa fa-search bigger-120"></i></button>' +
+                   '</a>';
+    }}
 ];
 var pyc101GridJsonReader = {
     records: "records", //total number of records for the query

@@ -1,24 +1,44 @@
-var gridPaymentUrl = urlPayments;
+var gridPaymentUrl = urlListDeptMemberPayment;
 var gridPaymentName = '#gridData_PaymentGrid_List';
 var gridPaymentPagerName = '#gridPager_PaymentGrid_List';
-var gridPaymentSortName = '';
+var gridPaymentSortName = 'memberCode';
 var gridPaymentSortOrder = 'asc';
 var gridPaymentCaption = 'ข้อมูลสมาชิก';
 var gridPaymentColNames = ['เลขทะเบียนสมาชิก', 'เลขประจำตัวประชาชน', 'ยศ-คำนำหน้า', 'ชื่อ', 'สกุล', 'ยอดชำระ', 'สถานะ', 'รายละเอียด', 'หน่วยต้นสังกัด', 'หมายเหตุ'];
 var gridPaymentColModel = [
-    {name: '', index: '', sortable: true, width: 100},
-    {name: '', index: '', sortable: true, width: 100},
-    {name: '', index: '', sortable: true, width: 100},
-    {name: '', index: '', sortable: true, width: 100},
-    {name: '', index: '', sortable: true, width: 100},
-    {name: '', index: '', align: 'right', sortable: true, width: 90, 
+    {name: 'memberCode', index: 'memberCode', sortable: true, width: 120},
+    {name: 'citizenId', index: 'citizenId', sortable: true, width: 150},
+    {name: 'title', index: 'title', sortable: true, width: 90},
+    {name: 'name', index: 'name', sortable: true, width: 100},
+    {name: 'surname', index: 'surname', sortable: true, width: 100},
+    {name: 'paymentAmount', index: 'paymentAmount', align: 'right', sortable: true, width: 90, 
         formatter: 'currency', 
         formatoptions: {prefix: '฿', suffix: '', thousandsSeparator: ','}
     },
-    {name: '', index: '', sortable: true, width: 100},
-    {name: '', index: '', sortable: true, width: 100},
-    {name: '', index: '', sortable: true, width: 100},
-    {name: '', index: '', sortable: true, width: 100}
+    {name: 'typeCode', index: 'typeCode', sortable: true, width: 100, 
+        formatter: function (cellVal, opts, rowObject, action) {
+            if (10 === cellVal) {
+                return 'ย้ายเข้า';
+            } else if (20 === cellVal) {
+                return 'ย้ายออก';
+            } else {
+                return '';
+            }
+        }
+    },
+    {name: 'description', index: 'description', sortable: true, width: 100},
+    {name: 'typeCode', index: 'typeCode', sortable: true, width: 100, 
+        formatter: function (cellVal, opts, rowObject, action) {
+            if (10 === cellVal) {
+                return rowObject.mildeptNameIn === null ? '' : rowObject.mildeptNameIn;
+            } else if (20 === cellVal) {
+                return rowObject.mildeptNameOut === null ? '' : rowObject.mildeptNameOut;
+            } else {
+                return '';
+            }
+        }
+    },
+    {name: 'remark', index: 'remark', sortable: true, width: 200}
 ];
 var gridPaymentJsonReader = {
     records: "records", //total number of records for the query
@@ -65,9 +85,19 @@ var updatePagerIcons = function(table) {
     });
 };
 
-$(document).ready(function() {alert("aaa");
+$(document).ready(function() {
+    console.log('Initialize PYC101_1 Grid ..');
+    var search = {};
+    var requestSearch = new Array();
+    requestSearch.push({'groupOp': '', 'field': 'deptpaymentId', 'op': 'eq', 'data': $('#deptpaymentId').val(), 'dataType': 'integer'});
+    search.conditions = requestSearch;
+            
     $(gridPaymentName).jqGrid({
-        url: '',
+        url: gridPaymentUrl,
+        postData : {
+            searchCommand: $.toJSON(search)
+        },
+        search: true,
         datatype: 'json',
         mtype: 'POST',
         caption: gridPaymentCaption,
@@ -89,7 +119,7 @@ $(document).ready(function() {alert("aaa");
         hidegrid: false,
         onCellSelect: function (rowid, iCol, cellcontent, e) {},
         onSelectRow: function (id, event) {},
-        loadComplete: function () {alert("bbb");
+        loadComplete: function () {
             enableTooltips(this);
             updatePagerIcons(this);
         }

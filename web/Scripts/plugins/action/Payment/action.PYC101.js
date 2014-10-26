@@ -99,6 +99,15 @@ $(function () {
             }
         });
     };
+    
+    gotoPayment = function(deptpaymentId) {
+        var typeAction = 'GET';
+        var urlAction = urlMilitaryPayment;
+        var objDataAction = {deptpaymentId: deptpaymentId};
+        var dataTypeAction = 'html';
+        var responseId = '#main-page-content-loading';
+        $.fn.onGetTagHtml(typeAction, urlAction, objDataAction, dataTypeAction, responseId);
+    };
 
     //immediately-invoked
     (function () {

@@ -6,9 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script type="text/javascript">
-    var urlMilitaryPayment = rootPath + '/Plugins/Payment/getMilitaryPayment.json';
-    var urlPayments = rootPath + '/Plugins/Payment/urlPayments.json';
     var urlMilitaryPayments = rootPath + '/Plugins/Payment/PYC101.htm';
+    var urlListDeptMemberPayment = rootPath + '/Plugins/Payment/getListDeptMemberPayment.json';
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/action/Payment/action.PYC101_1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/plugins/jqgrid/Payment/jqgrid.PYC101_1.js"></script>
@@ -51,35 +50,36 @@
     <div class="col-xs-12">						
         <!-- PAGE CONTENT BEGINS -->						
         <form role="form" class="form-horizontal">
+            <input type="hidden" name="deptpaymentId" id="deptpaymentId" value="${deptpaymentId}"/>
             <div class="profile-user-info profile-user-info-striped">
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> หน่วยต้นสังกัด </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="มทบ. 15" readonly id="form-field-2"></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${mildeptName}" readonly></span> </div>
                     <div class="profile-info-name" style="width:170px;">วันที่ชำระ </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="21 มิ.ย 2557" readonly id="form-field-2"></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${paymentDate}" readonly></span> </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> งวดเดือน </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="มิ.ย 2557" readonly id="form-field-2"></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${budgetMonth}" readonly></span> </div>
                     <div class="profile-info-name" style="width:170px;">วันที่บันทึก </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="15 ก.ย. 57" readonly id="form-field-2"></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${createdDate}" readonly></span> </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> ยอดชำระ </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="30,030.00" readonly id="form-field-2"></span> บาท </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${totalAmount}" readonly></span> บาท </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:50px;">จำนวนสมาชิก </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="143" readonly id="form-field-2"></span> 
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${numMember}" readonly></span> 
                     </div>
                     <div class="profile-info-name" style="width:50px;">เพิ่ม </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="0" readonly id="form-field-2"></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${numMemberIn}" readonly></span> </div>
                     <div class="profile-info-name" style="width:50px;">ลด </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="2" readonly id="form-field-2"></span> </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${numMemberOut}" readonly></span> </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name" style="width:170px;"> หมายเหตุ </div>
-                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="" readonly id="form-field-2"></span>  </div>
+                    <div class="profile-info-value"> <span id="username" class="editable"><input type="text" value="${remark}" readonly></span>  </div>
                 </div>
             </div>									
         </form>

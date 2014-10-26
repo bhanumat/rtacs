@@ -33,6 +33,8 @@ public interface IMemberPaymentService {
     
     JqGridResponse<DeptPaymentDto> searchDeptPayment(JqGridRequest req);
     
+    DeptPaymentDto getDeptPayment(JqGridRequest req);
+    
     JqGridResponse<DeptMemberPaymentDto> getListDeptMemberPayment (JqGridRequest req);
 
 }
